@@ -41,7 +41,7 @@
             include 'includes/config.php';
 
             // Obtener las 3 propiedades más recientes
-            $stmt = $pdo->prepare("SELECT * FROM properties WHERE status = 'disponible' ORDER BY created_at DESC LIMIT 3");
+            $stmt = $pdo->prepare("SELECT * FROM properties WHERE status = 'disponible' AND listing_type = 'venta' ORDER BY created_at DESC LIMIT 3");
             $stmt->execute();
             $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

@@ -51,6 +51,7 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <form class="horizontal-filter-form" method="GET" action="properties.php">
+                <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
                 <div class="form-control-group">
                     <label for="category-select" class="sr-only">Tipo de Propiedad</label>
                     <select name="category" id="category-select">
