@@ -36,6 +36,7 @@
                             <th>ID</th>
                             <th>Título</th>
                             <th>Categoría</th>
+                            <th>Tipo</th>
                             <th>Ubicación</th>
                             <th>Precio</th>
                             <th>Estado</th>
@@ -54,6 +55,7 @@
                                 <td><?php echo $property['id']; ?></td>
                                 <td><?php echo htmlspecialchars($property['title']); ?></td>
                                 <td><?php echo ucfirst($property['category']); ?></td>
+                                <td><?php echo ucfirst($property['listing_type']); ?></td>
                                 <td><?php echo htmlspecialchars($property['location']); ?></td>
                                 <td>$<?php echo number_format($property['price'], 2); ?> MXN</td>
                                 <td><?php echo ucfirst($property['status']); ?></td>

@@ -23,6 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
+    $listing_type = filter_input(INPUT_POST, 'listing_type', FILTER_SANITIZE_STRING);
     $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_STRING);
     $latitude = filter_input(INPUT_POST, 'latitude', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $longitude = filter_input(INPUT_POST, 'longitude', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
@@ -136,13 +137,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    $stmt = $pdo->prepare("UPDATE properties SET title = :title, description = :description, price = :price, category = :category, main_image = :main_image, " . implode(', ', array_map(fn($i) => "thumbnail$i = :thumbnail$i", range(1, 15))) . ", location = :location, latitude = :latitude, longitude = :longitude, features = :features, status = :status WHERE id = :id");
+    $stmt = $pdo->prepare("UPDATE properties SET title = :title, description = :description, price = :price, category = :category, listing_type = :listing_type, main_image = :main_image, " . implode(', ', array_map(fn($i) => "thumbnail$i = :thumbnail$i", range(1, 15))) . ", location = :location, latitude = :latitude, longitude = :longitude, features = :features, status = :status WHERE id = :id");
     $params = [
         ':id' => $id,
         ':title' => $title,
         ':description' => $description,
         ':price' => $price,
         ':category' => $category,
+        ':listing_type' => $listing_type,
         ':main_image' => $main_image,
         ':location' => $location,
         ':latitude' => $latitude ?: null,
@@ -193,6 +195,13 @@ $features = json_decode($property['features'], true) ?: [];
                         <option value="departamentos" <?php if ($property['category'] == 'departamentos') echo 'selected'; ?>>Departamentos</option>
                         <option value="terrenos" <?php if ($property['category'] == 'terrenos') echo 'selected'; ?>>Terrenos</option>
                         <option value="desarrollos" <?php if ($property['category'] == 'desarrollos') echo 'selected'; ?>>Desarrollos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="listing_type">Tipo de Listado</label>
+                    <select id="listing_type" name="listing_type" required>
+                        <option value="venta" <?php if ($property['listing_type'] == 'venta') echo 'selected'; ?>>Venta</option>
+                        <option value="renta" <?php if ($property['listing_type'] == 'renta') echo 'selected'; ?>>Renta</option>
                     </select>
                 </div>
                 <div class="form-group">

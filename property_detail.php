@@ -36,7 +36,12 @@ $property = $stmt->fetch(PDO::FETCH_ASSOC);
                 </div>
                 <div class="property-info">
                     <h2><?php echo htmlspecialchars($property['title']); ?></h2>
-                    <p class="price">$<?php echo number_format($property['price'], 2); ?> MXN</p>
+                    <p class="price">
+                    $<?php echo number_format($property['price'], 2); ?> MXN
+                    <?php if ($property['listing_type'] == 'renta'): ?>
+                    <span>/ Mes</span>
+                    <?php endif; ?>
+                    </p>
                     <p class="category"><?php echo htmlspecialchars(ucfirst($property['category'])); ?></p>
                     <p class="description"><?php echo htmlspecialchars($property['description']); ?></p>
                     <h3>Características</h3>

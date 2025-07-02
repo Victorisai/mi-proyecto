@@ -361,3 +361,19 @@ function updateExperiencesAlignment(locationId) {
         }
     });
 });
+// ==================
+// LÓGICA PARA PESTAÑAS DE FILTROS (COMPRAR/RENTAR)
+// ==================
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    // 'venta' es el valor por defecto si no se especifica el parámetro
+    const currentListingType = params.get('listing_type') || 'venta'; 
+
+    const tabLinks = document.querySelectorAll('.tab-link');
+
+    tabLinks.forEach(link => {
+        if (link.dataset.listing === currentListingType) {
+            link.classList.add('active');
+        }
+    });
+});

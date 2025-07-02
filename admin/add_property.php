@@ -12,6 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
     $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
+    $listing_type = filter_input(INPUT_POST, 'listing_type', FILTER_SANITIZE_STRING);
+    $listing_type = filter_input(INPUT_POST, 'listing_type', FILTER_SANITIZE_STRING);
     $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_STRING);
     $latitude = filter_input(INPUT_POST, 'latitude', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $longitude = filter_input(INPUT_POST, 'longitude', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
@@ -96,13 +98,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Insertar la propiedad sin imágenes primero para obtener el ID
-    $stmt = $pdo->prepare("INSERT INTO properties (title, description, price, category, location, latitude, longitude, features, status) VALUES (:title, :description, :price, :category, :location, :latitude, :longitude, :features, :status)");
+    $stmt = $pdo->prepare("INSERT INTO properties (title, description, price, category, listing_type, location, latitude, longitude, features, status) VALUES (:title, :description, :price, :category, :listing_type, :location, :latitude, :longitude, :features, :status)");
     try {
         $stmt->execute([
             ':title' => $title,
             ':description' => $description,
             ':price' => $price,
             ':category' => $category,
+            ':listing_type' => $listing_type,
             ':location' => $location,
             ':latitude' => $latitude ?: null,
             ':longitude' => $longitude ?: null,
@@ -188,6 +191,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="departamentos">Departamentos</option>
                         <option value="terrenos">Terrenos</option>
                         <option value="desarrollos">Desarrollos</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="listing_type">Tipo de Listado</label>
+                    <select id="listing_type" name="listing_type" required>
+                        <option value="venta">Venta</option>
+                        <option value="renta">Renta</option>
                     </select>
                 </div>
                 <div class="form-group">

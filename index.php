@@ -58,6 +58,34 @@
             ?>
         </div>
     </section>
+    <section class="featured-properties">
+    <div class="container">
+        <h2 class="fade-in">Propiedades en Renta</h2>
+        <div class="property-grid">
+            <?php
+            // Obtener las 3 propiedades más recientes en renta
+            $stmt_rent = $pdo->prepare("SELECT * FROM properties WHERE status = 'disponible' AND listing_type = 'renta' ORDER BY created_at DESC LIMIT 3");
+            $stmt_rent->execute();
+            $rent_properties = $stmt_rent->fetchAll(PDO::FETCH_ASSOC);
+
+            if (count($rent_properties) > 0) {
+                foreach ($rent_properties as $property) {
+                    ?>
+                    <div class="property-card fade-in">
+                        <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                        <h3><?php echo htmlspecialchars($property['title']); ?></h3>
+                        <p>$<?php echo number_format($property['price'], 2); ?> MXN / Mes</p>
+                        <a href="property_detail.php?id=<?php echo $property['id']; ?>" class="btn btn-secondary">Ver Detalles</a>
+                    </div>
+                    <?php
+                }
+            } else {
+                echo '<p>No hay propiedades en renta disponibles por el momento.</p>';
+            }
+            ?>
+        </div>
+    </div>
+    </section>
 
 <!-- Sección de Experiencias Locales Curadas -->
 <?php
