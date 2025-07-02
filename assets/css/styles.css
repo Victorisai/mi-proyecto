@@ -22,9 +22,9 @@ body {
 }
 
 .container {
-    max-width: 1200px;
+    max-width: 1500px; /* <-- Aumentamos el valor de 1200px a 1500px */
     margin: 0 auto;
-    padding: 0; /* Elimina el padding lateral */
+    padding: 0 10px; /* <-- Añadimos un poco de padding lateral */
 }
 
 /* Animaciones */
@@ -2273,3 +2273,147 @@ body:not(.home) .header-nav li a {
 }
 
 /* FINAL DE ESTILOS DE FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
+
+/* ==================
+   ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX
+   ================== */
+
+.property-showcase {
+    padding: 50px 0;
+}
+
+.showcase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 0 20px;
+}
+
+.showcase-header h2 {
+    font-size: 24px;
+    color: #2c3e50;
+}
+
+.carousel-nav {
+    display: flex;
+    gap: 10px;
+}
+
+.carousel-arrow {
+    background-color: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.carousel-arrow:hover {
+    background-color: #f1f3f5;
+    transform: scale(1.05);
+}
+
+.property-carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 20px; /* Padding para que la sombra se vea bien */
+    scroll-snap-type: x mandatory; /* Ajuste suave al deslizar */
+}
+
+/* Ocultar la barra de scroll */
+.property-carousel::-webkit-scrollbar {
+    display: none;
+}
+.property-carousel {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.property-slide-card {
+    flex: 0 0 280px; /* Ancho fijo para cada tarjeta */
+    scroll-snap-align: start; /* Cada tarjeta es un punto de anclaje */
+}
+
+.property-slide-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.property-slide-card img {
+    width: 100%;
+    height: 280px; /* Altura fija para la imagen */
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.property-slide-card:hover img {
+    transform: scale(1.03);
+}
+
+.slide-card-info .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+}
+
+.slide-card-info .title {
+    font-size: 15px;
+    color: #555;
+    margin: 0;
+    /* Truncar texto si es muy largo */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsividad para el carrusel */
+@media (max-width: 768px) {
+    .carousel-nav {
+        display: none; /* Oculta las flechas en móvil */
+    }
+    .property-slide-card {
+        flex: 0 0 80%; /* Las tarjetas ocupan el 80% del ancho en móvil */
+        max-width: 300px;
+    }
+}
+/* ==================
+ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
+   ================== */
+
+.carousel-wrapper {
+    width: 100%;
+}
+
+.property-showcase .container {
+    max-width: 100%; /* El contenedor dentro del showcase ocupa todo el ancho disponible */
+    padding-left: 10px;
+}
+
+.showcase-header {
+    max-width: 1200px; /* El encabezado se alinea con el contenido principal */
+    margin: 0 auto 25px auto;
+    padding: 0 20px; /* Padding para que no se pegue a los bordes */
+}
+
+.property-carousel {
+    /* El padding se aplica aquí para que las tarjetas tengan espacio en los extremos */
+    padding: 10px 20px; 
+}
+
+/* En pantallas grandes, permitimos que el carrusel use más espacio */
+@media (min-width: 1200px) {
+    .property-carousel {
+        padding-left: calc((100% - 1200px) / 2 + 20px);
+        padding-right: calc((100% - 1200px) / 2 + 20px);
+    }
+}

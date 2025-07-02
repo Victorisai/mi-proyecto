@@ -34,58 +34,77 @@
 </section>
 
     <!-- Propiedades Destacadas -->
-    <section class="featured-properties">
-        <h2 class="fade-in">Propiedades Destacadas</h2>
-        <div class="property-grid">
-            <?php
-            include 'includes/config.php';
+    <div class="carousel-wrapper">
 
-            // Obtener las 3 propiedades más recientes
-            $stmt = $pdo->prepare("SELECT * FROM properties WHERE status = 'disponible' AND listing_type = 'venta' ORDER BY created_at DESC LIMIT 3");
-            $stmt->execute();
-            $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach ($properties as $index => $property) {
-                ?>
-                <div class="property-card fade-in">
-                    <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
-                    <h3><?php echo htmlspecialchars($property['title']); ?></h3>
-                    <p>$<?php echo number_format($property['price'], 2); ?> MXN</p>
-                    <a href="property_detail.php?id=<?php echo $property['id']; ?>" class="btn btn-secondary">Ver Detalles</a>
-                </div>
-                <?php
-            }
-            ?>
-        </div>
-    </section>
-    <section class="featured-properties">
-    <div class="container">
-        <h2 class="fade-in">Propiedades en Renta</h2>
-        <div class="property-grid">
-            <?php
-            // Obtener las 3 propiedades más recientes en renta
-            $stmt_rent = $pdo->prepare("SELECT * FROM properties WHERE status = 'disponible' AND listing_type = 'renta' ORDER BY created_at DESC LIMIT 3");
-            $stmt_rent->execute();
-            $rent_properties = $stmt_rent->fetchAll(PDO::FETCH_ASSOC);
-
-            if (count($rent_properties) > 0) {
-                foreach ($rent_properties as $property) {
-                    ?>
-                    <div class="property-card fade-in">
-                        <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
-                        <h3><?php echo htmlspecialchars($property['title']); ?></h3>
-                        <p>$<?php echo number_format($property['price'], 2); ?> MXN / Mes</p>
-                        <a href="property_detail.php?id=<?php echo $property['id']; ?>" class="btn btn-secondary">Ver Detalles</a>
+        <section class="property-showcase">
+            <div class="container">
+                <div class="showcase-header">
+                    <h2>Propiedades Destacadas</h2>
+                    <div class="carousel-nav">
+                        <button class="carousel-arrow prev-arrow" id="destacadas-prev">&lt;</button>
+                        <button class="carousel-arrow next-arrow" id="destacadas-next">&gt;</button>
                     </div>
+                </div>
+                <div class="property-carousel" id="destacadas-carousel">
                     <?php
-                }
-            } else {
-                echo '<p>No hay propiedades en renta disponibles por el momento.</p>';
-            }
-            ?>
-        </div>
+                    include 'includes/config.php';
+                    // Obtener hasta 10 propiedades en venta
+                    $stmt_sale = $pdo->prepare("SELECT * FROM properties WHERE status = 'disponible' AND listing_type = 'venta' ORDER BY created_at DESC LIMIT 10");
+                    $stmt_sale->execute();
+                    $sale_properties = $stmt_sale->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($sale_properties as $property) {
+                        ?>
+                        <div class="property-slide-card">
+                            <a href="property_detail.php?id=<?php echo $property['id']; ?>">
+                                <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                                <div class="slide-card-info">
+                                    <p class="price">$<?php echo number_format($property['price'], 0); ?> MXN</p>
+                                    <p class="title"><?php echo htmlspecialchars($property['title']); ?></p>
+                                </div>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </section>
+        <section class="property-showcase">
+            <div class="container">
+                <div class="showcase-header">
+                    <h2>Propiedades en Renta</h2>
+                    <div class="carousel-nav">
+                        <button class="carousel-arrow prev-arrow" id="renta-prev">&lt;</button>
+                        <button class="carousel-arrow next-arrow" id="renta-next">&gt;</button>
+                    </div>
+                </div>
+                <div class="property-carousel" id="renta-carousel">
+                    <?php
+                    // Obtener hasta 10 propiedades en renta
+                    $stmt_rent = $pdo->prepare("SELECT * FROM properties WHERE status = 'disponible' AND listing_type = 'renta' ORDER BY created_at DESC LIMIT 10");
+                    $stmt_rent->execute();
+                    $rent_properties = $stmt_rent->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($rent_properties as $property) {
+                        ?>
+                        <div class="property-slide-card">
+                            <a href="property_detail.php?id=<?php echo $property['id']; ?>">
+                                <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                                <div class="slide-card-info">
+                                    <p class="price">$<?php echo number_format($property['price'], 0); ?> MXN / Mes</p>
+                                    <p class="title"><?php echo htmlspecialchars($property['title']); ?></p>
+                                </div>
+                            </a>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
+        </section>
+
     </div>
-    </section>
 
 <!-- Sección de Experiencias Locales Curadas -->
 <?php

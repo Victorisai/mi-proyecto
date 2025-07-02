@@ -377,3 +377,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// ==================
+// LÓGICA PARA LOS CARRUSELES DE PROPIEDADES
+// ==================
+document.addEventListener('DOMContentLoaded', () => {
+    function setupCarousel(carouselId, prevBtnId, nextBtnId) {
+        const carousel = document.getElementById(carouselId);
+        const prevBtn = document.getElementById(prevBtnId);
+        const nextBtn = document.getElementById(nextBtnId);
+
+        if (!carousel || !prevBtn || !nextBtn) {
+            return; // No hacer nada si los elementos no existen
+        }
+
+        const card = carousel.querySelector('.property-slide-card');
+        if (!card) return;
+
+        // Calcula cuánto desplazar (ancho de la tarjeta + gap)
+        const scrollAmount = card.offsetWidth + 20;
+
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        });
+
+        nextBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        });
+    }
+
+    // Inicializar ambos carruseles
+    setupCarousel('destacadas-carousel', 'destacadas-prev', 'destacadas-next');
+    setupCarousel('renta-carousel', 'renta-prev', 'renta-next');
+});
