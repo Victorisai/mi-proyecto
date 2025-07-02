@@ -2274,30 +2274,37 @@ body:not(.home) .header-nav li a {
 
 /* FINAL DE ESTILOS DE FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
 
-/* ==================
-   ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX
-   ================== */
+/* ===== INICIO ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
 
 .property-showcase {
     padding: 50px 0;
+    width: 100%;
+    position: relative; /* Esencial para anclar las flechas */
 }
-
 .showcase-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-    padding: 0 20px;
+    /* El header ahora solo contiene el título, lo alineamos con el contenido */
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto 25px auto;
 }
 
 .showcase-header h2 {
     font-size: 24px;
     color: #2c3e50;
+    margin: 0;
 }
 
 .carousel-nav {
+    /* Posicionamos las flechas de forma absoluta */
+    position: absolute;
+    top: 40px; /* Alineación vertical con el título */
+    
+    /* Calculamos la posición derecha para que se alinee con el borde del contenido */
+    right: 2.5vw; /* vw = viewport width, usa el 2.5% del ancho de la pantalla */
+    
     display: flex;
     gap: 10px;
+    z-index: 10; /* Nos aseguramos de que esté por encima de otros elementos */
 }
 
 .carousel-arrow {
@@ -2348,7 +2355,7 @@ body:not(.home) .header-nav li a {
 
 .property-slide-card img {
     width: 100%;
-    height: 280px; /* Altura fija para la imagen */
+    height: 340px; /* Altura fija para la imagen */
     object-fit: cover;
     border-radius: 12px;
     margin-bottom: 15px;
@@ -2356,6 +2363,10 @@ body:not(.home) .header-nav li a {
 }
 
 .property-slide-card:hover img {
+    transform: scale(1.03);
+}
+
+.property-slide-card:hover .property-category-badge {
     transform: scale(1.03);
 }
 
@@ -2376,6 +2387,12 @@ body:not(.home) .header-nav li a {
     text-overflow: ellipsis;
 }
 
+@media (min-width: 992px) {
+    .showcase-header h2 {
+        font-size: 32px; /* Aumentamos el tamaño de 24px a 32px */
+    }
+}
+
 /* Responsividad para el carrusel */
 @media (max-width: 768px) {
     .carousel-nav {
@@ -2384,6 +2401,9 @@ body:not(.home) .header-nav li a {
     .property-slide-card {
         flex: 0 0 80%; /* Las tarjetas ocupan el 80% del ancho en móvil */
         max-width: 300px;
+    }
+    .property-showcase .container {
+    padding-left: 0;
     }
 }
 /* ==================
@@ -2417,3 +2437,31 @@ ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
         padding-right: calc((100% - 1200px) / 2 + 20px);
     }
 }
+
+/* ==================
+ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
+   ================== */
+
+/* Hacemos que el contenedor del enlace sea el punto de referencia para la posición */
+.property-slide-card a {
+    position: relative;
+}
+
+.property-category-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(0, 0, 0, 0.842); /* Azul oscuro semitransparente */
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 5; /* Asegura que esté por encima de la imagen */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque para un look moderno */
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease; /* <-- AÑADE ESTA LÍNEA */
+}
+
+/* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */

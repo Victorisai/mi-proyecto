@@ -40,10 +40,10 @@
             <div class="container">
                 <div class="showcase-header">
                     <h2>Propiedades Destacadas</h2>
-                    <div class="carousel-nav">
-                        <button class="carousel-arrow prev-arrow" id="destacadas-prev">&lt;</button>
-                        <button class="carousel-arrow next-arrow" id="destacadas-next">&gt;</button>
-                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-arrow prev-arrow" id="destacadas-prev">&lt;</button>
+                    <button class="carousel-arrow next-arrow" id="destacadas-next">&gt;</button>
                 </div>
                 <div class="property-carousel" id="destacadas-carousel">
                     <?php
@@ -57,6 +57,7 @@
                         ?>
                         <div class="property-slide-card">
                             <a href="property_detail.php?id=<?php echo $property['id']; ?>">
+                                <div class="property-category-badge"><?php echo ucfirst($property['category']); ?></div>
                                 <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
                                 <div class="slide-card-info">
                                     <p class="price">$<?php echo number_format($property['price'], 0); ?> MXN</p>
@@ -74,10 +75,10 @@
             <div class="container">
                 <div class="showcase-header">
                     <h2>Propiedades en Renta</h2>
-                    <div class="carousel-nav">
-                        <button class="carousel-arrow prev-arrow" id="renta-prev">&lt;</button>
-                        <button class="carousel-arrow next-arrow" id="renta-next">&gt;</button>
-                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <button class="carousel-arrow prev-arrow" id="renta-prev">&lt;</button>
+                    <button class="carousel-arrow next-arrow" id="renta-next">&gt;</button>
                 </div>
                 <div class="property-carousel" id="renta-carousel">
                     <?php
@@ -90,6 +91,7 @@
                         ?>
                         <div class="property-slide-card">
                             <a href="property_detail.php?id=<?php echo $property['id']; ?>">
+                                <div class="property-category-badge"><?php echo ucfirst($property['category']); ?></div>
                                 <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
                                 <div class="slide-card-info">
                                     <p class="price">$<?php echo number_format($property['price'], 0); ?> MXN / Mes</p>
