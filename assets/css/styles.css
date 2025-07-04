@@ -2391,6 +2391,10 @@ body:not(.home) .header-nav li a {
     .showcase-header h2 {
         font-size: 32px; /* Aumentamos el tamaño de 24px a 32px */
     }
+        .property-carousel {
+        max-width: 1495px; /* Ajusta este valor según prefieras */
+        margin: 0 auto;
+    }
 }
 
 /* Responsividad para el carrusel */
@@ -2399,11 +2403,17 @@ body:not(.home) .header-nav li a {
         display: none; /* Oculta las flechas en móvil */
     }
     .property-slide-card {
-        flex: 0 0 80%; /* Las tarjetas ocupan el 80% del ancho en móvil */
+        flex: 0 0 80%; /* Aumentamos ligeramente para que se vea un poco de la siguiente tarjeta */
         max-width: 300px;
     }
     .property-showcase .container {
+        padding-left: 0;
+        padding-right: 0; /* Aseguramos que no haya padding a la derecha */
+    }
+    .property-carousel {
     padding-left: 0;
+    padding-right: 0;
+    scroll-padding-left: 15px;
     }
 }
 /* ==================
@@ -2416,7 +2426,6 @@ ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
 
 .property-showcase .container {
     max-width: 100%; /* El contenedor dentro del showcase ocupa todo el ancho disponible */
-    padding-left: 10px;
 }
 
 .showcase-header {
@@ -2437,7 +2446,6 @@ ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
         padding-right: calc((100% - 1200px) / 2 + 20px);
     }
 }
-
 /* ==================
 ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
    ================== */
