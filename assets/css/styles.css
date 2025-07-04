@@ -2357,7 +2357,7 @@ body:not(.home) .header-nav li a {
     width: 100%;
     height: 340px; /* Altura fija para la imagen */
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 15px;
     margin-bottom: 15px;
     transition: transform 0.3s ease;
 }
@@ -2474,9 +2474,26 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 
 @media (min-width: 769px) {
     .property-carousel {
-        max-width: 1495px; /* Ajusta este valor según prefieras */
+        width: 95%;
+        max-width: 1500px;
         margin: 0 auto;
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px 2px;
+        scroll-snap-type: x mandatory;
     }
+    .property-slide-card {
+    flex: 0 0 calc(20% - 16px);
+    scroll-snap-align: start;
+    }
+    .property-carousel::-webkit-scrollbar {
+        display: none;
+    }
+    .property-carousel {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }  
 }
 
 /* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
