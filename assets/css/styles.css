@@ -2464,4 +2464,11 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     transition: transform 0.3s ease; /* <-- AÑADE ESTA LÍNEA */
 }
 
+@media (min-width: 769px) {
+    .property-carousel {
+        max-width: 1495px; /* Ajusta este valor según prefieras */
+        margin: 0 auto;
+    }
+}
+
 /* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
