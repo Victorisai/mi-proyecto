@@ -2503,4 +2503,46 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     }
 }
 
+/* Estilo base del enlace/botón */
+.view-all-link {
+    background-color: #f1f3f5;
+    border: 1px solid #dfe4ea;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+.view-all-link:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+.showcase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+.carousel-nav {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .view-all-mobile {
+        display: none;
+    }
+    .carousel-nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: absolute;
+        top: 40px;
+        right: 2.5vw;
+        z-index: 10;
+    }
+}
+
 /* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
