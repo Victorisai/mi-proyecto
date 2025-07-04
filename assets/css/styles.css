@@ -2493,7 +2493,14 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     .property-carousel {
         -ms-overflow-style: none;
         scrollbar-width: none;
-    }  
+    }
+    .showcase-header {
+        width: 95%;
+        max-width: 1500px;
+        margin: 0 auto 25px auto; /* Centra el contenedor del título */
+        padding: 0 2px; /* Añade el mismo padding que el carrusel */
+        text-align: left;
+    }
 }
 
 /* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
