@@ -5,8 +5,9 @@
             <div class="menu-toggle">☰</div>
             <!-- Logo -->
             <div class="logo">
-                <a href="index.php"> <!-- Enlace a la página de inicio -->
-                    <h1>VELORA</h1>
+                <a href="index.php">
+                    <img src="assets/images/iconcaracteristic/logo-light.png" alt="Logo DOMABLY" class="logo-light">
+                    <img src="assets/images/iconcaracteristic/logo-dark.png" alt="Logo DOMABLY" class="logo-dark">
                 </a>
             </div>
         </div>

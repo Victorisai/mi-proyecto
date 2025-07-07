@@ -289,7 +289,7 @@ body:not(.home) .header-divider {
     width: 100vw; /* Ocupar todo el ancho de la ventana */
     position: absolute; /* Sacar del flujo del contenedor */
     left: 0; /* Alinear al borde izquierdo de la ventana */
-    top: 110px; /* Posicionar debajo del header-nav */
+    top: 103px; /* Posicionar debajo del header-nav */
     transition: border-color 0.3s ease; /* Transición suave para el color */
 }
 
@@ -799,23 +799,24 @@ body:not(.home) .header-nav li a {
         border-top: 1px solid #ffffff1e; /* Color inicial como en index */
         position: absolute;
         left: 0;
-        top: 85px; /* Ajustar posición según el alto del header-nav */
+        top: 87px; /* Ajustar posición según el alto del header-nav */
         transition: border-color 0.3s ease;
     }
 
     .header-nav {
-    display: flex; /* Mantener flex para los elementos */
-        justify-content: flex-start;
-        gap: 15px;
-        padding: 5px 0;
-        width: 100%;
-        margin-top: 0;
-        margin-left: 0;
-        overflow-x: auto; /* Habilitar desplazamiento horizontal */
-        -webkit-overflow-scrolling: touch; /* Suavizar el deslizamiento en dispositivos móviles */
-        white-space: nowrap; /* Evitar que los elementos se rompan en líneas */
-        -ms-overflow-style: none; /* Ocultar scrollbar en IE/Edge */
-        scrollbar-width: none; /* Ocultar scrollbar en Firefox */
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 5px 20px; /* AÑADIMOS padding horizontal aquí */
+    width: 100%;
+    box-sizing: border-box; /* MUY IMPORTANTE: para que el padding se incluya en el ancho */
+    margin-top: 0;
+    margin-left: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     }
 
     .header-nav::-webkit-scrollbar {
@@ -830,10 +831,10 @@ body:not(.home) .header-nav li a {
     }
 
     .header-nav li a {
-        font-size: 12px;
+        font-size: 14px;
         color: #fff;
         transition: color 0.3s ease;
-        padding: 2px 10px; /* Añadir padding para mejor interacción */
+        padding: 6px 10px 4px; /* Añadir padding para mejor interacción */
         white-space: nowrap; /* Evitar que el texto se divida */
     }
 
@@ -864,14 +865,18 @@ body:not(.home) .header-nav li a {
     }
 
     header .container {
-        flex-direction: column; /* Cambiar a disposición vertical */
-        align-items: flex-start; /* Alinear a la izquierda */
-        padding: 5px 20px; /* Mantener padding uniforme */
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 5px 0;
+        position: relative;
     }
 
     .header-top {
         width: 100%; /* Ocupar todo el ancho */
         margin-bottom: 2px; /* Espacio entre header-top y header-nav */
+        padding: 0 20px; /* Le devolvemos el padding que tenía el contenedor */
+        width: 100%;
+        box-sizing: border-box; /* Buena práctica para el manejo de anchos */
     }
 
     .thumbnail-grid {
@@ -2546,3 +2551,35 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 }
 
 /* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+
+/* === ESTILOS LOGO HEADER === */
+.logo a {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    height: 28px;
+    width: auto;
+    display: none;
+}
+body.home header .logo-light {
+    display: block;
+}
+body.home header.scrolled .logo-dark {
+    display: block;
+}
+body.home header.scrolled .logo-light {
+    display: none;
+}
+
+body:not(.home) header .logo-dark {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .logo img {
+        height: 24px; /* Reducimos ligeramente para mantener la proporción en el header móvil. */
+    }
+}
+
+/* === FINAL ESTILOS LOGO HEADER === */
