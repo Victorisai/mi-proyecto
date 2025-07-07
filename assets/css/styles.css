@@ -259,6 +259,8 @@ nav ul li.close-menu {
     justify-content: flex-start; /* Menú hamburguesa y logo a la izquierda */
     gap: 10px; /* Espacio entre menú hamburguesa y logo */
     width: 100%;
+    position: relative; /* Le decimos que su posición se puede ajustar */
+    top: 8px;           /* Lo movemos 2px hacia abajo */
 }
 
 /* Línea separadora */
@@ -269,7 +271,7 @@ nav ul li.close-menu {
     width: 100vw; /* Ocupar todo el ancho de la ventana */
     position: absolute; /* Sacar del flujo del contenedor */
     left: 0; /* Alinear al borde izquierdo de la ventana */
-    top: 57px; /* Posicionar debajo del header-top (logo + padding) */
+    top: 60px; /* Posicionar debajo del header-top (logo + padding) */
     transition: border-color 0.3s ease; /* Transición suave para el color */
 }
 
@@ -289,7 +291,7 @@ body:not(.home) .header-divider {
     width: 100vw; /* Ocupar todo el ancho de la ventana */
     position: absolute; /* Sacar del flujo del contenedor */
     left: 0; /* Alinear al borde izquierdo de la ventana */
-    top: 103px; /* Posicionar debajo del header-nav */
+    top: 109px; /* Posicionar debajo del header-nav */
     transition: border-color 0.3s ease; /* Transición suave para el color */
 }
 
@@ -322,6 +324,8 @@ body:not(.home) .header-divider-bottom {
     font-size: 14px; /* Reducir tamaño de fuente para un header más compacto */
     font-weight: 400;
     transition: color 0.3s ease; /* Transición suave para el color */
+    position: relative;     /* ¡LA CLAVE! Le decimos que su posición puede ser ajustada */
+    top: 18px;
 }
 
 header.scrolled .header-nav li a {
@@ -338,7 +342,7 @@ body:not(.home) .header-nav li a {
 
 @media (min-width: 769px) {
     header .container {
-        padding: 10px 20px 10px 0; /* Mantener padding reducido */
+        padding: 10px 20px 25px 0; /* Mantener padding reducido */
     }
 
     header-top {
@@ -725,7 +729,7 @@ body:not(.home) .header-nav li a {
     }
 
     body:not(.home){
-    padding-top: 50px; /* Añade espacio para el encabezado fijo */
+    padding-top: 60px; /* Añade espacio para el encabezado fijo */
     }
 
     .logo {
@@ -799,7 +803,7 @@ body:not(.home) .header-nav li a {
         border-top: 1px solid #ffffff1e; /* Color inicial como en index */
         position: absolute;
         left: 0;
-        top: 87px; /* Ajustar posición según el alto del header-nav */
+        top: 93px; /* Ajustar posición según el alto del header-nav */
         transition: border-color 0.3s ease;
     }
 
@@ -836,6 +840,8 @@ body:not(.home) .header-nav li a {
         transition: color 0.3s ease;
         padding: 6px 10px 4px; /* Añadir padding para mejor interacción */
         white-space: nowrap; /* Evitar que el texto se divida */
+        position: relative;     /* ¡LA CLAVE! Le decimos que su posición puede ser ajustada */
+        top: 10px; 
     }
 
     /* Ajustar colores al hacer scroll en index */
@@ -867,7 +873,7 @@ body:not(.home) .header-nav li a {
     header .container {
         flex-direction: column;
         align-items: flex-start;
-        padding: 5px 0;
+        padding: 15px 0;
         position: relative;
     }
 
@@ -877,6 +883,8 @@ body:not(.home) .header-nav li a {
         padding: 0 20px; /* Le devolvemos el padding que tenía el contenedor */
         width: 100%;
         box-sizing: border-box; /* Buena práctica para el manejo de anchos */
+        position: relative; /* Le decimos que su posición se puede ajustar */
+        top: 0px;           /* Lo movemos 2px hacia abajo */
     }
 
     .thumbnail-grid {
@@ -2583,3 +2591,36 @@ body:not(.home) header .logo-dark {
 }
 
 /* === FINAL ESTILOS LOGO HEADER === */
+
+/* === ESTILOS DEFINITIVOS PARA CONSTRUIR EL ÍCONO HAMBURGUESA === */
+
+/* El contenedor del ícono */
+.menu-toggle {
+    width: 28px;          /* ¡ESTA ES LA CLAVE! Define el largo del ícono. Puedes poner 40px, 45px, etc. */
+    height: 18px;         /* Altura total del ícono para que las líneas no estén muy separadas */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Esto crea el espacio entre las 3 líneas */
+    cursor: pointer;
+    margin: 0 0 0 50px !important;
+}
+
+/* Las 3 líneas del ícono (los <span> que creamos) */
+.menu-toggle span {
+    display: block;
+    width: 100%;          /* Cada línea ocupa todo el ancho del contenedor */
+    height: 2px;          /* El grosor de cada línea */
+    background-color: #fff; /* Color inicial blanco para la página de inicio */
+    border-radius: 5px;   /* Bordes redondeados para un look más suave */
+    transition: background-color 0.3s ease;
+}
+
+/* Cambio de color de las líneas al hacer scroll */
+header.scrolled .menu-toggle span {
+    background-color: #2c3e50; /* Cambia a color oscuro */
+}
+
+/* Cambio de color en las otras páginas */
+body:not(.home) header .menu-toggle span {
+    background-color: #2c3e50; /* También es oscuro por defecto */
+}

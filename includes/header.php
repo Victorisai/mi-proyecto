@@ -2,7 +2,11 @@
     <div class="container">
         <div class="header-top">
             <!-- Icono de menú hamburguesa -->
-            <div class="menu-toggle">☰</div>
+            <div class="menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <!-- Logo -->
             <div class="logo">
                 <a href="index.php">
