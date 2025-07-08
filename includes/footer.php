@@ -2,7 +2,7 @@
     <div class="container">
         <div class="footer-grid">
             <div class="footer-column">
-                <h3 class="footer-logo">VELORA</h3>
+                <h3 class="footer-logo">DOMABLY</h3>
                 <p>Encuentra la propiedad de tus sueños. Te acompañamos en cada paso del camino.</p>
             </div>
 

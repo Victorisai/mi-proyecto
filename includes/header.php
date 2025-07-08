@@ -32,7 +32,7 @@
             <nav>
                 <ul>
                     <li class="menu-logo">
-                    <img src="assets/images/iconcaracteristic/logo.png" alt="Logo VELORA" class="menu-logo-img">
+                    <img src="assets/images/iconcaracteristic/icono_doma.png" alt="Logo DOMABLY" class="menu-logo-img">
                     </li>
                     <li><a href="index.php"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="nav-icon">Inicio</a></li>
                     <li><a href="properties.php"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="nav-icon">Propiedades</a></li>
