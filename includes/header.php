@@ -31,17 +31,19 @@
         <hr class="header-divider-bottom">
             <nav>
                 <ul>
-                    <li class="menu-logo">
-                    <img src="assets/images/iconcaracteristic/icono_doma.png" alt="Logo DOMABLY" class="menu-logo-img">
+                    <li class="menu-header">
+                        <span class="menu-title">Tu propiedad ideal</span>
+                        <span class="close-menu">✕</span>
                     </li>
+
                     <li><a href="index.php"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="nav-icon">Inicio</a></li>
                     <li><a href="properties.php"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="nav-icon">Propiedades</a></li>
                     <li><a href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="nav-icon">Contacto</a></li>
                     <li><a href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="nav-icon">Sobre Nosotros</a></li>
                     <li><a href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="nav-icon">Únete a Nosotros</a></li>
                     <li><a href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="nav-icon">Mi Cuenta</a></li>
-                    <li class="close-menu">✕</li>
                 </ul>
             </nav>
     </div>
+    <div id="page-overlay"></div>
 </header>

@@ -3,19 +3,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Menú hamburguesa
     const menuToggle = document.querySelector('.menu-toggle');
     const navMenu = document.querySelector('nav ul');
-
-    if (menuToggle && navMenu) {
-        menuToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-    }
-
     const closeMenu = document.querySelector('.close-menu');
-    if (closeMenu && navMenu) {
-    closeMenu.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-    });
+    const pageOverlay = document.getElementById('page-overlay');
+    const navLinks = document.querySelectorAll('nav ul li a');
+
+    const openNav = () => {
+        if (navMenu) navMenu.classList.add('active');
+        if (pageOverlay) pageOverlay.classList.add('active');
+    };
+
+    const closeNav = () => {
+        if (navMenu) navMenu.classList.remove('active');
+        if (pageOverlay) pageOverlay.classList.remove('active');
+    };
+
+
+    if (menuToggle) {
+        menuToggle.addEventListener('click', openNav);
     }
+
+    if (closeMenu) {
+        closeMenu.addEventListener('click', closeNav);
+    }
+
+
+    if (pageOverlay) {
+        pageOverlay.addEventListener('click', closeNav);
+    }
+
+
+    navLinks.forEach(link => {
+        link.addEventListener('click', closeNav);
+    });
 
     // Asignar retrasos a las tarjetas de propiedades
     const propertyCards = document.querySelectorAll('.property-card');
