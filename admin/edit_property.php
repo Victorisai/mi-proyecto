@@ -239,7 +239,7 @@ $features = json_decode($property['features'], true) ?: [];
                     </div>
                     <div class="form-group">
                         <label for="superficie_construida_casas">Superficie Construida (m²)</label>
-                        <input type="text" id="superficie_construida_c Casas" name="superficie_construida_casas" value="<?php echo htmlspecialchars($features['superficie_construida'] ?? ''); ?>">
+                        <input type="text" id="superficie_construida_casas" name="superficie_construida_casas" value="<?php echo htmlspecialchars($features['superficie_construida'] ?? ''); ?>">
                     </div>
                     <div class="form-group">
                         <label for="niveles_casas">Niveles/Pisos</label>

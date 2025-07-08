@@ -62,7 +62,7 @@ $property = $stmt->fetch(PDO::FETCH_ASSOC);
                             if (!empty($features['amenidades'])) {
                                 if ($features['amenidades']['gimnasio'] == 'Sí') echo '<li><img src="../assets/images/iconcaracteristic/icon_gym.png" alt="Gimnasio"> Gimnasio: Sí</li>';
                                 if ($features['amenidades']['alberca'] == 'Sí') echo '<li><img src="../assets/images/iconcaracteristic/icon_pool.png" alt="Alberca"> Alberca: Sí</li>';
-                                if ($features['amenidades']['salon_eventos'] == 'Sí') echo '<li><img src="../assets/iconcaracteristic/images/icon_event_hall.png" alt="Salón de Eventos"> Salón de Eventos: Sí</li>';
+                                if ($features['amenidades']['salon_eventos'] == 'Sí') echo '<li><img src="../assets/images/iconcaracteristic/icon_event_hall.png" alt="Salón de Eventos"> Salón de Eventos: Sí</li>';
                             }
                             if (!empty($features['elevador']) && $features['elevador'] == 'Sí') echo '<li><img src="../assets/images/iconcaracteristic/icon_elevator.png" alt="Elevador"> Elevador: Sí</li>';
                         } elseif ($property['category'] === 'terrenos') {
