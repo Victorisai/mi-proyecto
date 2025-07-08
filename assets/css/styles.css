@@ -2714,10 +2714,6 @@ nav ul li a {
     }
 }
 
-/* ================================== */
-/* Overlay para el menú desplegable   */
-/* ================================== */
-
 #page-overlay {
     position: fixed;
     top: 0;

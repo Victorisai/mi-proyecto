@@ -77,10 +77,10 @@
             <div class="container">
                 <div class="showcase-header">
                     <h2>Propiedades en Renta</h2>
-                    <a href="properties.php?listing_type=venta" class="view-all-link view-all-mobile">Ver todos</a>
+                    <a href="properties.php?listing_type=renta" class="view-all-link view-all-mobile">Ver todos</a>
                 </div>
                 <div class="carousel-nav">
-                    <a href="properties.php?listing_type=venta" class="view-all-link view-all-desktop">Ver todos</a>
+                    <a href="properties.php?listing_type=renta" class="view-all-link view-all-desktop">Ver todos</a>
                     <button class="carousel-arrow prev-arrow" id="renta-prev">&lt;</button>
                     <button class="carousel-arrow next-arrow" id="renta-next">&gt;</button>
                 </div>

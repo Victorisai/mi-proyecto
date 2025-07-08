@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $category = filter_input(INPUT_POST, 'category', FILTER_SANITIZE_STRING);
     $listing_type = filter_input(INPUT_POST, 'listing_type', FILTER_SANITIZE_STRING);
-    $listing_type = filter_input(INPUT_POST, 'listing_type', FILTER_SANITIZE_STRING);
     $location = filter_input(INPUT_POST, 'location', FILTER_SANITIZE_STRING);
     $latitude = filter_input(INPUT_POST, 'latitude', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
     $longitude = filter_input(INPUT_POST, 'longitude', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
