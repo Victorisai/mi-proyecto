@@ -136,7 +136,6 @@ const expSelect = document.querySelector('.experiences-section #location-select'
 const expContents = document.querySelectorAll('.experiences-section .location-content');
 
 function setActiveLocation(locationId) {
-    // Activa la pestaña y el contenido
     expTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.location === locationId));
     expContents.forEach(content => content.classList.toggle('active', content.id === locationId));
     
@@ -144,11 +143,9 @@ function setActiveLocation(locationId) {
         expSelect.value = locationId;
     }
 
-    // Configura el carrusel para el contenido que ahora está activo
     setupExperienceCarousel(document.querySelector(`#${locationId}`));
 }
 
-// Función que añade la funcionalidad a las flechas
 function setupExperienceCarousel(locationContent) {
     if (!locationContent) return;
 
@@ -160,7 +157,7 @@ function setupExperienceCarousel(locationContent) {
 
     const card = grid.querySelector('.experience-card-link');
     if (!card) return;
-    const scrollAmount = card.offsetWidth + 20; // Ancho de tarjeta + espacio
+    const scrollAmount = card.offsetWidth + 20;
 
     leftArrow.addEventListener('click', () => {
         grid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
@@ -171,7 +168,6 @@ function setupExperienceCarousel(locationContent) {
     });
 }
 
-// Eventos para pestañas y desplegable
 expTabs.forEach(tab => {
     tab.addEventListener('click', () => setActiveLocation(tab.dataset.location));
 });
@@ -180,7 +176,6 @@ if (expSelect) {
     expSelect.addEventListener('change', () => setActiveLocation(expSelect.value));
 }
 
-// Inicializa la primera pestaña al cargar la página
 const initialTab = document.querySelector('.experiences-section .tab-button.active');
 if (initialTab) {
     setActiveLocation(initialTab.dataset.location);

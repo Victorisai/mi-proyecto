@@ -2739,7 +2739,7 @@ nav ul li a {
 /* FIN */
 
 /* ================================================= */
-/* === ESTILOS FINALES: COLLAGE EN ESCRITORIO / CARRUSEL EN MÓVIL === */
+/* === ESTILOS: COLLAGE EN ESCRITORIO / CARRUSEL EN MÓVIL === */
 /* ================================================= */
 
 .experiences-section {
@@ -2770,11 +2770,31 @@ nav ul li a {
     max-width: 100%;
     overflow-x: auto;
     white-space: nowrap;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+    
+    /* Para Firefox: thumb color y track color */
+    scrollbar-color: #adb5bd #e9ecef;
+    scrollbar-width: thin;
 }
+
+/* Para WebKit (Chrome, Safari): Rediseño completo del scrollbar */
 .tabs::-webkit-scrollbar {
-    display: none;
+    height: 8px; /* Un grosor más sutil */
+}
+
+.tabs::-webkit-scrollbar-track {
+    /* El fondo de la pista coincide con el fondo del contenedor */
+    background-color: #e9ecef;
+    border-radius: 10px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+    /* Un gris más oscuro y sólido para el deslizador */
+    background-color: #adb5bd; 
+    border-radius: 10px;
+}
+
+.tabs::-webkit-scrollbar-thumb:hover {
+    background-color: #6c757d;
 }
 
 .tab-button {
