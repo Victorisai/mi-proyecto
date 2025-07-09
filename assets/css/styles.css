@@ -1673,6 +1673,8 @@ body:not(.home) .header-nav li a {
     background-color: #252525f5;
 }
 
+
+
 #experiences h2 {
     font-size: 36px;
     font-weight: 700;
@@ -2735,3 +2737,213 @@ nav ul li a {
 }
 
 /* FIN */
+
+/* ================================================= */
+/* === ESTILOS FINALES: COLLAGE EN ESCRITORIO / CARRUSEL EN MÓVIL === */
+/* ================================================= */
+
+.experiences-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.experiences-section h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #2c3e50;
+}
+
+.experiences-tabs-container {
+    margin-bottom: 40px;
+    padding: 0 15px;
+}
+
+.tabs {
+    display: inline-flex;
+    gap: 8px;
+    background-color: #e9ecef;
+    border-radius: 50px;
+    padding: 6px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: #495057;
+    transition: all 0.3s ease;
+}
+
+.tab-button:not(.active):hover {
+    color: #000;
+}
+
+.tab-button.active {
+    background-color: #ffffff;
+    color: #2c3e50;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+    transform: scale(1.05);
+}
+
+.location-select {
+    display: none; 
+}
+
+
+.experiences-carousel-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.experiences-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 250px;
+    gap: 20px;
+}
+
+.experience-card-link:first-child {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.experience-card-link:nth-child(2),
+.experience-card-link:nth-child(3) {
+    grid-column: 3 / 4;
+}
+
+.experience-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.experience-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.experience-card:hover {
+    transform: scale(1.02);
+}
+
+.experience-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.experience-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 25px 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    color: #fff;
+    opacity: 1;
+    transition: background 0.3s ease;
+}
+
+.experience-card-overlay h3 {
+    font-size: 22px;
+    margin: 0 0 10px 0;
+}
+
+.experience-card-link:first-child .experience-card-overlay h3 {
+    font-size: 28px;
+}
+
+.experience-card-overlay p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.arrow {
+    display: none;
+}
+
+/* ================================================= */
+/* === VISTA MÓVIL: Se mantiene como Carrusel Deslizable === */
+/* ================================================= */
+@media (max-width: 768px) {
+    .experiences-section .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .experiences-section h2,
+    .experiences-tabs-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .tabs {
+        display: none;
+    }
+
+    .location-select {
+        display: block;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        margin: 0;
+        border: 1px solid #ced4da;
+        background-color: #fff;
+        border-radius: 8px;
+        font-size: 16px;
+        padding: 12px;
+    }
+    
+    .experiences-carousel-wrapper {
+        padding: 0;
+    }
+
+    .experiences-grid {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 15px; 
+    }
+    
+    .experiences-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .experience-card-link {
+        width: 90%;
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        border-radius: 12px;
+    }
+
+    .experience-card {
+        height: 340px;
+    }
+}
+
+/*  FIN */

@@ -130,42 +130,46 @@ foreach ($locations as $location) {
 ?>
 
 <!-- Sección de Experiencias Locales Curadas -->
-<section id="experiences">
+<section id="experiences" class="experiences-section">
     <div class="container">
         <h2>Experiencias Locales</h2>
-        <!-- Pestañas para escritorio -->
-        <div class="tabs" id="location-tabs">
-            <?php foreach ($locations as $index => $location): ?>
-                <button class="tab-button <?php echo $index == 0 ? 'active' : ''; ?>" data-location="location-<?php echo $location['id']; ?>">
-                    <?php echo htmlspecialchars($location['name']); ?>
-                </button>
-            <?php endforeach; ?>
+
+        <div class="experiences-tabs-container">
+            <div class="tabs" id="location-tabs">
+                <?php foreach ($locations as $index => $location): ?>
+                    <button class="tab-button <?php echo $index == 0 ? 'active' : ''; ?>" data-location="location-<?php echo $location['id']; ?>">
+                        <?php echo htmlspecialchars($location['name']); ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+            <select id="location-select" class="location-select">
+                <?php foreach ($locations as $location): ?>
+                    <option value="location-<?php echo $location['id']; ?>"><?php echo htmlspecialchars($location['name']); ?></option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <!-- Desplegable para móvil -->
-        <select id="location-select" class="location-select">
-            <?php foreach ($locations as $location): ?>
-                <option value="location-<?php echo $location['id']; ?>"><?php echo htmlspecialchars($location['name']); ?></option>
-            <?php endforeach; ?>
-        </select>
-        <!-- Contenido de experiencias -->
+
         <div class="tab-content" id="tab-content">
             <?php foreach ($locations as $index => $location): ?>
                 <div id="location-<?php echo $location['id']; ?>" class="location-content <?php echo $index == 0 ? 'active' : ''; ?>">
-                    <div class="experiences-wrapper">
-                        <button class="arrow arrow-left" data-location="location-<?php echo $location['id']; ?>">&lt;</button>
-                        <div class="experiences">
-                                <?php foreach ($experiences[$location['id']] as $exp_index => $experience): ?>
-                                    <a href="properties.php?location=<?php echo urlencode($location['municipality']); ?>" class="experience-link">
-                                        <div class="experience">
-                                            <img src="<?php echo htmlspecialchars($experience['image']); ?>" alt="<?php echo htmlspecialchars($experience['title']); ?>">
+                    <div class="experiences-carousel-wrapper">
+                        <button class="arrow arrow-left">&lt;</button>
+                        
+                        <div class="experiences-grid">
+                            <?php foreach ($experiences[$location['id']] as $experience): ?>
+                                <a href="properties.php?location=<?php echo urlencode($location['municipality']); ?>" class="experience-card-link">
+                                    <div class="experience-card">
+                                        <img src="<?php echo htmlspecialchars($experience['image']); ?>" alt="<?php echo htmlspecialchars($experience['title']); ?>">
+                                        <div class="experience-card-overlay">
                                             <h3><?php echo htmlspecialchars($experience['title']); ?></h3>
                                             <p><?php echo htmlspecialchars($experience['description']); ?></p>
-                                            <button class="view-more">Ver más</button>
                                         </div>
-                                    </a>
-                                <?php endforeach; ?>
+                                    </div>
+                                </a>
+                            <?php endforeach; ?>
                         </div>
-                        <button class="arrow arrow-right" data-location="location-<?php echo $location['id']; ?>">&gt;</button>
+                        
+                        <button class="arrow arrow-right">&gt;</button>
                     </div>
                 </div>
             <?php endforeach; ?>

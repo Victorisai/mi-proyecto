@@ -35,6 +35,6 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>&copy; <?php echo date("Y"); ?> VELORA. Todos los derechos reservados.</p>
+        <p>&copy; <?php echo date("Y"); ?> DOMABLY. Todos los derechos reservados.</p>
     </div>
 </footer>
