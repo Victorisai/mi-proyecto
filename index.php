@@ -189,52 +189,61 @@ foreach ($locations as $location) {
 
         <!-- SECCION NOTICIAS -->
 
-    <?php
-$stmt = $pdo->prepare("SELECT * FROM news ORDER BY display_order ASC LIMIT 4");
+<?php
+// CAMBIO: Obtenemos 5 noticias en lugar de 4
+$stmt = $pdo->prepare("SELECT * FROM news ORDER BY display_order ASC LIMIT 5");
 $stmt->execute();
 $news_articles = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 if (!empty($news_articles)) {
-    $main_news = $news_articles[0]; // La primera noticia es la principal
-    $secondary_news = array_slice($news_articles, 1, 3); // Las siguientes tres son secundarias
+    $main_news = $news_articles[0]; 
+    $secondary_news = array_slice($news_articles, 1, 4); 
 } else {
     $main_news = null;
     $secondary_news = [];
 }
 ?>
 
-<section class="news-section">
-        <h2>Al día</h2>
-    <div class="container">
-        <div class="news-grid">
-            <div class="main-news">
-                <?php if ($main_news): ?>
-                    <a href="news_detail.php?id=<?php echo $main_news['id']; ?>">
-                    <img src="<?php echo htmlspecialchars(json_decode($main_news['images'])[0]); ?>" alt="<?php echo htmlspecialchars($main_news['title']); ?>">
-                    <div class="news-content">
+<section class="news-section-v2">
+    <div class="container-v2">
+        <div class="section-header">
+            <h2>Al Día</h2>
+            <a href="#" class="view-all-button">Ver todas las noticias</a>
+        </div>
+        
+        <?php if ($main_news): ?>
+        <div class="news-layout-grid">
+            <div class="main-news-card">
+                <a href="news_detail.php?id=<?php echo $main_news['id']; ?>">
+                    <div class="image-container">
+                        <img src="<?php echo htmlspecialchars(json_decode($main_news['images'])[0]); ?>" alt="<?php echo htmlspecialchars($main_news['title']); ?>">
+                    </div>
+                    <div class="content-overlay">
                         <span class="news-date"><?php echo date('d M Y', strtotime($main_news['date'])); ?></span>
                         <h3><?php echo htmlspecialchars($main_news['title']); ?></h3>
-                        <p><?php echo substr(htmlspecialchars($main_news['information']), 0, 100) . '...'; ?></p>
+                        <p><?php echo substr(htmlspecialchars($main_news['information']), 0, 150) . '...'; ?></p>
                     </div>
-                <?php endif; ?>
-                            </a>
+                </a>
             </div>
 
-            <div class="secondary-news">
+            <div class="secondary-news-grid">
                 <?php foreach ($secondary_news as $news): ?>
-                    <div class="news-item">
-                        <a href="news_detail.php?id=<?php echo $news['id']; ?>">
-                        <img src="<?php echo htmlspecialchars(json_decode($news['images'])[0]); ?>" alt="<?php echo htmlspecialchars($news['title']); ?>">
-                        <div class="news-content">
+                <div class="secondary-news-card">
+                    <a href="news_detail.php?id=<?php echo $news['id']; ?>">
+                        <div class="image-container">
+                            <img src="<?php echo htmlspecialchars(json_decode($news['images'])[0]); ?>" alt="<?php echo htmlspecialchars($news['title']); ?>">
+                        </div>
+                        <div class="content">
                             <span class="news-date"><?php echo date('d M Y', strtotime($news['date'])); ?></span>
                             <h4><?php echo htmlspecialchars($news['title']); ?></h4>
-                            <p><?php echo substr(htmlspecialchars($news['information']), 0, 50) . '...'; ?></p>
-                            </a>
+                            <p class="secondary-news-excerpt"><?php echo substr(htmlspecialchars($news['information']), 0, 80) . '...'; ?></p>
                         </div>
-                    </div>
+                    </a>
+                </div>
                 <?php endforeach; ?>
             </div>
         </div>
+        <?php endif; ?>
     </div>
 </section>
 
