@@ -36,17 +36,27 @@
     <!-- Propiedades Destacadas -->
     <div class="carousel-wrapper">
 
-        <section class="property-showcase">
-            <div class="container">
-                <div class="showcase-header">
-                    <h2>Propiedades Destacadas</h2>
-                    <a href="properties.php?listing_type=venta" class="view-all-link view-all-mobile">Ver todos</a>
-                </div>
+    <section class="property-showcase" id="destacadas-showcase">
+        <div class="container">
+            <div class="showcase-header">
+                <h2>Propiedades Destacadas</h2>
                 <div class="carousel-nav">
-                    <a href="properties.php?listing_type=venta" class="view-all-link view-all-desktop">Ver todos</a>
+                    <a href="properties.php?listing_type=venta" class="view-all-link">Ver todas</a>
                     <button class="carousel-arrow prev-arrow" id="destacadas-prev">&lt;</button>
                     <button class="carousel-arrow next-arrow" id="destacadas-next">&gt;</button>
                 </div>
+            </div>
+            <div class="showcase-wrapper">
+                <aside class="filter-aside">
+                    <h4>Categorías</h4>
+                    <ul>
+                        <li><a href="#" class="filter-link active" data-category="all">Todas</a></li>
+                        <li><a href="#" class="filter-link" data-category="casas">Casas</a></li>
+                        <li><a href="#" class="filter-link" data-category="departamentos">Departamentos</a></li>
+                        <li><a href="#" class="filter-link" data-category="terrenos">Terrenos</a></li>
+                        <li><a href="#" class="filter-link" data-category="desarrollos">Desarrollos</a></li>
+                    </ul>
+                </aside>
                 <div class="property-carousel" id="destacadas-carousel">
                     <?php
                     include 'includes/config.php';
@@ -57,7 +67,7 @@
 
                     foreach ($sale_properties as $property) {
                         ?>
-                        <div class="property-slide-card">
+                        <div class="property-slide-card" data-category="<?php echo htmlspecialchars($property['category']); ?>">
                             <a href="property_detail.php?id=<?php echo $property['id']; ?>">
                                 <div class="property-category-badge"><?php echo ucfirst($property['category']); ?></div>
                                 <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
@@ -72,18 +82,30 @@
                     ?>
                 </div>
             </div>
-        </section>
-        <section class="property-showcase">
-            <div class="container">
-                <div class="showcase-header">
-                    <h2>Propiedades en Renta</h2>
-                    <a href="properties.php?listing_type=renta" class="view-all-link view-all-mobile">Ver todos</a>
-                </div>
+        </div>
+    </section>
+
+    <section class="property-showcase" id="renta-showcase">
+        <div class="container">
+            <div class="showcase-header">
+                <h2>Propiedades en Renta</h2>
                 <div class="carousel-nav">
-                    <a href="properties.php?listing_type=renta" class="view-all-link view-all-desktop">Ver todos</a>
+                    <a href="properties.php?listing_type=renta" class="view-all-link">Ver todas</a>
                     <button class="carousel-arrow prev-arrow" id="renta-prev">&lt;</button>
                     <button class="carousel-arrow next-arrow" id="renta-next">&gt;</button>
                 </div>
+            </div>
+            <div class="showcase-wrapper">
+                <aside class="filter-aside">
+                    <h4>Categorías</h4>
+                    <ul>
+                        <li><a href="#" class="filter-link active" data-category="all">Todas</a></li>
+                        <li><a href="#" class="filter-link" data-category="casas">Casas</a></li>
+                        <li><a href="#" class="filter-link" data-category="departamentos">Departamentos</a></li>
+                        <li><a href="#" class="filter-link" data-category="terrenos">Terrenos</a></li>
+                        <li><a href="#" class="filter-link" data-category="desarrollos">Desarrollos</a></li>
+                    </ul>
+                </aside>
                 <div class="property-carousel" id="renta-carousel">
                     <?php
                     // Obtener hasta 10 propiedades en renta
@@ -93,7 +115,7 @@
 
                     foreach ($rent_properties as $property) {
                         ?>
-                        <div class="property-slide-card">
+                        <div class="property-slide-card" data-category="<?php echo htmlspecialchars($property['category']); ?>">
                             <a href="property_detail.php?id=<?php echo $property['id']; ?>">
                                 <div class="property-category-badge"><?php echo ucfirst($property['category']); ?></div>
                                 <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
@@ -108,7 +130,8 @@
                     ?>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
     </div>
 

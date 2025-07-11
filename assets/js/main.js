@@ -203,13 +203,51 @@ if (initialTab) {
         const prevBtn = document.getElementById(prevBtnId);
         const nextBtn = document.getElementById(nextBtnId);
         if (!carousel || !prevBtn || !nextBtn) return;
-        const card = carousel.querySelector('.property-slide-card');
-        if (!card) return;
-        const scrollAmount = card.offsetWidth + 20;
-        prevBtn.addEventListener('click', () => carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' }));
-        nextBtn.addEventListener('click', () => carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' }));
+        
+        const scrollHandler = () => {
+            const card = carousel.querySelector('.property-slide-card:not(.hidden-property)');
+            if (!card) return;
+            const scrollAmount = card.offsetWidth + 20;
+            return scrollAmount;
+        };
+
+        prevBtn.addEventListener('click', () => carousel.scrollBy({ left: -scrollHandler(), behavior: 'smooth' }));
+        nextBtn.addEventListener('click', () => carousel.scrollBy({ left: scrollHandler(), behavior: 'smooth' }));
     }
     
     setupCarousel('destacadas-carousel', 'destacadas-prev', 'destacadas-next');
     setupCarousel('renta-carousel', 'renta-prev', 'renta-next');
+
+    // ================================================
+    // === NUEVA LÓGICA PARA FILTRADO POR CATEGORÍA ===
+    // ================================================
+    function setupCategoryFilter(showcaseId) {
+        const showcase = document.getElementById(showcaseId);
+        if (!showcase) return;
+
+        const filterLinks = showcase.querySelectorAll('.filter-link');
+        const propertyCards = showcase.querySelectorAll('.property-slide-card');
+
+        filterLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+
+                filterLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+
+                const category = link.dataset.category;
+
+                propertyCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.classList.remove('hidden-property');
+                    } else {
+                        card.classList.add('hidden-property');
+                    }
+                });
+            });
+        });
+    }
+
+    setupCategoryFilter('destacadas-showcase');
+    setupCategoryFilter('renta-showcase');
 });

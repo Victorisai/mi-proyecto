@@ -2266,10 +2266,9 @@ body:not(.home) .header-nav li a {
 .property-showcase {
     padding: 50px 0;
     width: 100%;
-    position: relative; /* Esencial para anclar las flechas */
+    position: relative;
 }
 .showcase-header {
-    /* El header ahora solo contiene el título, lo alineamos con el contenido */
     width: 95%;
     max-width: 1600px;
     margin: 0 auto 25px auto;
@@ -2282,16 +2281,12 @@ body:not(.home) .header-nav li a {
 }
 
 .carousel-nav {
-    /* Posicionamos las flechas de forma absoluta */
     position: absolute;
-    top: 40px; /* Alineación vertical con el título */
-    
-    /* Calculamos la posición derecha para que se alinee con el borde del contenido */
-    right: 2.5vw; /* vw = viewport width, usa el 2.5% del ancho de la pantalla */
-    
+    top: 40px;
+    right: 2.5vw; 
     display: flex;
     gap: 10px;
-    z-index: 10; /* Nos aseguramos de que esté por encima de otros elementos */
+    z-index: 10; 
 }
 
 .carousel-arrow {
@@ -2316,8 +2311,8 @@ body:not(.home) .header-nav li a {
     gap: 20px;
     overflow-x: auto;
     scroll-behavior: smooth;
-    padding: 10px 20px; /* Padding para que la sombra se vea bien */
-    scroll-snap-type: x mandatory; /* Ajuste suave al deslizar */
+    padding: 10px 20px;
+    scroll-snap-type: x mandatory;
 }
 
 /* Ocultar la barra de scroll */
@@ -2330,8 +2325,9 @@ body:not(.home) .header-nav li a {
 }
 
 .property-slide-card {
-    flex: 0 0 280px; /* Ancho fijo para cada tarjeta */
-    scroll-snap-align: start; /* Cada tarjeta es un punto de anclaje */
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    transition: width 0.3s ease, opacity 0.3s ease; 
 }
 
 .property-slide-card a {
@@ -2342,7 +2338,7 @@ body:not(.home) .header-nav li a {
 
 .property-slide-card img {
     width: 100%;
-    height: 340px; /* Altura fija para la imagen */
+    aspect-ratio: 3 / 4;
     object-fit: cover;
     border-radius: 15px;
     margin-bottom: 15px;
@@ -2368,18 +2364,22 @@ body:not(.home) .header-nav li a {
     font-size: 15px;
     color: #555;
     margin: 0;
-    /* Truncar texto si es muy largo */
-    white-space: nowrap;
+    line-height: 1.4;
+    height: 2.8em;
     overflow: hidden;
     text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
 }
 
 @media (min-width: 992px) {
     .showcase-header h2 {
-        font-size: 32px; /* Aumentamos el tamaño de 24px a 32px */
+        font-size: 32px; 
     }
         .property-carousel {
-        max-width: 1495px; /* Ajusta este valor según prefieras */
+        max-width: 1495px;
         margin: 0 auto;
     }
 }
@@ -2387,15 +2387,12 @@ body:not(.home) .header-nav li a {
 /* Responsividad para el carrusel */
 @media (max-width: 768px) {
     .carousel-nav {
-        display: none; /* Oculta las flechas en móvil */
+        display: none; 
     }
-    .property-slide-card {
-        flex: 0 0 80%; /* Aumentamos ligeramente para que se vea un poco de la siguiente tarjeta */
-        max-width: 300px;
-    }
+
     .property-showcase .container {
         padding-left: 0;
-        padding-right: 0; /* Aseguramos que no haya padding a la derecha */
+        padding-right: 0;
     }
     .property-carousel {
     padding-left: 0;
@@ -2412,17 +2409,16 @@ ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
 }
 
 .property-showcase .container {
-    max-width: 100%; /* El contenedor dentro del showcase ocupa todo el ancho disponible */
+    max-width: 100%;
 }
 
 .showcase-header {
-    max-width: 1200px; /* El encabezado se alinea con el contenido principal */
+    max-width: 1200px;
     margin: 0 auto 25px auto;
-    padding: 0 20px; /* Padding para que no se pegue a los bordes */
+    padding: 0 20px;
 }
 
 .property-carousel {
-    /* El padding se aplica aquí para que las tarjetas tengan espacio en los extremos */
     padding: 10px 20px; 
 }
 
@@ -2525,10 +2521,95 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
         display: flex;
         align-items: center;
         gap: 15px;
-        position: absolute;
-        top: 40px;
-        right: 2.5vw;
-        z-index: 10;
+        position: static;
+    }
+}
+
+/* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+
+/* ===== NUEVOS ESTILOS PARA ASIDE DE FILTROS Y CONTENEDOR FLEX ===== */
+
+.showcase-wrapper {
+    display: flex;
+    gap: 30px;
+    width: 95%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.filter-aside {
+    flex: 0 0 200px; /* No crece, no se encoge, base de 200px */
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.filter-aside h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 16px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.filter-aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.filter-aside ul li a {
+    text-decoration: none;
+    color: #495057;
+    padding: 8px 12px;
+    display: block;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.filter-aside ul li a:hover {
+    background-color: #e9ecef;
+}
+
+.filter-aside ul li a.active {
+    background-color: #000000;
+    color: #fff;
+    font-weight: 500;
+}
+
+.property-carousel {
+    flex-grow: 1; /* El carrusel ocupa el resto del espacio */
+    padding: 10px 2px;
+}
+
+.property-slide-card.hidden-property {
+    display: none;
+}
+
+/* Responsividad para el nuevo layout */
+@media (max-width: 992px) {
+    .showcase-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .filter-aside {
+        flex-basis: auto; /* La base de 200px ya no es necesaria */
+        width: 100%;
+    }
+    .filter-aside ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    .filter-aside h4 {
+        display: none; /* Ocultamos el título en móvil para un look más limpio */
+    }
+    .filter-aside ul li {
+        flex-grow: 1;
+        text-align: center;
     }
 }
 
