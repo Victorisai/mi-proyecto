@@ -2491,7 +2491,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 .carousel-nav {
     display: none;
@@ -2576,33 +2576,75 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 /* Responsividad para el nuevo layout */
 @media (max-width: 992px) {
     .showcase-wrapper {
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
-        margin: 0; 
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    margin: 0; 
     }
-    .filter-aside {
-        flex-basis: auto; /* La base de 200px ya no es necesaria */
-        width: 100%;
-    }
-    .filter-aside ul {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-    }
-    .filter-aside h4 {
-        display: none; /* Ocultamos el título en móvil para un look más limpio */
-    }
-    .filter-aside ul li {
-        flex-grow: 1;
-        text-align: center;
-    }
+.filter-aside {
+    flex-basis: auto;
+    width: 100%;
+    /* Quitamos el fondo y padding del contenedor principal */
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+.filter-aside h4 {
+    display: none; /* Mantenemos oculto el título "Categorías" en móvil */
+}
+
+.filter-aside ul {
+    display: flex;
+    flex-wrap: nowrap; /* Evita que los elementos salten a la siguiente línea */
+    gap: 8px;
+    overflow-x: auto; /* Permite el deslizamiento horizontal */
+    white-space: nowrap; /* Asegura que todo se mantenga en una sola línea */
+    
+    /* Estilos del contenedor tipo "píldora" */
+    padding: 6px;
+    background-color: #e9ecef;
+    border-radius: 50px;
+    -webkit-overflow-scrolling: touch; /* Deslizamiento suave en iOS */
+}
+.filter-aside ul::-webkit-scrollbar {
+    display: none;
+}
+.filter-aside ul {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+.filter-aside ul li {
+    flex-grow: 0;
+    flex-shrink: 0; 
+    text-align: center;
+}
+.filter-aside ul li a {
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: transparent;
+    color: #495057;
+}
+.filter-aside ul li a.active {
+    background-color: #000000;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.filter-aside ul li a:hover {
+    background-color: transparent;
+    color: #000;
+}
 }
 
 /* Responsividad para el carrusel */
 @media (max-width: 768px) {
     .carousel-nav {
-        display: none; 
+        position: static;
+        display: block;
+    }
+    .carousel-nav .carousel-arrow {
+    display: none;
     }
     .property-showcase .container {
         padding-left: 0;
@@ -2617,6 +2659,11 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     scroll-padding-left: 15px;
     display: flex;
     gap: 15px;  
+    }
+    .showcase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     }
 }
 
