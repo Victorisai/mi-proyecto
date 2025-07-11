@@ -2384,22 +2384,6 @@ body:not(.home) .header-nav li a {
     }
 }
 
-/* Responsividad para el carrusel */
-@media (max-width: 768px) {
-    .carousel-nav {
-        display: none; 
-    }
-
-    .property-showcase .container {
-        padding-left: 0;
-        padding-right: 0;
-    }
-    .property-carousel {
-    padding-left: 0;
-    padding-right: 0;
-    scroll-padding-left: 15px;
-    }
-}
 /* ==================
 ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
    ================== */
@@ -2594,6 +2578,8 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     .showcase-wrapper {
         flex-direction: column;
         gap: 20px;
+        width: 100%;
+        margin: 0; 
     }
     .filter-aside {
         flex-basis: auto; /* La base de 200px ya no es necesaria */
@@ -2610,6 +2596,27 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     .filter-aside ul li {
         flex-grow: 1;
         text-align: center;
+    }
+}
+
+/* Responsividad para el carrusel */
+@media (max-width: 768px) {
+    .carousel-nav {
+        display: none; 
+    }
+    .property-showcase .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .property-carousel {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    scroll-padding-left: 15px;
+    display: flex;
+    gap: 15px;  
     }
 }
 
@@ -3021,4 +3028,3 @@ nav ul li a {
 }
 
 /*  FIN */
-
