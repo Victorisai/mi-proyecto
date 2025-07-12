@@ -264,7 +264,7 @@ if (!empty($news_articles)) {
     <div class="container-v2">
         <div class="section-header">
             <h2>Al Día</h2>
-            <a href="#" class="view-all-button">Ver todas las noticias</a>
+            <a href="news.php" class="view-all-button">Ver todas las noticias</a>
         </div>
         
         <?php if ($main_news): ?>

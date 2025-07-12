@@ -3217,3 +3217,130 @@ nav ul li a {
 }
 
 /* FIN */
+
+/* =============================== */
+/* === PÁGINA DE TODAS LAS NOTICIAS (news.php) === */
+/* =============================== */
+
+.all-news-page {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+}
+
+.all-news-page .page-header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.all-news-page .page-header h1 {
+    font-family: 'Sedan SC', serif;
+    font-size: 42px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.all-news-page .page-header p {
+    font-size: 18px;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.news-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+}
+
+.news-list-card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.news-list-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.news-list-card a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.news-card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.news-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.news-list-card:hover .news-card-image img {
+    transform: scale(1.05);
+}
+
+.news-card-content {
+    padding: 25px;
+}
+
+.news-card-date {
+    display: block;
+    font-size: 13px;
+    color: #868e96;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.news-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0 0 15px 0;
+    height: 3.9em; /* Aproximadamente 3 líneas */
+    overflow: hidden;
+}
+
+.news-card-excerpt {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+    height: 4.8em; /* Aproximadamente 3 líneas */
+    overflow: hidden;
+}
+
+.read-more-link {
+    font-weight: 600;
+    color: #3498db;
+    transition: color 0.3s ease;
+}
+
+.news-list-card:hover .read-more-link {
+    color: #2980b9;
+}
+
+/* Responsividad para la página de noticias */
+@media (max-width: 768px) {
+    .all-news-page .page-header h1 {
+        font-size: 34px;
+    }
+    .all-news-page .page-header p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .news-grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* FIN */
