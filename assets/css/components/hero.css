@@ -1,0 +1,162 @@
+/* Banner Principal */
+.hero {
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #fff;
+    position: relative;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1; /* Asegura que esté encima de las imágenes */
+}
+
+.hero-content {
+    position: absolute;     /* Cambia de relative a absolute */
+    bottom: 40px;           /* Distancia desde el borde inferior */
+    left: 40px;             /* Distancia desde el borde izquierdo */
+    text-align: left;       /* Alineación del texto */
+    z-index: 1;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 0.5s forwards;
+}
+
+/* Carrusel para el Hero */
+.hero-slideshow {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.hero-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.hero-slide.active {
+    opacity: 1;
+}
+
+/* Botón Ver Propiedades en Hero */
+.hero .btn-primary {
+    background: #252525; /* Verde oscuro */
+    color: #fff; /* Mantener texto blanco */
+}
+
+.hero .btn-primary:hover {
+    background: #afadad; /* Verde más oscuro al hover */
+    transform: scale(1.05); /* Mantener efecto de escala */
+}
+
+/* Contenedor de barras de progreso */
+.progress-container {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: row; /* Cambiado a fila horizontal */
+    gap: 8px; /* Espacio entre barras */
+    z-index: 2;
+}
+
+.progress-bar {
+    width: 40px; /* Reducido para mejor ajuste en fila */
+    height: 4px;
+    background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: #4a4a4a; /* Gris oscuro para el progreso */
+    width: 0;
+    transition: width 8s linear; /* Animación de 5 segundos */
+}
+
+.progress-bar.active .progress-bar-fill {
+    width: 100%;
+}
+
+.hero h1 {
+    font-family: 'Adamina', serif;
+    font-weight: 400;
+    font-size: 50px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: #2c3e50;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #34495e;
+    transform: scale(1.05);
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Botón de WhatsApp */
+.btn-whatsapp {
+    background: #25D366;
+    color: #fff;
+    margin-left: 10px; /* Espacio entre el botón Contactar y WhatsApp */
+}
+
+.btn-whatsapp:hover {
+    background: #20b358;
+    transform: scale(1.05);
+}
+
