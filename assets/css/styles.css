@@ -3075,3 +3075,145 @@ nav ul li a {
 }
 
 /*  FIN */
+
+
+/* ================================== */
+/* === ESTILOS SECCIÓN INFORMATIVA === */
+/* ================================== */
+
+.info-section {
+    padding: 80px 20px;
+    background-color: #ffffff; /* Fondo blanco para un look limpio */
+    text-align: center;
+}
+
+.info-header {
+    margin-bottom: 50px;
+}
+
+.info-header h2 {
+    font-family: 'Sedan SC', serif; /* Usando una fuente elegante que ya tienes */
+    font-size: 38px;
+    font-weight: 400;
+    color: #2c3e50;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas en escritorio */
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.info-column {
+    padding: 20px;
+}
+
+.info-icon {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 25px;
+    opacity: 0.8;
+}
+
+.info-column h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info-column p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+}
+
+/* --- Estilos Responsivos para la nueva sección --- */
+@media (max-width: 992px) {
+    .info-header h2 {
+        font-size: 32px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr; /* Mantenemos una columna para el grid general */
+        gap: 35px; /* Reducimos el espacio entre cada fila */
+    }
+
+    .info-column {
+        display: flex; /* ¡LA CLAVE! Usamos Flexbox para alinear los elementos */
+        align-items: center; /* Centramos verticalmente el ícono con el texto */
+        text-align: left; /* Alineamos el texto a la izquierda */
+        gap: 20px; /* Espacio entre el ícono y el bloque de texto */
+    }
+
+    .info-icon {
+        width: 60px; /* Reducimos el tamaño del ícono para este layout */
+        height: 60px;
+        flex-shrink: 0; /* Evita que el ícono se encoja */
+        margin-bottom: 0; /* Quitamos el margen inferior que tenía antes */
+    }
+}
+
+@media (max-width: 576px) {
+    .info-section {
+        padding: 60px 15px;
+    }
+    
+    .info-header h2 {
+        font-size: 28px;
+    }
+
+    .info-column h3 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .info-section {
+        background-color: #252525;
+        padding: 60px 15px;
+    }
+
+    .info-header h2 {
+        color: #ffffff;
+        font-size: 28px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr; 
+        max-width: 550px;
+        gap: 30px;
+    }
+
+    .info-column {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 20px;
+        padding: 0;
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+        margin-bottom: 0;
+        filter: invert(1) brightness(2);
+    }
+
+    .info-text-content h3 {
+        color: #ffffff;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .info-text-content p {
+        color: #bdc3c7;
+        font-size: 15px;
+    }
+}
+
+/* FIN */

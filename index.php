@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CedralSales - Venta de Propiedades</title>
+    <title>Domably - Venta de Propiedades</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body class="home">
@@ -134,6 +134,39 @@
     </section>
 
     </div>
+
+    <!-- Sección de Informacion de la Plataforma -->
+
+<section class="info-section">
+    <div class="container">
+        <div class="info-header">
+            <h2>Domably: Tu Ecosistema Inmobiliario</h2>
+        </div>
+        <div class="info-grid">
+            <div class="info-column">
+                <img src="assets/images/iconcaracteristic/infoicon1.png" alt="Icono de propiedades" class="info-icon">
+                <div class="info-text-content">
+                    <h3>Un Universo de Propiedades</h3>
+                    <p>Reunimos en un solo lugar las mejores propiedades de agencias inmobiliarias, brokers y vendedores independientes. Explora un inventario diverso y en constante crecimiento, todo al alcance de tu mano.</p>
+                </div>
+            </div>
+            <div class="info-column">
+                <img src="assets/images/iconcaracteristic/infoicon2.png" alt="Icono de búsqueda" class="info-icon">
+                <div class="info-text-content">
+                    <h3>Descubrimiento Inteligente</h3>
+                    <p>Nuestra plataforma te permite filtrar y encontrar tu hogar o inversión ideal de manera rápida y sencilla. Busca por tipo de propiedad, compara opciones y guarda tus favoritas para tomar la mejor decisión.</p>
+                </div>
+            </div>
+            <div class="info-column">
+                <img src="assets/images/iconcaracteristic/infoicon3.png" alt="Icono de contacto" class="info-icon">
+                <div class="info-text-content">
+                    <h3>Conexión Directa con Profesionales</h3>
+                    <p>Publica tus propiedades o encuentra la que buscas. Domably te conecta directamente con una amplia red de profesionales y clientes potenciales, facilitando una comunicación transparente y efectiva.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Sección de Experiencias Locales Curadas -->
 <?php
