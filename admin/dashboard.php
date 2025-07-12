@@ -22,6 +22,7 @@
             <h2 class="fade-in">Panel de Administración</h2>
             <div class="dashboard-actions">
                 <a href="add_property.php" class="btn btn-primary">Agregar Propiedad</a>
+                <a href="manage_hero.php" class="btn btn-primary">Gestionar Hero</a>
                 <a href="manage_admins.php" class="btn btn-primary">Gestionar Administradores</a>
                 <a href="messages.php" class="btn btn-primary">Mensajes</a>
                 <a href="manage_news.php" class="btn btn-primary">Gestionar Noticias</a>

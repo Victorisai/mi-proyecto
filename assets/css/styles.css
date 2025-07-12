@@ -2453,6 +2453,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     .property-slide-card {
     flex: 0 0 calc(20% - 16px);
     scroll-snap-align: start;
+    padding-left: 4px;
     }
     .property-carousel::-webkit-scrollbar {
         display: none;

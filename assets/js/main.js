@@ -95,11 +95,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Carrusel para el Hero
         const slides = document.querySelectorAll('.hero-slide');
         const progressBars = document.querySelectorAll('.progress-bar');
+        const heroContent = document.querySelector('.hero-content');
+        const heroTitle = heroContent.querySelector('h1');
+        const heroSubtitle = heroContent.querySelector('p');
+
         let currentSlide = 0;
 
         if (slides.length > 0) {
             function showSlide(index) {
                 slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+
                 progressBars.forEach(bar => {
                     bar.classList.remove('active');
                     const fill = bar.querySelector('.progress-bar-fill');
@@ -111,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currentBar) {
                     currentBar.classList.add('active');
                     const currentFill = currentBar.querySelector('.progress-bar-fill');
-                    setTimeout(() => { // Pequeño retardo para asegurar que la transición se reinicie
+                    setTimeout(() => { 
                         currentFill.style.transition = 'width 5s linear';
                         currentFill.style.width = '100%';
                     }, 50);

@@ -12,24 +12,30 @@
 
     <!-- Banner Principal -->
 <section class="hero">
+    <?php
+    if (!isset($pdo)) {
+        include 'includes/config.php';
+    }
+    $stmt = $pdo->prepare("SELECT * FROM hero_images ORDER BY display_order ASC, id DESC");
+    $stmt->execute();
+    $hero_images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    ?>
+
     <div class="hero-slideshow">
-        <div class="hero-slide" style="background-image: url('assets/images/hero/placeholder.jpg');"></div>
-        <div class="hero-slide" style="background-image: url('assets/images/hero/placeholder2.jpg');"></div>
-        <div class="hero-slide" style="background-image: url('assets/images/hero/placeholder3.jpg');"></div>
-        <div class="hero-slide" style="background-image: url('assets/images/hero/placeholder4.jpg');"></div>
-        <div class="hero-slide" style="background-image: url('assets/images/hero/placeholder5.jpg');"></div>
+        <?php foreach ($hero_images as $image): ?>
+            <div class="hero-slide" style="background-image: url('<?php echo htmlspecialchars($image['image_path']); ?>');"></div>
+        <?php endforeach; ?>
     </div>
+    
     <div class="hero-content">
         <h1>Encuentra la <br> Propiedad de tus Sueños</h1>
-        <p>Explora terrenos, casas, departamentos y desarrollos en CedralSales</p>
+        <p>Explora terrenos, casas, departamentos y desarrollos en Domably</p>
         <a href="properties.php" class="btn btn-primary">Ver Propiedades</a>
     </div>
     <div class="progress-container">
-        <div class="progress-bar"><div class="progress-bar-fill"></div></div>
-        <div class="progress-bar"><div class="progress-bar-fill"></div></div>
-        <div class="progress-bar"><div class="progress-bar-fill"></div></div>
-        <div class="progress-bar"><div class="progress-bar-fill"></div></div>
-        <div class="progress-bar"><div class="progress-bar-fill"></div></div>
+        <?php foreach ($hero_images as $image): ?>
+            <div class="progress-bar"><div class="progress-bar-fill"></div></div>
+        <?php endforeach; ?>
     </div>
 </section>
 
