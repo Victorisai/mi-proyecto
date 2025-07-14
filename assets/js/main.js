@@ -255,4 +255,55 @@ if (initialTab) {
 
     setupCategoryFilter('destacadas-showcase');
     setupCategoryFilter('renta-showcase');
+
+// ===============================================
+// === LÓGICA PARA HEADER DE PÁGINA DE PROPIEDADES ===
+// ===============================================
+const priceFilter = document.querySelector('.price-filter');
+const priceDisplay = document.getElementById('price-range-label');
+const minPriceInput = document.getElementById('min-price');
+const maxPriceInput = document.getElementById('max-price');
+
+if (priceFilter) {
+    // Abrir/cerrar el desplegable de precios
+    priceFilter.addEventListener('click', (e) => {
+        if (!e.target.closest('.price-slider-container')) {
+            priceFilter.classList.toggle('active');
+        }
+    });
+
+    // Cerrar si se hace clic fuera
+    document.addEventListener('click', (e) => {
+        if (!priceFilter.contains(e.target)) {
+            priceFilter.classList.remove('active');
+        }
+    });
+
+    // Actualizar el texto del display de precios
+    const updatePriceLabel = () => {
+        const minVal = minPriceInput.value;
+        const maxVal = maxPriceInput.value;
+        let label = 'Cualquiera';
+
+        if (minVal && maxVal) {
+            label = `$${minVal} - $${maxVal}`;
+        } else if (minVal) {
+            label = `Desde $${minVal}`;
+        } else if (maxVal) {
+            label = `Hasta $${maxVal}`;
+        }
+        priceDisplay.textContent = label;
+    };
+    
+    // Llamar al inicio para establecer el estado inicial
+    updatePriceLabel();
+
+    minPriceInput.addEventListener('input', updatePriceLabel);
+    maxPriceInput.addEventListener('input', updatePriceLabel);
+}
+
+// Agregar clase al body si estamos en properties.php
+if(window.location.pathname.endsWith('properties.php')) {
+    document.body.classList.add('properties-page');
+}
 });
