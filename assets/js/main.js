@@ -260,46 +260,78 @@ if (initialTab) {
 // === LÓGICA PARA HEADER DE PÁGINA DE PROPIEDADES ===
 // ===============================================
 const priceFilter = document.querySelector('.price-filter');
-const priceDisplay = document.getElementById('price-range-label');
-const minPriceInput = document.getElementById('min-price');
-const maxPriceInput = document.getElementById('max-price');
 
 if (priceFilter) {
-    // Abrir/cerrar el desplegable de precios
+    const priceDisplay = document.getElementById('price-range-label');
+    const minPriceInput = document.getElementById('min-price');
+    const maxPriceInput = document.getElementById('max-price');
+    const priceSliderElement = document.getElementById('price-slider');
+
+    // --- Lógica para abrir/cerrar el desplegable de precios ---
     priceFilter.addEventListener('click', (e) => {
+        // Solo alterna la clase si el clic NO es dentro del contenedor del slider
         if (!e.target.closest('.price-slider-container')) {
             priceFilter.classList.toggle('active');
         }
     });
 
-    // Cerrar si se hace clic fuera
     document.addEventListener('click', (e) => {
+        // Cierra el desplegable si se hace clic fuera del filtro de precios
         if (!priceFilter.contains(e.target)) {
             priceFilter.classList.remove('active');
         }
     });
 
-    // Actualizar el texto del display de precios
-    const updatePriceLabel = () => {
-        const minVal = minPriceInput.value;
-        const maxVal = maxPriceInput.value;
-        let label = 'Cualquiera';
-
-        if (minVal && maxVal) {
-            label = `$${minVal} - $${maxVal}`;
-        } else if (minVal) {
-            label = `Desde $${minVal}`;
-        } else if (maxVal) {
-            label = `Hasta $${maxVal}`;
-        }
-        priceDisplay.textContent = label;
-    };
+    // --- Lógica para formatear números como moneda ---
+    const formatToCurrency = (value) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: 0 }).format(value);
     
-    // Llamar al inicio para establecer el estado inicial
-    updatePriceLabel();
+    // --- Lógica de noUiSlider ---
+    if (priceSliderElement) {
+        // Valores iniciales (si no hay, usamos un rango por defecto)
+        const initialMin = parseFloat(minPriceInput.value) || 50000;
+        const initialMax = parseFloat(maxPriceInput.value) || 10000000;
 
-    minPriceInput.addEventListener('input', updatePriceLabel);
-    maxPriceInput.addEventListener('input', updatePriceLabel);
+        noUiSlider.create(priceSliderElement, {
+            start: [initialMin, initialMax],
+            connect: true,
+            step: 10000,
+            range: {
+                'min': 0,
+                'max': 20000000 // Precio máximo del slider
+            },
+            format: {
+                to: function (value) {
+                    return Math.round(value);
+                },
+                from: function (value) {
+                    return Number(value);
+                }
+            }
+        });
+
+        // --- Sincronización: Slider -> Inputs y Etiqueta ---
+        priceSliderElement.noUiSlider.on('update', (values) => {
+            const [minVal, maxVal] = values;
+            
+            minPriceInput.value = minVal;
+            maxPriceInput.value = maxVal;
+
+            // Actualizar la etiqueta principal
+            let label = 'Cualquiera';
+            if (minVal > 0 || maxVal < 20000000) {
+                label = `${formatToCurrency(minVal)} - ${formatToCurrency(maxVal)}`;
+            }
+            priceDisplay.textContent = label;
+        });
+
+        // --- Sincronización: Inputs -> Slider ---
+        minPriceInput.addEventListener('change', () => {
+            priceSliderElement.noUiSlider.set([minPriceInput.value, null]);
+        });
+        maxPriceInput.addEventListener('change', () => {
+            priceSliderElement.noUiSlider.set([null, maxPriceInput.value]);
+        });
+    }
 }
 
 // Agregar clase al body si estamos en properties.php

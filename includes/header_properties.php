@@ -7,6 +7,8 @@ $location = isset($_GET['location']) ? $_GET['location'] : '';
 $min_price = isset($_GET['min_price']) ? $_GET['min_price'] : '';
 $max_price = isset($_GET['max_price']) ? $_GET['max_price'] : '';
 ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.1/nouislider.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.8.1/nouislider.min.js"></script>
 <header class="properties-header">
     <div class="header-properties-top">
         <div class="header-group-left">
@@ -53,11 +55,18 @@ $max_price = isset($_GET['max_price']) ? $_GET['max_price'] : '';
                     <span id="price-range-label">Cualquiera</span>
                 </div>
                 <div class="price-slider-container">
-                    <div class="price-inputs">
-                        <input type="number" name="min_price" id="min-price" placeholder="Mínimo" value="<?php echo htmlspecialchars($min_price); ?>">
-                        <input type="number" name="max_price" id="max-price" placeholder="Máximo" value="<?php echo htmlspecialchars($max_price); ?>">
+                    <div id="price-slider"></div>
+                        <div class="price-inputs">
+                            <div class="input-with-symbol">
+                                <span>$</span>
+                                <input type="text" name="min_price" id="min-price" placeholder="Mínimo" value="<?php echo htmlspecialchars($min_price); ?>">
+                            </div>
+                            <div class="input-with-symbol">
+                                <span>$</span>
+                                <input type="text" name="max_price" id="max-price" placeholder="Máximo" value="<?php echo htmlspecialchars($max_price); ?>">
+                            </div>
+                        </div>
                     </div>
-                </div>
             </div>
 
             <div class="filter-group">

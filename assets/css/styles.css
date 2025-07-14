@@ -3567,3 +3567,83 @@ body.properties-page {
         padding-top: 180px;
     }
 }
+
+/* ========================================= */
+/* === ESTILOS PARA EL SLIDER DE PRECIOS === */
+/* ========================================= */
+
+.price-slider-container {
+    padding: 25px 20px 20px 20px; /* Aumentamos el padding superior para el slider */
+}
+
+#price-slider {
+    margin-bottom: 20px;
+}
+
+.price-inputs {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.price-inputs input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* --- Estilos específicos de noUiSlider --- */
+#price-slider .noUi-target {
+    background: #e9ecef;
+    border-radius: 4px;
+    border: 1px solid #dfe4ea;
+    box-shadow: none;
+    height: 6px;
+}
+
+#price-slider .noUi-connect {
+    background: #000000; /* Color de la barra de conexión */
+}
+
+#price-slider .noUi-handle {
+    height: 18px;
+    width: 18px;
+    top: -1px;
+    right: -9px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #000000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    cursor: grab;
+}
+
+#price-slider .noUi-handle:focus {
+    outline: none;
+}
+
+#price-slider .noUi-handle::before,
+#price-slider .noUi-handle::after {
+    display: none; /* Ocultar pseudo-elementos por defecto */
+}
+/* --- Estilos para poner el '$' dentro del input --- */
+.input-with-symbol {
+    position: relative;
+    width: 100%;
+}
+
+.input-with-symbol span {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 14px;
+    color: #888;
+    font-weight: 500;
+}
+
+.price-inputs .input-with-symbol input {
+    padding-left: 26px; /* Hacemos espacio para el símbolo '$' */
+}
