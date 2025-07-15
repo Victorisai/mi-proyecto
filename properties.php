@@ -6,9 +6,6 @@ $listing_type = isset($_GET['listing_type']) ? $_GET['listing_type'] : 'venta';
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';
-$min_price = isset($_GET['min_price']) && is_numeric($_GET['min_price']) ? $_GET['min_price'] : null;
-$max_price = isset($_GET['max_price']) && is_numeric($_GET['max_price']) ? $_GET['max_price'] : null;
-
 
 // Construir la consulta SQL base
 $sql = "SELECT * FROM properties WHERE status = 'disponible' AND listing_type = :listing_type";
@@ -27,15 +24,6 @@ if ($location) {
     $sql .= " AND location = :location";
     $params[':location'] = $location;
 }
-if ($min_price !== null) {
-    $sql .= " AND price >= :min_price";
-    $params[':min_price'] = $min_price;
-}
-if ($max_price !== null) {
-    $sql .= " AND price <= :max_price";
-    $params[':max_price'] = $max_price;
-}
-
 
 $sql .= " ORDER BY created_at DESC";
 
@@ -52,25 +40,39 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <title>Propiedades - CedralSales</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="properties-page">
-    <?php include 'includes/header_properties.php'; ?>
-    <nav>
-        <ul>
-            <li class="menu-header">
-                <span class="menu-title">Tu propiedad ideal</span>
-                <span class="close-menu">✕</span>
-            </li>
+<body>
+    <?php include 'includes/header.php'; ?>
+<section class="filters-section-v2">
+    <div class="container">
+        <div class="filters-container">
+            <div class="filter-tabs">
+                <a href="properties.php?listing_type=venta" class="tab-link" data-listing="venta">Comprar</a>
+                <a href="properties.php?listing_type=renta" class="tab-link" data-listing="renta">Rentar</a>
+            </div>
 
-            <li><a href="index.php"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="nav-icon">Inicio</a></li>
-            <li><a href="properties.php"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="nav-icon">Propiedades</a></li>
-            <li><a href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="nav-icon">Contacto</a></li>
-            <li><a href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="nav-icon">Sobre Nosotros</a></li>
-            <li><a href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="nav-icon">Únete a Nosotros</a></li>
-            <li><a href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="nav-icon">Mi Cuenta</a></li>
-        </ul>
-    </nav>
-    <div id="page-overlay"></div>
-    
+            <form class="horizontal-filter-form" method="GET" action="properties.php">
+                <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
+                <div class="form-control-group">
+                    <label for="category-select" class="sr-only">Tipo de Propiedad</label>
+                    <select name="category" id="category-select">
+                        <option value="">Tipo de Propiedad</option>
+                        <option value="casas" <?php if (($category ?? '') == 'casas') echo 'selected'; ?>>Casas</option>
+                        <option value="departamentos" <?php if (($category ?? '') == 'departamentos') echo 'selected'; ?>>Departamentos</option>
+                        <option value="terrenos" <?php if (($category ?? '') == 'terrenos') echo 'selected'; ?>>Terrenos</option>
+                        <option value="desarrollos" <?php if (($category ?? '') == 'desarrollos') echo 'selected'; ?>>Desarrollos</option>
+                    </select>
+                </div>
+                <div class="form-control-group search-input-group">
+                    <label for="search-input" class="sr-only">Ubicación o características</label>
+                    <input type="text" id="search-input" name="search" placeholder="Ingresa ubicaciones o características (ej: casa)" value="<?php echo htmlspecialchars($search ?? ''); ?>">
+                </div>
+                <div class="form-control-group">
+                    <button type="submit" class="btn-search-main">Buscar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
     <section class="properties">
         <div class="container">
             <div class="property-grid">
@@ -86,12 +88,11 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p>No se encontraron propiedades con los filtros seleccionados.</p>
+                    <p>No se encontraron propiedades disponibles.</p>
                 <?php endif; ?>
             </div>
         </div>
     </section>
-    
     <?php include 'includes/footer.php'; ?>
     <script src="assets/js/main.js"></script>
 </body>
