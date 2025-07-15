@@ -25,7 +25,7 @@
     <section class="dashboard">
         <div class="container">
             <h2 class="fade-in">Mensajes</h2>
-            <div class="table-wrapper">
+            <div class="dashboard__table-wrapper">
                 <table class="property-table">
                     <thead>
                         <tr>

@@ -75,7 +75,7 @@
 
             <!-- Formulario para agregar administrador -->
             <h3 class="fade-in">Agregar Nuevo Administrador</h3>
-            <form class="admin-form fade-in" method="POST">
+            <form class="manage-admins__form fade-in" method="POST">
                 <div class="form-group">
                     <label for="new_username">Usuario</label>
                     <input type="text" id="new_username" name="new_username" required>

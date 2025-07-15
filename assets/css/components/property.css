@@ -185,7 +185,7 @@
 
 /* Media Queries para Responsividad */
 @media (max-width: 768px) {
-    header .container {
+    .site-header .container {
         justify-content: space-between; /* Espacia los elementos */
         padding: 8px 20px; /* Padding uniforme para móviles */
         position: relative;
@@ -195,13 +195,13 @@
     padding-top: 60px; /* Añade espacio para el encabezado fijo */
     }
 
-    .logo {
+    .site-header__logo {
         order: 1; /* Coloca el logo en el centro */
         flex-grow: 1; /* Permite que ocupe el espacio central */
         text-align: center; /* Centra el texto del logo */
     }
 
-    .menu-toggle {
+    .site-header__menu-toggle {
         order: 2; /* Coloca el menú hamburguesa a la derecha */
         margin-left: 0 !important; /* Elimina el margen izquierdo de escritorio */
         margin-right: 10px; /* Opcional: pequeño margen desde el borde derecho */
@@ -226,18 +226,14 @@
         animation: slideInRight 0.3s ease-out; /* Nueva animación para derecha */
     }
 
-    .nav-icon {
+    .site-header__nav-icon {
         width: 20px;
         height: 20px;
         margin-right: 8px;
     }
 
-    .menu-logo-img {
-        width: 150px; /* Tamaño más pequeño para móviles */
-        max-width: 100%; /* Ajusta el tamaño máximo */
-    }
 
-    .close-menu {
+    .site-header__close-menu {
         position: absolute;
         top: 10px;
         right: 15px;
@@ -250,7 +246,7 @@
         border-bottom: none;
     }
 
-    .header-divider {
+    .site-header__divider {
     display: block; /* Mostrar en móviles */
         width: 100vw; /* Mantener el ancho completo */
         border-top: 1px solid #ffffff1e; /* Color inicial como en index */
@@ -260,7 +256,7 @@
         transition: border-color 0.3s ease;
     }
 
-    .header-divider-bottom {
+    .site-header__divider-bottom {
         display: block; /* Mostrar en móviles */
         width: 100vw; /* Mantener el ancho completo */
         border-top: 1px solid #ffffff1e; /* Color inicial como en index */
@@ -270,7 +266,7 @@
         transition: border-color 0.3s ease;
     }
 
-    .header-nav {
+    .site-header__nav {
     display: flex;
     justify-content: flex-start;
     gap: 15px;
@@ -286,18 +282,18 @@
     scrollbar-width: none;
     }
 
-    .header-nav::-webkit-scrollbar {
+    .site-header__nav::-webkit-scrollbar {
         display: none; /* Ocultar scrollbar en Chrome/Safari */
     }
 
     /* Ajustar el tamaño de fuente de los enlaces para que sean legibles en móviles */
 
-    .header-nav li {
+    .site-header__nav li {
         display: inline-flex; /* Asegurar que los elementos estén en línea */
         align-items: center;
     }
 
-    .header-nav li a {
+    .site-header__nav li a {
         font-size: 14px;
         color: #fff;
         transition: color 0.3s ease;
@@ -308,39 +304,39 @@
     }
 
     /* Ajustar colores al hacer scroll en index */
-    header.scrolled .header-divider {
+    .site-header.scrolled .site-header__divider {
         border-top-color: #2c3e501f;
     }
 
-    header.scrolled .header-divider-bottom {
+    .site-header.scrolled .site-header__divider-bottom {
         border-top-color: #2c3e5048;
     }
 
-    header.scrolled .header-nav li a {
+    .site-header.scrolled .site-header__nav li a {
         color: #2c3e50; /* Color negro al hacer scroll */
     }
 
     /* Ajustar colores para páginas que no son home */
-    body:not(.home) .header-divider {
+    body:not(.home) .site-header__divider {
         border-top-color: #2c3e501a;
     }
 
-    body:not(.home) .header-divider-bottom {
+    body:not(.home) .site-header__divider-bottom {
         border-top-color: #2c3e501a;
     }
 
-    body:not(.home) .header-nav li a {
+    body:not(.home) .site-header__nav li a {
         color: #2c3e50; /* Color negro en otras páginas */
     }
 
-    header .container {
+    .site-header .container {
         flex-direction: column;
         align-items: flex-start;
         padding: 15px 0;
         position: relative;
     }
 
-    .header-top {
+    .site-header__top {
         width: 100%; /* Ocupar todo el ancho */
         margin-bottom: 2px; /* Espacio entre header-top y header-nav */
         padding: 0 20px; /* Le devolvemos el padding que tenía el contenedor */
@@ -397,28 +393,24 @@
         grid-template-columns: 1fr;
     }
 
-        .progress-container {
+        .hero__progress-container {
         bottom: 10px; /* Reducir espacio inferior */
         right: 10px; /* Reducir espacio derecho */
         gap: 6px; /* Menor espacio entre barras */
     }
 
-    .progress-bar {
+    .hero__progress-bar {
         width: 30px; /* Barras más cortas en móviles */
         height: 3px; /* Altura más delgada */
     }
 }
 
 @media (min-width: 769px) and (max-width: 1200px) {
-    .close-menu,
-    nav ul li.close-menu {
+    .site-header__close-menu,
+    nav ul li.site-header__close-menu {
         right: 20px; /* Mueve la "X" más a la derecha */
         top: 5px; /* La sube ligeramente */
         font-size: 22px; /* Reduce un poco el tamaño para mejor proporción */
-    }
-    .menu-logo-img {
-        width: 120px; /* Reduce el tamaño del logo */
-        max-width: 80%; /* Limita el tamaño máximo */
     }
     nav ul {
         width: 20%; /* Aumenta el ancho del menú para más espacio */
@@ -429,7 +421,7 @@
 
 /* NUEVOS ESTILOS PARA LOS FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
 
-.filters-section-v2 {
+.property-filters {
     padding: 40px 20px;
     background: #f4f7f6; /* O puedes poner una imagen de fondo */
     /* background-image: url('../images/hero/placeholder.jpg'); */
@@ -437,7 +429,7 @@
     /* background-position: center; */
 }
 
-.filters-container {
+.property-filters__container {
     max-width: 900px;
     margin: 0 auto;
     background: #ffffff;
@@ -447,14 +439,14 @@
 }
 
 /* Estilos para las Pestañas */
-.filter-tabs {
+.property-filters__tabs {
     display: flex;
     gap: 20px;
     margin-bottom: 20px;
     padding: 0 10px;
 }
 
-.tab-link {
+.property-filters__tab-link {
     text-decoration: none;
     color: #555;
     font-size: 16px;
@@ -464,17 +456,17 @@
     transition: color 0.3s ease, border-color 0.3s ease;
 }
 
-.tab-link:hover {
+.property-filters__tab-link:hover {
     color: #2c3e50;
 }
 
-.tab-link.active {
+.property-filters__tab-link.active {
     color: #3498db;
     border-bottom-color: #3498db;
 }
 
 /* Estilos para el Formulario Horizontal */
-.horizontal-filter-form {
+.property-filters__form {
     display: grid;
     grid-template-columns: 2fr 5fr 1fr; /* Proporciones para los campos */
     border: 1px solid #dfe4ea;
@@ -482,12 +474,12 @@
     overflow: hidden; /* Para que los bordes redondeados se apliquen a los hijos */
 }
 
-.form-control-group {
+.property-filters__control-group {
     position: relative;
     height: 100%;
 }
 
-.form-control-group:not(:last-child)::after {
+.property-filters__control-group:not(:last-child)::after {
     content: '';
     position: absolute;
     right: 0;
@@ -552,20 +544,20 @@
 
 /* Responsividad */
 @media (max-width: 768px) {
-    .filter-tabs {
+    .property-filters__tabs {
         overflow-x: auto; /* Permite desplazar las pestañas si no caben */
         padding-bottom: 5px;
     }
-    .horizontal-filter-form {
+    .property-filters__form {
         grid-template-columns: 1fr; /* Apila los campos */
     }
-    .form-control-group:not(:last-child)::after {
+    .property-filters__control-group:not(:last-child)::after {
         display: none; /* Oculta los separadores verticales */
     }
-    .form-control-group {
+    .property-filters__control-group {
         border-bottom: 1px solid #dfe4ea;
     }
-    .form-control-group:last-child {
+    .property-filters__control-group:last-child {
         border-bottom: none;
     }
     .btn-search-main {
@@ -583,19 +575,19 @@
     width: 100%;
     position: relative;
 }
-.showcase-header {
+.property-showcase__header {
     width: 95%;
     max-width: 1600px;
     margin: 0 auto 25px auto;
 }
 
-.showcase-header h2 {
+.property-showcase__header h2 {
     font-size: 24px;
     color: #2c3e50;
     margin: 0;
 }
 
-.carousel-nav {
+.property-showcase__carousel-nav {
     position: absolute;
     top: 40px;
     right: 2.5vw; 
@@ -604,7 +596,7 @@
     z-index: 10; 
 }
 
-.carousel-arrow {
+.property-showcase__carousel-arrow {
     background-color: #fff;
     border: 1px solid #dfe4ea;
     border-radius: 50%;
@@ -616,12 +608,12 @@
     transition: all 0.3s ease;
 }
 
-.carousel-arrow:hover {
+.property-showcase__carousel-arrow:hover {
     background-color: #f1f3f5;
     transform: scale(1.05);
 }
 
-.property-carousel {
+.property-showcase__carousel {
     display: flex;
     gap: 20px;
     overflow-x: auto;
@@ -631,27 +623,27 @@
 }
 
 /* Ocultar la barra de scroll */
-.property-carousel::-webkit-scrollbar {
+.property-showcase__carousel::-webkit-scrollbar {
     display: none;
 }
-.property-carousel {
+.property-showcase__carousel {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 }
 
-.property-slide-card {
+.property-showcase__slide-card {
     flex: 0 0 280px;
     scroll-snap-align: start;
     transition: width 0.3s ease, opacity 0.3s ease; 
 }
 
-.property-slide-card a {
+.property-showcase__slide-card a {
     text-decoration: none;
     color: inherit;
     display: block;
 }
 
-.property-slide-card img {
+.property-showcase__slide-card img {
     width: 100%;
     aspect-ratio: 3 / 4;
     object-fit: cover;
@@ -660,22 +652,22 @@
     transition: transform 0.3s ease;
 }
 
-.property-slide-card:hover img {
+.property-showcase__slide-card:hover img {
     transform: scale(1.03);
 }
 
-.property-slide-card:hover .property-category-badge {
+.property-showcase__slide-card:hover .property-showcase__category-badge {
     transform: scale(1.03);
 }
 
-.slide-card-info .price {
+.property-showcase__slide-card-info .price {
     font-size: 16px;
     font-weight: bold;
     color: #2c3e50;
     margin: 0 0 5px 0;
 }
 
-.slide-card-info .title {
+.property-showcase__slide-card-info .title {
     font-size: 15px;
     color: #555;
     margin: 0;
@@ -690,10 +682,10 @@
 }
 
 @media (min-width: 992px) {
-    .showcase-header h2 {
+    .property-showcase__header h2 {
         font-size: 32px; 
     }
-        .property-carousel {
+        .property-showcase__carousel {
         max-width: 1495px;
         margin: 0 auto;
     }
@@ -711,19 +703,19 @@ ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
     max-width: 100%;
 }
 
-.showcase-header {
+.property-showcase__header {
     max-width: 1200px;
     margin: 0 auto 25px auto;
     padding: 0 20px;
 }
 
-.property-carousel {
+.property-showcase__carousel {
     padding: 10px 20px; 
 }
 
 /* En pantallas grandes, permitimos que el carrusel use más espacio */
 @media (min-width: 1200px) {
-    .property-carousel {
+    .property-showcase__carousel {
         padding-left: calc((100% - 1200px) / 2 + 20px);
         padding-right: calc((100% - 1200px) / 2 + 20px);
     }
@@ -733,11 +725,11 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
    ================== */
 
 /* Hacemos que el contenedor del enlace sea el punto de referencia para la posición */
-.property-slide-card a {
+.property-showcase__slide-card a {
     position: relative;
 }
 
-.property-category-badge {
+.property-showcase__category-badge {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -755,7 +747,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 }
 
 @media (min-width: 769px) {
-    .property-carousel {
+    .property-showcase__carousel {
         width: 95%;
         max-width: 1500px;
         margin: 0 auto;
@@ -765,19 +757,19 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
         padding: 10px 2px;
         scroll-snap-type: x mandatory;
     }
-    .property-slide-card {
+    .property-showcase__slide-card {
     flex: 0 0 calc(20% - 16px);
     scroll-snap-align: start;
     padding-left: 4px;
     }
-    .property-carousel::-webkit-scrollbar {
+    .property-showcase__carousel::-webkit-scrollbar {
         display: none;
     }
-    .property-carousel {
+    .property-showcase__carousel {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    .showcase-header {
+    .property-showcase__header {
         width: 95%;
         max-width: 1500px;
         margin: 0 auto 25px auto; /* Centra el contenedor del título */
@@ -803,13 +795,13 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     background-color: #e9ecef;
     border-color: #ced4da;
 }
-.showcase-header {
+.property-showcase__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
-.carousel-nav {
+.property-showcase__carousel-nav {
     display: none;
 }
 
@@ -817,7 +809,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     .view-all-mobile {
         display: none;
     }
-    .carousel-nav {
+    .property-showcase__carousel-nav {
         display: flex;
         align-items: center;
         gap: 15px;
@@ -829,7 +821,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 
 /* ===== NUEVOS ESTILOS PARA ASIDE DE FILTROS Y CONTENEDOR FLEX ===== */
 
-.showcase-wrapper {
+.property-showcase__wrapper {
     display: flex;
     gap: 30px;
     width: 95%;
@@ -837,7 +829,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     margin: 0 auto;
 }
 
-.filter-aside {
+.property-showcase__filter-aside {
     flex: 0 0 200px; /* No crece, no se encoge, base de 200px */
     padding: 10px;
     background-color: #f8f9fa;
@@ -845,7 +837,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     height: fit-content;
 }
 
-.filter-aside h4 {
+.property-showcase__filter-aside h4 {
     margin-top: 0;
     margin-bottom: 15px;
     color: #2c3e50;
@@ -854,13 +846,13 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     padding-bottom: 10px;
 }
 
-.filter-aside ul {
+.property-showcase__filter-aside ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.filter-aside ul li a {
+.property-showcase__filter-aside ul li a {
     text-decoration: none;
     color: #495057;
     padding: 8px 12px;
@@ -870,34 +862,34 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.filter-aside ul li a:hover {
+.property-showcase__filter-aside ul li a:hover {
     background-color: #e9ecef;
 }
 
-.filter-aside ul li a.active {
+.property-showcase__filter-aside ul li a.active {
     background-color: #000000;
     color: #fff;
     font-weight: 500;
 }
 
-.property-carousel {
+.property-showcase__carousel {
     flex-grow: 1; /* El carrusel ocupa el resto del espacio */
     padding: 10px 2px;
 }
 
-.property-slide-card.hidden-property {
+.property-showcase__slide-card--hidden {
     display: none;
 }
 
 /* Responsividad para el nuevo layout */
 @media (max-width: 992px) {
-    .showcase-wrapper {
+    .property-showcase__wrapper {
     flex-direction: column;
     gap: 20px;
     width: 100%;
     margin: 0; 
     }
-.filter-aside {
+.property-showcase__filter-aside {
     flex-basis: auto;
     width: 100%;
     /* Quitamos el fondo y padding del contenedor principal */
@@ -905,11 +897,11 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     padding: 0;
     border-radius: 0;
 }
-.filter-aside h4 {
+.property-showcase__filter-aside h4 {
     display: none; /* Mantenemos oculto el título "Categorías" en móvil */
 }
 
-.filter-aside ul {
+.property-showcase__filter-aside ul {
     display: flex;
     flex-wrap: nowrap; /* Evita que los elementos salten a la siguiente línea */
     gap: 8px;
@@ -922,19 +914,19 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     border-radius: 50px;
     -webkit-overflow-scrolling: touch; /* Deslizamiento suave en iOS */
 }
-.filter-aside ul::-webkit-scrollbar {
+.property-showcase__filter-aside ul::-webkit-scrollbar {
     display: none;
 }
-.filter-aside ul {
+.property-showcase__filter-aside ul {
     -ms-overflow-style: none; 
     scrollbar-width: none;  
 }
-.filter-aside ul li {
+.property-showcase__filter-aside ul li {
     flex-grow: 0;
     flex-shrink: 0; 
     text-align: center;
 }
-.filter-aside ul li a {
+.property-showcase__filter-aside ul li a {
     padding: 10px 25px;
     border-radius: 50px;
     font-weight: 600;
@@ -942,12 +934,12 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     background: transparent;
     color: #495057;
 }
-.filter-aside ul li a.active {
+.property-showcase__filter-aside ul li a.active {
     background-color: #000000;
     color: #ffffff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.filter-aside ul li a:hover {
+.property-showcase__filter-aside ul li a:hover {
     background-color: transparent;
     color: #000;
 }
@@ -955,18 +947,18 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 
 /* Responsividad para el carrusel */
 @media (max-width: 768px) {
-    .carousel-nav {
+    .property-showcase__carousel-nav {
         position: static;
         display: block;
     }
-    .carousel-nav .carousel-arrow {
+    .property-showcase__carousel-nav .property-showcase__carousel-arrow {
     display: none;
     }
     .property-showcase .container {
         padding-left: 0;
         padding-right: 0;
     }
-    .property-carousel {
+    .property-showcase__carousel {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: auto;
@@ -976,7 +968,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     display: flex;
     gap: 15px;  
     }
-    .showcase-header {
+    .property-showcase__header {
     display: flex;
     justify-content: space-between;
     align-items: center;

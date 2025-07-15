@@ -31,26 +31,26 @@
                         ':phone' => $phone,
                         ':message' => $message
                     ]);
-                    echo '<p class="success fade-in">Mensaje enviado con éxito. Te contactaremos pronto.</p>';
+                    echo '<p class="contact__message--success fade-in">Mensaje enviado con éxito. Te contactaremos pronto.</p>';
                 } else {
-                    echo '<p class="error fade-in">Por favor, completa todos los campos.</p>';
+                    echo '<p class="contact__message--error fade-in">Por favor, completa todos los campos.</p>';
                 }
             }
             ?>
-            <form class="contact-form fade-in" method="POST">
-                <div class="form-group">
+            <form class="contact__form fade-in" method="POST">
+                <div class="contact__form-group">
                     <label for="name">Nombre</label>
                     <input type="text" id="name" name="name" required>
                 </div>
-                <div class="form-group">
+                <div class="contact__form-group">
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" required>
                 </div>
-                <div class="form-group">
+                <div class="contact__form-group">
                     <label for="phone">Número de Teléfono</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
-                <div class="form-group">
+                <div class="contact__form-group">
                     <label for="message">Mensaje</label>
                     <textarea id="message" name="message" rows="5" required></textarea>
                 </div>

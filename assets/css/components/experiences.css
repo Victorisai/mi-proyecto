@@ -14,7 +14,7 @@
     color: #d3d7da;
 }
 
-.tabs {
+.experiences__tabs {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 30px;
@@ -23,7 +23,7 @@
     -webkit-overflow-scrolling: touch;
 }
 
-.tab-button {
+.experiences__tab-button {
     background: #f0f0f0;
     border: none;
     padding: 10px 20px;
@@ -35,12 +35,12 @@
     flex-shrink: 0;
 }
 
-.tab-button.active {
+.experiences__tab-button.active {
     background: #000000;
     color: white;
 }
 
-.location-select {
+.experiences__location-select {
     display: none;
     width: 100%;
     max-width: 300px;
@@ -51,29 +51,29 @@
     border: 1px solid #ddd;
 }
 
-.tab-content {
+.experiences__tab-content {
     min-height: 300px;
 }
 
-.location-content {
+.experiences__location-content {
     display: none;
     opacity: 0;
     transition: opacity 0.5s ease;
 }
 
-.location-content.active {
+.experiences__location-content.active {
     display: block;
     opacity: 1;
 }
 
-.experiences-wrapper {
+.experiences__wrapper {
     position: relative;
     width: 100vw;
     margin-left: calc(-50vw + 50%);
     overflow: visible;
 }
 
-.experiences-wrapper.no-scroll .arrow {
+.experiences__wrapper.no-scroll .experiences__arrow {
     display: none;
 }
 
@@ -101,13 +101,13 @@
     margin: 0 auto;
 }
 
-.experience-link {
+.experience-card {
     text-decoration: none;
     color: inherit;
     display: block;
 }
 
-.experience {
+.experience-card__content {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
@@ -120,26 +120,26 @@
     background-color: #cfcdcd;
 }
 
-.experience button{
+.experience-card__content button{
     background-color: #000000;
 }
 
-.experience button:hover{
+.experience-card__content button:hover{
     background-color: #555454;
 }
 
-.experience:hover {
+.experience-card__content:hover {
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.experience img {
+.experience-card__content img {
     height: 200px;
     width: 100%;
     object-fit: cover;
 }
 
-.experience h3 {
+.experience-card__content h3 {
     margin: 10px;
     font-size: 18px;
     white-space: nowrap;
@@ -147,7 +147,7 @@
     text-overflow: ellipsis;
 }
 
-.experience p {
+.experience-card__content p {
     margin: 0 10px 10px;
     font-size: 14px;
     display: -webkit-box;
@@ -158,7 +158,7 @@
     flex-grow: 1;
 }
 
-.arrow {
+.experiences__arrow {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -174,19 +174,19 @@
     opacity: 0;
 }
 
-.experiences-wrapper:hover .arrow {
+.experiences__wrapper:hover .experiences__arrow {
     opacity: 1;
 }
 
-.arrow:hover {
+.experiences__arrow:hover {
     background: #2980b9;
 }
 
-.arrow-left {
+.experiences__arrow--left {
     left: 10px;
 }
 
-.arrow-right {
+.experiences__arrow--right {
     right: 10px;
 }
 
@@ -269,13 +269,13 @@
 
 /* Responsividad para móvil */
 @media (max-width: 768px) {
-    .tabs {
+    .experiences__tabs {
         display: none;
     }
-    .location-select {
+    .experiences__location-select {
         display: block;
     }
-    .experiences-wrapper {
+    .experiences__wrapper {
         width: 100%;
         margin-left: 0;
     }
@@ -291,7 +291,7 @@
     .experiences-inner {
         margin: 0;
     }
-    .experience {
+    .experience-card__content {
         width: 280px;
         height: auto; /* Permitir que la altura se ajuste al contenido */
         min-height: 360px; /* Altura mínima para consistencia */
@@ -299,20 +299,20 @@
         display: flex;
         flex-direction: column;
     }
-    .experience img {
+    .experience-card__content img {
         height: 160px;
     }
-    .experience h3 {
+    .experience-card__content h3 {
         font-size: 16px;
     }
-    .experience p {
+    .experience-card__content p {
         font-size: 12px;
     }
-    .arrow {
+    .experiences__arrow {
         display: none;
     }
 
-    .experience-link:hover .modal {
+    .experience-card:hover .modal {
         display: none; /* Evita que el modal se muestre por hover en móviles */
     }
     .modal-content {
@@ -340,25 +340,25 @@
 /* === ESTILOS FINALES: COLLAGE EN ESCRITORIO / CARRUSEL EN MÓVIL === */
 /* ================================================= */
 
-.experiences-section {
+.experiences {
     padding: 60px 0;
     background-color: #f8f9fa;
     text-align: center;
 }
 
-.experiences-section h2 {
+.experiences h2 {
     font-size: 36px;
     font-weight: 700;
     margin-bottom: 40px;
     color: #2c3e50;
 }
 
-.experiences-tabs-container {
+.experiences__tabs-container {
     margin-bottom: 40px;
     padding: 0 15px;
 }
 
-.tabs {
+.experiences__tabs {
     display: inline-flex;
     gap: 8px;
     background-color: #e9ecef;
@@ -375,27 +375,27 @@
 }
 
 /* Para WebKit (Chrome, Safari): Rediseño completo del scrollbar */
-.tabs::-webkit-scrollbar {
+.experiences__tabs::-webkit-scrollbar {
     height: 8px; /* Un grosor más sutil */
 }
 
-.tabs::-webkit-scrollbar-track {
+.experiences__tabs::-webkit-scrollbar-track {
     /* El fondo de la pista coincide con el fondo del contenedor */
     background-color: #e9ecef;
     border-radius: 10px;
 }
 
-.tabs::-webkit-scrollbar-thumb {
+.experiences__tabs::-webkit-scrollbar-thumb {
     /* Un gris más oscuro y sólido para el deslizador */
     background-color: #adb5bd; 
     border-radius: 10px;
 }
 
-.tabs::-webkit-scrollbar-thumb:hover {
+.experiences__tabs::-webkit-scrollbar-thumb:hover {
     background-color: #6c757d;
 }
 
-.tab-button {
+.experiences__tab-button {
     background: transparent;
     border: none;
     padding: 10px 25px;
@@ -407,18 +407,18 @@
     transition: all 0.3s ease;
 }
 
-.tab-button:not(.active):hover {
+.experiences__tab-button:not(.active):hover {
     color: #000;
 }
 
-.tab-button.active {
+.experiences__tab-button.active {
     background-color: #ffffff;
     color: #2c3e50;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
     transform: scale(1.05);
 }
 
-.location-select {
+.experiences__location-select {
     display: none; 
 }
 
@@ -429,7 +429,7 @@
     padding: 0 15px;
 }
 
-.experiences-grid {
+.experiences__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     /* Cambio drástico: Reducimos la altura a 160px */
@@ -499,7 +499,7 @@
     margin: 0;
 }
 
-.arrow {
+.experiences__arrow {
     display: none;
 }
 
@@ -507,22 +507,22 @@
 /* === VISTA MÓVIL: Se mantiene como Carrusel Deslizable === */
 /* ================================================= */
 @media (max-width: 768px) {
-    .experiences-section .container {
+    .experiences .container {
         padding-left: 0;
         padding-right: 0;
     }
 
-    .experiences-section h2,
-    .experiences-tabs-container {
+    .experiences h2,
+    .experiences__tabs-container {
         padding-left: 15px;
         padding-right: 15px;
     }
 
-    .tabs {
+    .experiences__tabs {
         display: none;
     }
 
-    .location-select {
+    .experiences__location-select {
         display: block;
         width: 100%;
         max-width: none;
@@ -539,7 +539,7 @@
         padding: 0;
     }
 
-    .experiences-grid {
+    .experiences__grid {
         display: flex;
         gap: 15px;
         overflow-x: auto;
@@ -549,7 +549,7 @@
         scroll-padding-left: 15px; 
     }
     
-    .experiences-grid::-webkit-scrollbar {
+    .experiences__grid::-webkit-scrollbar {
         display: none;
     }
 

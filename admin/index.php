@@ -32,7 +32,7 @@
                 }
             }
             ?>
-            <form class="login-form fade-in" method="POST">
+            <form class="login__form fade-in" method="POST">
                 <div class="form-group">
                     <label for="username">Usuario</label>
                     <input type="text" id="username" name="username" required>

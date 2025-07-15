@@ -15,25 +15,25 @@
     margin-bottom: 30px;
 }
 
-.contact-form {
+.contact__form {
     max-width: 600px;
     margin: 0 auto;
     text-align: left;
 }
 
-.form-group {
+.contact__form-group {
     margin-bottom: 20px;
 }
 
-.form-group label {
+.contact__form-group label {
     display: block;
     font-size: 16px;
     font-weight: 700;
     margin-bottom: 5px;
 }
 
-.form-group input,
-.form-group textarea {
+.contact__form-group input,
+.contact__form-group textarea {
     width: 100%;
     padding: 10px;
     font-size: 16px;
@@ -41,29 +41,30 @@
     border-radius: 5px;
 }
 
-.form-group input:focus,
-.form-group textarea:focus {
+.contact__form-group input:focus,
+.contact__form-group textarea:focus {
     outline: none;
     border-color: #3498db;
 }
 
-.form-group textarea {
+.contact__form-group textarea {
     resize: vertical;
 }
 
-.success, .error {
+.contact__message--success,
+.contact__message--error {
     padding: 15px;
     margin-bottom: 20px;
     border-radius: 5px;
     text-align: center;
 }
 
-.success {
+.contact__message--success {
     background: #d4edda;
     color: #155724;
 }
 
-.error {
+.contact__message--error {
     background: #f8d7da;
     color: #721c24;
 }

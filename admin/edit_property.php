@@ -220,7 +220,7 @@ $features = json_decode($property['features'], true) ?: [];
                         <option value="Puerto Morelos" <?php if ($property['location'] == 'Puerto Morelos') echo 'selected'; ?>>Puerto Morelos</option>
                     </select>
                 </div>
-                <div id="features-casas" class="features-group" style="<?php echo $property['category'] == 'casas' ? '' : 'display: none;'; ?>">
+                <div id="features-casas" class="form__features-group" style="<?php echo $property['category'] == 'casas' ? '' : 'display: none;'; ?>">
                     <div class="form-group">
                         <label for="recamaras_casas">Recámaras</label>
                         <input type="number" id="recamaras_casas" name="recamaras_casas" value="<?php echo htmlspecialchars($features['recamaras'] ?? ''); ?>">
@@ -258,7 +258,7 @@ $features = json_decode($property['features'], true) ?: [];
                         <input type="checkbox" id="amueblada_casas" name="amueblada_casas" <?php if (isset($features['amueblada']) && $features['amueblada'] == 'Sí') echo 'checked'; ?>>
                     </div>
                 </div>
-                <div id="features-departamentos" class="features-group" style="<?php echo $property['category'] == 'departamentos' ? '' : 'display: none;'; ?>">
+                <div id="features-departamentos" class="form__features-group" style="<?php echo $property['category'] == 'departamentos' ? '' : 'display: none;'; ?>">
                     <div class="form-group">
                         <label for="recamaras_departamentos">Recámaras</label>
                         <input type="number" id="recamaras_departamentos" name="recamaras_departamentos" value="<?php echo htmlspecialchars($features['recamaras'] ?? ''); ?>">
@@ -294,7 +294,7 @@ $features = json_decode($property['features'], true) ?: [];
                         <input type="checkbox" id="elevador_departamentos" name="elevador_departamentos" <?php if (isset($features['elevador']) && $features['elevador'] == 'Sí') echo 'checked'; ?>>
                     </div>
                 </div>
-                <div id="features-terrenos" class="features-group" style="<?php echo $property['category'] == 'terrenos' ? '' : 'display: none;'; ?>">
+                <div id="features-terrenos" class="form__features-group" style="<?php echo $property['category'] == 'terrenos' ? '' : 'display: none;'; ?>">
                     <div class="form-group">
                         <label for="superficie_total_terrenos">Superficie Total (m² o ha)</label>
                         <input type="text" id="superficie_total_terrenos" name="superficie_total_terrenos" value="<?php echo htmlspecialchars($features['superficie_total'] ?? ''); ?>">
@@ -325,7 +325,7 @@ $features = json_decode($property['features'], true) ?: [];
                         </select>
                     </div>
                 </div>
-                <div id="features-desarrollos" class="features-group" style="<?php echo $property['category'] == 'desarrollos' ? '' : 'display: none;'; ?>">
+                <div id="features-desarrollos" class="form__features-group" style="<?php echo $property['category'] == 'desarrollos' ? '' : 'display: none;'; ?>">
                     <div class="form-group">
                         <label for="num_unidades_desarrollos">Número de Unidades</label>
                         <input type="number" id="num_unidades_desarrollos" name="num_unidades_desarrollos" value="<?php echo htmlspecialchars($features['num_unidades'] ?? ''); ?>">

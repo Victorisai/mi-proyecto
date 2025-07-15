@@ -7,18 +7,18 @@
     font-size: 15px;
 }
 
-.footer-grid {
+.site-footer__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
     padding: 0 20px; /* Padding para los lados */
 }
 
-.footer-column {
+.site-footer__column {
     padding: 10px;
 }
 
-.footer-column h4 {
+.site-footer__column h4 {
     color: #ffffff;
     font-size: 18px;
     margin-bottom: 20px;
@@ -27,7 +27,7 @@
 }
 
 /* Línea decorativa debajo de los títulos */
-.footer-column h4::after {
+.site-footer__column h4::after {
     content: '';
     position: absolute;
     left: 0;
@@ -37,7 +37,7 @@
     background-color: #3498db; /* Azul vibrante para acentos */
 }
 
-.footer-logo {
+.site-footer__logo {
     font-family: 'Montserrat', sans-serif;
     font-size: 28px;
     font-weight: 700;
@@ -45,59 +45,59 @@
     margin-bottom: 15px;
 }
 
-.footer-column ul {
+.site-footer__column ul {
     list-style: none;
     padding: 0;
 }
 
-.footer-column ul li {
+.site-footer__column ul li {
     margin-bottom: 12px;
 }
 
-.footer-column ul li a,
-.footer-column p a {
+.site-footer__column ul li a,
+.site-footer__column p a {
     color: #bdc3c7;
     text-decoration: none;
     transition: color 0.3s ease, padding-left 0.3s ease;
 }
 
-.footer-column ul li a:hover,
-.footer-column p a:hover {
+.site-footer__column ul li a:hover,
+.site-footer__column p a:hover {
     color: #3498db; /* Color de acento al pasar el ratón */
     padding-left: 5px; /* Efecto de desplazamiento sutil */
 }
 
-.footer-column p {
+.site-footer__column p {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
 }
 
-.footer-column p i {
+.site-footer__column p i {
     color: #3498db;
     margin-right: 10px;
     font-size: 16px; /* Asegura que los iconos (si usas font-icons) tengan buen tamaño */
 }
 
-.social-icons {
+.site-footer__social-icons {
     justify-content: center;
     display: flex;
     gap: 15px;
     margin-top: 10px;
 }
 
-.social-icon img {
+.site-footer__social-icon img {
     width: 32px; /* Tamaño unificado para los iconos */
     height: 32px;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-.social-icon:hover img {
+.site-footer__social-icon:hover img {
     opacity: 0.8;
     transform: scale(1.1);
 }
 
-.footer-bottom {
+.site-footer__bottom {
     text-align: center;
     padding: 20px 0;
     margin-top: 40px;
@@ -117,15 +117,15 @@
 
 /* Media Query para responsividad */
 @media (max-width: 768px) {
-    .footer-grid {
+    .site-footer__grid {
         grid-template-columns: 1fr; /* Apila las columnas en móvil */
         text-align: center;
     }
 
-    .footer-column h4::after {
+    .site-footer__column h4::after {
         left: 50%;
         transform: translateX(-50%);
     }
 
-    .footer-column p {
+    .site-footer__column p {
         justify-content: center;

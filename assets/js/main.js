@@ -4,9 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // === LÓGICA DEL MENÚ HAMBURGUESA ===
     // ===================================
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('nav ul');
-    const closeMenu = document.querySelector('.close-menu');
+    const menuToggle = document.querySelector('.site-header__menu-toggle');
+    const navMenu = document.querySelector('.site-header__mobile-list');
+    const closeMenu = document.querySelector('.site-header__close-menu');
     const pageOverlay = document.getElementById('page-overlay');
     const navLinks = document.querySelectorAll('nav ul li a');
 
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('home')) {
         // Cambiar clase del encabezado al deslizar
         window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
+            const header = document.querySelector('.site-header');
             if (window.scrollY > 50) {
                 header.classList.add('scrolled');
             } else {
@@ -93,9 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Carrusel para el Hero
-        const slides = document.querySelectorAll('.hero-slide');
-        const progressBars = document.querySelectorAll('.progress-bar');
-        const heroContent = document.querySelector('.hero-content');
+        const slides = document.querySelectorAll('.hero__slide');
+        const progressBars = document.querySelectorAll('.hero__progress-bar');
+        const heroContent = document.querySelector('.hero__content');
         const heroTitle = heroContent.querySelector('h1');
         const heroSubtitle = heroContent.querySelector('p');
 
@@ -103,19 +103,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (slides.length > 0) {
             function showSlide(index) {
-                slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+                slides.forEach((slide, i) => slide.classList.toggle('hero__slide--active', i === index));
 
                 progressBars.forEach(bar => {
-                    bar.classList.remove('active');
-                    const fill = bar.querySelector('.progress-bar-fill');
+                    bar.classList.remove('hero__progress-bar--active');
+                    const fill = bar.querySelector('.hero__progress-bar-fill');
                     fill.style.transition = 'none';
                     fill.style.width = '0';
                 });
                 
                 const currentBar = progressBars[index];
                 if (currentBar) {
-                    currentBar.classList.add('active');
-                    const currentFill = currentBar.querySelector('.progress-bar-fill');
+                    currentBar.classList.add('hero__progress-bar--active');
+                    const currentFill = currentBar.querySelector('.hero__progress-bar-fill');
                     setTimeout(() => { 
                         currentFill.style.transition = 'width 5s linear';
                         currentFill.style.width = '100%';
@@ -136,9 +136,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // ===================================================
 // === LÓGICA PARA EXPERIENCIAS LOCALES (CARRUSEL) ===
 // ===================================================
-const expTabs = document.querySelectorAll('.experiences-section .tab-button');
-const expSelect = document.querySelector('.experiences-section #location-select');
-const expContents = document.querySelectorAll('.experiences-section .location-content');
+const expTabs = document.querySelectorAll('.experiences .experiences__tab-button');
+const expSelect = document.querySelector('.experiences .experiences__location-select');
+const expContents = document.querySelectorAll('.experiences .experiences__location-content');
 
 function setActiveLocation(locationId) {
     expTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.location === locationId));
@@ -154,13 +154,13 @@ function setActiveLocation(locationId) {
 function setupExperienceCarousel(locationContent) {
     if (!locationContent) return;
 
-    const grid = locationContent.querySelector('.experiences-grid');
-    const leftArrow = locationContent.querySelector('.arrow-left');
-    const rightArrow = locationContent.querySelector('.arrow-right');
+    const grid = locationContent.querySelector('.experiences__grid');
+    const leftArrow = locationContent.querySelector('.experiences__arrow--left');
+    const rightArrow = locationContent.querySelector('.experiences__arrow--right');
     
     if (!grid || !leftArrow || !rightArrow) return;
 
-    const card = grid.querySelector('.experience-card-link');
+    const card = grid.querySelector('.experience-card');
     if (!card) return;
     const scrollAmount = card.offsetWidth + 20;
 
@@ -181,7 +181,7 @@ if (expSelect) {
     expSelect.addEventListener('change', () => setActiveLocation(expSelect.value));
 }
 
-const initialTab = document.querySelector('.experiences-section .tab-button.active');
+const initialTab = document.querySelector('.experiences .experiences__tab-button.active');
 if (initialTab) {
     setActiveLocation(initialTab.dataset.location);
 } else if (expSelect) {
@@ -193,7 +193,7 @@ if (initialTab) {
     // =======================================================
     const params = new URLSearchParams(window.location.search);
     const currentListingType = params.get('listing_type') || 'venta';
-    const filterTabLinks = document.querySelectorAll('.tab-link');
+    const filterTabLinks = document.querySelectorAll('.property-filters__tab-link');
     filterTabLinks.forEach(link => {
         if (link.dataset.listing === currentListingType) {
             link.classList.add('active');
@@ -210,7 +210,7 @@ if (initialTab) {
         if (!carousel || !prevBtn || !nextBtn) return;
         
         const scrollHandler = () => {
-            const card = carousel.querySelector('.property-slide-card:not(.hidden-property)');
+            const card = carousel.querySelector('.property-showcase__slide-card:not(.property-showcase__slide-card--hidden)');
             if (!card) return;
             const scrollAmount = card.offsetWidth + 20;
             return scrollAmount;
@@ -230,8 +230,8 @@ if (initialTab) {
         const showcase = document.getElementById(showcaseId);
         if (!showcase) return;
 
-        const filterLinks = showcase.querySelectorAll('.filter-link');
-        const propertyCards = showcase.querySelectorAll('.property-slide-card');
+        const filterLinks = showcase.querySelectorAll('.property-showcase__filter-link');
+        const propertyCards = showcase.querySelectorAll('.property-showcase__slide-card');
 
         filterLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -244,9 +244,9 @@ if (initialTab) {
 
                 propertyCards.forEach(card => {
                     if (category === 'all' || card.dataset.category === category) {
-                        card.classList.remove('hidden-property');
+                        card.classList.remove('property-showcase__slide-card--hidden');
                     } else {
-                        card.classList.add('hidden-property');
+                        card.classList.add('property-showcase__slide-card--hidden');
                     }
                 });
             });

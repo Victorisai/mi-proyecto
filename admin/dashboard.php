@@ -20,7 +20,7 @@
     <section class="dashboard">
         <div class="container">
             <h2 class="fade-in">Panel de Administración</h2>
-            <div class="dashboard-actions">
+            <div class="dashboard__actions">
                 <a href="add_property.php" class="btn btn-primary">Agregar Propiedad</a>
                 <a href="manage_hero.php" class="btn btn-primary">Gestionar Hero</a>
                 <a href="manage_admins.php" class="btn btn-primary">Gestionar Administradores</a>
@@ -30,7 +30,7 @@
                 <a href="manage_experiences.php" class="btn btn-primary">Gestionar Experiencias</a>
             </div>
             <h3 class="fade-in">Propiedades</h3>
-            <div class="table-wrapper">
+            <div class="dashboard__table-wrapper">
                 <table class="property-table">
                     <thead>
                         <tr>

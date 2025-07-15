@@ -19,7 +19,7 @@
     z-index: 1; /* Asegura que esté encima de las imágenes */
 }
 
-.hero-content {
+.hero__content {
     position: absolute;     /* Cambia de relative a absolute */
     bottom: 40px;           /* Distancia desde el borde inferior */
     left: 40px;             /* Distancia desde el borde izquierdo */
@@ -30,13 +30,13 @@
 }
 
 /* Carrusel para el Hero */
-.hero-slideshow {
+.hero__slideshow {
     position: relative;
     width: 100%;
     height: 100%;
 }
 
-.hero-slide {
+.hero__slide {
     position: absolute;
     top: 0;
     left: 0;
@@ -48,7 +48,7 @@
     transition: opacity 1s ease-in-out;
 }
 
-.hero-slide.active {
+.hero__slide--active {
     opacity: 1;
 }
 
@@ -64,7 +64,7 @@
 }
 
 /* Contenedor de barras de progreso */
-.progress-container {
+.hero__progress-container {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -74,7 +74,7 @@
     z-index: 2;
 }
 
-.progress-bar {
+.hero__progress-bar {
     width: 40px; /* Reducido para mejor ajuste en fila */
     height: 4px;
     background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
@@ -82,14 +82,14 @@
     overflow: hidden;
 }
 
-.progress-bar-fill {
+.hero__progress-bar-fill {
     height: 100%;
     background: #4a4a4a; /* Gris oscuro para el progreso */
     width: 0;
     transition: width 8s linear; /* Animación de 5 segundos */
 }
 
-.progress-bar.active .progress-bar-fill {
+.hero__progress-bar--active .hero__progress-bar-fill {
     width: 100%;
 }
 

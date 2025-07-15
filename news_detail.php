@@ -30,29 +30,29 @@ $main_image = array_shift($images);
 <body>
     <?php include 'includes/header.php'; ?>
 
-    <main class="news-article-page">
+    <main class="news-article">
         <div class="container">
-            <article class="news-article">
+            <article class="news-article__body">
                 
-                <h1 class="article-title"><?php echo htmlspecialchars($news['title']); ?></h1>
-                <p class="article-meta">Publicado el <time datetime="<?php echo $news['date']; ?>"><?php echo date('d M Y', strtotime($news['date'])); ?></time></p>
+                <h1 class="news-article__title"><?php echo htmlspecialchars($news['title']); ?></h1>
+                <p class="news-article__meta">Publicado el <time datetime="<?php echo $news['date']; ?>"><?php echo date('d M Y', strtotime($news['date'])); ?></time></p>
 
                 <?php if ($main_image): ?>
-                <figure class="article-main-image">
+                <figure class="news-article__main-image">
                     <img src="<?php echo htmlspecialchars($main_image); ?>" alt="<?php echo htmlspecialchars($news['title']); ?>">
                 </figure>
                 <?php endif; ?>
 
-                <div class="article-content">
+                <div class="news-article__content">
                     <?php echo nl2br(htmlspecialchars($news['information'])); ?>
                 </div>
 
                 <?php if (!empty($images)): ?>
-                    <section class="article-gallery">
-                        <h3 class="gallery-title">Galería de Imágenes</h3>
-                        <div class="gallery-grid">
+                    <section class="news-article__gallery">
+                        <h3 class="news-article__gallery-title">Galería de Imágenes</h3>
+                        <div class="news-article__gallery-grid">
                             <?php foreach ($images as $image): ?>
-                                <figure class="gallery-item">
+                                <figure class="news-article__gallery-item">
                                     <img src="<?php echo htmlspecialchars($image); ?>" alt="Imagen de la noticia">
                                 </figure>
                             <?php endforeach; ?>
@@ -61,9 +61,9 @@ $main_image = array_shift($images);
                 <?php endif; ?>
                 
                 <?php if (!empty($news['sources'])): ?>
-                <footer class="article-footer">
-                    <h3 class="sources-title">Fuentes</h3>
-                    <div class="sources-content">
+                <footer class="news-article__footer">
+                    <h3 class="news-article__sources-title">Fuentes</h3>
+                    <div class="news-article__sources-content">
                         <?php echo nl2br(htmlspecialchars($news['sources'])); ?>
                     </div>
                 </footer>

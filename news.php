@@ -17,31 +17,31 @@ $all_news = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
     <?php include 'includes/header.php'; ?>
 
-    <main class="all-news-page">
+    <main class="news-archive">
         <div class="container">
-            <div class="page-header">
+            <div class="news-archive__header">
                 <h1>Noticias y Actualidad</h1>
                 <p>Mantente informado con las últimas novedades del sector inmobiliario y de la región.</p>
             </div>
 
             <?php if (count($all_news) > 0): ?>
-                <div class="news-grid-container">
+                <div class="news-archive__grid">
                     <?php foreach ($all_news as $news): ?>
                         <?php
                         // Decodifica las imágenes y usa la primera como principal
                         $images = json_decode($news['images'], true) ?: [];
                         $main_image = !empty($images) ? $images[0] : 'assets/images/hero/placeholder.jpg'; // Imagen por defecto si no hay
                         ?>
-                        <div class="news-list-card">
+                        <div class="news-card news-card--list">
                             <a href="news_detail.php?id=<?php echo $news['id']; ?>">
-                                <div class="news-card-image">
+                                <div class="news-card__image-container">
                                     <img src="<?php echo htmlspecialchars($main_image); ?>" alt="<?php echo htmlspecialchars($news['title']); ?>">
                                 </div>
-                                <div class="news-card-content">
-                                    <span class="news-card-date"><?php echo date('d M Y', strtotime($news['date'])); ?></span>
-                                    <h3 class="news-card-title"><?php echo htmlspecialchars($news['title']); ?></h3>
-                                    <p class="news-card-excerpt"><?php echo substr(htmlspecialchars($news['information']), 0, 100) . '...'; ?></p>
-                                    <span class="read-more-link">Leer más &rarr;</span>
+                                <div class="news-card__content">
+                                    <span class="news-card__date"><?php echo date('d M Y', strtotime($news['date'])); ?></span>
+                                    <h3 class="news-card__title"><?php echo htmlspecialchars($news['title']); ?></h3>
+                                    <p class="news-card__excerpt"><?php echo substr(htmlspecialchars($news['information']), 0, 100) . '...'; ?></p>
+                                    <span class="news-card__read-more">Leer más &rarr;</span>
                                 </div>
                             </a>
                         </div>

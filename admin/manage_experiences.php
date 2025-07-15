@@ -37,11 +37,11 @@ if (isset($_GET['location_id'])) {
         <div class="container">
             <?php if (isset($location)): ?>
                 <h2>Experiencias en <?php echo htmlspecialchars($location['name']); ?></h2>
-                <div class="dashboard-actions">
+                <div class="dashboard__actions">
                     <a href="add_experience.php?location_id=<?php echo $location_id; ?>" class="btn btn-primary">Agregar Nueva Experiencia</a>
                     <a href="manage_experiences.php" class="btn btn-secondary">Volver a Lista de Ubicaciones</a>
                 </div>
-                <div class="table-wrapper">
+                <div class="dashboard__table-wrapper">
                     <table class="property-table">
                         <thead>
                             <tr>

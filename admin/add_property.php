@@ -215,7 +215,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="Puerto Morelos">Puerto Morelos</option>
                     </select>
                 </div>
-                <div id="features-casas" class="features-group">
+                <div id="features-casas" class="form__features-group">
                     <div class="form-group">
                         <label for="recamaras_casas">Recámaras</label>
                         <input type="number" id="recamaras_casas" name="recamaras_casas">
@@ -253,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="checkbox" id="amueblada_casas" name="amueblada_casas">
                     </div>
                 </div>
-                <div id="features-departamentos" class="features-group" style="display: none;">
+                <div id="features-departamentos" class="form__features-group" style="display: none;">
                     <div class="form-group">
                         <label for="recamaras_departamentos">Recámaras</label>
                         <input type="number" id="recamaras_departamentos" name="recamaras_departamentos">
@@ -289,7 +289,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <input type="checkbox" id="elevador_departamentos" name="elevador_departamentos">
                     </div>
                 </div>
-                <div id="features-terrenos" class="features-group" style="display: none;">
+                <div id="features-terrenos" class="form__features-group" style="display: none;">
                     <div class="form-group">
                         <label for="superficie_total_terrenos">Superficie Total (m² o ha)</label>
                         <input type="text" id="superficie_total_terrenos" name="superficie_total_terrenos">
@@ -320,7 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </select>
                     </div>
                 </div>
-                <div id="features-desarrollos" class="features-group" style="display: none;">
+                <div id="features-desarrollos" class="form__features-group" style="display: none;">
                     <div class="form-group">
                         <label for="num_unidades_desarrollos">Número de Unidades</label>
                         <input type="number" id="num_unidades_desarrollos" name="num_unidades_desarrollos">

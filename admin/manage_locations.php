@@ -23,11 +23,11 @@ $locations = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <section class="dashboard">
         <div class="container">
             <h2>Gestionar Ubicaciones</h2>
-            <div class="dashboard-actions">
+            <div class="dashboard__actions">
                 <a href="add_location.php" class="btn btn-primary">Agregar Nueva Ubicación</a>
                 <a href="dashboard.php" class="btn btn-secondary">Volver al Panel</a>
             </div>
-            <div class="table-wrapper">
+            <div class="dashboard__table-wrapper">
                 <table class="property-table">
                     <thead>
                         <tr>
