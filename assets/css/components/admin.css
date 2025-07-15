@@ -104,7 +104,7 @@
 
 /* Responsividad */
 @media (max-width: 768px) {
-    .hero-content {
+    .hero__content {
     bottom: 20px;
     left: 20px;
     }
