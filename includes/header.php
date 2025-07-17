@@ -12,6 +12,7 @@
                 <a href="index.php">
                     <img src="assets/images/iconcaracteristic/logo-light.png" alt="Logo DOMABLY" class="header__logo--light">
                     <img src="assets/images/iconcaracteristic/logo-dark.png" alt="Logo DOMABLY" class="header__logo--dark">
+                    <h1 class="header__title sr-only">DOMABLY</h1>
                 </a>
             </div>
         </div>

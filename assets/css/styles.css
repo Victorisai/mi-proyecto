@@ -66,7 +66,7 @@ header {
     z-index: 100;
 }
 
-header.scrolled {
+.header--scrolled {
     background: #fff; /* Fondo blanco al deslizar */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra al deslizar */
 }
@@ -79,7 +79,7 @@ header .container {
     margin: 0;
 }
 
-.header__logo h1 {
+.header__title {
     font-size: 28px;
     color: #fff; /* Texto del logo blanco inicialmente */
     font-weight: 700;
@@ -87,7 +87,7 @@ header .container {
     margin: 0;
 }
 
-header.scrolled .header__logo h1 {
+.header--scrolled .header__title {
     color: #2c3e50; /* Texto del logo negro al deslizar */
 }
 
@@ -113,7 +113,7 @@ body:not(.home) header {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra desde el inicio */
 }
 
-body:not(.home) .header__logo h1 {
+body:not(.home) .header__title {
     color: #2c3e50; /* Logo negro en otras páginas */
 }
 
@@ -212,7 +212,7 @@ body:not(.home){
     transition: color 0.3s ease; /* Transición suave para el color */
 }
 
-header.scrolled .header__toggle {
+.header--scrolled .header__toggle {
     color: #2c3e50; /* Negro al deslizar en index */
 }
 
@@ -263,8 +263,8 @@ body:not(.home) .header__toggle {
 header .header__divider:first-of-type { top: 60px; }
 header .header__divider:last-of-type  { top: 109px; }
 
-header.scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
-header.scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
+.header--scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
+.header--scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
 
 body:not(.home) .header__divider { border-top-color: #2c3e501a; }
 
@@ -293,7 +293,7 @@ body:not(.home) .header__divider { border-top-color: #2c3e501a; }
     top: 18px;
 }
 
-header.scrolled .header__nav-item a {
+.header--scrolled .header__nav-item a {
     color: #2c3e50; /* Color negro al deslizar en index */
 }
 
@@ -811,10 +811,10 @@ body:not(.home) .header__nav-item a {
     }
 
     /* Ajustar colores al hacer scroll en index */
-    header.scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
-    header.scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
+    .header--scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
+    .header--scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
 
-    header.scrolled .header__nav-item a {
+    .header--scrolled .header__nav-item a {
         color: #2c3e50; /* Color negro al hacer scroll */
     }
 
@@ -1321,23 +1321,23 @@ body:not(.home) .header__nav-item a {
     color: inherit;
 }
 
-.main-news-card .image-container {
+.main-news-card__image-container {
     width: 100%;
     height: 100%;
 }
 
-.main-news-card img {
+.main-news-card__image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.main-news-card:hover img {
+.main-news-card:hover .main-news-card__image-container img {
     transform: scale(1.05);
 }
 
-.main-news-card .content-overlay {
+.main-news-card__content-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1383,7 +1383,7 @@ body:not(.home) .header__nav-item a {
     display: block;
 }
 
-.secondary-news-card .image-container {
+.secondary-news-card__image-container {
     width: 100%;
     height: 160px;
     overflow: hidden;
@@ -1391,24 +1391,24 @@ body:not(.home) .header__nav-item a {
     border-radius: 6px;
 }
 
-.secondary-news-card img {
+.secondary-news-card__image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.secondary-news-card:hover img {
+.secondary-news-card:hover .secondary-news-card__image-container img {
     transform: scale(1.1);
 }
 
-.secondary-news-card .content .news-date {
+.secondary-news-card__content .news-date {
     font-size: 12px;
     color: #868e96;
     margin-bottom: 8px;
 }
 
-.secondary-news-card .content h4 {
+.secondary-news-card__content h4 {
     font-size: 16px;
     font-weight: 600;
     line-height: 1.4;
@@ -1463,7 +1463,7 @@ body:not(.home) .header__nav-item a {
 
 @media (min-width: 992px) {
     /* Hacemos la noticia principal más compacta */
-    .main-news-card .content-overlay {
+    .main-news-card__content-overlay {
         padding: 20px; /* Reducimos el espaciado interno del texto */
     }
 
@@ -1479,7 +1479,7 @@ body:not(.home) .header__nav-item a {
     }
 
     /* Hacemos las noticias secundarias más compactas */
-    .secondary-news-card .image-container {
+    .secondary-news-card__image-container {
         height: 120px; /* Reducimos significativamente la altura de las imágenes secundarias */
     }
 
@@ -2163,12 +2163,12 @@ body:not(.home) .header__nav-item a {
     overflow: hidden; /* Para que los bordes redondeados se apliquen a los hijos */
 }
 
-.form-control-group {
+.horizontal-filter-form__group {
     position: relative;
     height: 100%;
 }
 
-.form-control-group:not(:last-child)::after {
+.horizontal-filter-form__group:not(:last-child)::after {
     content: '';
     position: absolute;
     right: 0;
@@ -2240,13 +2240,13 @@ body:not(.home) .header__nav-item a {
     .horizontal-filter-form {
         grid-template-columns: 1fr; /* Apila los campos */
     }
-    .form-control-group:not(:last-child)::after {
+    .horizontal-filter-form__group:not(:last-child)::after {
         display: none; /* Oculta los separadores verticales */
     }
-    .form-control-group {
+    .horizontal-filter-form__group {
         border-bottom: 1px solid #dfe4ea;
     }
-    .form-control-group:last-child {
+    .horizontal-filter-form__group:last-child {
         border-bottom: none;
     }
     .btn-search-main {
@@ -2687,10 +2687,10 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 body.home header .header__logo--light {
     display: block;
 }
-body.home header.scrolled .header__logo--dark {
+body.home .header--scrolled .header__logo--dark {
     display: block;
 }
-body.home header.scrolled .header__logo--light {
+body.home .header--scrolled .header__logo--light {
     display: none;
 }
 
@@ -2730,7 +2730,7 @@ body:not(.home) header .header__logo--dark {
 }
 
 /* Cambio de color de las líneas al hacer scroll */
-header.scrolled .header__toggle-line {
+.header--scrolled .header__toggle-line {
     background-color: #2c3e50; /* Cambia a color oscuro */
 }
 

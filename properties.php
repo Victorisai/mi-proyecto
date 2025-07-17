@@ -52,7 +52,7 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             <form class="horizontal-filter-form" method="GET" action="properties.php">
                 <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
-                <div class="form-control-group">
+                <div class="horizontal-filter-form__group">
                     <label for="category-select" class="sr-only">Tipo de Propiedad</label>
                     <select name="category" id="category-select">
                         <option value="">Tipo de Propiedad</option>
@@ -62,11 +62,11 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <option value="desarrollos" <?php if (($category ?? '') == 'desarrollos') echo 'selected'; ?>>Desarrollos</option>
                     </select>
                 </div>
-                <div class="form-control-group search-input-group">
+                <div class="horizontal-filter-form__group search-input-group">
                     <label for="search-input" class="sr-only">Ubicación o características</label>
                     <input type="text" id="search-input" name="search" placeholder="Ingresa ubicaciones o características (ej: casa)" value="<?php echo htmlspecialchars($search ?? ''); ?>">
                 </div>
-                <div class="form-control-group">
+                <div class="horizontal-filter-form__group">
                     <button type="submit" class="btn-search-main">Buscar</button>
                 </div>
             </form>
