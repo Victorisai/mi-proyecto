@@ -170,20 +170,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <section class="add-property">
         <div class="container">
             <h2>Agregar Propiedad</h2>
-            <form action="add_property.php" method="POST" enctype="multipart/form-data" class="admin-form">
-                <div class="form-group">
+            <form action="add_property.php" method="POST" enctype="multipart/form-data" class="add-property-form">
+                <div class="add-property-form__group">
                     <label for="title">Título</label>
                     <input type="text" id="title" name="title" required>
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="description">Descripción</label>
                     <textarea id="description" name="description" required></textarea>
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="price">Precio (MXN)</label>
                     <input type="number" id="price" name="price" step="0.01" min="0.01" max="9999999999.99" required>
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="category">Categoría</label>
                     <select id="category" name="category" required onchange="updateFeaturesForm()">
                         <option value="casas">Casas</option>
@@ -192,14 +192,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="desarrollos">Desarrollos</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="listing_type">Tipo de Listado</label>
                     <select id="listing_type" name="listing_type" required>
                         <option value="venta">Venta</option>
                         <option value="renta">Renta</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="location">Ubicación (Municipio)</label>
                     <select id="location" name="location" required>
                         <option value="Cozumel">Cozumel</option>
@@ -215,104 +215,104 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <option value="Puerto Morelos">Puerto Morelos</option>
                     </select>
                 </div>
-                <div id="features-casas" class="features-group">
-                    <div class="form-group">
+                <div id="features-casas" class="add-property-form__features-group">
+                    <div class="add-property-form__group">
                         <label for="recamaras_casas">Recámaras</label>
                         <input type="number" id="recamaras_casas" name="recamaras_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="banos_casas">Baños</label>
                         <input type="number" id="banos_casas" name="banos_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="estacionamientos_casas">Estacionamientos</label>
                         <input type="number" id="estacionamientos_casas" name="estacionamientos_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="superficie_total_casas">Superficie Total (m²)</label>
                         <input type="text" id="superficie_total_casas" name="superficie_total_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="superficie_construida_casas">Superficie Construida (m²)</label>
                         <input type="text" id="superficie_construida_casas" name="superficie_construida_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="niveles_casas">Niveles/Pisos</label>
                         <input type="number" id="niveles_casas" name="niveles_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="terraza_casas">Terraza/Balcón</label>
                         <input type="checkbox" id="terraza_casas" name="terraza_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="alberca_casas">Alberca</label>
                         <input type="checkbox" id="alberca_casas" name="alberca_casas">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="amueblada_casas">Amueblada</label>
                         <input type="checkbox" id="amueblada_casas" name="amueblada_casas">
                     </div>
                 </div>
-                <div id="features-departamentos" class="features-group" style="display: none;">
-                    <div class="form-group">
+                <div id="features-departamentos" class="add-property-form__features-group" style="display: none;">
+                    <div class="add-property-form__group">
                         <label for="recamaras_departamentos">Recámaras</label>
                         <input type="number" id="recamaras_departamentos" name="recamaras_departamentos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="banos_departamentos">Baños</label>
                         <input type="number" id="banos_departamentos" name="banos_departamentos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="estacionamientos_departamentos">Estacionamientos</label>
                         <input type="number" id="estacionamientos_departamentos" name="estacionamientos_departamentos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="superficie_total_departamentos">Superficie Total (m²)</label>
                         <input type="text" id="superficie_total_departamentos" name="superficie_total_departamentos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="piso_departamentos">Piso</label>
                         <input type="number" id="piso_departamentos" name="piso_departamentos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="terraza_departamentos">Balcón/Terraza</label>
                         <input type="checkbox" id="terraza_departamentos" name="terraza_departamentos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label>Amenidades</label>
                         <label><input type="checkbox" name="gimnasio_departamentos"> Gimnasio</label>
                         <label><input type="checkbox" name="alberca_departamentos"> Alberca</label>
                         <label><input type="checkbox" name="salon_eventos_departamentos"> Salón de Eventos</label>
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="elevador_departamentos">Elevador</label>
                         <input type="checkbox" id="elevador_departamentos" name="elevador_departamentos">
                     </div>
                 </div>
-                <div id="features-terrenos" class="features-group" style="display: none;">
-                    <div class="form-group">
+                <div id="features-terrenos" class="add-property-form__features-group" style="display: none;">
+                    <div class="add-property-form__group">
                         <label for="superficie_total_terrenos">Superficie Total (m² o ha)</label>
                         <input type="text" id="superficie_total_terrenos" name="superficie_total_terrenos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="tipo_suelo_terrenos">Tipo de Suelo</label>
                         <input type="text" id="tipo_suelo_terrenos" name="tipo_suelo_terrenos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label>Servicios</label>
                         <label><input type="checkbox" name="luz_terrenos"> Luz</label>
                         <label><input type="checkbox" name="agua_terrenos"> Agua</label>
                         <label><input type="checkbox" name="drenaje_terrenos"> Drenaje</label>
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="frente_terrenos">Frente (m)</label>
                         <input type="text" id="frente_terrenos" name="frente_terrenos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="fondo_terrenos">Fondo (m)</label>
                         <input type="text" id="fondo_terrenos" name="fondo_terrenos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="tipo_propiedad_terrenos">Tipo de Propiedad</label>
                         <select id="tipo_propiedad_terrenos" name="tipo_propiedad_terrenos">
                             <option value="privada">Privada</option>
@@ -320,28 +320,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </select>
                     </div>
                 </div>
-                <div id="features-desarrollos" class="features-group" style="display: none;">
-                    <div class="form-group">
+                <div id="features-desarrollos" class="add-property-form__features-group" style="display: none;">
+                    <div class="add-property-form__group">
                         <label for="num_unidades_desarrollos">Número de Unidades</label>
                         <input type="number" id="num_unidades_desarrollos" name="num_unidades_desarrollos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="superficie_min_desarrollos">Superficie Mínima (m²)</label>
                         <input type="text" id="superficie_min_desarrollos" name="superficie_min_desarrollos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="superficie_max_notebook">Superficie Máxima (m²)</label>
                         <input type="text" id="superficie_max_desarrollos" name="superficie_max_desarrollos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="rango_recamaras_desarrollos">Rango de Recámaras</label>
                         <input type="text" id="rango_recamaras_desarrollos" name="rango_recamaras_desarrollos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="rango_banos_desarrollos">Rango de Baños</label>
                         <input type="text" id="rango_banos_desarrollos" name="rango_banos_desarrollos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="etapas_desarrollos">Etapas</label>
                         <select id="etapas_desarrollos" name="etapas_desarrollos">
                             <option value="preventa">Preventa</option>
@@ -349,40 +349,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <option value="entregada">Entregada</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label>Amenidades</label>
                         <label><input type="checkbox" name="alberca_desarrollos"> Alberca</label>
                         <label><input type="checkbox" name="areas_verdes_desarrollos"> Áreas Verdes</label>
                         <label><input type="checkbox" name="gimnasio_desarrollos"> Gimnasio</label>
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="pet_friendly_desarrollos">Pet Friendly</label>
                         <input type="checkbox" id="pet_friendly_desarrollos" name="pet_friendly_desarrollos">
                     </div>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="entrega_estimada_desarrollos">Entrega Estimada</label>
                         <input type="text" id="entrega_estimada_desarrollos" name="entrega_estimada_desarrollos">
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="main_image">Imagen Principal</label>
                     <input type="file" id="main_image" name="main_image" accept="image/*" required>
                 </div>
                 <?php for ($i = 1; $i <= 15; $i++) { ?>
-                    <div class="form-group">
+                    <div class="add-property-form__group">
                         <label for="thumbnail<?php echo $i; ?>">Miniatura <?php echo $i; ?></label>
                         <input type="file" id="thumbnail<?php echo $i; ?>" name="thumbnail<?php echo $i; ?>" accept="image/*">
                     </div>
                 <?php } ?>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="latitude">Latitud</label>
                     <input type="number" id="latitude" name="latitude" step="any">
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="longitude">Longitud</label>
                     <input type="number" id="longitude" name="longitude" step="any">
                 </div>
-                <div class="form-group">
+                <div class="add-property-form__group">
                     <label for="status">Estado</label>
                     <select id="status" name="status" required>
                         <option value="disponible">Disponible</option>
