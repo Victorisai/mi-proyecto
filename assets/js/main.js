@@ -4,11 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // === LÓGICA DEL MENÚ HAMBURGUESA ===
     // ===================================
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navMenu = document.querySelector('nav ul');
-    const closeMenu = document.querySelector('.close-menu');
-    const pageOverlay = document.getElementById('page-overlay');
-    const navLinks = document.querySelectorAll('nav ul li a');
+    const menuToggle = document.querySelector('.header__toggle');
+    const navMenu = document.querySelector('.mobile-nav__list');
+    const closeMenu = document.querySelector('.mobile-nav__close-button');
+    const pageOverlay = document.querySelector('.mobile-nav__overlay');
+    const navLinks = document.querySelectorAll('.mobile-nav__list li a');
 
     const openNav = () => {
         if (navMenu) navMenu.classList.add('active');
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!categorySelect) return;
 
         const category = categorySelect.value;
-        const featureGroups = document.querySelectorAll('.features-group');
+        const featureGroups = document.querySelectorAll('.add-property-form__features-group');
         featureGroups.forEach(group => {
             group.style.display = (group.id === `features-${category}`) ? 'block' : 'none';
         });
