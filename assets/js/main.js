@@ -93,9 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Carrusel para el Hero
-        const slides = document.querySelectorAll('.hero-slide');
-        const progressBars = document.querySelectorAll('.progress-bar');
-        const heroContent = document.querySelector('.hero-content');
+        const slides = document.querySelectorAll('.hero__slide');
+        const progressBars = document.querySelectorAll('.hero__progress-bar');
+        const heroContent = document.querySelector('.hero__content');
         const heroTitle = heroContent.querySelector('h1');
         const heroSubtitle = heroContent.querySelector('p');
 
@@ -103,19 +103,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (slides.length > 0) {
             function showSlide(index) {
-                slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+                slides.forEach((slide, i) => slide.classList.toggle('hero__slide--active', i === index));
 
                 progressBars.forEach(bar => {
-                    bar.classList.remove('active');
-                    const fill = bar.querySelector('.progress-bar-fill');
+                    bar.classList.remove('hero__progress-bar--active');
+                    const fill = bar.querySelector('.hero__progress-bar-fill');
                     fill.style.transition = 'none';
                     fill.style.width = '0';
                 });
                 
                 const currentBar = progressBars[index];
                 if (currentBar) {
-                    currentBar.classList.add('active');
-                    const currentFill = currentBar.querySelector('.progress-bar-fill');
+                    currentBar.classList.add('hero__progress-bar--active');
+                    const currentFill = currentBar.querySelector('.hero__progress-bar-fill');
                     setTimeout(() => { 
                         currentFill.style.transition = 'width 5s linear';
                         currentFill.style.width = '100%';
@@ -210,7 +210,7 @@ if (initialTab) {
         if (!carousel || !prevBtn || !nextBtn) return;
         
         const scrollHandler = () => {
-            const card = carousel.querySelector('.property-slide-card:not(.hidden-property)');
+            const card = carousel.querySelector('.property-showcase__slide-card:not(.property-showcase__slide-card--hidden)');
             if (!card) return;
             const scrollAmount = card.offsetWidth + 20;
             return scrollAmount;
@@ -230,8 +230,8 @@ if (initialTab) {
         const showcase = document.getElementById(showcaseId);
         if (!showcase) return;
 
-        const filterLinks = showcase.querySelectorAll('.filter-link');
-        const propertyCards = showcase.querySelectorAll('.property-slide-card');
+        const filterLinks = showcase.querySelectorAll('.property-showcase__filter-link');
+        const propertyCards = showcase.querySelectorAll('.property-showcase__slide-card');
 
         filterLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -244,9 +244,9 @@ if (initialTab) {
 
                 propertyCards.forEach(card => {
                     if (category === 'all' || card.dataset.category === category) {
-                        card.classList.remove('hidden-property');
+                        card.classList.remove('property-showcase__slide-card--hidden');
                     } else {
-                        card.classList.add('hidden-property');
+                        card.classList.add('property-showcase__slide-card--hidden');
                     }
                 });
             });
