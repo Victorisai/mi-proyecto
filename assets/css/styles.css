@@ -394,7 +394,7 @@ body:not(.home) .header-nav li a {
     z-index: 1; /* Asegura que esté encima de las imágenes */
 }
 
-.hero__content {
+.hero-content {
     position: absolute;     /* Cambia de relative a absolute */
     bottom: 40px;           /* Distancia desde el borde inferior */
     left: 40px;             /* Distancia desde el borde izquierdo */
@@ -404,13 +404,14 @@ body:not(.home) .header-nav li a {
     animation: fadeIn 1.5s ease-out 0.5s forwards;
 }
 
-.hero__slideshow {
+/* Carrusel para el Hero */
+.hero-slideshow {
     position: relative;
     width: 100%;
     height: 100%;
 }
 
-.hero__slide {
+.hero-slide {
     position: absolute;
     top: 0;
     left: 0;
@@ -422,7 +423,7 @@ body:not(.home) .header-nav li a {
     transition: opacity 1s ease-in-out;
 }
 
-.hero__slide--active {
+.hero-slide.active {
     opacity: 1;
 }
 
@@ -437,7 +438,8 @@ body:not(.home) .header-nav li a {
     transform: scale(1.05); /* Mantener efecto de escala */
 }
 
-.hero__progress-container {
+/* Contenedor de barras de progreso */
+.progress-container {
     position: absolute;
     bottom: 20px;
     right: 20px;
@@ -447,7 +449,7 @@ body:not(.home) .header-nav li a {
     z-index: 2;
 }
 
-.hero__progress-bar {
+.progress-bar {
     width: 40px; /* Reducido para mejor ajuste en fila */
     height: 4px;
     background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
@@ -455,14 +457,14 @@ body:not(.home) .header-nav li a {
     overflow: hidden;
 }
 
-.hero__progress-bar-fill {
+.progress-bar-fill {
     height: 100%;
     background: #4a4a4a; /* Gris oscuro para el progreso */
     width: 0;
     transition: width 8s linear; /* Animación de 5 segundos */
 }
 
-.hero__progress-bar--active .hero__progress-bar-fill {
+.progress-bar.active .progress-bar-fill {
     width: 100%;
 }
 
@@ -1138,7 +1140,7 @@ body:not(.home) .header-nav li a {
 
 /* Responsividad */
 @media (max-width: 768px) {
-    .hero__content {
+    .hero-content {
     bottom: 20px;
     left: 20px;
     }
@@ -2266,19 +2268,19 @@ body:not(.home) .header-nav li a {
     width: 100%;
     position: relative;
 }
-.property-showcase__header {
+.showcase-header {
     width: 95%;
     max-width: 1600px;
     margin: 0 auto 25px auto;
 }
 
-.property-showcase__header h2 {
+.showcase-header h2 {
     font-size: 24px;
     color: #2c3e50;
     margin: 0;
 }
 
-.property-showcase__carousel-nav {
+.carousel-nav {
     position: absolute;
     top: 40px;
     right: 2.5vw; 
@@ -2287,7 +2289,7 @@ body:not(.home) .header-nav li a {
     z-index: 10; 
 }
 
-.property-showcase__carousel-arrow {
+.carousel-arrow {
     background-color: #fff;
     border: 1px solid #dfe4ea;
     border-radius: 50%;
@@ -2299,12 +2301,12 @@ body:not(.home) .header-nav li a {
     transition: all 0.3s ease;
 }
 
-.property-showcase__carousel-arrow:hover {
+.carousel-arrow:hover {
     background-color: #f1f3f5;
     transform: scale(1.05);
 }
 
-.property-showcase__carousel {
+.property-carousel {
     display: flex;
     gap: 20px;
     overflow-x: auto;
@@ -2314,27 +2316,27 @@ body:not(.home) .header-nav li a {
 }
 
 /* Ocultar la barra de scroll */
-.property-showcase__carousel::-webkit-scrollbar {
+.property-carousel::-webkit-scrollbar {
     display: none;
 }
-.property-showcase__carousel {
+.property-carousel {
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
 }
 
-.property-showcase__slide-card {
+.property-slide-card {
     flex: 0 0 280px;
     scroll-snap-align: start;
     transition: width 0.3s ease, opacity 0.3s ease; 
 }
 
-.property-showcase__slide-card a {
+.property-slide-card a {
     text-decoration: none;
     color: inherit;
     display: block;
 }
 
-.property-showcase__slide-card img {
+.property-slide-card img {
     width: 100%;
     aspect-ratio: 3 / 4;
     object-fit: cover;
@@ -2343,22 +2345,22 @@ body:not(.home) .header-nav li a {
     transition: transform 0.3s ease;
 }
 
-.property-showcase__slide-card:hover img {
+.property-slide-card:hover img {
     transform: scale(1.03);
 }
 
-.property-showcase__slide-card:hover .property-showcase__category-badge {
+.property-slide-card:hover .property-category-badge {
     transform: scale(1.03);
 }
 
-.property-showcase__slide-card-info .price {
+.slide-card-info .price {
     font-size: 16px;
     font-weight: bold;
     color: #2c3e50;
     margin: 0 0 5px 0;
 }
 
-.property-showcase__slide-card-info .title {
+.slide-card-info .title {
     font-size: 15px;
     color: #555;
     margin: 0;
@@ -2373,10 +2375,10 @@ body:not(.home) .header-nav li a {
 }
 
 @media (min-width: 992px) {
-    .property-showcase__header h2 {
+    .showcase-header h2 {
         font-size: 32px; 
     }
-        .property-showcase__carousel {
+        .property-carousel {
         max-width: 1495px;
         margin: 0 auto;
     }
@@ -2386,7 +2388,7 @@ body:not(.home) .header-nav li a {
 ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
    ================== */
 
-.property-showcase__carousel-wrapper {
+.carousel-wrapper {
     width: 100%;
 }
 
@@ -2394,19 +2396,19 @@ ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
     max-width: 100%;
 }
 
-.property-showcase__header {
+.showcase-header {
     max-width: 1200px;
     margin: 0 auto 25px auto;
     padding: 0 20px;
 }
 
-.property-showcase__carousel {
+.property-carousel {
     padding: 10px 20px; 
 }
 
 /* En pantallas grandes, permitimos que el carrusel use más espacio */
 @media (min-width: 1200px) {
-    .property-showcase__carousel {
+    .property-carousel {
         padding-left: calc((100% - 1200px) / 2 + 20px);
         padding-right: calc((100% - 1200px) / 2 + 20px);
     }
@@ -2416,11 +2418,11 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
    ================== */
 
 /* Hacemos que el contenedor del enlace sea el punto de referencia para la posición */
-.property-showcase__slide-card a {
+.property-slide-card a {
     position: relative;
 }
 
-.property-showcase__category-badge {
+.property-category-badge {
     position: absolute;
     top: 15px;
     right: 15px;
@@ -2438,7 +2440,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 }
 
 @media (min-width: 769px) {
-    .property-showcase__carousel {
+    .property-carousel {
         width: 95%;
         max-width: 1500px;
         margin: 0 auto;
@@ -2448,19 +2450,19 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
         padding: 10px 2px;
         scroll-snap-type: x mandatory;
     }
-    .property-showcase__slide-card {
+    .property-slide-card {
     flex: 0 0 calc(20% - 16px);
     scroll-snap-align: start;
     padding-left: 4px;
     }
-    .property-showcase__carousel::-webkit-scrollbar {
+    .property-carousel::-webkit-scrollbar {
         display: none;
     }
-    .property-showcase__carousel {
+    .property-carousel {
         -ms-overflow-style: none;
         scrollbar-width: none;
     }
-    .property-showcase__header {
+    .showcase-header {
         width: 95%;
         max-width: 1500px;
         margin: 0 auto 25px auto; /* Centra el contenedor del título */
@@ -2470,7 +2472,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 }
 
 /* Estilo base del enlace/botón */
-.property-showcase__view-all-link {
+.view-all-link {
     background-color: #f1f3f5;
     border: 1px solid #dfe4ea;
     padding: 8px 16px;
@@ -2482,17 +2484,17 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     transition: all 0.3s ease;
     white-space: nowrap;
 }
-.property-showcase__view-all-link:hover {
+.view-all-link:hover {
     background-color: #e9ecef;
     border-color: #ced4da;
 }
-.property-showcase__header {
+.showcase-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 20px;
 }
-.property-showcase__carousel-nav {
+.carousel-nav {
     display: none;
 }
 
@@ -2500,7 +2502,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     .view-all-mobile {
         display: none;
     }
-    .property-showcase__carousel-nav {
+    .carousel-nav {
         display: flex;
         align-items: center;
         gap: 15px;
@@ -2512,7 +2514,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 
 /* ===== NUEVOS ESTILOS PARA ASIDE DE FILTROS Y CONTENEDOR FLEX ===== */
 
-.property-showcase__wrapper {
+.showcase-wrapper {
     display: flex;
     gap: 30px;
     width: 95%;
@@ -2520,7 +2522,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     margin: 0 auto;
 }
 
-.property-showcase__filter-aside {
+.filter-aside {
     flex: 0 0 200px; /* No crece, no se encoge, base de 200px */
     padding: 10px;
     background-color: #f8f9fa;
@@ -2528,7 +2530,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     height: fit-content;
 }
 
-.property-showcase__filter-aside h4 {
+.filter-aside h4 {
     margin-top: 0;
     margin-bottom: 15px;
     color: #2c3e50;
@@ -2537,13 +2539,13 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     padding-bottom: 10px;
 }
 
-.property-showcase__filter-aside ul {
+.filter-aside ul {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.property-showcase__filter-aside ul li a {
+.filter-aside ul li a {
     text-decoration: none;
     color: #495057;
     padding: 8px 12px;
@@ -2553,34 +2555,34 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.property-showcase__filter-aside ul li a:hover {
+.filter-aside ul li a:hover {
     background-color: #e9ecef;
 }
 
-.property-showcase__filter-aside ul li a.active {
+.filter-aside ul li a.active {
     background-color: #000000;
     color: #fff;
     font-weight: 500;
 }
 
-.property-showcase__carousel {
+.property-carousel {
     flex-grow: 1; /* El carrusel ocupa el resto del espacio */
     padding: 10px 2px;
 }
 
-.property-showcase__slide-card.property-showcase__slide-card--hidden {
+.property-slide-card.hidden-property {
     display: none;
 }
 
 /* Responsividad para el nuevo layout */
 @media (max-width: 992px) {
-    .property-showcase__wrapper {
+    .showcase-wrapper {
     flex-direction: column;
     gap: 20px;
     width: 100%;
     margin: 0; 
     }
-.property-showcase__filter-aside {
+.filter-aside {
     flex-basis: auto;
     width: 100%;
     /* Quitamos el fondo y padding del contenedor principal */
@@ -2588,11 +2590,11 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     padding: 0;
     border-radius: 0;
 }
-.property-showcase__filter-aside h4 {
+.filter-aside h4 {
     display: none; /* Mantenemos oculto el título "Categorías" en móvil */
 }
 
-.property-showcase__filter-aside ul {
+.filter-aside ul {
     display: flex;
     flex-wrap: nowrap; /* Evita que los elementos salten a la siguiente línea */
     gap: 8px;
@@ -2605,19 +2607,19 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     border-radius: 50px;
     -webkit-overflow-scrolling: touch; /* Deslizamiento suave en iOS */
 }
-.property-showcase__filter-aside ul::-webkit-scrollbar {
+.filter-aside ul::-webkit-scrollbar {
     display: none;
 }
-.property-showcase__filter-aside ul {
+.filter-aside ul {
     -ms-overflow-style: none; 
     scrollbar-width: none;  
 }
-.property-showcase__filter-aside ul li {
+.filter-aside ul li {
     flex-grow: 0;
     flex-shrink: 0; 
     text-align: center;
 }
-.property-showcase__filter-aside ul li a {
+.filter-aside ul li a {
     padding: 10px 25px;
     border-radius: 50px;
     font-weight: 600;
@@ -2625,12 +2627,12 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     background: transparent;
     color: #495057;
 }
-.property-showcase__filter-aside ul li a.active {
+.filter-aside ul li a.active {
     background-color: #000000;
     color: #ffffff;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.property-showcase__filter-aside ul li a:hover {
+.filter-aside ul li a:hover {
     background-color: transparent;
     color: #000;
 }
@@ -2638,18 +2640,18 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 
 /* Responsividad para el carrusel */
 @media (max-width: 768px) {
-    .property-showcase__carousel-nav {
+    .carousel-nav {
         position: static;
         display: block;
     }
-    .property-showcase__carousel-nav .property-showcase__carousel-arrow {
+    .carousel-nav .carousel-arrow {
     display: none;
     }
     .property-showcase .container {
         padding-left: 0;
         padding-right: 0;
     }
-    .property-showcase__carousel {
+    .property-carousel {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: auto;
@@ -2659,7 +2661,7 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     display: flex;
     gap: 15px;  
     }
-    .property-showcase__header {
+    .showcase-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
