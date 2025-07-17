@@ -38,21 +38,21 @@
             }
             ?>
             <form class="contact-form fade-in" method="POST">
-                <div class="form-group">
-                    <label for="name">Nombre</label>
-                    <input type="text" id="name" name="name" required>
+                <div class="contact-form__group">
+                    <label class="contact-form__label" for="name">Nombre</label>
+                    <input class="contact-form__input" type="text" id="name" name="name" required>
                 </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
+                <div class="contact-form__group">
+                    <label class="contact-form__label" for="email">Email</label>
+                    <input class="contact-form__input" type="email" id="email" name="email" required>
                 </div>
-                <div class="form-group">
-                    <label for="phone">Número de Teléfono</label>
-                    <input type="tel" id="phone" name="phone" required>
+                <div class="contact-form__group">
+                    <label class="contact-form__label" for="phone">Número de Teléfono</label>
+                    <input class="contact-form__input" type="tel" id="phone" name="phone" required>
                 </div>
-                <div class="form-group">
-                    <label for="message">Mensaje</label>
-                    <textarea id="message" name="message" rows="5" required></textarea>
+                <div class="contact-form__group">
+                    <label class="contact-form__label" for="message">Mensaje</label>
+                    <textarea class="contact-form__input" id="message" name="message" rows="5" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </form>
