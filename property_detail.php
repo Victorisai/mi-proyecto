@@ -21,9 +21,9 @@ $property = $stmt->fetch(PDO::FETCH_ASSOC);
     <section class="property-detail">
         <div class="container">
             <?php if ($property) { ?>
-                <div class="property-detail__gallery">
-                    <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>" class="property-detail__main-image">
-                    <div class="property-detail__thumbnail-grid">
+                <div class="property-gallery">
+                    <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>" class="main-image">
+                    <div class="thumbnail-grid">
                         <?php
                         for ($i = 1; $i <= 15; $i++) {
                             $thumbnail = $property["thumbnail$i"] ?? '';
@@ -34,18 +34,18 @@ $property = $stmt->fetch(PDO::FETCH_ASSOC);
                         ?>
                     </div>
                 </div>
-                <div class="property-detail__info">
-                    <h2 class="property-detail__title"><?php echo htmlspecialchars($property['title']); ?></h2>
-                    <p class="property-detail__price">
+                <div class="property-info">
+                    <h2><?php echo htmlspecialchars($property['title']); ?></h2>
+                    <p class="price">
                     $<?php echo number_format($property['price'], 2); ?> MXN
                     <?php if ($property['listing_type'] == 'renta'): ?>
                     <span>/ Mes</span>
                     <?php endif; ?>
                     </p>
-                    <p class="property-detail__category"><?php echo htmlspecialchars(ucfirst($property['category'])); ?></p>
-                    <p class="property-detail__description"><?php echo htmlspecialchars($property['description']); ?></p>
+                    <p class="category"><?php echo htmlspecialchars(ucfirst($property['category'])); ?></p>
+                    <p class="description"><?php echo htmlspecialchars($property['description']); ?></p>
                     <h3>Características</h3>
-                    <ul class="property-detail__features-grid">
+                    <ul class="features-grid">
                         <?php
                         $features = json_decode($property['features'], true) ?: [];
                         if ($property['category'] === 'casas') {
@@ -102,7 +102,7 @@ $property = $stmt->fetch(PDO::FETCH_ASSOC);
                     <a href="contact.php" class="btn btn-primary">Contactar</a>
                     <a href="https://wa.me/5219997632818?text=Estoy%20interesado%20en%20la%20propiedad:%20<?php echo urlencode($property['title']); ?>" class="btn btn-whatsapp" target="_blank">Contacto por WhatsApp</a>
                 </div>
-                <div class="property-detail__map">
+                <div class="property-map">
                     <h3>Ubicación</h3>
                     <?php
                     if ($property['latitude'] && $property['longitude']) {
