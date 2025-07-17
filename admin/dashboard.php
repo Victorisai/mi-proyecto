@@ -17,10 +17,10 @@
         exit;
     }
     ?>
-    <section class="dashboard">
+    <section class="admin-dashboard">
         <div class="container">
             <h2 class="fade-in">Panel de Administración</h2>
-            <div class="dashboard-actions">
+            <div class="admin-dashboard__actions">
                 <a href="add_property.php" class="btn btn-primary">Agregar Propiedad</a>
                 <a href="manage_hero.php" class="btn btn-primary">Gestionar Hero</a>
                 <a href="manage_admins.php" class="btn btn-primary">Gestionar Administradores</a>
@@ -31,17 +31,17 @@
             </div>
             <h3 class="fade-in">Propiedades</h3>
             <div class="table-wrapper">
-                <table class="property-table">
+                <table class="admin-dashboard__table">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Título</th>
-                            <th>Categoría</th>
-                            <th>Tipo</th>
-                            <th>Ubicación</th>
-                            <th>Precio</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
+                            <th class="admin-dashboard__table-header">ID</th>
+                            <th class="admin-dashboard__table-header">Título</th>
+                            <th class="admin-dashboard__table-header">Categoría</th>
+                            <th class="admin-dashboard__table-header">Tipo</th>
+                            <th class="admin-dashboard__table-header">Ubicación</th>
+                            <th class="admin-dashboard__table-header">Precio</th>
+                            <th class="admin-dashboard__table-header">Estado</th>
+                            <th class="admin-dashboard__table-header">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -53,14 +53,14 @@
                         foreach ($properties as $property) {
                             ?>
                             <tr>
-                                <td><?php echo $property['id']; ?></td>
-                                <td><?php echo htmlspecialchars($property['title']); ?></td>
-                                <td><?php echo ucfirst($property['category']); ?></td>
-                                <td><?php echo ucfirst($property['listing_type']); ?></td>
-                                <td><?php echo htmlspecialchars($property['location']); ?></td>
-                                <td>$<?php echo number_format($property['price'], 2); ?> MXN</td>
-                                <td><?php echo ucfirst($property['status']); ?></td>
-                                <td>
+                                <td class="admin-dashboard__table-cell"><?php echo $property['id']; ?></td>
+                                <td class="admin-dashboard__table-cell"><?php echo htmlspecialchars($property['title']); ?></td>
+                                <td class="admin-dashboard__table-cell"><?php echo ucfirst($property['category']); ?></td>
+                                <td class="admin-dashboard__table-cell"><?php echo ucfirst($property['listing_type']); ?></td>
+                                <td class="admin-dashboard__table-cell"><?php echo htmlspecialchars($property['location']); ?></td>
+                                <td class="admin-dashboard__table-cell">$<?php echo number_format($property['price'], 2); ?> MXN</td>
+                                <td class="admin-dashboard__table-cell"><?php echo ucfirst($property['status']); ?></td>
+                                <td class="admin-dashboard__table-cell">
                                     <a href="edit_property.php?id=<?php echo $property['id']; ?>" class="btn btn-secondary">Editar</a>
                                     <a href="delete_property.php?id=<?php echo $property['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta propiedad?');">Eliminar</a>
                                 </td>
