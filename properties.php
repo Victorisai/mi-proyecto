@@ -79,11 +79,11 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <?php if (count($properties) > 0): ?>
                     <?php foreach ($properties as $property): ?>
                         <div class="property-card">
-                            <img src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
-                            <h3><?php echo htmlspecialchars($property['title']); ?></h3>
-                            <p><strong>Ubicación:</strong> <?php echo htmlspecialchars($property['location']); ?></p>
-                            <p><strong>Precio:</strong> $<?php echo number_format($property['price'], 2); ?> MXN</p>
-                            <p><strong>Categoría:</strong> <?php echo htmlspecialchars(ucfirst($property['category'])); ?></p>
+                            <img class="property-card__image" src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                            <h3 class="property-card__title"><?php echo htmlspecialchars($property['title']); ?></h3>
+                            <p class="property-card__location"><strong>Ubicación:</strong> <?php echo htmlspecialchars($property['location']); ?></p>
+                            <p class="property-card__price"><strong>Precio:</strong> $<?php echo number_format($property['price'], 2); ?> MXN</p>
+                            <p class="property-card__category"><strong>Categoría:</strong> <?php echo htmlspecialchars(ucfirst($property['category'])); ?></p>
                             <a href="property_detail.php?id=<?php echo $property['id']; ?>" class="btn btn-primary">Ver Detalles</a>
                         </div>
                     <?php endforeach; ?>
