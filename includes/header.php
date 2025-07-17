@@ -28,7 +28,7 @@
             <li class="header__nav-item"><a class="header__nav-link" href="properties.php?location=Lázaro Cárdenas">Lázaro Cárdenas</a></li>
             <li class="header__nav-item"><a class="header__nav-link" href="properties.php?location=Playa del Carmen">Playa del Carmen</a></li>
         </ul>
-        <hr class="header__divider">
+        <hr class="header__divider header__divider--bottom">
             <nav class="mobile-nav">
                 <ul class="mobile-nav__list">
                     <li class="mobile-nav__header">

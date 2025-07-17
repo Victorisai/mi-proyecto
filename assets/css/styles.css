@@ -6,7 +6,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Sedan+SC&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Adamina&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Sedan+SC&display=swap');
 
-/* Reset y Estilos Generales */
+/* ================================================= */
+/* === RESET Y ESTILOS GENERALES === */
+/* ================================================= */
 * {
     margin: 0;
     padding: 0;
@@ -53,7 +55,9 @@ body {
     animation: fadeIn 1s ease-out forwards;
 }
 
-/* Encabezado */
+/* ================================================= */
+/* === ENCABEZADO === */
+/* ================================================= */
 header {
     background: transparent; /* Fondo oscuro semitransparente en index */
     box-shadow: none; /* Sin sombra inicialmente en index */
@@ -263,7 +267,7 @@ body:not(.home) .header__toggle {
     top: 8px;           /* Lo movemos 2px hacia abajo */
 }
 
-/* Línea separadora */
+/* Línea separadora superior */
 .header__divider {
     border: none;
     border-top: 1px solid #ffffff44; /* Línea blanca inicialmente en index */
@@ -284,7 +288,7 @@ body:not(.home) .header__divider {
 }
 
 /* Línea separadora inferior */
-.header__divider {
+.header__divider--bottom {
     border: none;
     border-top: 1px solid #ffffff44; /* Línea blanca inicialmente en index */
     margin: 5px 0; /* Espacio vertical */
@@ -295,11 +299,11 @@ body:not(.home) .header__divider {
     transition: border-color 0.3s ease; /* Transición suave para el color */
 }
 
-header.scrolled .header__divider {
+header.scrolled .header__divider--bottom {
     border-top-color: #2c3e5048; /* Línea negra al deslizar en index */
 }
 
-body:not(.home) .header__divider {
+body:not(.home) .header__divider--bottom {
     border-top-color: #2c3e501a; /* Línea negra en otras páginas */
 }
 
@@ -366,14 +370,17 @@ body:not(.home) .header__nav-item a {
         justify-content: flex-start; /* Alinear a la izquierda */
     }
 
-    .header__divider {
+    .header__divider,
+    .header__divider--bottom {
         width: 100%; /* Línea ocupa todo el ancho */
     }
 }
 
 
 
-/* Banner Principal */
+/* ================================================= */
+/* === BANNER PRINCIPAL === */
+/* ================================================= */
 .hero {
     height: 80vh;
     display: flex;
@@ -533,7 +540,9 @@ body:not(.home) .header__nav-item a {
     transform: scale(1.05);
 }
 
-/* Propiedades Destacadas */
+/* ================================================= */
+/* === PROPIEDADES DESTACADAS === */
+/* ================================================= */
 .featured-properties {
     padding: 60px 0;
     text-align: center;
@@ -599,7 +608,9 @@ body:not(.home) .header__nav-item a {
     margin: 0 15px 10px;
 }
 
-/* Filtros (properties.php) */
+/* ================================================= */
+/* === FILTROS (PROPERTIES.PHP) === */
+/* ================================================= */
 .filters {
     padding: 40px 0;
     background: #fff;
@@ -627,7 +638,9 @@ body:not(.home) .header__nav-item a {
     border-color: #3498db;
 }
 
-/* Detalle de Propiedad */
+/* ================================================= */
+/* === DETALLE DE PROPIEDAD === */
+/* ================================================= */
 .property-detail {
     padding: 60px 0;
 }
@@ -796,7 +809,7 @@ body:not(.home) .header__nav-item a {
         transition: border-color 0.3s ease;
     }
 
-    .header__divider {
+    .header__divider--bottom {
         display: block; /* Mostrar en móviles */
         width: 100vw; /* Mantener el ancho completo */
         border-top: 1px solid #ffffff1e; /* Color inicial como en index */
@@ -848,7 +861,7 @@ body:not(.home) .header__nav-item a {
         border-top-color: #2c3e501f;
     }
 
-    header.scrolled .header__divider {
+    header.scrolled .header__divider--bottom {
         border-top-color: #2c3e5048;
     }
 
@@ -861,7 +874,7 @@ body:not(.home) .header__nav-item a {
         border-top-color: #2c3e501a;
     }
 
-    body:not(.home) .header__divider {
+    body:not(.home) .header__divider--bottom {
         border-top-color: #2c3e501a;
     }
 
@@ -962,7 +975,9 @@ body:not(.home) .header__nav-item a {
 
 
 
-/* Formulario de Contacto (contact.php) */
+/* ================================================= */
+/* === FORMULARIO DE CONTACTO (contact.php) === */
+/* ================================================= */
 .contact {
     padding: 60px 0;
     text-align: center;
@@ -1046,7 +1061,9 @@ body:not(.home) .header__nav-item a {
     color: #721c24;
 }
 
-/* Login Administrador (admin/index.php) */
+/* ================================================= */
+/* === LOGIN ADMINISTRADOR (admin/index.php) === */
+/* ================================================= */
 .login {
     padding: 60px 0;
     text-align: center;
@@ -1058,7 +1075,9 @@ body:not(.home) .header__nav-item a {
     text-align: left;
 }
 
-/* Panel de Administración (admin/dashboard.php) */
+/* ================================================= */
+/* === PANEL DE ADMINISTRACIÓN (admin/dashboard.php) === */
+/* ================================================= */
 .admin-dashboard {
     padding: 60px 0;
 }
@@ -1299,7 +1318,9 @@ body:not(.home) .header__nav-item a {
 
 /* FIN */
 
-/* INICIA NUEVO DISEÑO DE SECCIÓN DE NOTICIAS */
+/* ================================================= */
+/* === INICIA NUEVO DISEÑO DE SECCIÓN DE NOTICIAS === */
+/* ================================================= */
 .news-section-v2 {
     padding: 60px 0;
     background-color: #ffffff;
@@ -1525,7 +1546,9 @@ body:not(.home) .header__nav-item a {
     }
 }
 
-/* TERMINA NUEVO DISEÑO DE SECCIÓN DE NOTICIAS */
+/* ================================================= */
+/* === TERMINA NUEVO DISEÑO DE SECCIÓN DE NOTICIAS === */
+/* ================================================= */
 
 /* ================================================= */
 /* === ESTILOS FINALES PARA DETALLE DE NOTICIA === */
@@ -1660,7 +1683,9 @@ body:not(.home) .header__nav-item a {
 /* FIN */
 
 
-/* Sección de Experiencias Locales Curadas */
+/* ================================================= */
+/* === SECCIÓN DE EXPERIENCIAS LOCALES CURADAS === */
+/* ================================================= */
 #experiences {
     padding: 60px 0;
     text-align: center;
@@ -1998,7 +2023,9 @@ body:not(.home) .header__nav-item a {
 
 /* TERMINA SECCION DE  EXPERIENCIAS LOCALES */
 
-/* EMPIEZA FOOTER */
+/* ================================================= */
+/* === INICIO FOOTER === */
+/* ================================================= */
 
 .site-footer {
     background-color: #2c3e50; /* Un azul oscuro corporativo */
@@ -2132,9 +2159,13 @@ body:not(.home) .header__nav-item a {
     }
 }
 
-/* FINAL DEL FOOTER */
+/* ================================================= */
+/* === FINAL DEL FOOTER === */
+/* ================================================= */
 
-/* NUEVOS ESTILOS PARA LOS FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
+/* ================================================= */
+/* === NUEVOS ESTILOS PARA LOS FILTROS DE BUSQUEDA DE PROPERTIES.PHP === */
+/* ================================================= */
 
 .filters-section-v2 {
     padding: 40px 20px;
@@ -2283,7 +2314,9 @@ body:not(.home) .header__nav-item a {
 
 /* FINAL DE ESTILOS DE FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
 
-/* ===== INICIO ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+/* ================================================= */
+/* === INICIO ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX === */
+/* ================================================= */
 
 .property-showcase {
     padding: 50px 0;
@@ -2532,9 +2565,13 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     }
 }
 
-/* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+/* ================================================= */
+/* === FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX === */
+/* ================================================= */
 
-/* ===== NUEVOS ESTILOS PARA ASIDE DE FILTROS Y CONTENEDOR FLEX ===== */
+/* ================================================= */
+/* === NUEVOS ESTILOS PARA ASIDE DE FILTROS Y CONTENEDOR FLEX === */
+/* ================================================= */
 
 .property-showcase__wrapper {
     display: flex;
@@ -2690,9 +2727,13 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     }
 }
 
-/* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+/* ================================================= */
+/* === FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX === */
+/* ================================================= */
 
+/* ================================================= */
 /* === ESTILOS LOGO HEADER === */
+/* ================================================= */
 .header__logo a {
     display: flex;
     align-items: center;
@@ -2722,9 +2763,13 @@ body:not(.home) header .header__logo--dark {
     }
 }
 
+/* ================================================= */
 /* === FINAL ESTILOS LOGO HEADER === */
+/* ================================================= */
 
+/* ================================================= */
 /* === ESTILOS DEFINITIVOS PARA CONSTRUIR EL ÍCONO HAMBURGUESA === */
+/* ================================================= */
 
 /* El contenedor del ícono */
 .header__toggle {
@@ -2759,9 +2804,9 @@ body:not(.home) header .header__toggle-line {
 
 /* FIN */
 
-/* ================================== */
-/* ESTILOS PARA MENÚ DE NAVEGACIÓN HAMBURGUESA */
-/* ================================== */
+/* ================================================= */
+/* === ESTILOS PARA MENÚ DE NAVEGACIÓN HAMBURGUESA === */
+/* ================================================= */
 .mobile-nav__list {
     position: fixed;
     top: 0;
@@ -3100,9 +3145,9 @@ body:not(.home) header .header__toggle-line {
 /*  FIN */
 
 
-/* ================================== */
+/* ================================================= */
 /* === ESTILOS SECCIÓN INFORMATIVA === */
-/* ================================== */
+/* ================================================= */
 
 .info-section {
     padding: 80px 20px;
@@ -3241,9 +3286,9 @@ body:not(.home) header .header__toggle-line {
 
 /* FIN */
 
-/* =============================== */
+/* ================================================= */
 /* === PÁGINA DE TODAS LAS NOTICIAS (news.php) === */
-/* =============================== */
+/* ================================================= */
 
 .all-news-page {
     padding: 60px 0;
