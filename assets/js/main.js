@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // === LÓGICA DEL MENÚ HAMBURGUESA ===
     // ===================================
-    const menuToggle = document.querySelector('.header__toggle');
+    const menuToggles = document.querySelectorAll('.header__toggle, .header-props__toggle');
     const navMenu = document.querySelector('.mobile-nav__list');
     const closeMenu = document.querySelector('.mobile-nav__close-button');
     const pageOverlay = document.querySelector('.mobile-nav__overlay');
@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pageOverlay) pageOverlay.classList.remove('active');
     };
 
-    if (menuToggle) {
-        menuToggle.addEventListener('click', openNav);
+    if (menuToggles.length) {
+        menuToggles.forEach(btn => btn.addEventListener('click', openNav));
     }
     if (closeMenu) {
         closeMenu.addEventListener('click', closeNav);
@@ -199,6 +199,35 @@ if (initialTab) {
             link.classList.add('active');
         }
     });
+
+    const searchForm = document.getElementById('props-search-form');
+    const categorySelect = document.getElementById('category-select');
+    const locationSelect = document.getElementById('location-select');
+
+    function updateHiddenAndSubmit(name, value) {
+        if (!searchForm) return;
+        let input = searchForm.querySelector(`input[name="${name}"]`);
+        if (!input) {
+            input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = name;
+            searchForm.appendChild(input);
+        }
+        input.value = value;
+        searchForm.submit();
+    }
+
+    if (categorySelect) {
+        categorySelect.addEventListener('change', () => {
+            updateHiddenAndSubmit('category', categorySelect.value);
+        });
+    }
+
+    if (locationSelect) {
+        locationSelect.addEventListener('change', () => {
+            updateHiddenAndSubmit('location', locationSelect.value);
+        });
+    }
 
     // ============================================
     // === LÓGICA PARA CARRUSELES DE PROPIEDADES ===

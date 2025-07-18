@@ -3406,11 +3406,14 @@ body:not(.home) header .header__toggle-line {
 .header-props__search-bar {
     width: 100%;
     max-width: 800px;     /* aumenta el largo máximo */
-    
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+
     /* padding vertical reducido para que sea más delgada */
-    padding: 6px 20px;    
+    padding: 6px 20px;
     height: 36px;         /* altura fija y fina */
-    
+
     border: 1px solid #e0e0e0;
     border-radius: 25px;  /* mantiene la forma ovalada */
     background-color: #f9f9f9;
@@ -3454,9 +3457,13 @@ body:not(.home) header .header__toggle-line {
 }
 
 .header-props__search-input {
+    flex: 1;
     padding: 0 12px;      /* sin padding vertical */
     line-height: 36px;    /* centra el texto verticalmente */
     font-size: 15px;
+    border: none;
+    background: transparent;
+    outline: none;
 }
 
 .header-props__search-button {
@@ -3467,7 +3474,7 @@ body:not(.home) header .header__toggle-line {
 }
 
 .header-props__search-button img {
-    height: 20px;
+    height: 22px;
     opacity: 0.5;
 }
 
