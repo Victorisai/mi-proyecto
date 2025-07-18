@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ===================================
     // === LÓGICA DEL MENÚ HAMBURGUESA ===
     // ===================================
-    const menuToggle = document.querySelector('.header__toggle');
+    const menuToggles = document.querySelectorAll('.header__toggle, .header-props__toggle');
     const navMenu = document.querySelector('.mobile-nav__list');
     const closeMenu = document.querySelector('.mobile-nav__close-button');
     const pageOverlay = document.querySelector('.mobile-nav__overlay');
@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (pageOverlay) pageOverlay.classList.remove('active');
     };
 
-    if (menuToggle) {
-        menuToggle.addEventListener('click', openNav);
+    if (menuToggles.length) {
+        menuToggles.forEach(btn => btn.addEventListener('click', openNav));
     }
     if (closeMenu) {
         closeMenu.addEventListener('click', closeNav);

@@ -14,12 +14,24 @@
                 </div>
             </div>
             <div class="header-props__center">
-            <div class="header-props__search-bar">
-                <input type="text" placeholder="Buscar..." class="header-props__search-input">
-                <button class="header-props__search-button">
-                <img src="assets/images/iconcaracteristic/search-icon.png" alt="Buscar">
-                </button>
-            </div>
+                <form class="header-props__search-bar" action="properties.php" method="get">
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Buscar..."
+                        value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>"
+                        class="header-props__search-input">
+                    <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type ?? 'venta'); ?>">
+                    <?php if (!empty($category)): ?>
+                        <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
+                    <?php endif; ?>
+                    <?php if (!empty($location)): ?>
+                        <input type="hidden" name="location" value="<?php echo htmlspecialchars($location); ?>">
+                    <?php endif; ?>
+                    <button class="header-props__search-button" type="submit">
+                        <img src="assets/images/iconcaracteristic/search-icon.png" alt="Buscar">
+                    </button>
+                </form>
             </div>
         </div>
     </div>
