@@ -14,12 +14,24 @@
                 </div>
             </div>
             <div class="header-props__center">
-            <div class="header-props__search-bar">
-                <input type="text" placeholder="Buscar..." class="header-props__search-input">
-                <button class="header-props__search-button">
-                <img src="assets/images/iconcaracteristic/search-icon.png" alt="Buscar">
-                </button>
-            </div>
+                <form class="header-props__search-bar" action="properties.php" method="get" role="search" id="props-search-form">
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Buscar..."
+                        value="<?php echo isset($search) ? htmlspecialchars($search) : ''; ?>"
+                        class="header-props__search-input">
+                    <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type ?? 'venta'); ?>">
+                    <?php if (!empty($category)): ?>
+                        <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
+                    <?php endif; ?>
+                    <?php if (!empty($location)): ?>
+                        <input type="hidden" name="location" value="<?php echo htmlspecialchars($location); ?>">
+                    <?php endif; ?>
+                    <button class="header-props__search-button" type="submit">
+                        <img src="assets/images/iconcaracteristic/search-icon.png" alt="Buscar">
+                    </button>
+                </form>
             </div>
         </div>
     </div>
@@ -31,19 +43,19 @@
                     <a href="?listing_type=renta" class="header-props__filter-button <?php echo (isset($_GET['listing_type']) && $_GET['listing_type'] == 'renta') ? 'header-props__filter-button--active' : ''; ?>">Rentar</a>
                 </div>
                 <div class="header-props__filter-group">
-                    <select class="header-props__filter-select" onchange="location = this.value;">
-                        <option value="properties.php">Tipo de propiedad</option>
-                        <option value="properties.php?category=casas">Casa</option>
-                        <option value="properties.php?category=departamentos">Departamento</option>
-                        <option value="properties.php?category=terrenos">Terreno</option>
+                    <select id="category-select" class="header-props__filter-select" name="category">
+                        <option value="">Tipo de propiedad</option>
+                        <option value="casas" <?php echo ($category === 'casas') ? 'selected' : ''; ?>>Casa</option>
+                        <option value="departamentos" <?php echo ($category === 'departamentos') ? 'selected' : ''; ?>>Departamento</option>
+                        <option value="terrenos" <?php echo ($category === 'terrenos') ? 'selected' : ''; ?>>Terreno</option>
                     </select>
                 </div>
                 <div class="header-props__filter-group">
-                    <select class="header-props__filter-select" onchange="location = this.value;">
-                        <option value="properties.php">Ubicación</option>
-                        <option value="properties.php?location=Benito Juárez">Cancún</option>
-                        <option value="properties.php?location=Playa del Carmen">Playa del Carmen</option>
-                        <option value="properties.php?location=Tulum">Tulum</option>
+                    <select id="location-select" class="header-props__filter-select" name="location">
+                        <option value="">Ubicación</option>
+                        <option value="Benito Juárez" <?php echo ($location === 'Benito Juárez') ? 'selected' : ''; ?>>Cancún</option>
+                        <option value="Playa del Carmen" <?php echo ($location === 'Playa del Carmen') ? 'selected' : ''; ?>>Playa del Carmen</option>
+                        <option value="Tulum" <?php echo ($location === 'Tulum') ? 'selected' : ''; ?>>Tulum</option>
                     </select>
                 </div>
             </div>
