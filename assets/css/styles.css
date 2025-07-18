@@ -1,12 +1,10 @@
-/* Importar fuente de Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Sedan+SC&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Adamina&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Sedan+SC&display=swap');
+/* Importar fuentes de Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Adamina&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Sedan+SC&display=swap');
 
-/* Reset y Estilos Generales */
+/* ================================================= */
+/* === ESTILOS GENERALES Y RESET === */
+/* ================================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -27,7 +25,9 @@ body {
     padding: 0 10px; /* <-- Añadimos un poco de padding lateral */
 }
 
-/* Animaciones */
+/* ================================================= */
+/* === ANIMACIONES === */
+/* ================================================= */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -53,7 +53,9 @@ body {
     animation: fadeIn 1s ease-out forwards;
 }
 
-/* Encabezado */
+/* ================================================= */
+/* === ENCABEZADO === */
+/* ================================================= */
 header {
     background: transparent; /* Fondo oscuro semitransparente en index */
     box-shadow: none; /* Sin sombra inicialmente en index */
@@ -64,7 +66,7 @@ header {
     z-index: 100;
 }
 
-header.scrolled {
+.header--scrolled {
     background: #fff; /* Fondo blanco al deslizar */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra al deslizar */
 }
@@ -77,7 +79,7 @@ header .container {
     margin: 0;
 }
 
-.header__logo h1 {
+.header__title {
     font-size: 28px;
     color: #fff; /* Texto del logo blanco inicialmente */
     font-weight: 700;
@@ -85,7 +87,7 @@ header .container {
     margin: 0;
 }
 
-header.scrolled .header__logo h1 {
+.header--scrolled .header__title {
     color: #2c3e50; /* Texto del logo negro al deslizar */
 }
 
@@ -103,13 +105,15 @@ header.scrolled .header__logo h1 {
     color: transparent; /* Opcional: cambiar color al pasar el ratón para indicar interactividad */
 }
 
+/* ------------------------------------------------- */
 /* Encabezado en todas las páginas excepto index */
+/* ------------------------------------------------- */
 body:not(.home) header {
     background: #fff; /* Fondo blanco en otras páginas */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra desde el inicio */
 }
 
-body:not(.home) .header__logo h1 {
+body:not(.home) .header__title {
     color: #2c3e50; /* Logo negro en otras páginas */
 }
 
@@ -137,36 +141,12 @@ body:not(.home){
     animation: slideInLeft 0.3s ease-out; /* Usa la nueva animación */
 }
 
-.mobile-nav__list li a {
-    text-decoration: none;
-    color: #2c3e50;
-    font-weight: 400;
-    font-size: 16px;
-    transition: color 0.3s ease;
-}
-
-.mobile-nav__list li a:hover {
-    color: #3498db;
-}
-
 .mobile-nav__list li {
     margin: 10px 0;
     list-style: none;
     border-bottom: 1px solid #e0e0e0; /* Línea divisoria debajo de cada elemento */
     padding-bottom: 10px; /* Espacio debajo del texto para la línea */
     width: 100%; /* Asegura que la línea ocupe todo el ancho */
-}
-
-.mobile-nav__list li a {
-    font-size: 18px;
-    padding: 10px;
-    display: block;
-    width: 100%;
-}
-
-.mobile-nav__list li a:hover {
-    background: #f1f1f1;
-    border-radius: 5px;
 }
 
 .mobile-nav__icon {
@@ -176,16 +156,22 @@ body:not(.home){
     vertical-align: middle;
 }
 
-/* Ajustar el estilo de los enlaces para incluir íconos */
 .mobile-nav__list li a {
     display: flex;
     align-items: center;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 400;
     text-decoration: none;
     color: #2c3e50;
-    font-weight: 400;
-    font-size: 16px;
-    padding: 10px;
-    transition: color 0.3s ease;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+.mobile-nav__list li a:hover {
+    color: #3498db;
+    background: #f1f1f1;
+    border-radius: 5px;
 }
 
 /* Ajustar el botón de cerrar para no interferir con los íconos */
@@ -226,7 +212,7 @@ body:not(.home){
     transition: color 0.3s ease; /* Transición suave para el color */
 }
 
-header.scrolled .header__toggle {
+.header--scrolled .header__toggle {
     color: #2c3e50; /* Negro al deslizar en index */
 }
 
@@ -271,37 +257,16 @@ body:not(.home) .header__toggle {
     width: 100vw; /* Ocupar todo el ancho de la ventana */
     position: absolute; /* Sacar del flujo del contenedor */
     left: 0; /* Alinear al borde izquierdo de la ventana */
-    top: 60px; /* Posicionar debajo del header-top (logo + padding) */
     transition: border-color 0.3s ease; /* Transición suave para el color */
 }
 
-header.scrolled .header__divider {
-    border-top-color: #2c3e501f; /* Línea negra al deslizar en index */
-}
+header .header__divider:first-of-type { top: 60px; }
+header .header__divider:last-of-type  { top: 109px; }
 
-body:not(.home) .header__divider {
-    border-top-color: #2c3e501a; /* Línea negra en otras páginas */
-}
+.header--scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
+.header--scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
 
-/* Línea separadora inferior */
-.header__divider {
-    border: none;
-    border-top: 1px solid #ffffff44; /* Línea blanca inicialmente en index */
-    margin: 5px 0; /* Espacio vertical */
-    width: 100vw; /* Ocupar todo el ancho de la ventana */
-    position: absolute; /* Sacar del flujo del contenedor */
-    left: 0; /* Alinear al borde izquierdo de la ventana */
-    top: 109px; /* Posicionar debajo del header-nav */
-    transition: border-color 0.3s ease; /* Transición suave para el color */
-}
-
-header.scrolled .header__divider {
-    border-top-color: #2c3e5048; /* Línea negra al deslizar en index */
-}
-
-body:not(.home) .header__divider {
-    border-top-color: #2c3e501a; /* Línea negra en otras páginas */
-}
+body:not(.home) .header__divider { border-top-color: #2c3e501a; }
 
 /* Nueva lista de navegación en el header */
 .header__nav {
@@ -328,7 +293,7 @@ body:not(.home) .header__divider {
     top: 18px;
 }
 
-header.scrolled .header__nav-item a {
+.header--scrolled .header__nav-item a {
     color: #2c3e50; /* Color negro al deslizar en index */
 }
 
@@ -373,7 +338,9 @@ body:not(.home) .header__nav-item a {
 
 
 
-/* Banner Principal */
+/* ================================================= */
+/* === BANNER PRINCIPAL === */
+/* ================================================= */
 .hero {
     height: 80vh;
     display: flex;
@@ -533,7 +500,9 @@ body:not(.home) .header__nav-item a {
     transform: scale(1.05);
 }
 
-/* Propiedades Destacadas */
+/* ================================================= */
+/* === PROPIEDADES DESTACADAS === */
+/* ================================================= */
 .featured-properties {
     padding: 60px 0;
     text-align: center;
@@ -599,7 +568,9 @@ body:not(.home) .header__nav-item a {
     margin: 0 15px 10px;
 }
 
-/* Filtros (properties.php) */
+/* ================================================= */
+/* === FILTROS (properties.php) === */
+/* ================================================= */
 .filters {
     padding: 40px 0;
     background: #fff;
@@ -627,7 +598,9 @@ body:not(.home) .header__nav-item a {
     border-color: #3498db;
 }
 
-/* Detalle de Propiedad */
+/* ================================================= */
+/* === DETALLE DE PROPIEDAD === */
+/* ================================================= */
 .property-detail {
     padding: 60px 0;
 }
@@ -719,7 +692,9 @@ body:not(.home) .header__nav-item a {
     border-radius: 10px;
 }
 
-/* Media Queries para Responsividad */
+/* ================================================= */
+/* === MEDIA QUERIES PARA RESPONSIVIDAD === */
+/* ================================================= */
 @media (max-width: 768px) {
     header .container {
         justify-content: space-between; /* Espacia los elementos */
@@ -787,24 +762,16 @@ body:not(.home) .header__nav-item a {
     }
 
     .header__divider {
-    display: block; /* Mostrar en móviles */
-        width: 100vw; /* Mantener el ancho completo */
-        border-top: 1px solid #ffffff1e; /* Color inicial como en index */
-        position: absolute;
-        left: 0;
-        top: 45px; /* Ajustar posición según el alto del header-top en móviles */
-        transition: border-color 0.3s ease;
-    }
-
-    .header__divider {
         display: block; /* Mostrar en móviles */
         width: 100vw; /* Mantener el ancho completo */
         border-top: 1px solid #ffffff1e; /* Color inicial como en index */
         position: absolute;
         left: 0;
-        top: 93px; /* Ajustar posición según el alto del header-nav */
         transition: border-color 0.3s ease;
     }
+
+    header .header__divider:first-of-type { top: 45px; }
+    header .header__divider:last-of-type  { top: 93px; }
 
     .header__nav {
     display: flex;
@@ -844,26 +811,15 @@ body:not(.home) .header__nav-item a {
     }
 
     /* Ajustar colores al hacer scroll en index */
-    header.scrolled .header__divider {
-        border-top-color: #2c3e501f;
-    }
+    .header--scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
+    .header--scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
 
-    header.scrolled .header__divider {
-        border-top-color: #2c3e5048;
-    }
-
-    header.scrolled .header__nav-item a {
+    .header--scrolled .header__nav-item a {
         color: #2c3e50; /* Color negro al hacer scroll */
     }
 
     /* Ajustar colores para páginas que no son home */
-    body:not(.home) .header__divider {
-        border-top-color: #2c3e501a;
-    }
-
-    body:not(.home) .header__divider {
-        border-top-color: #2c3e501a;
-    }
+    body:not(.home) .header__divider { border-top-color: #2c3e501a; }
 
     body:not(.home) .header__nav-item a {
         color: #2c3e50; /* Color negro en otras páginas */
@@ -904,6 +860,17 @@ body:not(.home) .header__nav-item a {
 
     .property-info .price {
         font-size: 24px;
+    }
+
+    .hero__progress-container {
+        bottom: 20px;
+        right: 20px;
+        gap: 1.5vw;
+    }
+
+    .hero__progress-bar {
+        height: 3px;
+        width: clamp(25px, 6vw, 40px);
     }
 
 }
@@ -962,7 +929,9 @@ body:not(.home) .header__nav-item a {
 
 
 
-/* Formulario de Contacto (contact.php) */
+/* ================================================= */
+/* === FORMULARIO DE CONTACTO (contact.php) === */
+/* ================================================= */
 .contact {
     padding: 60px 0;
     text-align: center;
@@ -1046,7 +1015,9 @@ body:not(.home) .header__nav-item a {
     color: #721c24;
 }
 
-/* Login Administrador (admin/index.php) */
+/* ================================================= */
+/* === LOGIN ADMINISTRADOR (admin/index.php) === */
+/* ================================================= */
 .login {
     padding: 60px 0;
     text-align: center;
@@ -1058,7 +1029,9 @@ body:not(.home) .header__nav-item a {
     text-align: left;
 }
 
-/* Panel de Administración (admin/dashboard.php) */
+/* ================================================= */
+/* === PANEL DE ADMINISTRACIÓN (admin/dashboard.php) === */
+/* ================================================= */
 .admin-dashboard {
     padding: 60px 0;
 }
@@ -1299,7 +1272,9 @@ body:not(.home) .header__nav-item a {
 
 /* FIN */
 
-/* INICIA NUEVO DISEÑO DE SECCIÓN DE NOTICIAS */
+/* ================================================= */
+/* === NUEVO DISEÑO DE SECCIÓN DE NOTICIAS === */
+/* ================================================= */
 .news-section-v2 {
     padding: 60px 0;
     background-color: #ffffff;
@@ -1357,23 +1332,23 @@ body:not(.home) .header__nav-item a {
     color: inherit;
 }
 
-.main-news-card .image-container {
+.main-news-card__image-container {
     width: 100%;
     height: 100%;
 }
 
-.main-news-card img {
+.main-news-card__image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.main-news-card:hover img {
+.main-news-card:hover .main-news-card__image-container img {
     transform: scale(1.05);
 }
 
-.main-news-card .content-overlay {
+.main-news-card__content-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -1419,7 +1394,7 @@ body:not(.home) .header__nav-item a {
     display: block;
 }
 
-.secondary-news-card .image-container {
+.secondary-news-card__image-container {
     width: 100%;
     height: 160px;
     overflow: hidden;
@@ -1427,24 +1402,24 @@ body:not(.home) .header__nav-item a {
     border-radius: 6px;
 }
 
-.secondary-news-card img {
+.secondary-news-card__image-container img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
 }
 
-.secondary-news-card:hover img {
+.secondary-news-card:hover .secondary-news-card__image-container img {
     transform: scale(1.1);
 }
 
-.secondary-news-card .content .news-date {
+.secondary-news-card__content .news-date {
     font-size: 12px;
     color: #868e96;
     margin-bottom: 8px;
 }
 
-.secondary-news-card .content h4 {
+.secondary-news-card__content h4 {
     font-size: 16px;
     font-weight: 600;
     line-height: 1.4;
@@ -1499,7 +1474,7 @@ body:not(.home) .header__nav-item a {
 
 @media (min-width: 992px) {
     /* Hacemos la noticia principal más compacta */
-    .main-news-card .content-overlay {
+    .main-news-card__content-overlay {
         padding: 20px; /* Reducimos el espaciado interno del texto */
     }
 
@@ -1515,7 +1490,7 @@ body:not(.home) .header__nav-item a {
     }
 
     /* Hacemos las noticias secundarias más compactas */
-    .secondary-news-card .image-container {
+    .secondary-news-card__image-container {
         height: 120px; /* Reducimos significativamente la altura de las imágenes secundarias */
     }
 
@@ -1525,7 +1500,9 @@ body:not(.home) .header__nav-item a {
     }
 }
 
+/* ------------------------------------------------- */
 /* TERMINA NUEVO DISEÑO DE SECCIÓN DE NOTICIAS */
+/* ------------------------------------------------- */
 
 /* ================================================= */
 /* === ESTILOS FINALES PARA DETALLE DE NOTICIA === */
@@ -1660,7 +1637,9 @@ body:not(.home) .header__nav-item a {
 /* FIN */
 
 
-/* Sección de Experiencias Locales Curadas */
+/* ================================================= */
+/* === SECCIÓN DE EXPERIENCIAS LOCALES CURADAS === */
+/* ================================================= */
 #experiences {
     padding: 60px 0;
     text-align: center;
@@ -1998,7 +1977,9 @@ body:not(.home) .header__nav-item a {
 
 /* TERMINA SECCION DE  EXPERIENCIAS LOCALES */
 
-/* EMPIEZA FOOTER */
+/* ================================================= */
+/* === INICIO FOOTER === */
+/* ================================================= */
 
 .site-footer {
     background-color: #2c3e50; /* Un azul oscuro corporativo */
@@ -2132,9 +2113,13 @@ body:not(.home) .header__nav-item a {
     }
 }
 
+/* ------------------------------------------------- */
 /* FINAL DEL FOOTER */
+/* ------------------------------------------------- */
 
-/* NUEVOS ESTILOS PARA LOS FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
+/* ================================================= */
+/* === FILTROS DE BÚSQUEDA (properties.php) === */
+/* ================================================= */
 
 .filters-section-v2 {
     padding: 40px 20px;
@@ -2189,12 +2174,12 @@ body:not(.home) .header__nav-item a {
     overflow: hidden; /* Para que los bordes redondeados se apliquen a los hijos */
 }
 
-.form-control-group {
+.horizontal-filter-form__group {
     position: relative;
     height: 100%;
 }
 
-.form-control-group:not(:last-child)::after {
+.horizontal-filter-form__group:not(:last-child)::after {
     content: '';
     position: absolute;
     right: 0;
@@ -2266,13 +2251,13 @@ body:not(.home) .header__nav-item a {
     .horizontal-filter-form {
         grid-template-columns: 1fr; /* Apila los campos */
     }
-    .form-control-group:not(:last-child)::after {
+    .horizontal-filter-form__group:not(:last-child)::after {
         display: none; /* Oculta los separadores verticales */
     }
-    .form-control-group {
+    .horizontal-filter-form__group {
         border-bottom: 1px solid #dfe4ea;
     }
-    .form-control-group:last-child {
+    .horizontal-filter-form__group:last-child {
         border-bottom: none;
     }
     .btn-search-main {
@@ -2283,7 +2268,9 @@ body:not(.home) .header__nav-item a {
 
 /* FINAL DE ESTILOS DE FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
 
-/* ===== INICIO ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+/* ================================================= */
+/* === INICIO CARRUSEL DE PROPIEDADES EN INDEX === */
+/* ================================================= */
 
 .property-showcase {
     padding: 50px 0;
@@ -2532,9 +2519,13 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     }
 }
 
-/* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+/* ------------------------------------------------- */
+/* FIN CARRUSEL DE PROPIEDADES EN INDEX */
+/* ------------------------------------------------- */
 
-/* ===== NUEVOS ESTILOS PARA ASIDE DE FILTROS Y CONTENEDOR FLEX ===== */
+/* ================================================= */
+/* === ASIDE DE FILTROS Y CONTENEDOR FLEX === */
+/* ================================================= */
 
 .property-showcase__wrapper {
     display: flex;
@@ -2690,7 +2681,9 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
     }
 }
 
-/* ===== FIN ESTILOS PARA CARRUSEL DE PROPIEDADES EN INDEX ===== */
+/* ------------------------------------------------- */
+/* FIN CARRUSEL DE PROPIEDADES EN INDEX */
+/* ------------------------------------------------- */
 
 /* === ESTILOS LOGO HEADER === */
 .header__logo a {
@@ -2705,10 +2698,10 @@ ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
 body.home header .header__logo--light {
     display: block;
 }
-body.home header.scrolled .header__logo--dark {
+body.home .header--scrolled .header__logo--dark {
     display: block;
 }
-body.home header.scrolled .header__logo--light {
+body.home .header--scrolled .header__logo--light {
     display: none;
 }
 
@@ -2748,7 +2741,7 @@ body:not(.home) header .header__logo--dark {
 }
 
 /* Cambio de color de las líneas al hacer scroll */
-header.scrolled .header__toggle-line {
+.header--scrolled .header__toggle-line {
     background-color: #2c3e50; /* Cambia a color oscuro */
 }
 

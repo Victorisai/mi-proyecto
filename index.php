@@ -277,10 +277,10 @@ if (!empty($news_articles)) {
         <div class="news-layout-grid">
             <div class="main-news-card">
                 <a href="news_detail.php?id=<?php echo $main_news['id']; ?>">
-                    <div class="image-container">
+                    <div class="main-news-card__image-container">
                         <img src="<?php echo htmlspecialchars(json_decode($main_news['images'])[0]); ?>" alt="<?php echo htmlspecialchars($main_news['title']); ?>">
                     </div>
-                    <div class="content-overlay">
+                    <div class="main-news-card__content-overlay">
                         <span class="news-date"><?php echo date('d M Y', strtotime($main_news['date'])); ?></span>
                         <h3><?php echo htmlspecialchars($main_news['title']); ?></h3>
                         <p><?php echo substr(htmlspecialchars($main_news['information']), 0, 150) . '...'; ?></p>
@@ -292,10 +292,10 @@ if (!empty($news_articles)) {
                 <?php foreach ($secondary_news as $news): ?>
                 <div class="secondary-news-card">
                     <a href="news_detail.php?id=<?php echo $news['id']; ?>">
-                        <div class="image-container">
+                        <div class="secondary-news-card__image-container">
                             <img src="<?php echo htmlspecialchars(json_decode($news['images'])[0]); ?>" alt="<?php echo htmlspecialchars($news['title']); ?>">
                         </div>
-                        <div class="content">
+                        <div class="secondary-news-card__content">
                             <span class="news-date"><?php echo date('d M Y', strtotime($news['date'])); ?></span>
                             <h4><?php echo htmlspecialchars($news['title']); ?></h4>
                             <p class="secondary-news-excerpt"><?php echo substr(htmlspecialchars($news['information']), 0, 80) . '...'; ?></p>
