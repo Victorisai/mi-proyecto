@@ -3360,3 +3360,192 @@ body:not(.home) header .header__toggle-line {
 }
 
 /* FIN */
+
+/* ================================================= */
+/* === HEADER PARA PÁGINA DE PROPIEDADES (BEM) === */
+/* ================================================= */
+
+/* Contenedor principal del header */
+.header-properties {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky; /* Se mantiene fijo al hacer scroll */
+    top: 0;
+    z-index: 100;
+    width: 100%;
+}
+
+/* Parte superior del header */
+.header-properties__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    gap: 20px;
+}
+
+.header-properties .header__toggle {
+    display: flex; /* Aseguramos que el menú hamburguesa sea visible */
+}
+
+.header-properties .header__toggle-line {
+    background-color: #2c3e50; /* Líneas oscuras */
+}
+
+.header-properties .header__logo img {
+    display: block; /* Muestra el logo oscuro */
+    height: 28px;
+}
+
+/* Contenedor y formulario de búsqueda */
+.header-properties__search-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.header-properties__search-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #dfe4ea;
+    border-radius: 50px;
+    overflow: hidden;
+}
+
+.header-properties__search-input {
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.header-properties__search-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+.header-properties__search-button img {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+}
+
+/* Línea divisoria */
+.header-properties__divider {
+    border: none;
+    border-top: 1px solid #e9ecef; /* Gris claro */
+    margin: 0;
+}
+
+/* Parte inferior del header */
+.header-properties__bottom {
+    padding: 10px 20px;
+}
+
+.header-properties__filters-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Botones Comprar / Rentar */
+.header-properties__listing-type {
+    display: flex;
+    background-color: #f1f3f5;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.header-properties__button {
+    text-decoration: none;
+    color: #495057;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.header-properties__button.active {
+    background-color: #fff;
+    color: #2c3e50;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Contenedor deslizable para filtros */
+.header-properties__filters-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    flex-grow: 1;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.header-properties__filters-scroll::-webkit-scrollbar {
+    display: none; /* Ocultar scrollbar */
+}
+
+/* Grupo de filtros */
+.header-properties__filter-group {
+    flex-shrink: 0; /* Evita que los filtros se encojan */
+}
+
+.header-properties__select {
+    padding: 10px 15px;
+    font-size: 15px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    min-width: 180px; /* Ancho mínimo para buena apariencia */
+}
+
+/* Ajustes para el body para que el contenido no quede debajo del header */
+body.properties-page {
+    padding-top: 0; /* El header sticky maneja el espacio */
+}
+main.properties {
+    padding-top: 20px; /* Espacio inicial para las tarjetas */
+}
+.properties__no-results {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #555;
+    width: 100%;
+}
+
+
+/* === RESPONSIVIDAD DEL HEADER DE PROPIEDADES === */
+@media (max-width: 768px) {
+    .header-properties__top {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .header-properties .header__logo {
+        order: -1; /* Mueve el logo al principio */
+    }
+
+    .header-properties__search-container {
+        order: 3; /* Mueve la búsqueda a una nueva línea */
+        width: 100%;
+        max-width: none;
+        padding: 5px 0;
+    }
+    
+    .header-properties__filters-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .header-properties__filters-scroll {
+       padding-bottom: 10px; /* Espacio para que el scroll sea más usable */
+    }
+}

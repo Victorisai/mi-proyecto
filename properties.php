@@ -37,62 +37,36 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Propiedades - CedralSales</title>
+    <title>Propiedades - DOMABLY</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
-    <?php include 'includes/header.php'; ?>
-<section class="filters-section-v2">
-    <div class="container">
-        <div class="filters-container">
-            <div class="filter-tabs">
-                <a href="properties.php?listing_type=venta" class="tab-link" data-listing="venta">Comprar</a>
-                <a href="properties.php?listing_type=renta" class="tab-link" data-listing="renta">Rentar</a>
-            </div>
-
-            <form class="horizontal-filter-form" method="GET" action="properties.php">
-                <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
-                <div class="horizontal-filter-form__group">
-                    <label for="category-select" class="sr-only">Tipo de Propiedad</label>
-                    <select name="category" id="category-select">
-                        <option value="">Tipo de Propiedad</option>
-                        <option value="casas" <?php if (($category ?? '') == 'casas') echo 'selected'; ?>>Casas</option>
-                        <option value="departamentos" <?php if (($category ?? '') == 'departamentos') echo 'selected'; ?>>Departamentos</option>
-                        <option value="terrenos" <?php if (($category ?? '') == 'terrenos') echo 'selected'; ?>>Terrenos</option>
-                        <option value="desarrollos" <?php if (($category ?? '') == 'desarrollos') echo 'selected'; ?>>Desarrollos</option>
-                    </select>
-                </div>
-                <div class="horizontal-filter-form__group search-input-group">
-                    <label for="search-input" class="sr-only">Ubicación o características</label>
-                    <input type="text" id="search-input" name="search" placeholder="Ingresa ubicaciones o características (ej: casa)" value="<?php echo htmlspecialchars($search ?? ''); ?>">
-                </div>
-                <div class="horizontal-filter-form__group">
-                    <button type="submit" class="btn-search-main">Buscar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
-    <section class="properties">
+<body class="properties-page">
+    <?php include 'includes/header_properties.php'; ?>
+    
+    <main class="properties">
         <div class="container">
             <div class="property-grid">
                 <?php if (count($properties) > 0): ?>
                     <?php foreach ($properties as $property): ?>
                         <div class="property-card">
-                            <img class="property-card__image" src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
-                            <h3 class="property-card__title"><?php echo htmlspecialchars($property['title']); ?></h3>
-                            <p class="property-card__location"><strong>Ubicación:</strong> <?php echo htmlspecialchars($property['location']); ?></p>
-                            <p class="property-card__price"><strong>Precio:</strong> $<?php echo number_format($property['price'], 2); ?> MXN</p>
-                            <p class="property-card__category"><strong>Categoría:</strong> <?php echo htmlspecialchars(ucfirst($property['category'])); ?></p>
-                            <a href="property_detail.php?id=<?php echo $property['id']; ?>" class="btn btn-primary">Ver Detalles</a>
+                            <a href="property_detail.php?id=<?php echo $property['id']; ?>" class="property-card__link">
+                                <img class="property-card__image" src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                                <div class="property-card__info">
+                                    <h3 class="property-card__title"><?php echo htmlspecialchars($property['title']); ?></h3>
+                                    <p class="property-card__location"><?php echo htmlspecialchars($property['location']); ?></p>
+                                    <p class="property-card__price">$<?php echo number_format($property['price'], 2); ?> MXN</p>
+                                    <span class="property-card__category"><?php echo htmlspecialchars(ucfirst($property['category'])); ?></span>
+                                </div>
+                            </a>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <p>No se encontraron propiedades disponibles.</p>
+                    <p class="properties__no-results">No se encontraron propiedades que coincidan con tu búsqueda.</p>
                 <?php endif; ?>
             </div>
         </div>
-    </section>
+    </main>
+
     <?php include 'includes/footer.php'; ?>
     <script src="assets/js/main.js"></script>
 </body>
