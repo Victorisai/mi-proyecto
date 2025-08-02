@@ -3549,3 +3549,166 @@ main.properties {
        padding-bottom: 10px; /* Espacio para que el scroll sea más usable */
     }
 }
+
+/* ================================================= */
+/* === MEJORAS PARA FILTROS RESPONSIVOS (header_properties.php) === */
+/* ================================================= */
+
+.header-properties__bottom {
+    padding: 12px 20px;
+}
+
+.header-properties__filters-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no hay espacio */
+}
+
+.header-properties__listing-type {
+    flex-shrink: 0; /* Evita que los botones de Comprar/Rentar se encojan */
+}
+
+/* Nuevo contenedor para los filtros de tipo y ubicación */
+.header-properties__filters-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; /* También permite que los filtros internos se ajusten */
+    flex-grow: 1; /* Ocupa el espacio restante */
+}
+
+.header-properties__filter-group {
+    flex-grow: 1; /* Permite que los grupos de filtros crezcan */
+    min-width: 180px; /* Ancho mínimo para cada filtro */
+}
+
+.header-properties__select {
+    width: 100%; /* Ocupa todo el ancho de su contenedor (filter-group) */
+}
+
+/* === RESPONSIVIDAD PARA MÓVILES === */
+@media (max-width: 768px) {
+    .header-properties__filters-form {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: stretch; /* Estira los elementos para que ocupen el ancho completo */
+        gap: 12px;
+    }
+
+    .header-properties__listing-type {
+        display: flex;
+        width: 100%; /* Ocupa todo el ancho */
+    }
+
+    .header-properties__button {
+        flex-grow: 1; /* Cada botón (Comprar/Rentar) ocupa la mitad del espacio */
+        text-align: center;
+    }
+
+    .header-properties__filters-wrapper {
+        flex-direction: column; /* Apila los filtros (Tipo, Ubicación, etc.) */
+        width: 100%;
+        gap: 12px;
+    }
+
+    .header-properties__filter-group {
+        width: 100%;
+    }
+}
+
+/* ================================================= */
+/* === ESTILOS PARA FILTRO DE PRECIOS DINÁMICO === */
+/* ================================================= */
+
+.header-properties__filter-group--price {
+    position: relative; /* Necesario para posicionar el popover */
+}
+
+/* El botón que parece un select */
+#price-filter-btn {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#price-filter-btn::after {
+    content: '▼';
+    font-size: 10px;
+    opacity: 0.6;
+}
+
+/* El panel que se despliega */
+.price-filter__popover {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: calc(100% + 5px); /* Se posiciona debajo del botón */
+    left: 0;
+    width: 300px;
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    z-index: 110;
+}
+
+.price-filter__popover.active {
+    display: block; /* Se muestra con la clase 'active' */
+}
+
+/* Contenedor de los inputs min/max */
+.price-filter__inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.price-filter__input-group {
+    width: 45%;
+}
+
+.price-filter__input-group label {
+    font-size: 12px;
+    color: #555;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.price-filter__input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+/* Eliminar flechas en los input de tipo número */
+.price-filter__input-group input::-webkit-outer-spin-button,
+.price-filter__input-group input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.price-filter__input-group input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Estilos de la barra deslizante */
+.price-filter__slider {
+    margin: 25px 5px 30px 5px;
+}
+
+.price-filter__apply-btn {
+    width: 100%;
+    padding: 10px;
+}
+
+/* Responsividad para el popover de precios */
+@media (max-width: 768px) {
+    .price-filter__popover {
+        width: calc(100vw - 40px); /* Ocupa casi todo el ancho de la pantalla */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

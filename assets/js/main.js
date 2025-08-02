@@ -255,4 +255,77 @@ if (initialTab) {
 
     setupCategoryFilter('destacadas-showcase');
     setupCategoryFilter('renta-showcase');
+
+// ===============================================
+// === LÓGICA PARA FILTRO DE PRECIOS DINÁMICO ===
+// ===============================================
+const priceFilterBtn = document.getElementById('price-filter-btn');
+const pricePopover = document.getElementById('price-filter-popover');
+const priceSliderEl = document.getElementById('price-slider');
+const minPriceInput = document.getElementById('min-price-input');
+const maxPriceInput = document.getElementById('max-price-input');
+const minPriceHidden = document.getElementById('min_price_hidden');
+const maxPriceHidden = document.getElementById('max_price_hidden');
+const filtersForm = document.getElementById('filters-form');
+
+if (priceSliderEl) {
+    // 1. Inicializar la barra deslizante (Slider)
+    const priceSlider = noUiSlider.create(priceSliderEl, {
+        start: [minPriceHidden.value || 0, maxPriceHidden.value || 50000000],
+        connect: true,
+        range: {
+            'min': 0,
+            'max': 50000000
+        },
+        step: 100000,
+        format: {
+            to: function (value) {
+                return Math.round(value);
+            },
+            from: function (value) {
+                return Number(value);
+            }
+        }
+    });
+
+    // 2. Sincronizar Slider con Inputs
+    priceSlider.on('update', function (values, handle) {
+        if (handle === 0) {
+            minPriceInput.value = values[0];
+            minPriceHidden.value = values[0];
+        } else {
+            maxPriceInput.value = values[1];
+            maxPriceHidden.value = values[1];
+        }
+    });
+
+    // 3. Sincronizar Inputs con Slider
+    minPriceInput.addEventListener('change', function () {
+        priceSlider.set([this.value, null]);
+    });
+    maxPriceInput.addEventListener('change', function () {
+        priceSlider.set([null, this.value]);
+    });
+
+    // 4. Lógica para mostrar/ocultar el panel
+    priceFilterBtn.addEventListener('click', (event) => {
+        event.stopPropagation(); // Evita que el clic se propague al 'document'
+        pricePopover.classList.toggle('active');
+    });
+
+    // Cierra el panel si se hace clic fuera de él
+    document.addEventListener('click', (event) => {
+        if (pricePopover && !pricePopover.contains(event.target) && !priceFilterBtn.contains(event.target)) {
+            pricePopover.classList.remove('active');
+        }
+    });
+
+    // 5. Pre-rellenar los inputs si ya hay valores en la URL
+    if (minPriceHidden.value) {
+        minPriceInput.value = minPriceHidden.value;
+    }
+    if (maxPriceHidden.value) {
+        maxPriceInput.value = maxPriceHidden.value;
+    }
+}
 });

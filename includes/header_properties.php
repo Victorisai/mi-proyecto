@@ -8,16 +8,19 @@ if (!isset($pdo)) {
 }
 
 // --- Lógica de Filtros ---
-// Obtener los valores actuales de los filtros de la URL para mantener el estado
 $listing_type = isset($_GET['listing_type']) ? $_GET['listing_type'] : 'venta';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$min_price = isset($_GET['min_price']) && is_numeric($_GET['min_price']) ? $_GET['min_price'] : '';
+$max_price = isset($_GET['max_price']) && is_numeric($_GET['max_price']) ? $_GET['max_price'] : '';
 
-// Obtener todas las ubicaciones (municipios) de la base de datos para el dropdown
+
 $locations_stmt = $pdo->query("SELECT DISTINCT location FROM properties WHERE status = 'disponible' ORDER BY location ASC");
 $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
 <header class="header-properties">
     <div class="header-properties__top">
         <div class="header__toggle">
@@ -44,16 +47,15 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
     <hr class="header-properties__divider">
 
     <div class="header-properties__bottom">
-        <form action="properties.php" method="GET" class="header-properties__filters-form">
+        <form action="properties.php" method="GET" class="header-properties__filters-form" id="filters-form">
             <div class="header-properties__listing-type">
                 <a href="?listing_type=venta&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category); ?>&location=<?php echo urlencode($location); ?>" class="header-properties__button <?php echo $listing_type === 'venta' ? 'active' : ''; ?>">Comprar</a>
                 <a href="?listing_type=renta&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category); ?>&location=<?php echo urlencode($location); ?>" class="header-properties__button <?php echo $listing_type === 'renta' ? 'active' : ''; ?>">Rentar</a>
             </div>
 
-            <div class="header-properties__filters-scroll">
+            <div class="header-properties__filters-wrapper">
                 <div class="header-properties__filter-group">
-                    <label for="category-select" class="sr-only">Tipo de Propiedad</label>
-                    <select name="category" id="category-select" class="header-properties__select" onchange="this.form.submit()">
+                    <select name="category" class="header-properties__select" onchange="this.form.submit()">
                         <option value="">Tipo de Propiedad</option>
                         <option value="casas" <?php if ($category == 'casas') echo 'selected'; ?>>Casas</option>
                         <option value="departamentos" <?php if ($category == 'departamentos') echo 'selected'; ?>>Departamentos</option>
@@ -63,19 +65,40 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
                 </div>
 
                 <div class="header-properties__filter-group">
-                    <label for="location-select" class="sr-only">Ubicación</label>
-                    <select name="location" id="location-select" class="header-properties__select" onchange="this.form.submit()">
+                    <select name="location" class="header-properties__select" onchange="this.form.submit()">
                         <option value="">Ubicación</option>
                         <?php foreach ($available_locations as $loc): ?>
-                            <option value="<?php echo htmlspecialchars($loc); ?>" <?php if ($location == $loc) echo 'selected'; ?>>
-                                <?php echo htmlspecialchars($loc); ?>
-                            </option>
+                            <option value="<?php echo htmlspecialchars($loc); ?>" <?php if ($location == $loc) echo 'selected'; ?>><?php echo htmlspecialchars($loc); ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-            </div>
+                
+                <div class="header-properties__filter-group header-properties__filter-group--price">
+                    <button type="button" id="price-filter-btn" class="header-properties__select">
+                        <?php echo ($min_price || $max_price) ? '$' . number_format($min_price) . ' - $' . number_format($max_price) : 'Rango de Precios'; ?>
+                    </button>
+                    <div class="price-filter__popover" id="price-filter-popover">
+                        <div class="price-filter__inputs">
+                            <div class="price-filter__input-group">
+                                <label for="min-price-input">Mínimo</label>
+                                <input type="number" id="min-price-input" placeholder="0">
+                            </div>
+                            <span>-</span>
+                            <div class="price-filter__input-group">
+                                <label for="max-price-input">Máximo</label>
+                                <input type="number" id="max-price-input" placeholder="50,000,000+">
+                            </div>
+                        </div>
+                        <div class="price-filter__slider" id="price-slider"></div>
+                        <button type="submit" class="btn btn-primary price-filter__apply-btn">Aplicar</button>
+                    </div>
+                </div>
+                </div>
+            
             <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
             <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
+            <input type="hidden" name="min_price" id="min_price_hidden" value="<?php echo htmlspecialchars($min_price); ?>">
+            <input type="hidden" name="max_price" id="max_price_hidden" value="<?php echo htmlspecialchars($max_price); ?>">
         </form>
     </div>
 </header>
