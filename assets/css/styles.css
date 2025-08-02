@@ -3445,12 +3445,15 @@ body:not(.home) header .header__toggle-line {
 /* Parte inferior del header */
 .header-properties__bottom {
     padding: 10px 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header-properties__filters-form {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 /* Botones Comprar / Rentar */
@@ -3494,6 +3497,71 @@ body:not(.home) header .header__toggle-line {
 /* Grupo de filtros */
 .header-properties__filter-group {
     flex-shrink: 0; /* Evita que los filtros se encojan */
+}
+
+.header-properties__filter-group--price {
+    position: relative;
+}
+
+.header-properties__price-toggle {
+    padding: 10px 15px;
+    font-size: 15px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.header-properties__price-dropdown {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 15px;
+    display: none;
+    width: 250px;
+    z-index: 10;
+}
+
+.header-properties__price-dropdown--active {
+    display: block;
+}
+
+.header-properties__price-inputs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.header-properties__price-input {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #dfe4ea;
+    border-radius: 4px;
+}
+
+.header-properties__price-sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.header-properties__price-slider {
+    width: 100%;
+}
+
+.header-properties__price-apply {
+    width: 100%;
+    padding: 8px;
+    background-color: #2c3e50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .header-properties__select {

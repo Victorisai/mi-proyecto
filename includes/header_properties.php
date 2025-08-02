@@ -13,6 +13,8 @@ $listing_type = isset($_GET['listing_type']) ? $_GET['listing_type'] : 'venta';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
+$min_price = isset($_GET['min_price']) ? $_GET['min_price'] : '';
+$max_price = isset($_GET['max_price']) ? $_GET['max_price'] : '';
 
 // Obtener todas las ubicaciones (municipios) de la base de datos para el dropdown
 $locations_stmt = $pdo->query("SELECT DISTINCT location FROM properties WHERE status = 'disponible' ORDER BY location ASC");
@@ -33,6 +35,10 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
         <div class="header-properties__search-container">
             <form action="properties.php" method="GET" class="header-properties__search-form">
                 <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
+                <input type="hidden" name="category" value="<?php echo htmlspecialchars($category); ?>">
+                <input type="hidden" name="location" value="<?php echo htmlspecialchars($location); ?>">
+                <input type="hidden" name="min_price" value="<?php echo htmlspecialchars($min_price); ?>">
+                <input type="hidden" name="max_price" value="<?php echo htmlspecialchars($max_price); ?>">
                 <input type="text" name="search" class="header-properties__search-input" placeholder="Buscar por título, descripción..." value="<?php echo htmlspecialchars($search); ?>">
                 <button type="submit" class="header-properties__search-button">
                     <img src="assets/images/iconcaracteristic/search-icon.png" alt="Buscar">
@@ -46,8 +52,8 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
     <div class="header-properties__bottom">
         <form action="properties.php" method="GET" class="header-properties__filters-form">
             <div class="header-properties__listing-type">
-                <a href="?listing_type=venta&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category); ?>&location=<?php echo urlencode($location); ?>" class="header-properties__button <?php echo $listing_type === 'venta' ? 'active' : ''; ?>">Comprar</a>
-                <a href="?listing_type=renta&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category); ?>&location=<?php echo urlencode($location); ?>" class="header-properties__button <?php echo $listing_type === 'renta' ? 'active' : ''; ?>">Rentar</a>
+                <a href="?listing_type=venta&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category); ?>&location=<?php echo urlencode($location); ?>&min_price=<?php echo urlencode($min_price); ?>&max_price=<?php echo urlencode($max_price); ?>" class="header-properties__button <?php echo $listing_type === 'venta' ? 'active' : ''; ?>">Comprar</a>
+                <a href="?listing_type=renta&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category); ?>&location=<?php echo urlencode($location); ?>&min_price=<?php echo urlencode($min_price); ?>&max_price=<?php echo urlencode($max_price); ?>" class="header-properties__button <?php echo $listing_type === 'renta' ? 'active' : ''; ?>">Rentar</a>
             </div>
 
             <div class="header-properties__filters-scroll">
@@ -72,6 +78,21 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
                             </option>
                         <?php endforeach; ?>
                     </select>
+                </div>
+
+                <div class="header-properties__filter-group header-properties__filter-group--price">
+                    <button type="button" class="header-properties__price-toggle">Precios</button>
+                    <div class="header-properties__price-dropdown">
+                        <div class="header-properties__price-inputs">
+                            <input type="number" name="min_price" id="min-price-input" class="header-properties__price-input" placeholder="Mín" value="<?php echo htmlspecialchars($min_price); ?>" min="0" step="1000">
+                            <input type="number" name="max_price" id="max-price-input" class="header-properties__price-input" placeholder="Máx" value="<?php echo htmlspecialchars($max_price); ?>" min="0" step="1000">
+                        </div>
+                        <div class="header-properties__price-sliders">
+                            <input type="range" id="price-min-range" class="header-properties__price-slider" min="0" max="10000000" step="1000" value="<?php echo $min_price !== '' ? htmlspecialchars($min_price) : 0; ?>">
+                            <input type="range" id="price-max-range" class="header-properties__price-slider" min="0" max="10000000" step="1000" value="<?php echo $max_price !== '' ? htmlspecialchars($max_price) : 10000000; ?>">
+                        </div>
+                        <button type="submit" class="header-properties__price-apply">Aplicar</button>
+                    </div>
                 </div>
             </div>
             <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">

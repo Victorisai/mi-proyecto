@@ -255,4 +255,56 @@ if (initialTab) {
 
     setupCategoryFilter('destacadas-showcase');
     setupCategoryFilter('renta-showcase');
+
+    // ===============================
+    // === LÓGICA DEL FILTRO DE PRECIOS ===
+    // ===============================
+    const priceToggle = document.querySelector('.header-properties__price-toggle');
+    const priceDropdown = document.querySelector('.header-properties__price-dropdown');
+    const minRange = document.getElementById('price-min-range');
+    const maxRange = document.getElementById('price-max-range');
+    const minInput = document.getElementById('min-price-input');
+    const maxInput = document.getElementById('max-price-input');
+
+    if (priceToggle && priceDropdown && minRange && maxRange && minInput && maxInput) {
+        const syncFromRanges = () => {
+            let min = parseInt(minRange.value, 10);
+            let max = parseInt(maxRange.value, 10);
+            if (min > max) {
+                [min, max] = [max, min];
+            }
+            minRange.value = min;
+            maxRange.value = max;
+            minInput.value = min;
+            maxInput.value = max;
+        };
+
+        const syncFromInputs = () => {
+            let min = parseInt(minInput.value, 10) || 0;
+            let max = parseInt(maxInput.value, 10) || 0;
+            if (min > max) {
+                max = min;
+                maxInput.value = max;
+            }
+            minRange.value = min;
+            maxRange.value = max;
+        };
+
+        priceToggle.addEventListener('click', () => {
+            priceDropdown.classList.toggle('header-properties__price-dropdown--active');
+        });
+
+        minRange.addEventListener('input', syncFromRanges);
+        maxRange.addEventListener('input', syncFromRanges);
+        minInput.addEventListener('input', syncFromInputs);
+        maxInput.addEventListener('input', syncFromInputs);
+
+        document.addEventListener('click', (e) => {
+            if (!priceDropdown.contains(e.target) && !priceToggle.contains(e.target)) {
+                priceDropdown.classList.remove('header-properties__price-dropdown--active');
+            }
+        });
+
+        syncFromInputs();
+    }
 });
