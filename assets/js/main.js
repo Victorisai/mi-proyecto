@@ -256,76 +256,115 @@ if (initialTab) {
     setupCategoryFilter('destacadas-showcase');
     setupCategoryFilter('renta-showcase');
 
-// ===============================================
-// === LÓGICA PARA FILTRO DE PRECIOS DINÁMICO ===
-// ===============================================
-const priceFilterBtn = document.getElementById('price-filter-btn');
-const pricePopover = document.getElementById('price-filter-popover');
-const priceSliderEl = document.getElementById('price-slider');
-const minPriceInput = document.getElementById('min-price-input');
-const maxPriceInput = document.getElementById('max-price-input');
-const minPriceHidden = document.getElementById('min_price_hidden');
-const maxPriceHidden = document.getElementById('max_price_hidden');
-const filtersForm = document.getElementById('filters-form');
+    // =======================================================
+    // === LÓGICA PARA FILTRO DE PRECIOS (VERSIÓN FINAL) ===
+    // =======================================================
+    const priceFilterBtn = document.getElementById('price-filter-btn');
+    const pricePopover = document.getElementById('price-filter-popover');
+    const priceSliderEl = document.getElementById('price-slider');
+    const minPriceInput = document.getElementById('min-price-input');
+    const maxPriceInput = document.getElementById('max-price-input');
+    const minPriceHidden = document.getElementById('min_price_hidden');
+    const maxPriceHidden = document.getElementById('max_price_hidden');
+    const applyPriceBtn = document.querySelector('.price-filter__apply-btn');
+    const filtersForm = document.getElementById('filters-form');
 
-if (priceSliderEl) {
-    // 1. Inicializar la barra deslizante (Slider)
-    const priceSlider = noUiSlider.create(priceSliderEl, {
-        start: [minPriceHidden.value || 0, maxPriceHidden.value || 50000000],
-        connect: true,
-        range: {
-            'min': 0,
-            'max': 50000000
-        },
-        step: 100000,
-        format: {
-            to: function (value) {
-                return Math.round(value);
-            },
-            from: function (value) {
-                return Number(value);
+    if (priceSliderEl) {
+        // Objeto para dar formato de moneda
+        const mxnCurrencyFormat = {
+            to: (value) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value),
+            from: (value) => Number(String(value).replace(/[^0-9.-]+/g, ""))
+        };
+        
+        // Define los puntos de inicio del slider
+        const startMin = php_min_price_selected !== '' ? Number(php_min_price_selected) : php_min_price_available;
+        const startMax = php_max_price_selected !== '' ? Number(php_max_price_selected) : php_max_price_available;
+
+        // El rango siempre usa los valores GLOBALES para no "atascarse"
+        const range = {
+            'min': [php_min_price_available],
+            'max': [php_max_price_available]
+        };
+
+        const priceSlider = noUiSlider.create(priceSliderEl, {
+            start: [startMin, startMax],
+            connect: true,
+            range: range,
+            format: { // Usamos un formato numérico interno para el slider
+                to: value => Math.round(value),
+                from: value => Number(value)
             }
+        });
+
+        // Evento que se dispara MIENTRAS se desliza
+        priceSlider.on('slide', function (values, handle) {
+            const [min, max] = values;
+            // Actualiza los campos de texto con formato de moneda
+            minPriceInput.value = mxnCurrencyFormat.to(min);
+            maxPriceInput.value = mxnCurrencyFormat.to(max);
+        });
+        
+        // Se activa cuando el usuario termina de escribir (al hacer clic fuera o presionar Enter)
+        minPriceInput.addEventListener('change', function () {
+            const numericValue = mxnCurrencyFormat.from(this.value);
+            priceSlider.set([numericValue, null]);
+        });
+        
+        maxPriceInput.addEventListener('change', function () {
+            const numericValue = mxnCurrencyFormat.from(this.value);
+            priceSlider.set([null, numericValue]);
+        });
+        
+        // **NUEVO: Formatea el texto MIENTRAS el usuario escribe**
+        [minPriceInput, maxPriceInput].forEach(input => {
+            input.addEventListener('input', function(e) {
+                const numericValue = mxnCurrencyFormat.from(e.target.value);
+                if (!isNaN(numericValue)) {
+                    // Guarda la posición del cursor
+                    let cursorPos = e.target.selectionStart;
+                    const originalLength = e.target.value.length;
+                    
+                    // Reformatea el valor
+                    e.target.value = mxnCurrencyFormat.to(numericValue);
+                    
+                    // Restaura la posición del cursor de forma inteligente
+                    const newLength = e.target.value.length;
+                    cursorPos += (newLength - originalLength);
+                    e.target.setSelectionRange(cursorPos, cursorPos);
+                }
+            });
+            // Al enfocar, selecciona todo el texto para facilitar la escritura
+            input.addEventListener('focus', function(e) {
+                e.target.select();
+            });
+        });
+
+
+        // Lógica para mostrar/ocultar el panel
+        priceFilterBtn.addEventListener('click', (event) => {
+            event.stopPropagation();
+            pricePopover.classList.toggle('active');
+            // Al abrir, asegura que los inputs reflejen el estado actual del slider
+            const [min, max] = priceSlider.get();
+            minPriceInput.value = mxnCurrencyFormat.to(min);
+            maxPriceInput.value = mxnCurrencyFormat.to(max);
+        });
+
+        // Cierra el panel al hacer clic fuera
+        document.addEventListener('click', (event) => {
+            if (pricePopover && !pricePopover.contains(event.target) && !priceFilterBtn.contains(event.target)) {
+                pricePopover.classList.remove('active');
+            }
+        });
+
+        // Lógica del botón "Aplicar"
+        if (applyPriceBtn) {
+            applyPriceBtn.addEventListener('click', () => {
+                const [min, max] = priceSlider.get();
+                minPriceHidden.value = min;
+                maxPriceHidden.value = max;
+                filtersForm.submit();
+            });
         }
-    });
-
-    // 2. Sincronizar Slider con Inputs
-    priceSlider.on('update', function (values, handle) {
-        if (handle === 0) {
-            minPriceInput.value = values[0];
-            minPriceHidden.value = values[0];
-        } else {
-            maxPriceInput.value = values[1];
-            maxPriceHidden.value = values[1];
-        }
-    });
-
-    // 3. Sincronizar Inputs con Slider
-    minPriceInput.addEventListener('change', function () {
-        priceSlider.set([this.value, null]);
-    });
-    maxPriceInput.addEventListener('change', function () {
-        priceSlider.set([null, this.value]);
-    });
-
-    // 4. Lógica para mostrar/ocultar el panel
-    priceFilterBtn.addEventListener('click', (event) => {
-        event.stopPropagation(); // Evita que el clic se propague al 'document'
-        pricePopover.classList.toggle('active');
-    });
-
-    // Cierra el panel si se hace clic fuera de él
-    document.addEventListener('click', (event) => {
-        if (pricePopover && !pricePopover.contains(event.target) && !priceFilterBtn.contains(event.target)) {
-            pricePopover.classList.remove('active');
-        }
-    });
-
-    // 5. Pre-rellenar los inputs si ya hay valores en la URL
-    if (minPriceHidden.value) {
-        minPriceInput.value = minPriceHidden.value;
     }
-    if (maxPriceHidden.value) {
-        maxPriceInput.value = maxPriceHidden.value;
-    }
-}
 });

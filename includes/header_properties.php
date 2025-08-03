@@ -75,18 +75,18 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
                 
                 <div class="header-properties__filter-group header-properties__filter-group--price">
                     <button type="button" id="price-filter-btn" class="header-properties__select">
-                        <?php echo ($min_price || $max_price) ? '$' . number_format($min_price) . ' - $' . number_format($max_price) : 'Rango de Precios'; ?>
+                        <?php echo ($min_price !== '' && $max_price !== '') ? '$' . number_format($min_price) . ' - $' . number_format($max_price) : 'Rango de Precios'; ?>
                     </button>
                     <div class="price-filter__popover" id="price-filter-popover">
                         <div class="price-filter__inputs">
                             <div class="price-filter__input-group">
                                 <label for="min-price-input">Mínimo</label>
-                                <input type="number" id="min-price-input" placeholder="0">
+                                <input type="text" id="min-price-input" placeholder="$0">
                             </div>
                             <span>-</span>
                             <div class="price-filter__input-group">
                                 <label for="max-price-input">Máximo</label>
-                                <input type="number" id="max-price-input" placeholder="50,000,000+">
+                                <input type="text" id="max-price-input" placeholder="$50,000,000+">
                             </div>
                         </div>
                         <div class="price-filter__slider" id="price-slider"></div>
@@ -116,3 +116,10 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
     </ul>
 </nav>
 <div class="mobile-nav__overlay"></div>
+
+<script>
+    const php_min_price_available = <?php echo json_encode($global_min_price); ?>;
+    const php_max_price_available = <?php echo json_encode($global_max_price); ?>;
+    const php_min_price_selected = <?php echo json_encode($min_price); ?>;
+    const php_max_price_selected = <?php echo json_encode($max_price); ?>;
+</script>
