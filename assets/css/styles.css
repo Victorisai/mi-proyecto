@@ -3504,6 +3504,7 @@ body:not(.home) header .header__toggle-line {
     background-color: #fff;
     cursor: pointer;
     min-width: 180px; /* Ancho mínimo para buena apariencia */
+    padding-right: 30px;
 }
 
 /* Ajustes para el body para que el contenido no quede debajo del header */
@@ -3597,8 +3598,8 @@ main.properties {
     padding-right: 30px;
 }
 
-.header-properties__filter-group:not(.header-properties__filter-group--price)::after {
-    content: '▼';
+.header-properties__filter-group::after {
+    content: '▲';
     font-size: 10px;
     color: #333;
     opacity: 0.6;
@@ -3606,7 +3607,21 @@ main.properties {
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    pointer-events: none;
+    pointer-events: none; /* Evita que la flecha interfiera con el clic */
+    transition: transform 0.3s ease;
+}
+
+.header-properties__filter-group:not(.header-properties__filter-group--price)::after,
+#price-filter-btn::after {
+    transition: transform 0.3s ease;
+}
+
+.header-properties__filter-group:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+#price-filter-btn.active::after {
+    transform: rotate(180deg);
 }
 
 .header-properties__select {
@@ -3654,15 +3669,6 @@ main.properties {
 #price-filter-btn {
     text-align: left;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-#price-filter-btn::after {
-    content: '▼';
-    font-size: 10px;
-    opacity: 0.6;
 }
 
 /* El panel que se despliega */

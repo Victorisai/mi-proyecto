@@ -344,6 +344,7 @@ if (initialTab) {
         priceFilterBtn.addEventListener('click', (event) => {
             event.stopPropagation();
             pricePopover.classList.toggle('active');
+            priceFilterBtn.parentElement.classList.toggle('active');
             // Al abrir, asegura que los inputs reflejen el estado actual del slider
             const [min, max] = priceSlider.get();
             minPriceInput.value = mxnCurrencyFormat.to(min);
@@ -354,6 +355,7 @@ if (initialTab) {
         document.addEventListener('click', (event) => {
             if (pricePopover && !pricePopover.contains(event.target) && !priceFilterBtn.contains(event.target)) {
                 pricePopover.classList.remove('active');
+                priceFilterBtn.parentElement.classList.remove('active');
             }
         });
 
@@ -367,4 +369,23 @@ if (initialTab) {
             });
         }
     }
+    // =======================================================
+    // === LÓGICA PARA ROTACIÓN DE FLECHAS EN FILTROS SELECT ===
+    // =======================================================
+    const filterGroups = document.querySelectorAll('.header-properties__filters-wrapper .header-properties__filter-group');
+
+    filterGroups.forEach(group => {
+        const select = group.querySelector('select');
+        if (select) {
+            // Cuando el usuario hace clic en el select
+            select.addEventListener('focus', () => {
+                group.classList.add('active');
+            });
+
+            // Cuando el usuario selecciona una opción o hace clic fuera
+            select.addEventListener('blur', () => {
+                group.classList.remove('active');
+            });
+        }
+    });
 });
