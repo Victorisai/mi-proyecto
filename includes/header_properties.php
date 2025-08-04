@@ -37,8 +37,11 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
             <form action="properties.php" method="GET" class="header-properties__search-form">
                 <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
                 <input type="text" name="search" class="header-properties__search-input" placeholder="Buscar por título, descripción..." value="<?php echo htmlspecialchars($search); ?>">
-                <button type="submit" class="header-properties__search-button">
-                    <img src="assets/images/iconcaracteristic/search-icon.png" alt="Buscar">
+                <button type="submit" class="header-properties__search-button" aria-label="Buscar">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
                 </button>
             </form>
         </div>

@@ -3427,12 +3427,17 @@ body:not(.home) header .header__toggle-line {
     border: none;
     cursor: pointer;
     padding: 8px 12px;
+    font-size: 18px; /* Controla el tamaño del ícono */
+    opacity: 0.7;    /* Mantiene la misma opacidad que tenía la imagen */
+    display: flex;   /* Ayuda a centrar el ícono verticalmente */
+    align-items: center;
 }
 
-.header-properties__search-button img {
-    width: 20px;
-    height: 20px;
-    opacity: 0.7;
+.search-icon {
+    width: 20px;  /* Ancho del ícono */
+    height: 20px; /* Alto del ícono */
+    color: #555;  /* Color del ícono */
+    opacity: 0.8;
 }
 
 /* Línea divisoria */
