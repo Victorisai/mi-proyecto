@@ -3472,8 +3472,8 @@ body:not(.home) header .header__toggle-line {
 }
 
 .header-properties__button.active {
-    background-color: #fff;
-    color: #2c3e50;
+    background-color: #000000da;
+    color: #ffffff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
@@ -3661,9 +3661,14 @@ main.properties {
 .price-filter__inputs {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
     gap: 10px;
     margin-bottom: 20px;
+}
+
+.price-filter__inputs span {
+    /* Con un pequeño margen lo subimos para que quede centrado */
+    margin-bottom: 4px;
 }
 
 .price-filter__input-group {
@@ -3702,6 +3707,18 @@ main.properties {
 .price-filter__apply-btn {
     width: 100%;
     padding: 10px;
+}
+
+.price-filter__apply-btn {
+    background: #333332; 
+}
+
+.price-filter__apply-btn:hover {
+    background: #000000; 
+}
+
+.price-filter__slider .noUi-connect {
+    background: #5b5959;
 }
 
 /* Responsividad para el popover de precios */
