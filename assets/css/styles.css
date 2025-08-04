@@ -3767,3 +3767,58 @@ main.properties {
         transform: translateX(-50%);
     }
 }
+
+/* ================================================= */
+/* === AJUSTES FINALES HEADER PROPIEDADES MÓVIL === */
+/* ================================================= */
+
+/* Botón para mostrar/ocultar filtros */
+.header-properties__filter-toggle {
+    display: none; /* Oculto en escritorio */
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    /* Mostramos el botón de filtros solo en móvil */
+    .header-properties__filter-toggle {
+        display: block;
+    }
+
+    /* Ocultamos el contenedor de filtros por defecto en móvil */
+    .header-properties__filters-wrapper {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        margin-top: 10px; /* Espacio entre el botón y los filtros */
+    }
+
+    /* Cuando el contenedor tiene la clase 'active', lo mostramos */
+    .header-properties__filters-wrapper.active {
+        display: flex;
+    }
+
+    /* Reemplazamos el estilo anterior para que el formulario principal no se apile innecesariamente */
+    .header-properties__filters-form {
+        flex-direction: row; /* Los elementos principales (Comprar/Rentar y botón Filtros) estarán en fila */
+        flex-wrap: wrap; /* Permitimos que se envuelvan si es necesario */
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-properties__listing-type {
+        flex-grow: 1; /* Ocupa el espacio disponible */
+    }
+
+    .header-properties__filter-toggle {
+        flex-grow: 1; /* Ocupa el espacio disponible */
+    }
+}

@@ -1,5 +1,5 @@
 <?php
-// Asegurarse de que la sesión esté iniciada
+// victorisai/mi-proyecto/mi-proyecto-0515720bd1e04444b2689a864b97f3bce45533b8/includes/header_properties.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -7,7 +7,7 @@ if (!isset($pdo)) {
     include 'config.php';
 }
 
-// --- Lógica de Filtros ---
+// --- Lógica de Filtros (sin cambios) ---
 $listing_type = isset($_GET['listing_type']) ? $_GET['listing_type'] : 'venta';
 $category = isset($_GET['category']) ? $_GET['category'] : '';
 $location = isset($_GET['location']) ? $_GET['location'] : '';
@@ -56,7 +56,9 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
                 <a href="?listing_type=renta&search=<?php echo urlencode($search); ?>&category=<?php echo urlencode($category); ?>&location=<?php echo urlencode($location); ?>" class="header-properties__button <?php echo $listing_type === 'renta' ? 'active' : ''; ?>">Rentar</a>
             </div>
 
-            <div class="header-properties__filters-wrapper">
+            <button type="button" class="header-properties__filter-toggle" id="filter-toggle-btn">Filtros</button>
+
+            <div class="header-properties__filters-wrapper" id="filters-wrapper">
                 <div class="header-properties__filter-group">
                     <select name="category" class="header-properties__select" onchange="this.form.submit()">
                         <option value="">Tipo de Propiedad</option>
@@ -96,7 +98,7 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
                         <button type="submit" class="btn btn-primary price-filter__apply-btn">Aplicar</button>
                     </div>
                 </div>
-                </div>
+            </div>
             
             <input type="hidden" name="search" value="<?php echo htmlspecialchars($search); ?>">
             <input type="hidden" name="listing_type" value="<?php echo htmlspecialchars($listing_type); ?>">
@@ -125,4 +127,16 @@ $available_locations = $locations_stmt->fetchAll(PDO::FETCH_COLUMN);
     const php_max_price_available = <?php echo json_encode($global_max_price); ?>;
     const php_min_price_selected = <?php echo json_encode($min_price); ?>;
     const php_max_price_selected = <?php echo json_encode($max_price); ?>;
+
+    // CAMBIO: Añadimos un pequeño script para el nuevo botón
+    document.addEventListener('DOMContentLoaded', () => {
+        const filterToggleBtn = document.getElementById('filter-toggle-btn');
+        const filtersWrapper = document.getElementById('filters-wrapper');
+
+        if (filterToggleBtn && filtersWrapper) {
+            filterToggleBtn.addEventListener('click', () => {
+                filtersWrapper.classList.toggle('active');
+            });
+        }
+    });
 </script>
