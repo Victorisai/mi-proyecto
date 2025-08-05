@@ -64,7 +64,7 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body class="properties-page">
     <?php include 'includes/header_properties.php'; ?>
     
-    <main class="properties">
+    <div id="header-scroll-trigger"></div> <main class="properties">
         <div class="container">
             <div class="property-grid">
                 <?php if (count($properties) > 0): ?>

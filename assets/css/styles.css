@@ -3822,3 +3822,35 @@ main.properties {
         flex-grow: 1; /* Ocupa el espacio disponible */
     }
 }
+
+/* ========================================================== */
+/* === ESTILOS PARA OCULTAR HEADER EN SCROLL (MÓVIL) v5 (FINAL) === */
+/* ========================================================== */
+
+.header-properties__bottom {
+    max-height: 500px; /* Altura inicial grande */
+    overflow: hidden;
+    visibility: visible;
+    opacity: 1;
+    /* La clave es la transición suave en MÚLTIPLES propiedades */
+    transition: 
+        max-height 0.35s ease-in-out,
+        padding 0.35s ease-in-out,
+        visibility 0.35s,
+        opacity 0.2s ease;
+}
+
+.header-properties.header-properties--collapsed .header-properties__bottom {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    /* Es crucial animar el padding a 0 para que no ocupe espacio residual */
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0; /* Aseguramos que no haya márgenes */
+}
+
+/* Fix para que el popover de precios no sea recortado */
+.header-properties__bottom.overflow-visible {
+    overflow: visible;
+}

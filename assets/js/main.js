@@ -341,21 +341,28 @@ if (initialTab) {
 
 
         // Lógica para mostrar/ocultar el panel
+        const headerBottom = document.querySelector('.header-properties__bottom'); // <-- AÑADIMOS ESTA LÍNEA
+
         priceFilterBtn.addEventListener('click', (event) => {
             event.stopPropagation();
             pricePopover.classList.toggle('active');
             priceFilterBtn.parentElement.classList.toggle('active');
+            if (headerBottom) headerBottom.classList.toggle('overflow-visible'); // <-- AÑADIMOS ESTA LÍNEA
+        
             // Al abrir, asegura que los inputs reflejen el estado actual del slider
-            const [min, max] = priceSlider.get();
-            minPriceInput.value = mxnCurrencyFormat.to(min);
-            maxPriceInput.value = mxnCurrencyFormat.to(max);
+            if (pricePopover.classList.contains('active')) {
+                const [min, max] = priceSlider.get();
+                minPriceInput.value = mxnCurrencyFormat.to(min);
+                maxPriceInput.value = mxnCurrencyFormat.to(max);
+            }
         });
 
         // Cierra el panel al hacer clic fuera
         document.addEventListener('click', (event) => {
-            if (pricePopover && !pricePopover.contains(event.target) && !priceFilterBtn.contains(event.target)) {
+            if (pricePopover.classList.contains('active') && !pricePopover.contains(event.target) && !priceFilterBtn.contains(event.target)) {
                 pricePopover.classList.remove('active');
                 priceFilterBtn.parentElement.classList.remove('active');
+                if (headerBottom) headerBottom.classList.remove('overflow-visible'); // <-- AÑADIMOS ESTA LÍNEA
             }
         });
 
@@ -388,4 +395,46 @@ if (initialTab) {
             });
         }
     });
+
+    // =======================================================
+    // === LÓGICA PARA OCULTAR HEADER CON INTERSECTION OBSERVER ===
+    // === Alternativa de alto rendimiento para eliminar vibración ===
+    // =======================================================
+    if (document.body.classList.contains('properties-page')) {
+        const header = document.querySelector('.header-properties');
+        const scrollTrigger = document.getElementById('header-scroll-trigger');
+        const pricePopover = document.getElementById('price-filter-popover');
+
+        if (header && scrollTrigger) {
+            // La función que se ejecuta cuando el "trigger" entra o sale de la pantalla
+            const observerCallback = (entries) => {
+                const [entry] = entries; // Solo observamos un elemento
+
+                // Si el popover de precios está abierto, no hacemos nada
+                if (pricePopover && pricePopover.classList.contains('active')) {
+                    return;
+                }
+
+                // Solo para móvil
+                if (window.innerWidth <= 768) {
+                    // Si el trigger NO está en la pantalla (hemos bajado)
+                    if (!entry.isIntersecting) {
+                        header.classList.add('header-properties--collapsed');
+                    } else {
+                        // Si el trigger SÍ está en la pantalla (estamos arriba)
+                        header.classList.remove('header-properties--collapsed');
+                    }
+                } else {
+                    // En escritorio, siempre mostrar
+                    header.classList.remove('header-properties--collapsed');
+                }
+            };
+
+            // Creamos el observador
+            const observer = new IntersectionObserver(observerCallback);
+            
+            // Le decimos al observador que empiece a vigilar nuestro "trigger"
+            observer.observe(scrollTrigger);
+        }
+    }
 });
