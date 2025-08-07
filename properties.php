@@ -67,6 +67,7 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <div id="header-scroll-trigger"></div> <main class="properties">
         <div class="container">
             <div class="properties-header">
+                <h1 class="properties-header__main-title">Navega nuevas opciones</h1>
                 <h2 class="properties-header__title"><?php echo count($properties); ?> resultados que podrían interesarte</h2>
             </div>
             <div class="property-grid">

@@ -3681,7 +3681,7 @@ main.properties {
     display: none; /* Oculto por defecto */
     position: absolute;
     top: calc(100% + 5px); /* Se posiciona debajo del botón */
-    left: 0;
+    right: 0;
     width: 300px;
     background: #fff;
     border: 1px solid #dfe4ea;
@@ -3995,18 +3995,34 @@ main.properties {
 }
 
 /* ================================================= */
-/* === ESTILOS PARA EL ENCABEZADO DE PROPIEDADES === */
+/* === ESTILOS PARA TÍTULO PRINCIPAL DE PROPIEDADES === */
 /* ================================================= */
 
 .properties-header {
-    margin-bottom: 30px;
-    padding: 0 5px; /* Pequeño padding para alineación */
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.properties-header__main-title {
+    font-family: 'Sedan SC', serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: #2c3e50;
+    text-align: left; /* Alineamos el título a la izquierda */
+    margin-bottom: 10px; /* Reducimos el espacio inferior para un look más compacto */
 }
 
 .properties-header__title {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
-    font-weight: 550;
-    color: #2c3e50;
-    text-align: left;
+    text-align: left; /* Alineamos también el subtítulo a la izquierda */
+    font-size: 16px;  /* Ajustamos el tamaño para que se vea mejor como subtítulo */
+    font-weight: 400; /* Un peso más ligero para el subtítulo */
+    color: #555;
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .properties-header__main-title {
+        font-size: 32px;
+        margin-bottom: 8px;
+    }
 }
