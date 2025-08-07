@@ -66,17 +66,31 @@ $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     <div id="header-scroll-trigger"></div> <main class="properties">
         <div class="container">
+            <div class="properties-header">
+                <h2 class="properties-header__title"><?php echo count($properties); ?> resultados que podrían interesarte</h2>
+            </div>
             <div class="property-grid">
                 <?php if (count($properties) > 0): ?>
                     <?php foreach ($properties as $property): ?>
                         <div class="property-card">
                             <a href="property_detail.php?id=<?php echo $property['id']; ?>" class="property-card__link">
-                                <img class="property-card__image" src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
-                                <div class="property-card__info">
+                                <div class="property-card__image-container">
+                                    <img class="property-card__image" src="<?php echo htmlspecialchars($property['main_image']); ?>" alt="<?php echo htmlspecialchars($property['title']); ?>">
+                                    <div class="property-card__badge property-card__badge--listing"><?php echo htmlspecialchars(ucfirst($property['listing_type'])); ?></div>
+                                    <div class="property-card__badge property-card__badge--category"><?php echo htmlspecialchars(ucfirst($property['category'])); ?></div>
+                                </div>
+                                <div class="property-card__content">
                                     <h3 class="property-card__title"><?php echo htmlspecialchars($property['title']); ?></h3>
-                                    <p class="property-card__location"><?php echo htmlspecialchars($property['location']); ?></p>
+                                    <p class="property-card__location">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                                        </svg>
+                                        <?php echo htmlspecialchars($property['location']); ?>
+                                    </p>
+                                </div>
+                                <div class="property-card__footer">
                                     <p class="property-card__price">$<?php echo number_format($property['price'], 2); ?> MXN</p>
-                                    <span class="property-card__category"><?php echo htmlspecialchars(ucfirst($property['category'])); ?></span>
+                                    <span class="property-card__details-button">Ver detalles &rarr;</span>
                                 </div>
                             </a>
                         </div>
