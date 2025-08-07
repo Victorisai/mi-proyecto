@@ -4023,6 +4023,22 @@ main.properties {
 @media (max-width: 768px) {
     .properties-header__main-title {
         font-size: 32px;
+        margin-bottom: 5px;
+    }
+
+    .properties-header{
         margin-bottom: 8px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+
+/* ================================================= */
+/* === AJUSTE DE ALINEACIÓN PARA HEADER EN MÓVIL === */
+/* ================================================= */
+@media (max-width: 768px) {
+    .properties .container .properties-header {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 }
