@@ -208,8 +208,11 @@ body:not(.home){
     font-size: 24px;
     cursor: pointer;
     color: #fff; /* Blanco inicialmente en index */
-    margin: 0 0 0 50px !important; /* Forzamos 10px de margen izquierdo */
     transition: color 0.3s ease; /* Transición suave para el color */
+}
+
+.home .header__toggle {
+    margin: 0 0 0 50px !important;
 }
 
 .header--scrolled .header__toggle {
@@ -2727,7 +2730,6 @@ body:not(.home) header .header__logo--dark {
     flex-direction: column;
     justify-content: space-between; /* Esto crea el espacio entre las 3 líneas */
     cursor: pointer;
-    margin: 0 0 0 50px !important;
 }
 
 /* Las 3 líneas del ícono (los <span> que creamos) */
@@ -3379,7 +3381,7 @@ body:not(.home) header .header__toggle-line {
 .header-properties__top {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     padding: 10px 20px;
     gap: 20px;
 }
@@ -3402,6 +3404,7 @@ body:not(.home) header .header__toggle-line {
     flex-grow: 1;
     display: flex;
     justify-content: center;
+    margin-left: auto;
 }
 
 .header-properties__search-form {
@@ -3529,18 +3532,16 @@ main.properties {
 
 
 /* === RESPONSIVIDAD DEL HEADER DE PROPIEDADES === */
-@media (max-width: 768px) {
+@media (max-width: 680px) {
     .header-properties__top {
         flex-wrap: wrap;
         gap: 10px;
     }
-
     .header-properties .header__logo {
         order: -1; /* Mueve el logo al principio */
     }
-
     .header-properties__search-container {
-        order: 3; /* Mueve la búsqueda a una nueva línea */
+        order: 3;
         width: 100%;
         max-width: none;
         padding: 5px 0;
@@ -4031,12 +4032,7 @@ main.properties {
         padding-left: 0;
         padding-right: 0;
     }
-}
 
-/* ================================================= */
-/* === AJUSTE DE ALINEACIÓN PARA HEADER EN MÓVIL === */
-/* ================================================= */
-@media (max-width: 768px) {
     .properties .container .properties-header {
         padding-left: 10px;
         padding-right: 10px;
