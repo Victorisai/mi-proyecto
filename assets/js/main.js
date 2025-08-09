@@ -437,4 +437,24 @@ if (initialTab) {
             observer.observe(scrollTrigger);
         }
     }
+    // =======================================================
+    // === LÓGICA PARA GALERÍA DE DETALLE DE PROPIEDAD ===
+    // =======================================================
+    const mainGalleryImage = document.getElementById('main-gallery-image');
+    const galleryThumbnails = document.querySelectorAll('.gallery__thumbnail');
+
+    if (mainGalleryImage && galleryThumbnails.length > 0) {
+        galleryThumbnails.forEach(thumb => {
+            thumb.addEventListener('click', function() {
+                // Guarda el src actual de la imagen principal
+                const currentMainSrc = mainGalleryImage.src;
+                // Obtiene el src de la miniatura clickeada
+                const newSrc = this.src;
+                
+                // Intercambia los src
+                mainGalleryImage.src = newSrc;
+                this.src = currentMainSrc;
+            });
+        });
+    }
 });
