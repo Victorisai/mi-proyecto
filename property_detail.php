@@ -6,9 +6,7 @@ $stmt->bindParam(':id', $id);
 $stmt->execute();
 $property = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Si la propiedad no se encuentra, redirigir o mostrar un mensaje.
 if (!$property) {
-    // Redirigir a la página de propiedades podría ser una buena opción.
     header("Location: properties.php");
     exit;
 }
@@ -23,7 +21,8 @@ for ($i = 1; $i <= 15; $i++) {
         $images[] = $property["thumbnail$i"];
     }
 }
-$main_gallery_images = array_slice($images, 0, 5); // Tomamos las primeras 5 para la galería principal
+$main_gallery_images = array_slice($images, 0, 5);
+$total_images = count($images);
 
 // --- Lógica para Propiedades Similares ---
 $similar_stmt = $pdo->prepare("SELECT * FROM properties WHERE category = :category AND id != :id AND status = 'disponible' ORDER BY RAND() LIMIT 3");
@@ -46,24 +45,22 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
     <main class="property-detail">
         <div class="container">
             <div class="property-detail__header">
-                <a href="javascript:history.back()" class="property-detail__back-link">&larr; Volver a la búsqueda</a>
+                <a href="javascript:history.back()" class="property-detail__back-link">← Volver a la búsqueda</a>
             </div>
 
             <?php if (!empty($main_gallery_images)): ?>
                 <section class="gallery">
                     <div class="gallery__layout">
-                        <div class="gallery__item gallery__item--large">
-                            <img src="<?php echo htmlspecialchars($main_gallery_images[0]); ?>" alt="Vista principal de <?php echo htmlspecialchars($property['title']); ?>" class="gallery__image" id="main-gallery-image">
-                        </div>
-                        <?php for ($i = 1; $i < count($main_gallery_images); $i++): ?>
-                            <div class="gallery__item gallery__item--thumb">
-                                <img src="<?php echo htmlspecialchars($main_gallery_images[$i]); ?>" alt="Miniatura <?php echo $i; ?>" class="gallery__image gallery__thumbnail">
+                        <?php foreach($main_gallery_images as $index => $image_src): ?>
+                            <div class="gallery__item <?php if($index == 0) echo 'gallery__item--large'; else echo 'gallery__item--thumb'; ?>" data-index="<?php echo $index; ?>">
+                                <img src="<?php echo htmlspecialchars($image_src); ?>" alt="Vista <?php echo $index + 1; ?> de <?php echo htmlspecialchars($property['title']); ?>" class="gallery__image">
                             </div>
-                        <?php endfor; ?>
+                        <?php endforeach; ?>
                     </div>
                     <div class="gallery__actions">
                         <button class="btn btn-secondary">Guardar</button>
                         <button class="btn btn-secondary">Compartir</button>
+                        <button class="btn btn-secondary gallery__open-btn">Ver las <?php echo $total_images; ?> fotos</button>
                     </div>
                 </section>
             <?php endif; ?>
@@ -84,28 +81,21 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <span class="property-info__price-period">/ Mes</span>
                             <?php endif; ?>
                         </p>
-                        
                         <div class="property-info__description">
                             <h3>Descripción</h3>
                             <p><?php echo nl2br(htmlspecialchars($property['description'])); ?></p>
                         </div>
-
                         <div class="property-info__features">
                             <h3>Características</h3>
                             <ul class="property-info__features-list">
                                 <?php
                                 $features = json_decode($property['features'], true) ?: [];
-                                // Agrega aquí la lógica para mostrar las características como en tu código original
                                 if ($property['category'] === 'casas') {
                                     if (!empty($features['recamaras'])) echo '<li class="property-info__feature-item"><img src="assets/images/iconcaracteristic/icon_bed.png" alt="Recámaras"><span>' . htmlspecialchars($features['recamaras']) . ' Recámaras</span></li>';
                                     if (!empty($features['banos'])) echo '<li class="property-info__feature-item"><img src="assets/images/iconcaracteristic/icon_bath.png" alt="Baños"><span>' . htmlspecialchars($features['banos']) . ' Baños</span></li>';
                                     if (!empty($features['estacionamientos'])) echo '<li class="property-info__feature-item"><img src="assets/images/iconcaracteristic/icon_parking.png" alt="Estacionamientos"><span>' . htmlspecialchars($features['estacionamientos']) . ' Estacionamientos</span></li>';
                                     if (!empty($features['superficie_construida'])) echo '<li class="property-info__feature-item"><img src="assets/images/iconcaracteristic/icon_built_area.png" alt="Construcción"><span>' . htmlspecialchars($features['superficie_construida']) . ' m² Construidos</span></li>';
-                                } elseif ($property['category'] === 'departamentos') {
-                                    if (!empty($features['recamaras'])) echo '<li class="property-info__feature-item"><img src="assets/images/iconcaracteristic/icon_bed.png" alt="Recámaras"><span>' . htmlspecialchars($features['recamaras']) . ' Recámaras</span></li>';
-                                    if (!empty($features['banos'])) echo '<li class="property-info__feature-item"><img src="assets/images/iconcaracteristic/icon_bath.png" alt="Baños"><span>' . htmlspecialchars($features['banos']) . ' Baños</span></li>';
-                                    if (!empty($features['superficie_total'])) echo '<li class="property-info__feature-item"><img src="assets/images/iconcaracteristic/icon_total_area.png" alt="Superficie"><span>' . htmlspecialchars($features['superficie_total']) . ' m² Totales</span></li>';
-                                } // Agrega más 'elseif' para otras categorías si es necesario
+                                }
                                 ?>
                             </ul>
                         </div>
@@ -138,19 +128,12 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
                             <a href="property_detail.php?id=<?php echo $similar_property['id']; ?>" class="property-card__link">
                                 <div class="property-card__image-container">
                                     <img class="property-card__image" src="<?php echo htmlspecialchars($similar_property['main_image']); ?>" alt="<?php echo htmlspecialchars($similar_property['title']); ?>">
-                                    <div class="property-card__badge property-card__badge--listing"><?php echo htmlspecialchars(ucfirst($similar_property['listing_type'])); ?></div>
-                                    <div class="property-card__badge property-card__badge--category"><?php echo htmlspecialchars(ucfirst($similar_property['category'])); ?></div>
                                 </div>
                                 <div class="property-card__content">
                                     <h3 class="property-card__title"><?php echo htmlspecialchars($similar_property['title']); ?></h3>
-                                    <p class="property-card__location">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/></svg>
-                                        <?php echo htmlspecialchars($similar_property['location']); ?>
-                                    </p>
                                 </div>
                                 <div class="property-card__footer">
                                     <p class="property-card__price">$<?php echo number_format($similar_property['price'], 2); ?> MXN</p>
-                                    <span class="property-card__details-button">Ver detalles &rarr;</span>
                                 </div>
                             </a>
                         </div>
@@ -160,8 +143,39 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
             <?php endif; ?>
         </div>
     </main>
-    
+
+    <div class="lightbox" id="property-lightbox">
+        <div class="lightbox__overlay"></div>
+        <div class="lightbox__container">
+            <div class="lightbox__grid-view" id="lightbox-grid-view">
+                <div class="lightbox__header">
+                    <button class="lightbox__back-button" id="lightbox-grid-back">← Volver</button>
+                    <h3>Todas las fotos</h3>
+                    <button class="lightbox__close" aria-label="Cerrar">×</button>
+                </div>
+                <div class="lightbox__grid-container" id="lightbox-grid-container">
+                    </div>
+            </div>
+
+            <div class="lightbox__slider-view" id="lightbox-slider-view">
+                <div class="lightbox__header">
+                    <button class="lightbox__back-button" id="lightbox-slider-back">← Ver todas</button>
+                    <span class="lightbox__counter" id="lightbox-counter"></span>
+                    <button class="lightbox__close" aria-label="Cerrar">×</button>
+                </div>
+                <div class="lightbox__image-container">
+                    <img src="" alt="Vista ampliada de la propiedad" id="lightbox-main-image">
+                </div>
+                <button class="lightbox__nav lightbox__nav--prev" aria-label="Anterior">❮</button>
+                <button class="lightbox__nav lightbox__nav--next" aria-label="Siguiente">❯</button>
+            </div>
+        </div>
+    </div>
     <?php include 'includes/footer.php'; ?>
+
+    <script>
+        const propertyImages = <?php echo json_encode($images); ?>;
+    </script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

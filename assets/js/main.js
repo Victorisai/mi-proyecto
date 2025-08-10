@@ -437,24 +437,107 @@ if (initialTab) {
             observer.observe(scrollTrigger);
         }
     }
-    // =======================================================
-    // === LÓGICA PARA GALERÍA DE DETALLE DE PROPIEDAD ===
-    // =======================================================
-    const mainGalleryImage = document.getElementById('main-gallery-image');
-    const galleryThumbnails = document.querySelectorAll('.gallery__thumbnail');
+    // ============================================================
+    // === LÓGICA PARA LIGHTBOX V3 (MOSAICO Y SLIDER) ===
+    // ============================================================
+    const lightbox = document.getElementById('property-lightbox');
 
-    if (mainGalleryImage && galleryThumbnails.length > 0) {
-        galleryThumbnails.forEach(thumb => {
-            thumb.addEventListener('click', function() {
-                // Guarda el src actual de la imagen principal
-                const currentMainSrc = mainGalleryImage.src;
-                // Obtiene el src de la miniatura clickeada
-                const newSrc = this.src;
-                
-                // Intercambia los src
-                mainGalleryImage.src = newSrc;
-                this.src = currentMainSrc;
+    if (lightbox && typeof propertyImages !== 'undefined' && propertyImages.length > 0) {
+        const galleryItems = document.querySelectorAll('.gallery__item');
+        const openBtn = document.querySelector('.gallery__open-btn');
+        const mainLightboxImage = document.getElementById('lightbox-main-image');
+        const closeBtns = lightbox.querySelectorAll('.lightbox__close');
+        const prevBtn = lightbox.querySelector('.lightbox__nav--prev');
+        const nextBtn = lightbox.querySelector('.lightbox__nav--next');
+        const counter = document.getElementById('lightbox-counter');
+        const gridContainer = document.getElementById('lightbox-grid-container');
+        const backToGridBtn = document.getElementById('lightbox-slider-back');
+        const backFromGridBtn = document.getElementById('lightbox-grid-back');
+
+        let currentIndex = 0;
+
+        function showImage(index) {
+            currentIndex = (index + propertyImages.length) % propertyImages.length;
+            mainLightboxImage.src = propertyImages[currentIndex];
+            counter.textContent = `${currentIndex + 1} / ${propertyImages.length}`;
+        }
+
+        function populateGrid() {
+            gridContainer.innerHTML = ''; // Limpiar para evitar duplicados
+            propertyImages.forEach((src, index) => {
+                const gridItem = document.createElement('div');
+                gridItem.className = 'lightbox__grid-item';
+                gridItem.dataset.index = index;
+
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Propiedad imagen ${index + 1}`;
+
+                gridItem.appendChild(img);
+                gridContainer.appendChild(gridItem);
+
+                gridItem.addEventListener('click', () => {
+                    switchToSliderView(index);
+                });
             });
+        }
+
+        function switchToSliderView(index) {
+            showImage(index);
+            lightbox.classList.add('lightbox--slider-active');
+        }
+
+        function switchToGridView() {
+            lightbox.classList.remove('lightbox--slider-active');
+        }
+
+        function openLightbox() {
+            populateGrid();
+            lightbox.classList.add('active');
+            // Asegurarse de que siempre inicie en la vista de grid
+            switchToGridView(); 
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+        }
+
+        // --- Event Listeners ---
+        galleryItems.forEach(item => {
+            item.addEventListener('click', openLightbox);
+        });
+
+        if (openBtn) {
+            openBtn.addEventListener('click', openLightbox);
+        }
+
+        closeBtns.forEach(btn => btn.addEventListener('click', closeLightbox));
+        backToGridBtn.addEventListener('click', switchToGridView);
+        backFromGridBtn.addEventListener('click', () => {
+            // Simula el comportamiento de "volver" en un navegador
+            // En este caso, simplemente cerramos el lightbox.
+            closeLightbox();
+        });
+
+        nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+        prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.classList.contains('active')) {
+                if (e.key === 'Escape') {
+                    // Si estamos en el slider, vuelve al grid. Si no, cierra.
+                    if (lightbox.classList.contains('lightbox--slider-active')) {
+                        switchToGridView();
+                    } else {
+                        closeLightbox();
+                    }
+                }
+                // Navegación con flechas solo en la vista de slider
+                if (lightbox.classList.contains('lightbox--slider-active')) {
+                    if (e.key === 'ArrowRight') nextBtn.click();
+                    if (e.key === 'ArrowLeft') prevBtn.click();
+                }
+            }
         });
     }
 });

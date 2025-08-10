@@ -4272,3 +4272,207 @@ main.properties {
         grid-row: 1 / 2;    /* Ocupa la primera fila */
     }
 }
+
+/* ================================================= */
+/* === ESTILOS PARA LIGHTBOX V3 (MOSAICO Y SLIDER) === */
+/* ================================================= */
+
+.gallery__item {
+    cursor: pointer;
+}
+
+.gallery__open-btn {
+    margin-left: auto; /* Empuja el botón a la derecha */
+}
+
+/* --- Contenedor Principal --- */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; /* Fondo blanco sólido */
+}
+
+.lightbox__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* --- Vistas: Grid y Slider --- */
+.lightbox__grid-view,
+.lightbox__slider-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    transition: transform 0.4s ease-in-out;
+}
+
+.lightbox__slider-view {
+    transform: translateX(100%);
+}
+.lightbox--slider-active .lightbox__grid-view {
+    transform: translateX(-100%);
+}
+.lightbox--slider-active .lightbox__slider-view {
+    transform: translateX(0);
+}
+
+/* --- Encabezado común para ambas vistas --- */
+.lightbox__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.lightbox__header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.lightbox__close,
+.lightbox__back-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+}
+.lightbox__close {
+    font-size: 28px;
+    font-weight: 300;
+}
+
+/* --- (AQUÍ ESTÁ LA MAGIA) Estilos Vista Mosaico (Grid) --- */
+.lightbox__grid-container {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: grid;
+    /* Define columnas automáticas y una altura base para las filas */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-auto-rows: 200px; /* Altura base de cada "celda" del mosaico */
+    gap: 15px;
+}
+
+.lightbox__grid-item {
+    overflow: hidden;
+    border-radius: 8px;
+    cursor: pointer;
+    /* Por defecto, cada imagen ocupa 1 celda de ancho y 1 de alto */
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+/* Hacemos que la primera imagen sea más grande */
+.lightbox__grid-item:nth-child(5n + 1) {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+/* Hacemos que la segunda imagen sea más ancha */
+.lightbox__grid-item:nth-child(5n + 2) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.lightbox__grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.lightbox__grid-item:hover img {
+    transform: scale(1.05);
+}
+
+
+/* --- Estilos Vista Carrusel (Slider) --- */
+.lightbox__image-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+#lightbox-main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    animation: fadeIn 0.4s;
+}
+
+.lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(30, 30, 30, 0.5);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.2s ease;
+}
+.lightbox__nav:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.lightbox__nav--prev { left: 20px; }
+.lightbox__nav--next { right: 20px; }
+
+/* Animación de FadeIn para la imagen */
+@keyframes fadeIn {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+@media (max-width: 768px) {
+    .lightbox__grid-container {
+        grid-auto-rows: 150px; /* Hacemos las celdas un poco más pequeñas en móvil */
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    /* En móvil, hacemos que el patrón sea un poco diferente para que se vea bien */
+    .lightbox__grid-item:nth-child(3n + 1) {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+    .lightbox__grid-item:nth-child(5n + 2) {
+        grid-column: span 1; /* Reset a tamaño normal */
+        grid-row: span 1;
+    }
+}
