@@ -4371,108 +4371,214 @@ main.properties {
     font-weight: 300;
 }
 
-/* --- (AQUÍ ESTÁ LA MAGIA) Estilos Vista Mosaico (Grid) --- */
+/* ================================================= */
+/* === (DISEÑO FINAL V2.1) Grid Estructurado SIN Animación/Radius === */
+/* ================================================= */
+
+/* Bloquea el scroll del body cuando el lightbox está activo */
+body.lightbox-active {
+    overflow: hidden;
+}
+
 .lightbox__grid-container {
     padding: 15px;
     overflow-y: auto;
     flex-grow: 1;
     display: grid;
-    /* Define columnas automáticas y una altura base para las filas */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    grid-auto-rows: 200px; /* Altura base de cada "celda" del mosaico */
-    gap: 15px;
+    gap: 10px;
+    
+    /* Base de 6 columnas para el patrón 2-3-1 */
+    grid-template-columns: repeat(6, 1fr);
+    
+    /* Las filas tendrán una altura del 25% de la ventana, haciéndolas adaptables */
+    grid-auto-rows: 25vh; 
 }
 
 .lightbox__grid-item {
     overflow: hidden;
-    border-radius: 8px;
+    /* border-radius: 8px; */ /* <-- LÍNEA ELIMINADA */
     cursor: pointer;
-    /* Por defecto, cada imagen ocupa 1 celda de ancho y 1 de alto */
     grid-column: span 1;
     grid-row: span 1;
 }
 
-/* Hacemos que la primera imagen sea más grande */
-.lightbox__grid-item:nth-child(5n + 1) {
-    grid-column: span 2;
-    grid-row: span 2;
+/* --- Patrón Repetitivo de 6 Imágenes --- */
+
+/* 1. Fila con DOS imágenes (imágenes 1 y 2 del ciclo) */
+.lightbox__grid-item:nth-child(6n + 1),
+.lightbox__grid-item:nth-child(6n + 2) {
+    grid-column: span 3; /* Cada una ocupa 3 de 6 columnas */
 }
 
-/* Hacemos que la segunda imagen sea más ancha */
-.lightbox__grid-item:nth-child(5n + 2) {
-    grid-column: span 2;
-    grid-row: span 1;
+/* 2. Fila con TRES imágenes (imágenes 3, 4 y 5 del ciclo) */
+.lightbox__grid-item:nth-child(6n + 3),
+.lightbox__grid-item:nth-child(6n + 4),
+.lightbox__grid-item:nth-child(6n + 5) {
+    grid-column: span 2; /* Cada una ocupa 2 de 6 columnas */
+}
+
+/* 3. Imagen GRANDE (imagen 6 del ciclo) */
+.lightbox__grid-item:nth-child(6n + 6) {
+    grid-column: span 6; /* Ocupa las 6 columnas */
+    grid-row: span 2;    /* Ocupa el doble de altura */
 }
 
 .lightbox__grid-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    /* transition: transform 0.3s ease; */ /* <-- LÍNEA ELIMINADA */
 }
 
-.lightbox__grid-item:hover img {
-    transform: scale(1.05);
+/* .lightbox__grid-item:hover img {
+    transform: scale(1.03);
+} */ /* <-- BLOQUE ELIMINADO */
+
+
+/* --- Responsividad del Grid Estructurado --- */
+
+/* Para Tablets */
+@media (max-width: 1024px) {
+    .lightbox__grid-container {
+        /* Simplificamos a 4 columnas */
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 22vh;
+    }
+
+    /* Reseteamos el patrón a uno más simple para 4 columnas */
+    .lightbox__grid-item:nth-child(6n + 1),
+    .lightbox__grid-item:nth-child(6n + 2),
+    .lightbox__grid-item:nth-child(6n + 3),
+    .lightbox__grid-item:nth-child(6n + 4),
+    .lightbox__grid-item:nth-child(6n + 5),
+    .lightbox__grid-item:nth-child(6n + 6) {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+    
+    .lightbox__grid-item:nth-child(4n + 1) {
+    grid-row: span 2;
+    }
+}
+
+/* Para Móviles */
+@media (max-width: 768px) {
+    .lightbox__grid-container {
+        /* Usamos 2 columnas, ideal para móviles */
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 30vh;
+    }
+
+    /* Reseteamos completamente el patrón complejo */
+    .lightbox__grid-item:nth-child(n) {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    /* Y creamos un ritmo simple: cada 5ta imagen es ancha */
+    .lightbox__grid-item:nth-child(5n + 1) {
+        grid-column: span 2; /* Ocupa todo el ancho */
+    }
 }
 
 
-/* --- Estilos Vista Carrusel (Slider) --- */
+/* --- Estilos Vista Carrusel (Slider) - Contador en Barra Inferior --- */
+
+.lightbox__slider-view {
+    padding: 0; 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.lightbox__overlay {
+    background-color: #fff;
+}
+
+.lightbox__header {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    z-index: 20;
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 15px 25px;
+}
+
+.lightbox__slider-view .lightbox__header .lightbox__close,
+.lightbox__slider-view .lightbox__header .lightbox__back-button {
+    color: #333;
+    text-shadow: none;
+}
+
 .lightbox__image-container {
     flex-grow: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
     overflow: hidden;
+    padding: 20px;
 }
 
 #lightbox-main-image {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     animation: fadeIn 0.4s;
+    box-shadow: none;
+    border-radius: 0;
 }
 
+/* === ESTILO DE CONTADOR CON ESPACIO PROPIO === */
+.lightbox__counter {
+    position: relative; 
+    bottom: auto;
+    left: auto;
+    transform: none;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    font-size: 14px;
+    z-index: 10;
+    user-select: none;
+    text-shadow: none;
+    border-radius: 0;
+}
+/* FLECHAS GRANDES Y NEGRAS (se mantienen igual) */
 .lightbox__nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background-color: rgba(30, 30, 30, 0.5);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
     z-index: 10;
-    transition: background-color 0.2s ease;
+    
+    background: transparent;
+    border: none;
+    width: 80px; 
+    height: 100px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    
+    font-size: 0; 
 }
 .lightbox__nav:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 1;
 }
-.lightbox__nav--prev { left: 20px; }
-.lightbox__nav--next { right: 20px; }
-
-/* Animación de FadeIn para la imagen */
-@keyframes fadeIn {
-    from { opacity: 0.5; }
-    to { opacity: 1; }
+.lightbox__nav--prev {
+    left: 15px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
 }
-
-@media (max-width: 768px) {
-    .lightbox__grid-container {
-        grid-auto-rows: 150px; /* Hacemos las celdas un poco más pequeñas en móvil */
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-
-    /* En móvil, hacemos que el patrón sea un poco diferente para que se vea bien */
-    .lightbox__grid-item:nth-child(3n + 1) {
-        grid-column: span 2;
-        grid-row: span 2;
-    }
-    .lightbox__grid-item:nth-child(5n + 2) {
-        grid-column: span 1; /* Reset a tamaño normal */
-        grid-row: span 1;
-    }
+.lightbox__nav--next {
+    right: 15px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
 }

@@ -492,6 +492,7 @@ if (initialTab) {
         }
 
         function openLightbox() {
+            document.body.classList.add('lightbox-active');
             populateGrid();
             lightbox.classList.add('active');
             // Asegurarse de que siempre inicie en la vista de grid
@@ -499,6 +500,7 @@ if (initialTab) {
         }
 
         function closeLightbox() {
+            document.body.classList.remove('lightbox-active');
             lightbox.classList.remove('active');
         }
 

@@ -160,12 +160,13 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
             <div class="lightbox__slider-view" id="lightbox-slider-view">
                 <div class="lightbox__header">
                     <button class="lightbox__back-button" id="lightbox-slider-back">← Ver todas</button>
-                    <span class="lightbox__counter" id="lightbox-counter"></span>
                     <button class="lightbox__close" aria-label="Cerrar">×</button>
                 </div>
                 <div class="lightbox__image-container">
                     <img src="" alt="Vista ampliada de la propiedad" id="lightbox-main-image">
                 </div>
+                <span class="lightbox__counter" id="lightbox-counter"></span>
+                                
                 <button class="lightbox__nav lightbox__nav--prev" aria-label="Anterior">❮</button>
                 <button class="lightbox__nav lightbox__nav--next" aria-label="Siguiente">❯</button>
             </div>
