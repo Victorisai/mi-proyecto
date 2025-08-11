@@ -4372,10 +4372,9 @@ main.properties {
 }
 
 /* ================================================= */
-/* === (DISEÑO FINAL V2.1) Grid Estructurado SIN Animación/Radius === */
+/* ================ LIGHTBOX  ====================== */
 /* ================================================= */
 
-/* Bloquea el scroll del body cuando el lightbox está activo */
 body.lightbox-active {
     overflow: hidden;
 }
@@ -4386,66 +4385,45 @@ body.lightbox-active {
     flex-grow: 1;
     display: grid;
     gap: 10px;
-    
-    /* Base de 6 columnas para el patrón 2-3-1 */
     grid-template-columns: repeat(6, 1fr);
-    
-    /* Las filas tendrán una altura del 25% de la ventana, haciéndolas adaptables */
     grid-auto-rows: 25vh; 
 }
 
 .lightbox__grid-item {
     overflow: hidden;
-    /* border-radius: 8px; */ /* <-- LÍNEA ELIMINADA */
     cursor: pointer;
     grid-column: span 1;
     grid-row: span 1;
 }
 
-/* --- Patrón Repetitivo de 6 Imágenes --- */
-
-/* 1. Fila con DOS imágenes (imágenes 1 y 2 del ciclo) */
 .lightbox__grid-item:nth-child(6n + 1),
 .lightbox__grid-item:nth-child(6n + 2) {
-    grid-column: span 3; /* Cada una ocupa 3 de 6 columnas */
+    grid-column: span 3;
 }
 
-/* 2. Fila con TRES imágenes (imágenes 3, 4 y 5 del ciclo) */
 .lightbox__grid-item:nth-child(6n + 3),
 .lightbox__grid-item:nth-child(6n + 4),
 .lightbox__grid-item:nth-child(6n + 5) {
-    grid-column: span 2; /* Cada una ocupa 2 de 6 columnas */
+    grid-column: span 2;
 }
 
-/* 3. Imagen GRANDE (imagen 6 del ciclo) */
 .lightbox__grid-item:nth-child(6n + 6) {
-    grid-column: span 6; /* Ocupa las 6 columnas */
-    grid-row: span 2;    /* Ocupa el doble de altura */
+    grid-column: span 6;
+    grid-row: span 2;
 }
 
 .lightbox__grid-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* transition: transform 0.3s ease; */ /* <-- LÍNEA ELIMINADA */
 }
 
-/* .lightbox__grid-item:hover img {
-    transform: scale(1.03);
-} */ /* <-- BLOQUE ELIMINADO */
-
-
-/* --- Responsividad del Grid Estructurado --- */
-
-/* Para Tablets */
 @media (max-width: 1024px) {
     .lightbox__grid-container {
-        /* Simplificamos a 4 columnas */
         grid-template-columns: repeat(4, 1fr);
         grid-auto-rows: 22vh;
     }
 
-    /* Reseteamos el patrón a uno más simple para 4 columnas */
     .lightbox__grid-item:nth-child(6n + 1),
     .lightbox__grid-item:nth-child(6n + 2),
     .lightbox__grid-item:nth-child(6n + 3),
@@ -4457,32 +4435,25 @@ body.lightbox-active {
     }
     
     .lightbox__grid-item:nth-child(4n + 1) {
-    grid-row: span 2;
+        grid-row: span 2;
     }
 }
 
-/* Para Móviles */
 @media (max-width: 768px) {
     .lightbox__grid-container {
-        /* Usamos 2 columnas, ideal para móviles */
         grid-template-columns: repeat(2, 1fr);
         grid-auto-rows: 30vh;
     }
 
-    /* Reseteamos completamente el patrón complejo */
     .lightbox__grid-item:nth-child(n) {
         grid-column: span 1;
         grid-row: span 1;
     }
     
-    /* Y creamos un ritmo simple: cada 5ta imagen es ancha */
     .lightbox__grid-item:nth-child(5n + 1) {
-        grid-column: span 2; /* Ocupa todo el ancho */
+        grid-column: span 2;
     }
 }
-
-
-/* --- Estilos Vista Carrusel (Slider) - Contador en Barra Inferior --- */
 
 .lightbox__slider-view {
     padding: 0; 
@@ -4531,7 +4502,6 @@ body.lightbox-active {
     border-radius: 0;
 }
 
-/* === ESTILO DE CONTADOR CON ESPACIO PROPIO === */
 .lightbox__counter {
     position: relative; 
     bottom: auto;
@@ -4550,13 +4520,12 @@ body.lightbox-active {
     text-shadow: none;
     border-radius: 0;
 }
-/* FLECHAS GRANDES Y NEGRAS (se mantienen igual) */
+
 .lightbox__nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
-    
     background: transparent;
     border: none;
     width: 80px; 
@@ -4564,21 +4533,68 @@ body.lightbox-active {
     cursor: pointer;
     opacity: 0.7;
     transition: opacity 0.2s ease;
-    
     font-size: 0; 
 }
+
 .lightbox__nav:hover {
     opacity: 1;
 }
+
 .lightbox__nav--prev {
     left: 15px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
 }
+
 .lightbox__nav--next {
     right: 15px;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
 }
+
+/* ================================================= */
+/* === ESTILOS PARA EL CONTADOR DE FOTOS EN GALERÍA (V2) === */
+/* ================================================= */
+
+.gallery__item--thumb {
+    position: relative; /* Necesario para posicionar el overlay */
+    cursor: pointer;
+}
+
+.gallery__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* --- INICIO DE CAMBIOS --- */
+    background-color: transparent; /* 1. Eliminamos el fondo oscuro */
+    display: flex;
+    justify-content: flex-end;     /* 2. Alinea el contenido a la derecha */
+    align-items: flex-end;         /* 3. Alinea el contenido abajo */
+    opacity: 1;                    /* 4. Hacemos que sea siempre visible */
+    padding: 15px;                 /* 5. Añadimos espacio en los bordes */
+    /* --- FIN DE CAMBIOS --- */
+    transition: opacity 0.3s ease;
+}
+.gallery__photo-count {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    background-color: rgba(17, 17, 17, 0.75);
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+    /* --- INICIO DE CAMBIOS --- */
+    display: flex;         /* 1. Usamos Flexbox para alinear */
+    align-items: center;   /* 2. Centramos verticalmente el ícono y el texto */
+    gap: 8px;              /* 3. Creamos un espacio entre el ícono y el texto */
+    /* --- FIN DE CAMBIOS --- */
+}
+

@@ -49,20 +49,28 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <?php if (!empty($main_gallery_images)): ?>
-                <section class="gallery">
-                    <div class="gallery__layout">
-                        <?php foreach($main_gallery_images as $index => $image_src): ?>
-                            <div class="gallery__item <?php if($index == 0) echo 'gallery__item--large'; else echo 'gallery__item--thumb'; ?>" data-index="<?php echo $index; ?>">
-                                <img src="<?php echo htmlspecialchars($image_src); ?>" alt="Vista <?php echo $index + 1; ?> de <?php echo htmlspecialchars($property['title']); ?>" class="gallery__image">
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="gallery__actions">
-                        <button class="btn btn-secondary">Guardar</button>
-                        <button class="btn btn-secondary">Compartir</button>
-                        <button class="btn btn-secondary gallery__open-btn">Ver las <?php echo $total_images; ?> fotos</button>
-                    </div>
-                </section>
+            <section class="gallery">
+                <div class="gallery__layout">
+                    <?php foreach($main_gallery_images as $index => $image_src): ?>
+                        <div class="gallery__item <?php if($index == 0) echo 'gallery__item--large'; else echo 'gallery__item--thumb'; ?>" data-index="<?php echo $index; ?>">
+                            <img src="<?php echo htmlspecialchars($image_src); ?>" alt="Vista <?php echo $index + 1; ?> de <?php echo htmlspecialchars($property['title']); ?>" class="gallery__image">
+                            <?php if ($index === count($main_gallery_images) - 1 && $total_images > count($main_gallery_images)): ?>
+                                <div class="gallery__overlay">
+                                <div class="gallery__photo-count">
+                                    <?php // --- INICIO DEL CAMBIO --- ?>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon-camera"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                    <span><?php echo $total_images; ?> Fotos</span>
+                                </div>
+                                </div>
+                            <?php endif; ?>  
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <div class="gallery__actions">
+                    <button class="btn btn-secondary">Guardar</button>
+                    <button class="btn btn-secondary">Compartir</button>
+                </div>
+            </section>
             <?php endif; ?>
 
             <div class="property-detail__main-content">
