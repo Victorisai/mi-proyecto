@@ -542,4 +542,18 @@ if (initialTab) {
             }
         });
     }
+// =======================================================
+// === LÓGICA PARA REVELAR TELÉFONO EN TARJETA DE CONTACTO ===
+// =======================================================
+const revealPhoneBtn = document.getElementById('reveal-phone-btn');
+if (revealPhoneBtn) {
+    revealPhoneBtn.addEventListener('click', () => {
+        const phoneWrapper = document.getElementById('phone-wrapper');
+        const phoneNumberSpan = phoneWrapper.querySelector('.contact-card__phone-number');
+        const fullNumber = phoneNumberSpan.dataset.fullNumber;
+
+        // Reemplaza el contenido del wrapper con el número completo y enlazado
+        phoneWrapper.innerHTML = `<a href="tel:+52${fullNumber.replace(/-/g, '')}" class="contact-card__phone-number">${fullNumber}</a>`;
+    });
+}
 });

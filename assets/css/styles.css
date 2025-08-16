@@ -4086,7 +4086,7 @@ main.properties {
 }
 
 .gallery__item:hover .gallery__image {
-    transform: scale(1.05); /* Escala la imagen al 105% de su tamaño */
+    transform: scale(1.02); /* Escala la imagen al 105% de su tamaño */
 }
 
 .gallery__item--large {
@@ -4602,3 +4602,142 @@ body.lightbox-active {
     /* --- FIN DE CAMBIOS --- */
 }
 
+/* ================================================= */
+/* === TARJETA DE CONTACTO (ASIDE) - DOS TARJETAS FLOTANTES === */
+/* ================================================= */
+
+/* El contenedor principal es transparente y solo posiciona las tarjetas */
+.contact-card {
+    position: sticky;
+    top: 100px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0; /* Sin padding en el contenedor principal */
+}
+
+/* Tarjeta #1: El formulario */
+.contact-card__form-section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #dfe4ea;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px 25px;
+    margin-bottom: 15px; /* Crea el espacio visible entre las dos tarjetas */
+}
+
+/* Tarjeta #2: La información del agente */
+.contact-card__agent-section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #dfe4ea;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.contact-card__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+}
+
+.contact-card__form {
+    margin-bottom: 12px; 
+}
+
+.contact-card__form-group {
+    margin-bottom: 12px;
+}
+
+.contact-card__input,
+.contact-card__textarea {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    outline-color: #3498db;
+}
+
+.contact-card__textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.contact-card__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.contact-card .btn-primary {
+    background-color: #000;
+}
+
+.contact-card .btn-whatsapp {
+    margin-left: 0;
+}
+
+.contact-card__legal {
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.contact-card__agent-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.contact-card__agent-details {
+    flex-grow: 1;
+}
+
+.contact-card__agent-name {
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}
+
+.contact-card__phone-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-card__phone-number {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.contact-card__phone-reveal-btn {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.contact-card__phone-reveal-btn:hover {
+    background-color: #f1f3f5;
+}
