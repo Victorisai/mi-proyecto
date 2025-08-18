@@ -4110,11 +4110,6 @@ main.properties {
     filter: brightness(0.8);
 }
 
-.gallery__actions {
-    padding-top: 15px;
-    display: flex;
-    gap: 10px;
-}
 
 /* --- Contenido Principal (Info y Contacto) --- */
 .property-detail__main-content {
@@ -4275,6 +4270,38 @@ main.properties {
         grid-column: 1 / 2; /* Ocupa la primera columna */
         grid-row: 1 / 2;    /* Ocupa la primera fila */
     }
+}
+
+/* ================================================= */
+/* === ESTILOS MEJORADOS BOTONES (PROPERTY DETAIL) === */
+/* ================================================= */
+
+.gallery__actions {
+    padding-top: 15px;
+    display: flex;
+    gap: 15px; /* Aumentamos un poco el espacio entre botones */
+}
+
+/* Nuevo estilo para los botones de la galería */
+.gallery__action-btn {
+    background-color: transparent; /* Fondo transparente */
+    color: #2c3e50; /* Color de texto oscuro */
+    border: 1px solid #dfe4ea; /* Borde gris claro sutil */
+    border-radius: 8px; /* Bordes un poco más redondeados */
+    padding: 10px 20px;
+    font-weight: 600; /* Un peso de fuente profesional */
+    display: flex; /* Necesario para alinear el ícono y el texto */
+    align-items: center;
+    gap: 8px; /* Espacio entre el ícono y el texto */
+    cursor: pointer;
+}
+
+/* Efecto elegante al pasar el cursor */
+.gallery__action-btn:hover {
+    background-color: #f8f9fa; /* Fondo gris muy claro */
+    border-color: #adb5bd; /* Borde un poco más oscuro */
+    transform: translateY(-2px); /* Efecto de "levantamiento" sutil */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra suave */
 }
 
 /* ================================================= */
@@ -4740,4 +4767,342 @@ body.lightbox-active {
 
 .contact-card__phone-reveal-btn:hover {
     background-color: #f1f3f5;
+}
+
+/* ================================================= */
+/* === BREADCRUMB (Property Detail) (ACTUALIZADO) === */
+/* ================================================= */
+
+.breadcrumb {
+    padding-top: 25px;    /* Espacio arriba */
+    padding-bottom: 15px; /* Espacio abajo, antes de los botones */
+}
+
+.breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.breadcrumb__item {
+    display: inline-block;
+}
+
+.breadcrumb__link {
+    color: #555;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb__link:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.breadcrumb__separator {
+    margin: 0 10px;
+    color: #868e96;
+    user-select: none;
+}
+
+.breadcrumb__item:last-child .breadcrumb__link {
+    color: #2c3e50;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 768px) {
+    .breadcrumb {
+        padding-top: 20px;
+        padding-bottom: 15px;
+    }
+    .breadcrumb__list {
+        font-size: 13px;
+    }
+    .breadcrumb__separator {
+        margin: 0 8px;
+    }
+}
+
+/* ==================================================================== */
+/* === ESTILOS ASIDE DE CONTACTO (STICKY EN ESCRITORIO)=== */
+/* ==================================================================== */
+@media (min-width: 993px) {
+    .property-detail__contact-wrapper {
+        position: sticky;
+        top: 120px;
+        margin-top: -140px; 
+    }
+}
+@media (max-width: 992px) {
+    .property-detail__contact-wrapper {
+        position: static;
+        margin-top: 30px;
+    }
+}
+
+/* =================================================================== */
+/* === SECCIÓN 'PASOS A SEGUIR' (DISEÑO HORIZONTAL Y RESPONSIVO) === */
+/* =================================================================== */
+
+.next-steps {
+    margin-top: 40px; /* Espacio desde la sección de características */
+    padding-top: 30px;
+    border-top: 1px solid #e9ecef; /* Línea separadora */
+}
+
+.next-steps__main-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.next-steps__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* <-- Clave para el diseño horizontal */
+    position: relative;
+    justify-content: space-between;
+}
+
+/* Línea de tiempo horizontal que conecta los pasos */
+.next-steps__list::before {
+    content: '';
+    position: absolute;
+    top: 12px; /* Alinea la línea con el centro de los iconos */
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background-color: #e9ecef;
+    z-index: 0;
+}
+
+.next-steps__item {
+    display: flex;
+    flex-direction: column; /* Icono arriba, texto abajo */
+    align-items: center;
+    text-align: center;
+    position: relative;
+    width: 23%; /* Ancho aproximado para cada paso */
+}
+
+.next-steps__icon {
+    width: 24px;
+    height: 24px;
+    background-color: #fff; /* Fondo blanco para tapar la línea horizontal */
+    padding: 4px;
+    border: 2px solid #adb5bd;
+    border-radius: 50%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease;
+}
+
+.next-steps__icon svg {
+    color: #adb5bd;
+    transition: color 0.3s ease;
+}
+
+.next-steps__content {
+    margin-top: 15px;
+}
+
+.next-steps__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #6c757d;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+}
+
+.next-steps__text {
+    font-size: 15px;
+    color: #6c757d;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* --- Modificador para el paso completado --- */
+.next-steps__item--done .next-steps__icon {
+    border-color: #28a745;
+}
+
+.next-steps__item--done .next-steps__icon svg {
+    color: #28a745;
+}
+
+.next-steps__item--done .next-steps__title,
+.next-steps__item--done .next-steps__text {
+    color: #2c3e50;
+}
+
+/* --- RESPONSIVIDAD: Vuelve a ser vertical en pantallas pequeñas --- */
+@media (max-width: 768px) {
+    .next-steps__list {
+        flex-direction: column; /* Apila los elementos */
+        align-items: flex-start; /* Alinea a la izquierda */
+    }
+
+    /* La línea de tiempo vuelve a ser vertical */
+    .next-steps__list::before {
+        top: 12px;
+        bottom: 12px;
+        left: 14px; /* Posición para la línea vertical */
+        width: 2px;
+        height: auto;
+        right: auto;
+    }
+
+    .next-steps__item {
+        flex-direction: row; /* Icono a la izquierda, texto a la derecha */
+        text-align: left;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .next-steps__item:last-child {
+        margin-bottom: 0;
+    }
+
+    .next-steps__icon {
+        margin-right: 15px;
+        background-color: #f8f9fa; /* Color de fondo de la página */
+    }
+
+    .next-steps__content {
+        margin-top: 0;
+    }
+}
+
+/* ================================================================ */
+/* === SECCIÓN INFORMACIÓN DEL ANUNCIANTE Y REPORTAR === */
+/* ================================================================ */
+
+.advertiser-info,
+.report-listing {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e9ecef;
+}
+
+.advertiser-info__main-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+.advertiser-info__content {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.advertiser-info__header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+}
+
+.advertiser-info__logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+}
+
+.advertiser-info__name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.advertiser-info__header:hover .advertiser-info__name {
+    text-decoration: underline;
+}
+
+.advertiser-info__details {
+    font-size: 14px;
+    color: #555;
+    padding-left: 25px;
+    border-left: 2px solid #e9ecef;
+}
+
+.advertiser-info__code {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* --- Report Listing Section --- */
+
+.report-listing {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px 25px;
+    margin-top: 30px;
+    border-top: none; /* Quitamos el borde superior para que no se duplique */
+}
+
+.report-listing__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.report-listing__icon svg {
+    color: #6c757d;
+    flex-shrink: 0;
+}
+
+.report-listing__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.report-listing__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Permite que los botones se ajusten en pantallas pequeñas */
+}
+
+.report-listing__button {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 20px; /* Forma de píldora */
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.report-listing__button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 480px) {
+    .advertiser-info__details {
+        padding-left: 0;
+        border-left: none;
+        width: 100%;
+    }
 }

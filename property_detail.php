@@ -66,12 +66,39 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                     <?php endforeach; ?>
                 </div>
+                <nav class="breadcrumb" aria-label="breadcrumb">
+                    <ol class="breadcrumb__list">
+                        <li class="breadcrumb__item">
+                            <a href="index.php" class="breadcrumb__link">Domably</a>
+                        </li>
+                        <li class="breadcrumb__separator" aria-hidden="true">></li>
+                        <li class="breadcrumb__item">
+                            <a href="properties.php?listing_type=<?php echo urlencode($property['listing_type']); ?>" class="breadcrumb__link"><?php echo htmlspecialchars(ucfirst($property['listing_type'])); ?></a>
+                        </li>
+                        <li class="breadcrumb__separator" aria-hidden="true">></li>
+                        <li class="breadcrumb__item">
+                            <a href="properties.php?location=<?php echo urlencode($property['location']); ?>" class="breadcrumb__link"><?php echo htmlspecialchars($property['location']); ?></a>
+                        </li>
+                        <li class="breadcrumb__separator" aria-hidden="true">></li>
+                        <li class="breadcrumb__item">
+                            <a href="properties.php?category=<?php echo urlencode($property['category']); ?>" class="breadcrumb__link"><?php echo htmlspecialchars(ucfirst($property['category'])); ?></a>
+                        </li>
+                    </ol>
+                </nav>
                 <div class="gallery__actions">
-                    <button class="btn btn-secondary">Guardar</button>
-                    <button class="btn btn-secondary">Compartir</button>
+                    <button class="btn gallery__action-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                        <span>Guardar</span>
+                    </button>
+                    <button class="btn gallery__action-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+                        <span>Compartir</span>
+                    </button>
                 </div>
             </section>
             <?php endif; ?>
+
+
 
             <div class="property-detail__main-content">
                 <article class="property-detail__info-wrapper">
@@ -151,6 +178,71 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
                                 ?>
                             </ul>
                         </div>
+                        <div class="next-steps">
+                            <h3 class="next-steps__main-title">¿Interesado? Sigue estos pasos</h3>
+                            <ul class="next-steps__list">
+                                <li class="next-steps__item next-steps__item--done">
+                                    <div class="next-steps__icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                    </div>
+                                    <div class="next-steps__content">
+                                        <h4 class="next-steps__title">Paso 1</h4>
+                                        <p class="next-steps__text">Envía tu consulta usando el formulario.</p>
+                                    </div>
+                                </li>
+                                <li class="next-steps__item">
+                                    <div class="next-steps__icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                                    </div>
+                                    <div class="next-steps__content">
+                                        <h4 class="next-steps__title">Paso 2</h4>
+                                        <p class="next-steps__text">Un asesor te contactará.</p>
+                                    </div>
+                                </li>
+                                <li class="next-steps__item">
+                                    <div class="next-steps__icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                                    </div>
+                                    <div class="next-steps__content">
+                                        <h4 class="next-steps__title">Paso 3</h4>
+                                        <p class="next-steps__text">Agenda una visita a la propiedad.</p>
+                                    </div>
+                                </li>
+                                <li class="next-steps__item">
+                                    <div class="next-steps__icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+                                    </div>
+                                    <div class="next-steps__content">
+                                        <h4 class="next-steps__title">Paso 4</h4>
+                                        <p class="next-steps__text">¡Encuentra tu nuevo hogar!</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="advertiser-info">
+                            <h3 class="advertiser-info__main-title">Información del anunciante</h3>
+                            <div class="advertiser-info__content">
+                                <a href="index.php" class="advertiser-info__header">
+                                    <img src="assets/images/iconcaracteristic/icono_doma.png" alt="Logo Domably" class="advertiser-info__logo">
+                                    <span class="advertiser-info__name">Domably Inmobiliaria</span>
+                                </a>
+                                <div class="advertiser-info__details">
+                                    <p class="advertiser-info__code">Código de propiedad: <?php echo htmlspecialchars($property['id']); ?></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="report-listing">
+                            <div class="report-listing__header">
+                                <div class="report-listing__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                                </div>
+                                <h4 class="report-listing__title">¿Tienes algún problema con este aviso?</h4>
+                            </div>
+                            <div class="report-listing__actions">
+                                <button type="button" class="report-listing__button">El inmueble está vendido</button>
+                                <button type="button" class="report-listing__button">No me puedo contactar</button>
+                                <button type="button" class="report-listing__button">Otros motivos</button>
+                            </div>
                     </div>
                 </article>
                 
