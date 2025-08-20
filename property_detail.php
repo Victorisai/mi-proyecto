@@ -25,7 +25,7 @@ $main_gallery_images = array_slice($images, 0, 5);
 $total_images = count($images);
 
 // --- Lógica para Propiedades Similares ---
-$similar_stmt = $pdo->prepare("SELECT * FROM properties WHERE category = :category AND id != :id AND status = 'disponible' ORDER BY RAND() LIMIT 3");
+$similar_stmt = $pdo->prepare("SELECT * FROM properties WHERE category = :category AND id != :id AND status = 'disponible' ORDER BY RAND() LIMIT 10");
 $similar_stmt->execute(['category' => $property['category'], 'id' => $id]);
 $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
 
@@ -307,26 +307,39 @@ $similar_properties = $similar_stmt->fetchAll(PDO::FETCH_ASSOC);
                 <iframe src="https://maps.google.com/maps?q=<?php echo urlencode($property['latitude'] . ',' . $property['longitude']); ?>&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </section>
             <?php endif; ?>
-
+        </div>
             <?php if (!empty($similar_properties)): ?>
             <section class="recommendations">
-                <h2 class="recommendations__title">Propiedades Similares</h2>
-                <div class="recommendations__grid">
-                    <?php foreach ($similar_properties as $similar_property): ?>
-                        <div class="property-card">
-                            <a href="property_detail.php?id=<?php echo $similar_property['id']; ?>" class="property-card__link">
-                                <div class="property-card__image-container">
-                                    <img class="property-card__image" src="<?php echo htmlspecialchars($similar_property['main_image']); ?>" alt="<?php echo htmlspecialchars($similar_property['title']); ?>">
-                                </div>
-                                <div class="property-card__content">
-                                    <h3 class="property-card__title"><?php echo htmlspecialchars($similar_property['title']); ?></h3>
-                                </div>
-                                <div class="property-card__footer">
-                                    <p class="property-card__price">$<?php echo number_format($similar_property['price'], 2); ?> MXN</p>
-                                </div>
-                            </a>
+                <div class="container">
+                    <div class="recommendations__header">
+                        <h2 class="recommendations__title">Propiedades Similares</h2>
+                        <div class="recommendations__nav">
+                            <button class="recommendations__arrow" id="similar-prev">&lt;</button>
+                            <button class="recommendations__arrow" id="similar-next">&gt;</button>
                         </div>
-                    <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="recommendations__grid-wrapper" id="similar-carousel-wrapper">
+                    <div class="recommendations__grid">
+                        <?php foreach ($similar_properties as $similar_property): ?>
+                            <div class="property-card">
+                                <a href="property_detail.php?id=<?php echo $similar_property['id']; ?>" class="property-card__link">
+                                    <div class="property-card__image-container">
+                                        <img class="property-card__image" src="<?php echo htmlspecialchars($similar_property['main_image']); ?>" alt="<?php echo htmlspecialchars($similar_property['title']); ?>">
+                                        <div class="property-card__badge property-card__badge--listing"><?php echo htmlspecialchars(ucfirst($similar_property['listing_type'])); ?></div>
+                                        <div class="property-card__badge property-card__badge--category"><?php echo htmlspecialchars(ucfirst($similar_property['category'])); ?></div>
+                                    </div>
+                                    <div class="property-card__content">
+                                        <h3 class="property-card__title"><?php echo htmlspecialchars($similar_property['title']); ?></h3>
+                                    </div>
+                                    <div class="property-card__footer">
+                                        <p class="property-card__price">$<?php echo number_format($similar_property['price'], 2); ?> MXN</p>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 </div>
             </section>
             <?php endif; ?>

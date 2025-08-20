@@ -5106,3 +5106,118 @@ body.lightbox-active {
         width: 100%;
     }
 }
+
+/* ================================================================= */
+/* === DISEÑO DE GALERÍA PARA MÓVILES (1 GRANDE + 2 PEQUEÑAS) === */
+/* ================================================================= */
+
+@media (max-width: 768px) {
+    /* 1. Definimos la nueva estructura de la galería */
+    .gallery__layout {
+        display: grid;
+        /* Dos columnas de igual tamaño */
+        grid-template-columns: repeat(2, 1fr);
+        /* Dos filas: una alta para la imagen principal y otra más corta para las de abajo */
+        grid-template-rows: 300px 150px;
+        gap: 8px; /* Un espacio más pequeño para móviles */
+        border-radius: 0; /* Sin bordes redondeados en el contenedor */
+    }
+
+    /* 2. Posicionamos la imagen principal */
+    .gallery__item--large {
+        /* Hacemos que la imagen grande ocupe las 2 columnas de la primera fila */
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+    
+    /* 3. Ocultamos las imágenes extra que no queremos ver en móvil */
+    .gallery__item:nth-child(n + 4) {
+        display: none;
+    }
+    
+    /* 4. Nos aseguramos de que ninguna imagen tenga bordes redondeados */
+    .gallery__image {
+        border-radius: 0;
+    }
+}
+
+/* ================================================= */
+/* === CARRUSEL DE PROPIEDADES SIMILARES         === */
+/* ================================================= */
+
+.recommendations {
+    overflow: hidden; /* Previene el desbordamiento visual */
+}
+
+.recommendations__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.recommendations__nav {
+    display: flex;
+    gap: 10px;
+}
+
+.recommendations__arrow {
+    background-color: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.recommendations__arrow:hover {
+    background-color: #f1f3f5;
+    transform: scale(1.05);
+}
+
+.recommendations__grid-wrapper {
+    overflow-x: auto; /* Permite el scroll horizontal */
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* Oculta scrollbar en IE y Edge */
+    scrollbar-width: none;  /* Oculta scrollbar en Firefox */
+}
+
+.recommendations__grid-wrapper::-webkit-scrollbar {
+    display: none; /* Oculta scrollbar en Chrome, Safari y Opera */
+}
+
+.recommendations__grid {
+    display: flex;
+    gap: 30px;
+    padding-bottom: 15px; /* Espacio para que las sombras de las tarjetas no se corten */
+}
+
+.recommendations__grid .property-card {
+    flex: 0 0 320px; /* Ancho fijo para cada tarjeta */
+    width: 320px;
+}
+
+/* En móvil, se ocultan las flechas y se ajusta el ancho de las tarjetas */
+@media (max-width: 768px) {
+    .recommendations__nav {
+        display: none;
+    }
+    .recommendations__grid {
+        gap: 15px;
+        scroll-snap-type: x mandatory; /* El scroll se "pega" a la tarjeta más cercana */
+    }
+    .recommendations__grid .property-card {
+        flex: 0 0 80%;
+        width: 80%;
+        scroll-snap-align: start;
+    }
+}
+@media (min-width: 1520px) {
+    .recommendations__grid {
+        padding-left: calc((100% - 1500px) / 2 + 10px);
+        padding-right: calc((100% - 1500px) / 2 + 10px);
+    }
+}

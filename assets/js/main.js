@@ -556,4 +556,24 @@ if (revealPhoneBtn) {
         phoneWrapper.innerHTML = `<a href="tel:+52${fullNumber.replace(/-/g, '')}" class="contact-card__phone-number">${fullNumber}</a>`;
     });
 }
+
+// === LÓGICA PARA CARRUSEL DE PROPIEDADES SIMILARES ===
+    const similarCarouselWrapper = document.getElementById('similar-carousel-wrapper');
+    if (similarCarouselWrapper) {
+        const prevBtn = document.getElementById('similar-prev');
+        const nextBtn = document.getElementById('similar-next');
+        const firstCard = similarCarouselWrapper.querySelector('.property-card');
+
+        if(firstCard) {
+            const scrollAmount = firstCard.offsetWidth + 30; // Ancho de la tarjeta + el gap
+
+            prevBtn.addEventListener('click', () => {
+                similarCarouselWrapper.scrollLeft -= scrollAmount;
+            });
+
+            nextBtn.addEventListener('click', () => {
+                similarCarouselWrapper.scrollLeft += scrollAmount;
+            });
+        }
+    }
 });
