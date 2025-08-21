@@ -347,9 +347,9 @@ body:not(.home) .header__nav-item a {
 .hero {
     height: 80vh;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+    align-items: flex-end;
+    justify-content: center; /* Centrado por defecto para móvil */
+    text-align: center; /* Centrado por defecto para móvil */
     color: #fff;
     position: relative;
     overflow: hidden;
@@ -362,7 +362,7 @@ body:not(.home) .header__nav-item a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.4);
+    background: rgba(0, 0, 0, 0.570);
     z-index: 1;
 }
 
@@ -398,16 +398,13 @@ body:not(.home) .header__nav-item a {
 }
 
 .hero__content {
-    position: absolute;
-    bottom: 60px; /* Lo subimos un poco para dar espacio */
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     z-index: 2;
     width: 90%;
     max-width: 1200px;
-    text-align: center;
     opacity: 0;
     animation: fadeIn 1.5s ease-out 0.5s forwards;
+    padding-bottom: 60px;
 }
 
 /* Estilo para el título original */
@@ -462,7 +459,7 @@ body:not(.home) .header__nav-item a {
         height: 90vh;
     }
     .hero__content {
-        bottom: 40px;
+        padding-bottom: 40px;
     }
 }
 
@@ -1154,11 +1151,6 @@ body:not(.home) .header__nav-item a {
 
 /* Responsividad */
 @media (max-width: 768px) {
-    .hero__content {
-    bottom: 20px;
-    left: 20px;
-    }
-
     .hero {
         height: 70vh;
     }
@@ -1286,6 +1278,52 @@ body:not(.home) .header__nav-item a {
 
     .features-grid li span {
         font-size: 14px;
+    }
+}
+
+/* --- Ajustes para alinear a la derecha en escritorio --- */
+/* --- Ajustes para TABLETS Y LAPTOPS PEQUEÑAS (769px a 1200px) --- */
+@media (min-width: 769px) and (max-width: 1200px) {
+    .hero {
+        justify-content: flex-end;
+    }
+    .hero__content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+        width: 85%; /* <-- CAMBIO: Hacemos el contenedor mucho más ancho */
+        padding-right: 5%;
+    }
+    .hero__progress-container {
+        position: relative;
+        align-self: flex-end;
+    }
+    .hero__content h1 {
+        font-size: clamp(3rem, 7vw, 4.5rem); /* Hacemos el título más grande */
+    }
+    .hero__content p {
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem); /* Hacemos el párrafo más grande */
+    }
+}
+
+/* --- Ajustes para ESCRITORIOS GRANDES (más de 1200px) --- */
+@media (min-width: 1201px) {
+    .hero {
+        justify-content: flex-end;
+    }
+    .hero__content {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        text-align: right;
+        width: 50%; /* Mantenemos el ancho original para pantallas grandes */
+        max-width: 800px;
+        padding-right: 5%;
+    }
+    .hero__progress-container {
+        position: relative;
+        align-self: flex-end;
     }
 }
 
