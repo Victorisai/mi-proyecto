@@ -28,9 +28,8 @@
     </div>
 
     <div class="hero__content">
-        <h1>Encuentra la <br> Propiedad de tus Sueños</h1>
-        <p>Explora terrenos, casas, departamentos y desarrollos en Domably</p>
-        <a href="properties.php" class="btn btn-primary">Ver Propiedades</a>
+        <h1>El Mercado <br> Inmobiliario Reinventado</h1>
+        <p>“Una nueva forma de descubrir e invertir en propiedades”</p>
     </div>
     <div class="hero__progress-container">
         <?php foreach ($hero_images as $image): ?>

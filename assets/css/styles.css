@@ -786,6 +786,7 @@ body:not(.home) .header__nav-item a {
     margin-top: 0;
     margin-left: 0;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     white-space: nowrap;
     -ms-overflow-style: none;
