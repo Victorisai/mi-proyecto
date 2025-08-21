@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // === LÓGICA DE PÁGINA DE INICIO (HOME) ===
     // ===============================
     if (document.body.classList.contains('home')) {
-        // Cambiar clase del encabezado al deslizar
         window.addEventListener('scroll', () => {
             const header = document.querySelector('header');
             if (window.scrollY > 50) {
@@ -92,44 +91,72 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Carrusel para el Hero
         const slides = document.querySelectorAll('.hero__slide');
-        const progressBars = document.querySelectorAll('.hero__progress-bar');
-        const heroContent = document.querySelector('.hero__content');
-        const heroTitle = heroContent.querySelector('h1');
-        const heroSubtitle = heroContent.querySelector('p');
-
+        const progressBarsMobile = document.querySelectorAll('.hero__progress-bar');
+        const progressBarsDesktop = document.querySelectorAll('.hero-nav__bar');
+        const prevArrowDesktop = document.querySelector('.hero-nav__arrow--prev');
+        const nextArrowDesktop = document.querySelector('.hero-nav__arrow--next');
         let currentSlide = 0;
+        let slideInterval;
 
         if (slides.length > 0) {
             function showSlide(index) {
-                slides.forEach((slide, i) => slide.classList.toggle('hero__slide--active', i === index));
-
-                progressBars.forEach(bar => {
-                    bar.classList.remove('hero__progress-bar--active');
+                currentSlide = (index + slides.length) % slides.length;
+                slides.forEach((slide, i) => slide.classList.toggle('hero__slide--active', i === currentSlide));
+                
+                progressBarsMobile.forEach((bar, i) => {
                     const fill = bar.querySelector('.hero__progress-bar-fill');
                     fill.style.transition = 'none';
                     fill.style.width = '0';
+                    if (i === currentSlide) {
+                        setTimeout(() => {
+                            fill.style.transition = 'width 5s linear';
+                            fill.style.width = '100%';
+                        }, 50);
+                    }
                 });
                 
-                const currentBar = progressBars[index];
-                if (currentBar) {
-                    currentBar.classList.add('hero__progress-bar--active');
-                    const currentFill = currentBar.querySelector('.hero__progress-bar-fill');
-                    setTimeout(() => { 
-                        currentFill.style.transition = 'width 5s linear';
-                        currentFill.style.width = '100%';
-                    }, 50);
-                }
+                progressBarsDesktop.forEach((bar, i) => {
+                    const fill = bar.querySelector('.hero-nav__bar-fill');
+                    fill.style.transition = 'none';
+                    fill.style.width = '0';
+                    bar.classList.remove('hero-nav__bar--active');
+                    if (i === currentSlide) {
+                        bar.classList.add('hero-nav__bar--active');
+                        setTimeout(() => {
+                            fill.style.transition = 'width 5s linear';
+                            fill.style.width = '100%';
+                        }, 50);
+                    }
+                });
             }
 
             function nextSlide() {
-                currentSlide = (currentSlide + 1) % slides.length;
-                showSlide(currentSlide);
+                showSlide(currentSlide + 1);
+            }
+            
+            function prevSlide() {
+                showSlide(currentSlide - 1);
             }
 
-            showSlide(currentSlide);
-            setInterval(nextSlide, 5000);
+            function startSlideshow() {
+                clearInterval(slideInterval);
+                showSlide(currentSlide);
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            if(nextArrowDesktop && prevArrowDesktop) {
+                nextArrowDesktop.addEventListener('click', () => {
+                    nextSlide();
+                    startSlideshow();
+                });
+                prevArrowDesktop.addEventListener('click', () => {
+                    prevSlide();
+                    startSlideshow();
+                });
+            }
+
+            startSlideshow();
         }
     }
 
