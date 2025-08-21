@@ -348,9 +348,11 @@ body:not(.home) .header__nav-item a {
     height: 80vh;
     display: flex;
     align-items: center;
+    justify-content: center;
     text-align: center;
     color: #fff;
     position: relative;
+    overflow: hidden;
 }
 
 .hero::before {
@@ -360,22 +362,14 @@ body:not(.home) .header__nav-item a {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 1; /* Asegura que esté encima de las imágenes */
-}
-
-.hero__content {
-    position: absolute;     /* Cambia de relative a absolute */
-    bottom: 40px;           /* Distancia desde el borde inferior */
-    left: 40px;             /* Distancia desde el borde izquierdo */
-    text-align: left;       /* Alineación del texto */
+    background: rgba(0, 0, 0, 0.4);
     z-index: 1;
-    opacity: 0;
-    animation: fadeIn 1.5s ease-out 0.5s forwards;
 }
 
 .hero__slideshow {
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
 }
@@ -389,66 +383,87 @@ body:not(.home) .header__nav-item a {
     background-size: cover;
     background-position: center;
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 1.5s ease-in-out;
+    animation: zoom-in-out 20s infinite;
 }
 
 .hero__slide--active {
     opacity: 1;
 }
 
-/* Botón Ver Propiedades en Hero */
-.hero .btn-primary {
-    background: #252525; /* Verde oscuro */
-    color: #fff; /* Mantener texto blanco */
+@keyframes zoom-in-out {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
-.hero .btn-primary:hover {
-    background: #afadad; /* Verde más oscuro al hover */
-    transform: scale(1.05); /* Mantener efecto de escala */
-}
-
-.hero__progress-container {
+.hero__content {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: row; /* Cambiado a fila horizontal */
-    gap: 8px; /* Espacio entre barras */
+    bottom: 60px; /* Lo subimos un poco para dar espacio */
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 2;
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 0.5s forwards;
+}
+
+/* Estilo para el título original */
+.hero__content h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Estilo para el párrafo original */
+.hero__content p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    margin: 0;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+}
+
+/* Contenedor de la barra de progreso (AHORA SIN POSICIÓN ABSOLUTA) */
+.hero__progress-container {
+    display: flex;
+    justify-content: center; /* Centra las barritas */
+    gap: 8px;
+    /* Margen para separarlo del título y el párrafo */
+    margin: 25px 0;
 }
 
 .hero__progress-bar {
-    width: 40px; /* Reducido para mejor ajuste en fila */
-    height: 4px;
-    background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
-    border-radius: 2px;
+    width: 30px;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.4);
     overflow: hidden;
 }
 
 .hero__progress-bar-fill {
     height: 100%;
-    background: #4a4a4a; /* Gris oscuro para el progreso */
+    background: #ffffff;
     width: 0;
-    transition: width 8s linear; /* Animación de 5 segundos */
+    transition: width 5s linear;
 }
 
-.hero__progress-bar--active .hero__progress-bar-fill {
+.hero__progress-bar.hero__progress-bar--active .hero__progress-bar-fill {
     width: 100%;
 }
 
-.hero h1 {
-    font-family: 'Adamina', serif;
-    font-weight: 400;
-    font-size: 50px;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 20px;
-    font-weight: 300;
-    margin-bottom: 30px;
+/* Ajustes para que en móvil no esté tan pegado abajo */
+@media (max-width: 768px) {
+    .hero {
+        height: 90vh;
+    }
+    .hero__content {
+        bottom: 40px;
+    }
 }
 
 .btn {

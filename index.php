@@ -29,12 +29,16 @@
 
     <div class="hero__content">
         <h1>El Mercado <br> Inmobiliario Reinventado</h1>
+        
+        <div class="hero__progress-container">
+            <?php foreach ($hero_images as $image): ?>
+                <div class="hero__progress-bar">
+                    <div class="hero__progress-bar-fill"></div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+
         <p>“Una nueva forma de descubrir e invertir en propiedades”</p>
-    </div>
-    <div class="hero__progress-container">
-        <?php foreach ($hero_images as $image): ?>
-            <div class="hero__progress-bar"><div class="hero__progress-bar-fill"></div></div>
-        <?php endforeach; ?>
     </div>
 </section>
 
