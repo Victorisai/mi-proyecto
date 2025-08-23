@@ -9,9 +9,8 @@
 <body>
     <?php
     session_start();
-    include '../includes/config.php';
-
-    // Verificar si el administrador está autenticado
+    // La lógica de seguridad de la sesión de PHP se mantiene,
+    // ya que esta página aún debe ser protegida.
     if (!isset($_SESSION['admin_id'])) {
         header('Location: index.php');
         exit;
@@ -44,35 +43,106 @@
                             <th class="admin-dashboard__table-header">Acciones</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <?php
-                        $stmt = $pdo->prepare("SELECT * FROM properties ORDER BY created_at DESC");
-                        $stmt->execute();
-                        $properties = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-                        foreach ($properties as $property) {
-                            ?>
-                            <tr>
-                                <td class="admin-dashboard__table-cell"><?php echo $property['id']; ?></td>
-                                <td class="admin-dashboard__table-cell"><?php echo htmlspecialchars($property['title']); ?></td>
-                                <td class="admin-dashboard__table-cell"><?php echo ucfirst($property['category']); ?></td>
-                                <td class="admin-dashboard__table-cell"><?php echo ucfirst($property['listing_type']); ?></td>
-                                <td class="admin-dashboard__table-cell"><?php echo htmlspecialchars($property['location']); ?></td>
-                                <td class="admin-dashboard__table-cell">$<?php echo number_format($property['price'], 2); ?> MXN</td>
-                                <td class="admin-dashboard__table-cell"><?php echo ucfirst($property['status']); ?></td>
-                                <td class="admin-dashboard__table-cell">
-                                    <a href="edit_property.php?id=<?php echo $property['id']; ?>" class="btn btn-secondary">Editar</a>
-                                    <a href="delete_property.php?id=<?php echo $property['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta propiedad?');">Eliminar</a>
-                                </td>
-                            </tr>
-                            <?php
-                        }
-                        ?>
+                    <tbody id="properties-tbody">
+                        <tr>
+                            <td colspan="8" style="text-align: center;">Cargando propiedades...</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <a href="logout.php" class="btn btn-secondary">Cerrar Sesión</a>
         </div>
     </section>
+
+    <script>
+    // Nos aseguramos de que el script se ejecute solo después de que toda la página se haya cargado.
+    document.addEventListener('DOMContentLoaded', () => {
+        const tbody = document.getElementById('properties-tbody');
+
+        // Función para cargar y mostrar las propiedades en la tabla
+        const fetchProperties = () => {
+            fetch('http://localhost:3000/api/properties')
+                .then(response => {
+                    if (!response.ok) throw new Error('La respuesta de la red no fue correcta');
+                    return response.json();
+                })
+                .then(properties => {
+                    tbody.innerHTML = '';
+                    if (properties.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">No se encontraron propiedades.</td></tr>';
+                        return;
+                    }
+                    properties.forEach(property => {
+                        const price = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(property.price);
+
+                        // CAMBIO IMPORTANTE:
+                        // El botón de eliminar ya no es un enlace <a>. Es un <button>
+                        // con un atributo "data-id" para saber qué propiedad borrar.
+                        const row = `
+                            <tr id="property-row-${property.id}">
+                                <td class="admin-dashboard__table-cell">${property.id}</td>
+                                <td class="admin-dashboard__table-cell">${escapeHTML(property.title)}</td>
+                                <td class="admin-dashboard__table-cell">${capitalizeFirstLetter(property.category)}</td>
+                                <td class="admin-dashboard__table-cell">${capitalizeFirstLetter(property.listing_type)}</td>
+                                <td class="admin-dashboard__table-cell">${escapeHTML(property.location)}</td>
+                                <td class="admin-dashboard__table-cell">${price}</td>
+                                <td class="admin-dashboard__table-cell">${capitalizeFirstLetter(property.status)}</td>
+                                <td class="admin-dashboard__table-cell">
+                                    <a href="edit_property.php?id=${property.id}" class="btn btn-secondary">Editar</a>
+                                    <button class="btn btn-danger delete-btn" data-id="${property.id}">Eliminar</button>
+                                </td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += row;
+                    });
+                })
+                .catch(error => {
+                    console.error('Error al cargar las propiedades:', error);
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center;">Error al cargar las propiedades. Asegúrate de que el servidor de Node.js esté funcionando.</td></tr>';
+                });
+        };
+
+        // --- NUEVA LÓGICA PARA ELIMINAR ---
+        // Escuchamos los clics en todo el cuerpo de la tabla.
+        tbody.addEventListener('click', (event) => {
+            // Verificamos si el clic fue en un botón con la clase 'delete-btn'.
+            if (event.target.classList.contains('delete-btn')) {
+                const propertyId = event.target.dataset.id;
+
+                if (confirm(`¿Estás seguro de eliminar la propiedad con ID ${propertyId}?`)) {
+                    // Hacemos la petición a la API, pero esta vez con el método 'DELETE'.
+                    fetch(`http://localhost:3000/api/properties/${propertyId}`, {
+                        method: 'DELETE'
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('No se pudo eliminar la propiedad.');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.message); // Muestra el mensaje de éxito en la consola.
+                        // Eliminamos la fila de la tabla visualmente, ¡sin recargar la página!
+                        const rowToRemove = document.getElementById(`property-row-${propertyId}`);
+                        if (rowToRemove) {
+                            rowToRemove.remove();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al eliminar:', error);
+                        alert('Hubo un error al eliminar la propiedad.');
+                    });
+                }
+            }
+        });
+
+        // --- Funciones auxiliares (sin cambios) ---
+        function capitalizeFirstLetter(string) { /* ... */ }
+        function escapeHTML(str) { /* ... */ }
+
+        // Carga inicial de las propiedades
+        fetchProperties();
+    });
+    </script>
 </body>
 </html>

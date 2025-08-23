@@ -1331,6 +1331,10 @@ body:not(.home) .header__nav-item a {
     display: none;
 }
 
+.hero-investment-text {
+    display: none;
+}
+
 @media (min-width: 1025px) {
     .hero__progress-container {
         display: none;
@@ -1380,6 +1384,18 @@ body:not(.home) .header__nav-item a {
     }
     .hero-nav__arrow:hover {
         color: #ffffff;
+    }
+    .hero-investment-text {
+        display: block;
+        position: absolute;
+        bottom: 15px;      /* 1. Lo he bajado para que aparezca debajo de la navegación */
+        left: 5%;         /* 2. Lo he alineado con el inicio de la navegación */
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;   /* 3. He ajustado ligeramente el tamaño para que encaje mejor */
+        font-weight: 400;
+        z-index: 2;
+        text-shadow: 0 1px 5px rgba(0,0,0,0.5);
     }
 }
 /* FIN */
