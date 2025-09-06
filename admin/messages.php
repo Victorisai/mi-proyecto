@@ -9,10 +9,18 @@
 <body>
     <?php
     session_start();
+    include '../includes/config.php';
+
+    // Verificar si el administrador está autenticado
     if (!isset($_SESSION['admin_id'])) {
         header('Location: index.php');
         exit;
     }
+
+    // Obtener mensajes de la base de datos
+    $stmt = $pdo->prepare("SELECT * FROM contacts ORDER BY created_at DESC");
+    $stmt->execute();
+    $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <section class="dashboard">
         <div class="container">
@@ -29,54 +37,29 @@
                             <th>Fecha</th>
                         </tr>
                     </thead>
-                    <tbody id="messages-tbody">
-                        <tr><td colspan="6" style="text-align: center;">Cargando mensajes...</td></tr>
+                    <tbody>
+                        <?php
+                        foreach ($messages as $message) {
+                            ?>
+                            <tr>
+                                <td><?php echo $message['id']; ?></td>
+                                <td><?php echo htmlspecialchars($message['name']); ?></td>
+                                <td><?php echo htmlspecialchars($message['email']); ?></td>
+                                <td><?php echo htmlspecialchars($message['phone']); ?></td>
+                                <td><?php echo htmlspecialchars($message['message']); ?></td>
+                                <td><?php echo $message['created_at']; ?></td>
+                            </tr>
+                            <?php
+                        }
+                        if (empty($messages)) {
+                            echo '<tr><td colspan="6">No hay mensajes disponibles.</td></tr>';
+                        }
+                        ?>
                     </tbody>
                 </table>
             </div>
             <a href="dashboard.php" class="btn btn-secondary">Volver al Panel</a>
         </div>
     </section>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const tbody = document.getElementById('messages-tbody');
-
-        fetch('http://localhost:3000/api/messages')
-            .then(response => response.json())
-            .then(messages => {
-                tbody.innerHTML = '';
-                if (messages.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">No hay mensajes disponibles.</td></tr>';
-                    return;
-                }
-
-                messages.forEach(message => {
-                    // Formateamos la fecha para que sea más legible
-                    const formattedDate = new Date(message.created_at).toLocaleString('es-MX');
-                    const row = `
-                        <tr>
-                            <td>${message.id}</td>
-                            <td>${escapeHTML(message.name)}</td>
-                            <td>${escapeHTML(message.email)}</td>
-                            <td>${escapeHTML(message.phone)}</td>
-                            <td>${escapeHTML(message.message)}</td>
-                            <td>${formattedDate}</td>
-                        </tr>
-                    `;
-                    tbody.innerHTML += row;
-                });
-            })
-            .catch(error => {
-                console.error('Error al cargar los mensajes:', error);
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Error al cargar los mensajes.</td></tr>';
-            });
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return str.replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag] || tag));
-        }
-    });
-    </script>
 </body>
 </html>

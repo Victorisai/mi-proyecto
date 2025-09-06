@@ -7,16 +7,37 @@
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+    <!-- Encabezado -->
     <?php include 'includes/header.php'; ?>
 
     <section class="contact">
         <div class="container">
             <h2 class="fade-in">Contacto</h2>
             <p class="fade-in">Envíanos tu mensaje y nos pondremos en contacto contigo.</p>
+            <?php
+            include 'includes/config.php';
 
-            <div id="form-messages"></div>
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+                $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+                $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
+                $message = filter_input(INPUT_POST, 'message', FILTER_SANITIZE_STRING);
 
-            <form id="contact-form" class="contact-form fade-in">
+                if ($name && $email && $phone && $message) {
+                    $stmt = $pdo->prepare("INSERT INTO contacts (name, email, phone, message) VALUES (:name, :email, :phone, :message)");
+                    $stmt->execute([
+                        ':name' => $name,
+                        ':email' => $email,
+                        ':phone' => $phone,
+                        ':message' => $message
+                    ]);
+                    echo '<p class="success fade-in">Mensaje enviado con éxito. Te contactaremos pronto.</p>';
+                } else {
+                    echo '<p class="error fade-in">Por favor, completa todos los campos.</p>';
+                }
+            }
+            ?>
+            <form class="contact-form fade-in" method="POST">
                 <div class="contact-form__group">
                     <label class="contact-form__label" for="name">Nombre</label>
                     <input class="contact-form__input" type="text" id="name" name="name" required>
@@ -38,52 +59,9 @@
         </div>
     </section>
 
+    <!-- Pie de Página -->
     <?php include 'includes/footer.php'; ?>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const form = document.getElementById('contact-form');
-        const messagesDiv = document.getElementById('form-messages');
-
-        form.addEventListener('submit', (event) => {
-            event.preventDefault(); // Evitamos que el formulario se envíe de la forma tradicional.
-
-            // Recolectamos los datos del formulario.
-            const formData = {
-                name: form.name.value,
-                email: form.email.value,
-                phone: form.phone.value,
-                message: form.message.value,
-            };
-
-            // Hacemos la petición POST a nuestra API.
-            fetch('http://localhost:3000/api/messages', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                // Si la respuesta no es OK, lanzamos un error para que lo capture el .catch()
-                if (!response.ok) {
-                     return response.json().then(err => { throw new Error(err.error || 'Error desconocido') });
-                }
-                return response.json();
-            })
-            .then(data => {
-                // Si todo sale bien, mostramos un mensaje de éxito y reseteamos el formulario.
-                messagesDiv.innerHTML = `<p class="success fade-in">Mensaje enviado con éxito. Te contactaremos pronto.</p>`;
-                form.reset();
-            })
-            .catch(error => {
-                // Si hay un error, lo mostramos.
-                console.error('Error al enviar el mensaje:', error);
-                messagesDiv.innerHTML = `<p class="error fade-in">Error: ${error.message}. Por favor, inténtalo de nuevo.</p>`;
-            });
-        });
-    });
-    </script>
     <script src="assets/js/main.js"></script>
 </body>
 </html>

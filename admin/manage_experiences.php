@@ -4,7 +4,26 @@ if (!isset($_SESSION['admin_id'])) {
     header("Location: index.php");
     exit;
 }
+require_once '../includes/config.php';
+
+if (isset($_GET['location_id'])) {
+    $location_id = (int)$_GET['location_id'];
+    $stmt = $pdo->prepare("SELECT * FROM locations WHERE id = :id");
+    $stmt->execute(['id' => $location_id]);
+    $location = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$location) {
+        header("Location: manage_experiences.php");
+        exit;
+    }
+    $stmt = $pdo->prepare("SELECT * FROM experiences WHERE location_id = :location_id ORDER BY created_at DESC");
+    $stmt->execute(['location_id' => $location_id]);
+    $experiences = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} else {
+    $stmt = $pdo->query("SELECT * FROM locations ORDER BY name");
+    $locations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,138 +35,60 @@ if (!isset($_SESSION['admin_id'])) {
 <body>
     <section class="dashboard">
         <div class="container">
-            <h2>Gestionar Experiencias por Ubicación</h2>
-            
-            <div class="form-group">
-                <label for="location-select">Selecciona una Ubicación</label>
-                <select id="location-select" class="form-control">
-                    <option value="">-- Cargar Ubicaciones --</option>
-                </select>
-            </div>
-
-            <div id="experiences-container" style="display: none;">
-                <h3 id="experiences-title"></h3>
+            <?php if (isset($location)): ?>
+                <h2>Experiencias en <?php echo htmlspecialchars($location['name']); ?></h2>
                 <div class="dashboard-actions">
-                    <button id="add-experience-btn" class="btn btn-primary">Agregar Nueva Experiencia</button>
+                    <a href="add_experience.php?location_id=<?php echo $location_id; ?>" class="btn btn-primary">Agregar Nueva Experiencia</a>
+                    <a href="manage_experiences.php" class="btn btn-secondary">Volver a Lista de Ubicaciones</a>
                 </div>
-
-                <form id="add-experience-form" style="display: none; margin-bottom: 20px;" class="admin-form">
-                    <h4>Nueva Experiencia</h4>
-                    <div class="form-group"><label>Título</label><input type="text" name="title" required></div>
-                    <div class="form-group"><label>Descripción</label><textarea name="description" required></textarea></div>
-                    <div class="form-group"><label>Imagen</label><input type="file" name="image" accept="image/*" required></div>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                    <button type="button" id="cancel-add-btn" class="btn btn-secondary">Cancelar</button>
-                </form>
-
                 <div class="table-wrapper">
                     <table class="property-table">
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>Título</th>
+                                <th>Descripción</th>
                                 <th>Imagen</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        <tbody id="experiences-tbody"></tbody>
+                        <tbody>
+                            <?php if (count($experiences) > 0): ?>
+                                <?php foreach ($experiences as $experience): ?>
+                                    <tr>
+                                        <td><?php echo $experience['id']; ?></td>
+                                        <td><?php echo htmlspecialchars($experience['title']); ?></td>
+                                        <td><?php echo htmlspecialchars($experience['description']); ?></td>
+                                        <td><img src="<?php echo htmlspecialchars($experience['image']); ?>" alt="Imagen" width="100"></td>
+                                        <td>
+                                            <a href="edit_experience.php?id=<?php echo $experience['id']; ?>" class="btn btn-primary">Editar</a>
+                                            <a href="delete_experience.php?id=<?php echo $experience['id']; ?>" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar esta experiencia?');">Eliminar</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <tr><td colspan="5">No hay experiencias disponibles.</td></tr>
+                            <?php endif; ?>
+                        </tbody>
                     </table>
                 </div>
-            </div>
-             <a href="dashboard.php" class="btn btn-secondary" style="margin-top: 20px;">Volver al Panel</a>
+            <?php else: ?>
+                <h2>Gestionar Experiencias por Ubicación</h2>
+                <ul>
+                    <?php if (count($locations) > 0): ?>
+                        <?php foreach ($locations as $location): ?>
+                            <li>
+                                <a href="manage_experiences.php?location_id=<?php echo $location['id']; ?>" class="btn btn-primary"><?php echo htmlspecialchars($location['name']); ?></a>
+                            </li>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <li>No hay ubicaciones disponibles. <a href="manage_locations.php">Agrega una ubicación</a>.</li>
+                    <?php endif; ?>
+                </ul>
+                <a href="dashboard.php" class="btn btn-secondary">Volver al Panel</a>
+            <?php endif; ?>
         </div>
     </section>
-
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const locationSelect = document.getElementById('location-select');
-        const experiencesContainer = document.getElementById('experiences-container');
-        const experiencesTitle = document.getElementById('experiences-title');
-        const experiencesTbody = document.getElementById('experiences-tbody');
-        const addExperienceBtn = document.getElementById('add-experience-btn');
-        const addExperienceForm = document.getElementById('add-experience-form');
-        const cancelAddBtn = document.getElementById('cancel-add-btn');
-
-        // Cargar las ubicaciones en el select
-        fetch('http://localhost:3000/api/locations')
-            .then(res => res.json())
-            .then(locations => {
-                locationSelect.innerHTML = '<option value="">-- Selecciona una Ubicación --</option>';
-                locations.forEach(loc => {
-                    locationSelect.innerHTML += `<option value="${loc.id}">${loc.name}</option>`;
-                });
-            });
-
-        // Evento cuando se selecciona una ubicación
-        locationSelect.addEventListener('change', async () => {
-            const locationId = locationSelect.value;
-            if (!locationId) {
-                experiencesContainer.style.display = 'none';
-                return;
-            }
-            
-            const selectedLocationName = locationSelect.options[locationSelect.selectedIndex].text;
-            experiencesTitle.textContent = `Experiencias en ${selectedLocationName}`;
-            
-            // Cargar experiencias para esa ubicación
-            const response = await fetch(`http://localhost:3000/api/locations/${locationId}/experiences`);
-            const experiences = await response.json();
-            
-            experiencesTbody.innerHTML = '';
-            if (experiences.length > 0) {
-                 experiences.forEach(exp => {
-                    const row = `
-                        <tr>
-                            <td>${exp.id}</td>
-                            <td>${exp.title}</td>
-                            <td><img src="/mi-proyecto/${exp.image}" alt="${exp.title}" width="100"></td>
-                            <td>
-                                <button class="btn btn-danger delete-btn" data-id="${exp.id}">Eliminar</button>
-                            </td>
-                        </tr>
-                    `;
-                    experiencesTbody.innerHTML += row;
-                });
-            } else {
-                 experiencesTbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No hay experiencias para esta ubicación.</td></tr>';
-            }
-            experiencesContainer.style.display = 'block';
-        });
-        
-        // Mostrar/ocultar formulario de añadir
-        addExperienceBtn.addEventListener('click', () => addExperienceForm.style.display = 'block');
-        cancelAddBtn.addEventListener('click', () => addExperienceForm.style.display = 'none');
-
-        // Enviar formulario para AÑADIR experiencia
-        addExperienceForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData();
-            formData.append('location_id', locationSelect.value);
-            formData.append('title', addExperienceForm.querySelector('[name="title"]').value);
-            formData.append('description', addExperienceForm.querySelector('[name="description"]').value);
-            formData.append('image', addExperienceForm.querySelector('[name="image"]').files[0]);
-
-            await fetch('http://localhost:3000/api/experiences', {
-                method: 'POST',
-                body: formData // No se pone 'Content-Type', el navegador lo hace solo con FormData
-            });
-
-            addExperienceForm.reset();
-            addExperienceForm.style.display = 'none';
-            locationSelect.dispatchEvent(new Event('change')); // Recargar la tabla
-        });
-        
-        // ELIMINAR experiencia
-        experiencesTbody.addEventListener('click', async (e) => {
-            if (e.target.classList.contains('delete-btn')) {
-                const id = e.target.dataset.id;
-                if (confirm('¿Seguro que quieres eliminar esta experiencia?')) {
-                    await fetch(`http://localhost:3000/api/experiences/${id}`, { method: 'DELETE' });
-                    locationSelect.dispatchEvent(new Event('change')); // Recargar
-                }
-            }
-        });
-    });
-    </script>
+    <script src="../assets/js/main.js"></script>
 </body>
 </html>

@@ -52,6 +52,7 @@
             <button class="hero-nav__arrow hero-nav__arrow--next" aria-label="Siguiente">→</button>
         </div>
     </div>
+    <p class="hero-investment-text">Tu siguiente inversión</p>
 </section>
 
     <!-- Propiedades Destacadas -->
