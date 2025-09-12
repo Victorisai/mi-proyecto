@@ -3,6 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/authMiddleware');
+const { uploadPropertyImages } = require('../middleware/uploadMiddleware');
 const sellerController = require('../controllers/sellerPropertyController');
 
 // El middleware se aplica a todas las rutas de este archivo.
@@ -22,6 +23,9 @@ router.put('/properties/:id', sellerController.updateProperty);
 
 // DELETE /api/seller/properties/:id -> Eliminar una de mis propiedades
 router.delete('/properties/:id', sellerController.deleteProperty);
+
+// POST /api/seller/properties/:id/images
+router.post('/properties/:id/images', uploadPropertyImages, sellerController.uploadImages);
 
 
 module.exports = router;

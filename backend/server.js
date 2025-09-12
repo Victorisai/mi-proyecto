@@ -8,6 +8,7 @@ const port = 3000; // Puedes cambiar el puerto si lo necesitas
 // Middleware para entender JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/public', express.static('public'));
 
 // --- RUTAS DE LA API ---
 const propertiesRoutes = require('./routes/propertiesRoutes'); // Importa el enrutador
