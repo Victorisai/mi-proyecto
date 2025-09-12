@@ -26,8 +26,6 @@
                 <a href="manage_admins.php" class="btn btn-primary">Gestionar Administradores</a>
                 <a href="messages.php" class="btn btn-primary">Mensajes</a>
                 <a href="manage_news.php" class="btn btn-primary">Gestionar Noticias</a>
-                <a href="manage_locations.php" class="btn btn-primary">Gestionar Ubicaciones</a>
-                <a href="manage_experiences.php" class="btn btn-primary">Gestionar Experiencias</a>
             </div>
             <h3 class="fade-in">Propiedades</h3>
             <div class="table-wrapper">

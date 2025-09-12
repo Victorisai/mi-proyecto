@@ -160,61 +160,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-// ===================================================
-// === LÓGICA PARA EXPERIENCIAS LOCALES (CARRUSEL) ===
-// ===================================================
-const expTabs = document.querySelectorAll('.experiences-section .tab-button');
-const expSelect = document.querySelector('.experiences-section #location-select');
-const expContents = document.querySelectorAll('.experiences-section .location-content');
-
-function setActiveLocation(locationId) {
-    expTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.location === locationId));
-    expContents.forEach(content => content.classList.toggle('active', content.id === locationId));
-    
-    if (expSelect) {
-        expSelect.value = locationId;
-    }
-
-    setupExperienceCarousel(document.querySelector(`#${locationId}`));
-}
-
-function setupExperienceCarousel(locationContent) {
-    if (!locationContent) return;
-
-    const grid = locationContent.querySelector('.experiences-grid');
-    const leftArrow = locationContent.querySelector('.arrow-left');
-    const rightArrow = locationContent.querySelector('.arrow-right');
-    
-    if (!grid || !leftArrow || !rightArrow) return;
-
-    const card = grid.querySelector('.experience-card-link');
-    if (!card) return;
-    const scrollAmount = card.offsetWidth + 20;
-
-    leftArrow.addEventListener('click', () => {
-        grid.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    });
-
-    rightArrow.addEventListener('click', () => {
-        grid.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    });
-}
-
-expTabs.forEach(tab => {
-    tab.addEventListener('click', () => setActiveLocation(tab.dataset.location));
-});
-
-if (expSelect) {
-    expSelect.addEventListener('change', () => setActiveLocation(expSelect.value));
-}
-
-const initialTab = document.querySelector('.experiences-section .tab-button.active');
-if (initialTab) {
-    setActiveLocation(initialTab.dataset.location);
-} else if (expSelect) {
-    setActiveLocation(expSelect.value);
-}
-
     // =======================================================
     // === LÓGICA PARA PÁGINA DE PROPIEDADES (PROPERTIES.PHP) ===
     // =======================================================
