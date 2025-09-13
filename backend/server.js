@@ -14,10 +14,12 @@ app.use('/public', express.static('public'));
 const propertiesRoutes = require('./routes/propertiesRoutes'); // Importa el enrutador
 const authRoutes = require('./routes/authRoutes');
 const sellerRoutes = require('./routes/sellerRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 app.use('/api/properties', propertiesRoutes);
-app.use('/api/auth', authRoutes); // <-- Usa las rutas de auth
+app.use('/api/auth', authRoutes);
 app.use('/api/seller', sellerRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Una ruta de prueba
 app.get('/api', (req, res) => {
