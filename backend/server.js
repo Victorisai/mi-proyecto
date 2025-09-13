@@ -1,6 +1,8 @@
 // backend/server.js
 require('dotenv').config()
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
 const db = require('./config/db');
 const app = express();
 const port = 3000; // Puedes cambiar el puerto si lo necesitas
@@ -9,6 +11,7 @@ const port = 3000; // Puedes cambiar el puerto si lo necesitas
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static('public'));
+app.use(express.static('../frontend'));
 
 // --- RUTAS DE LA API ---
 const propertiesRoutes = require('./routes/propertiesRoutes'); // Importa el enrutador
