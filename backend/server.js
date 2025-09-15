@@ -12,9 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/public', express.static('public'));
 app.use(express.static('../frontend'));
+app.use(cors());
 
 // --- RUTAS DE LA API ---
-const propertiesRoutes = require('./routes/propertiesRoutes'); // Importa el enrutador
+const propertiesRoutes = require('./routes/propertiesRoutes');
 const authRoutes = require('./routes/authRoutes');
 const sellerRoutes = require('./routes/sellerRoutes');
 const adminRoutes = require('./routes/adminRoutes');

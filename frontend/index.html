@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domably - Venta de Propiedades</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="home">
+    <header>
+        <div class="container">
+            <div class="header__top">
+                <div class="header__toggle">
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                </div>
+                <div class="header__logo">
+                    <a href="index.html">
+                        <img src="assets/images/iconcaracteristic/logo-light.png" alt="Logo DOMABLY" class="header__logo--light">
+                        <img src="assets/images/iconcaracteristic/logo-dark.png" alt="Logo DOMABLY" class="header__logo--dark">
+                        <h1 class="header__title sr-only">DOMABLY</h1>
+                    </a>
+                </div>
+            </div>
+            <hr class="header__divider">
+            <ul class="header__nav">
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?category=terrenos">Terrenos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?category=casas">Casas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?category=departamentos">Departamentos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?category=desarrollos">Desarrollos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?location=Benito Juárez">Cancun</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?location=Tulum">Tulum</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?location=Lázaro Cárdenas">Lázaro Cárdenas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.php?location=Playa del Carmen">Playa del Carmen</a></li>
+            </ul>
+            <hr class="header__divider">
+            <nav class="mobile-nav">
+                <ul class="mobile-nav__list">
+                    <li class="mobile-nav__header">
+                        <span class="mobile-nav__title">Tu propiedad ideal</span>
+                        <span class="mobile-nav__close-button">✕</span>
+                    </li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="properties.php"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="mobile-nav__icon">Propiedades</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="mobile-nav__icon">Sobre Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="mobile-nav__icon">Únete a Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="mobile-nav__overlay"></div>
+    </header>
+
+    <section class="hero">
+        <div class="hero__slideshow" id="hero-slideshow">
+            </div>
+        <div class="hero__content">
+            <h1>El Mercado <br> Inmobiliario Reinventado</h1>
+            <p>“Una nueva forma de descubrir e invertir en propiedades”</p>
+        </div>
+        <div class="hero__progress-container" id="hero-progress-container">
+            </div>
+        <div class="hero-nav">
+            <div class="hero-nav__progress" id="hero-nav-progress">
+                </div>
+            <div class="hero-nav__controls">
+                <button class="hero-nav__arrow hero-nav__arrow--prev" aria-label="Anterior">←</button>
+                <button class="hero-nav__arrow hero-nav__arrow--next" aria-label="Siguiente">→</button>
+            </div>
+        </div>
+        <p class="hero-investment-text">Tu siguiente inversión</p>
+    </section>
+
+    <div class="property-showcase__carousel-wrapper">
+        <section class="property-showcase" id="destacadas-showcase">
+            <div class="container">
+                <div class="property-showcase__header">
+                    <h2>Propiedades Destacadas</h2>
+                    <div class="property-showcase__carousel-nav">
+                        <a href="properties.php?listing_type=venta" class="property-showcase__view-all-link">Ver todas</a>
+                        <button class="property-showcase__carousel-arrow prev-arrow" id="destacadas-prev">&lt;</button>
+                        <button class="property-showcase__carousel-arrow next-arrow" id="destacadas-next">&gt;</button>
+                    </div>
+                </div>
+                <div class="property-showcase__wrapper">
+                    <aside class="property-showcase__filter-aside">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="#" class="property-showcase__filter-link active" data-category="all">Todas</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="casas">Casas</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="departamentos">Departamentos</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="terrenos">Terrenos</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="desarrollos">Desarrollos</a></li>
+                        </ul>
+                    </aside>
+                    <div class="property-showcase__carousel" id="destacadas-carousel">
+                        </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="property-showcase" id="renta-showcase">
+            <div class="container">
+                <div class="property-showcase__header">
+                    <h2>Propiedades en Renta</h2>
+                    <div class="property-showcase__carousel-nav">
+                        <a href="properties.php?listing_type=renta" class="property-showcase__view-all-link">Ver todas</a>
+                        <button class="property-showcase__carousel-arrow prev-arrow" id="renta-prev">&lt;</button>
+                        <button class="property-showcase__carousel-arrow next-arrow" id="renta-next">&gt;</button>
+                    </div>
+                </div>
+                <div class="property-showcase__wrapper">
+                    <aside class="property-showcase__filter-aside">
+                        <h4>Categorías</h4>
+                        <ul>
+                            <li><a href="#" class="property-showcase__filter-link active" data-category="all">Todas</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="casas">Casas</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="departamentos">Departamentos</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="terrenos">Terrenos</a></li>
+                            <li><a href="#" class="property-showcase__filter-link" data-category="desarrollos">Desarrollos</a></li>
+                        </ul>
+                    </aside>
+                    <div class="property-showcase__carousel" id="renta-carousel">
+                        </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="info-section">
+        <div class="container">
+            <div class="info-header">
+                <h2>Domably: Tu Ecosistema Inmobiliario</h2>
+            </div>
+            <div class="info-grid">
+                <div class="info-column">
+                    <img src="assets/images/iconcaracteristic/infoicon1.png" alt="Icono de propiedades" class="info-icon">
+                    <div class="info-text-content">
+                        <h3>Un Universo de Propiedades</h3>
+                        <p>Reunimos en un solo lugar las mejores propiedades de agencias inmobiliarias, brokers y vendedores independientes. Explora un inventario diverso y en constante crecimiento, todo al alcance de tu mano.</p>
+                    </div>
+                </div>
+                <div class="info-column">
+                    <img src="assets/images/iconcaracteristic/infoicon2.png" alt="Icono de búsqueda" class="info-icon">
+                    <div class="info-text-content">
+                        <h3>Descubrimiento Inteligente</h3>
+                        <p>Nuestra plataforma te permite filtrar y encontrar tu hogar o inversión ideal de manera rápida y sencilla. Busca por tipo de propiedad, compara opciones y guarda tus favoritas para tomar la mejor decisión.</p>
+                    </div>
+                </div>
+                <div class="info-column">
+                    <img src="assets/images/iconcaracteristic/infoicon3.png" alt="Icono de contacto" class="info-icon">
+                    <div class="info-text-content">
+                        <h3>Conexión Directa con Profesionales</h3>
+                        <p>Publica tus propiedades o encuentra la que buscas. Domably te conecta directamente con una amplia red de profesionales y clientes potenciales, facilitando una comunicación transparente y efectiva.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section-v2">
+        <div class="container-v2">
+            <div class="section-header">
+                <h2>Al Día</h2>
+                <a href="news.php" class="view-all-button">Ver todas las noticias</a>
+            </div>
+            <div class="news-layout-grid" id="news-grid">
+                </div>
+        </div>
+    </section>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__column">
+                    <h3 class="site-footer__logo">DOMABLY</h3>
+                    <p>Encuentra la propiedad de tus sueños. Te acompañamos en cada paso del camino.</p>
+                </div>
+                <div class="site-footer__column">
+                    <h4>Explora</h4>
+                    <ul>
+                        <li><a href="properties.php?category=terrenos">Terrenos</a></li>
+                        <li><a href="properties.php?category=casas">Casas</a></li>
+                        <li><a href="properties.php?category=departamentos">Departamentos</a></li>
+                        <li><a href="properties.php?category=desarrollos">Desarrollos</a></li>
+                        <li><a href="contact.php">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="site-footer__column">
+                    <h4>Contáctanos</h4>
+                    <p><i class="icon-phone"></i> (52) 999-763-2818</p>
+                    <p><i class="icon-email"></i> <a href="mailto:info@cedralsales.com">info@cedralsales.com</a></p>
+                    <p><i class="icon-location"></i> Cancún, Quintana Roo, México</p>
+                </div>
+                <div class="site-footer__column">
+                    <h4>Síguenos</h4>
+                    <div class="site-footer__socials">
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/facebook-icon.png" alt="Facebook"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/instagram-icon.png" alt="Instagram"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/twitter-icon.png" alt="Twitter"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="site-footer__bottom">
+            <p>&copy; <span id="year"></span> DOMABLY. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/app.js"></script> 
+</body>
+</html>
