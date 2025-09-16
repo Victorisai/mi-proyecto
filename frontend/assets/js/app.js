@@ -1,6 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     // URL base de tu API en Node.js (cámbiala si es necesario)
     const API_URL = 'http://localhost:3000/api';
+    const HERO_PLACEHOLDER_IMAGES = [
+        'assets/images/hero/placeholder.jpg',
+        'assets/images/hero/placeholder2.jpg',
+        'assets/images/hero/placeholder3.jpg'
+    ];
 
     // Funciones para cargar el contenido dinámico
     fetchHeroImages();
@@ -13,22 +18,27 @@ document.addEventListener('DOMContentLoaded', () => {
      * Obtiene las imágenes del carrusel principal (hero)
      */
     async function fetchHeroImages() {
-        try {
-            const response = await fetch(`${API_URL}/hero-images`);
-            if (!response.ok) throw new Error('No se pudieron cargar las imágenes del carrusel');
-            const images = await response.json();
+        const slideshow = document.getElementById('hero-slideshow');
+        const progressContainer = document.getElementById('hero-progress-container');
+        const navProgress = document.getElementById('hero-nav-progress');
 
-            const slideshow = document.getElementById('hero-slideshow');
-            const progressContainer = document.getElementById('hero-progress-container');
-            const navProgress = document.getElementById('hero-nav-progress');
+        if (!slideshow || !progressContainer || !navProgress) {
+            return;
+        }
 
-            // Limpiar contenedores
+        const renderHeroSlides = (images) => {
             slideshow.innerHTML = '';
             progressContainer.innerHTML = '';
             navProgress.innerHTML = '';
 
+            let hasSlides = false;
+
             images.forEach(image => {
-                slideshow.innerHTML += `<div class="hero__slide" style="background-image: url('${image.image_path}');"></div>`;
+                const imagePath = typeof image === 'string' ? image : image?.image_path;
+                if (!imagePath) return;
+
+                hasSlides = true;
+                slideshow.innerHTML += `<div class="hero__slide" style="background-image: url('${imagePath}');"></div>`;
                 progressContainer.innerHTML += `
                     <div class="hero__progress-bar">
                         <div class="hero__progress-bar-fill"></div>
@@ -38,8 +48,47 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="hero-nav__bar-fill"></div>
                     </div>`;
             });
+
+            if (!hasSlides) {
+                return;
+            }
+
+            const firstSlide = slideshow.querySelector('.hero__slide');
+            if (firstSlide) {
+                firstSlide.classList.add('hero__slide--active');
+            }
+
+            const firstMobileFill = progressContainer.querySelector('.hero__progress-bar-fill');
+            if (firstMobileFill) {
+                firstMobileFill.style.width = '100%';
+            }
+
+            const firstDesktopBar = navProgress.querySelector('.hero-nav__bar');
+            if (firstDesktopBar) {
+                firstDesktopBar.classList.add('hero-nav__bar--active');
+                const fill = firstDesktopBar.querySelector('.hero-nav__bar-fill');
+                if (fill) {
+                    fill.style.width = '100%';
+                }
+            }
+
+            document.dispatchEvent(new CustomEvent('heroImagesLoaded'));
+        };
+
+        const fallbackImages = HERO_PLACEHOLDER_IMAGES.map(path => ({ image_path: path }));
+
+        try {
+            const response = await fetch(`${API_URL}/hero-images`);
+            if (!response.ok) throw new Error('No se pudieron cargar las imágenes del carrusel');
+            const images = await response.json();
+            if (Array.isArray(images) && images.length > 0) {
+                renderHeroSlides(images);
+            } else {
+                renderHeroSlides(fallbackImages);
+            }
         } catch (error) {
             console.error('Error al cargar imágenes del carrusel:', error);
+            renderHeroSlides(fallbackImages);
         }
     }
 
