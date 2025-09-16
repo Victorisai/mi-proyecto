@@ -91,21 +91,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const slides = document.querySelectorAll('.hero__slide');
-        const progressBarsMobile = document.querySelectorAll('.hero__progress-bar');
-        const progressBarsDesktop = document.querySelectorAll('.hero-nav__bar');
-        const prevArrowDesktop = document.querySelector('.hero-nav__arrow--prev');
-        const nextArrowDesktop = document.querySelector('.hero-nav__arrow--next');
-        let currentSlide = 0;
-        let slideInterval;
+        const heroSliderState = {
+            interval: null,
+            nextHandler: null,
+            prevHandler: null,
+        };
 
-        if (slides.length > 0) {
-            function showSlide(index) {
+        const setupHeroSlideshow = () => {
+            const slides = document.querySelectorAll('.hero__slide');
+            const progressBarsMobile = document.querySelectorAll('.hero__progress-bar');
+            const progressBarsDesktop = document.querySelectorAll('.hero-nav__bar');
+            const prevArrowDesktop = document.querySelector('.hero-nav__arrow--prev');
+            const nextArrowDesktop = document.querySelector('.hero-nav__arrow--next');
+
+            if (slides.length === 0) {
+                if (heroSliderState.interval) {
+                    clearInterval(heroSliderState.interval);
+                    heroSliderState.interval = null;
+                }
+                if (prevArrowDesktop && heroSliderState.prevHandler) {
+                    prevArrowDesktop.removeEventListener('click', heroSliderState.prevHandler);
+                }
+                if (nextArrowDesktop && heroSliderState.nextHandler) {
+                    nextArrowDesktop.removeEventListener('click', heroSliderState.nextHandler);
+                }
+                return;
+            }
+
+            let currentSlide = 0;
+
+            const showSlide = (index) => {
                 currentSlide = (index + slides.length) % slides.length;
-                slides.forEach((slide, i) => slide.classList.toggle('hero__slide--active', i === currentSlide));
-                
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('hero__slide--active', i === currentSlide);
+                });
+
                 progressBarsMobile.forEach((bar, i) => {
                     const fill = bar.querySelector('.hero__progress-bar-fill');
+                    if (!fill) return;
                     fill.style.transition = 'none';
                     fill.style.width = '0';
                     if (i === currentSlide) {
@@ -115,49 +138,61 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 50);
                     }
                 });
-                
+
                 progressBarsDesktop.forEach((bar, i) => {
                     const fill = bar.querySelector('.hero-nav__bar-fill');
+                    if (!fill) return;
                     fill.style.transition = 'none';
                     fill.style.width = '0';
-                    bar.classList.remove('hero-nav__bar--active');
+                    bar.classList.toggle('hero-nav__bar--active', i === currentSlide);
                     if (i === currentSlide) {
-                        bar.classList.add('hero-nav__bar--active');
                         setTimeout(() => {
                             fill.style.transition = 'width 5s linear';
                             fill.style.width = '100%';
                         }, 50);
                     }
                 });
-            }
+            };
 
-            function nextSlide() {
-                showSlide(currentSlide + 1);
-            }
-            
-            function prevSlide() {
-                showSlide(currentSlide - 1);
-            }
+            const nextSlide = () => showSlide(currentSlide + 1);
+            const prevSlide = () => showSlide(currentSlide - 1);
 
-            function startSlideshow() {
-                clearInterval(slideInterval);
+            const startSlideshow = () => {
+                if (heroSliderState.interval) {
+                    clearInterval(heroSliderState.interval);
+                }
                 showSlide(currentSlide);
-                slideInterval = setInterval(nextSlide, 5000);
+                heroSliderState.interval = setInterval(nextSlide, 5000);
+            };
+
+            if (nextArrowDesktop && heroSliderState.nextHandler) {
+                nextArrowDesktop.removeEventListener('click', heroSliderState.nextHandler);
             }
-            
-            if(nextArrowDesktop && prevArrowDesktop) {
-                nextArrowDesktop.addEventListener('click', () => {
-                    nextSlide();
-                    startSlideshow();
-                });
-                prevArrowDesktop.addEventListener('click', () => {
-                    prevSlide();
-                    startSlideshow();
-                });
+            if (prevArrowDesktop && heroSliderState.prevHandler) {
+                prevArrowDesktop.removeEventListener('click', heroSliderState.prevHandler);
+            }
+
+            heroSliderState.nextHandler = () => {
+                nextSlide();
+                startSlideshow();
+            };
+            heroSliderState.prevHandler = () => {
+                prevSlide();
+                startSlideshow();
+            };
+
+            if (nextArrowDesktop) {
+                nextArrowDesktop.addEventListener('click', heroSliderState.nextHandler);
+            }
+            if (prevArrowDesktop) {
+                prevArrowDesktop.addEventListener('click', heroSliderState.prevHandler);
             }
 
             startSlideshow();
-        }
+        };
+
+        setupHeroSlideshow();
+        document.addEventListener('heroImagesLoaded', setupHeroSlideshow);
     }
 
     // =======================================================
