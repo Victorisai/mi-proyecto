@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'assets/images/hero/placeholder2.jpg',
         'assets/images/hero/placeholder3.jpg'
     ];
+    const NEWS_PLACEHOLDER_IMAGE = 'assets/images/hero/placeholder.jpg';
 
     // Funciones para cargar el contenido dinámico
     fetchHeroImages();
@@ -131,21 +132,52 @@ document.addEventListener('DOMContentLoaded', () => {
      * Obtiene las últimas noticias
      */
     async function fetchNews() {
+        const newsGrid = document.getElementById('news-grid');
+        if (!newsGrid) {
+            return;
+        }
+
+        const parseImages = (imagesField) => {
+            if (!imagesField) return [];
+            if (Array.isArray(imagesField)) return imagesField;
+            try {
+                const parsed = JSON.parse(imagesField);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (error) {
+                return [];
+            }
+        };
+
+        const getFirstImage = (imagesField) => {
+            const images = parseImages(imagesField);
+            return images.length > 0 ? images[0] : NEWS_PLACEHOLDER_IMAGE;
+        };
+
+        const createExcerpt = (text, maxLength) => {
+            if (!text) return '';
+            const plainText = text.replace(/<[^>]*>/g, '').trim();
+            if (plainText.length <= maxLength) {
+                return plainText;
+            }
+            return `${plainText.substring(0, maxLength).trim()}...`;
+        };
+
         try {
             const response = await fetch(`${API_URL}/news?limit=5`);
             if (!response.ok) throw new Error('No se pudieron cargar las noticias');
+
             const newsArticles = await response.json();
+            if (!Array.isArray(newsArticles) || newsArticles.length === 0) {
+                newsGrid.innerHTML = '<p class="news-section__empty">No hay noticias disponibles en este momento.</p>';
+                return;
+            }
 
-            if (newsArticles.length === 0) return;
+            newsGrid.innerHTML = '';
 
-            const newsGrid = document.getElementById('news-grid');
-            newsGrid.innerHTML = ''; // Limpiar
-
-            // Noticia Principal
             const mainNews = newsArticles[0];
-            const mainNewsImage = JSON.parse(mainNews.images)[0];
+            const mainNewsImage = getFirstImage(mainNews.images);
             const mainNewsDate = new Date(mainNews.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
-            
+
             newsGrid.innerHTML += `
                 <div class="main-news-card">
                     <a href="news_detail.php?id=${mainNews.id}">
@@ -155,37 +187,40 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="main-news-card__content-overlay">
                             <span class="news-date">${mainNewsDate}</span>
                             <h3>${mainNews.title}</h3>
-                            <p>${mainNews.information.substring(0, 150)}...</p>
+                            <p>${createExcerpt(mainNews.information, 150)}</p>
                         </div>
                     </a>
                 </div>`;
 
-            // Noticias Secundarias
             const secondaryNews = newsArticles.slice(1);
-            const secondaryNewsGrid = document.createElement('div');
-            secondaryNewsGrid.className = 'secondary-news-grid';
+            if (secondaryNews.length > 0) {
+                const secondaryNewsGrid = document.createElement('div');
+                secondaryNewsGrid.className = 'secondary-news-grid';
 
-            secondaryNews.forEach(news => {
-                const newsImage = JSON.parse(news.images)[0];
-                const newsDate = new Date(news.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+                secondaryNews.forEach((news) => {
+                    const newsImage = getFirstImage(news.images);
+                    const newsDate = new Date(news.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
 
-                secondaryNewsGrid.innerHTML += `
-                    <div class="secondary-news-card">
-                        <a href="news_detail.php?id=${news.id}">
-                            <div class="secondary-news-card__image-container">
-                                <img src="${newsImage}" alt="${news.title}">
-                            </div>
-                            <div class="secondary-news-card__content">
-                                <span class="news-date">${newsDate}</span>
-                                <h4>${news.title}</h4>
-                                <p class="secondary-news-excerpt">${news.information.substring(0, 80)}...</p>
-                            </div>
-                        </a>
-                    </div>`;
-            });
-            newsGrid.appendChild(secondaryNewsGrid);
+                    secondaryNewsGrid.innerHTML += `
+                        <div class="secondary-news-card">
+                            <a href="news_detail.php?id=${news.id}">
+                                <div class="secondary-news-card__image-container">
+                                    <img src="${newsImage}" alt="${news.title}">
+                                </div>
+                                <div class="secondary-news-card__content">
+                                    <span class="news-date">${newsDate}</span>
+                                    <h4>${news.title}</h4>
+                                    <p class="secondary-news-excerpt">${createExcerpt(news.information, 80)}</p>
+                                </div>
+                            </a>
+                        </div>`;
+                });
+
+                newsGrid.appendChild(secondaryNewsGrid);
+            }
         } catch (error) {
             console.error('Error al cargar las noticias:', error);
+            newsGrid.innerHTML = '<p class="news-section__empty">No se pudieron cargar las noticias en este momento.</p>';
         }
     }
 
