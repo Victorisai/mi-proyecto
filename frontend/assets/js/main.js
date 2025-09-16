@@ -238,7 +238,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!showcase) return;
 
         const filterLinks = showcase.querySelectorAll('.property-showcase__filter-link');
-        const propertyCards = showcase.querySelectorAll('.property-showcase__slide-card');
+
+        const applyFilter = (category) => {
+            const normalizedCategory = (category || '').toLowerCase();
+            const propertyCards = showcase.querySelectorAll('.property-showcase__slide-card');
+
+            propertyCards.forEach(card => {
+                const cardCategory = (card.dataset.category || '').toLowerCase();
+
+                if (normalizedCategory === 'all' || normalizedCategory === '' || cardCategory === normalizedCategory) {
+                    card.classList.remove('property-showcase__slide-card--hidden');
+                } else {
+                    card.classList.add('property-showcase__slide-card--hidden');
+                }
+            });
+        };
 
         filterLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -247,17 +261,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 filterLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
 
-                const category = link.dataset.category;
-
-                propertyCards.forEach(card => {
-                    if (category === 'all' || card.dataset.category === category) {
-                        card.classList.remove('property-showcase__slide-card--hidden');
-                    } else {
-                        card.classList.add('property-showcase__slide-card--hidden');
-                    }
-                });
+                applyFilter(link.dataset.category);
             });
         });
+
+        const handlePropertiesLoaded = (event) => {
+            const { carouselId, showcaseId: loadedShowcaseId } = event.detail || {};
+
+            let targetShowcaseId = loadedShowcaseId || null;
+            if (!targetShowcaseId && carouselId) {
+                const carousel = document.querySelector(carouselId);
+                const parentShowcase = carousel ? carousel.closest('.property-showcase') : null;
+                targetShowcaseId = parentShowcase ? parentShowcase.id : null;
+            }
+
+            if (targetShowcaseId !== showcaseId) {
+                return;
+            }
+
+            const activeLink = showcase.querySelector('.property-showcase__filter-link.active')
+                || showcase.querySelector('.property-showcase__filter-link[data-category="all"]');
+
+            if (activeLink) {
+                applyFilter(activeLink.dataset.category);
+            }
+        };
+
+        document.addEventListener('propertiesLoaded', handlePropertiesLoaded);
+
+        const initialActiveLink = showcase.querySelector('.property-showcase__filter-link.active');
+        if (initialActiveLink) {
+            applyFilter(initialActiveLink.dataset.category);
+        }
     }
 
     setupCategoryFilter('destacadas-showcase');
