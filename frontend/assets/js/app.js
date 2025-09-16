@@ -105,16 +105,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const properties = await response.json();
 
             const carousel = document.querySelector(carouselId);
+            if (!carousel) {
+                console.warn(`No se encontró el carrusel con el selector ${carouselId}`);
+                return;
+            }
+
             carousel.innerHTML = ''; // Limpiar el carrusel
 
             properties.forEach(prop => {
                 const price = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(prop.price);
                 const priceSuffix = listingType === 'renta' ? ' / Mes' : ' MXN';
 
+                const rawCategory = typeof prop.category === 'string' ? prop.category : '';
+                const normalizedCategory = rawCategory.toLowerCase();
+                const displayCategory = rawCategory
+                    ? rawCategory.charAt(0).toUpperCase() + rawCategory.slice(1).toLowerCase()
+                    : '';
+
                 carousel.innerHTML += `
-                    <div class="property-showcase__slide-card" data-category="${prop.category}">
+                    <div class="property-showcase__slide-card" data-category="${normalizedCategory}">
                         <a href="property_detail.php?id=${prop.id}">
-                            <div class="property-showcase__category-badge">${prop.category.charAt(0).toUpperCase() + prop.category.slice(1)}</div>
+                            <div class="property-showcase__category-badge">${displayCategory}</div>
                             <img src="${prop.main_image}" alt="${prop.title}">
                             <div class="property-showcase__slide-card-info">
                                 <p class="price">${price}${priceSuffix}</p>
@@ -123,6 +134,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         </a>
                     </div>`;
             });
+
+            const parentShowcase = carousel.closest('.property-showcase');
+            document.dispatchEvent(new CustomEvent('propertiesLoaded', {
+                detail: {
+                    listingType,
+                    carouselId,
+                    showcaseId: parentShowcase ? parentShowcase.id : null,
+                }
+            }));
         } catch (error) {
             console.error(`Error al cargar propiedades en ${listingType}:`, error);
         }
