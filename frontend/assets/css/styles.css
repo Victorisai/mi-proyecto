@@ -588,7 +588,7 @@ body:not(.home) .header__nav-item a {
 }
 
 /* ================================================= */
-/* === FILTROS (properties.php) === */
+/* === FILTROS (properties.html) === */
 /* ================================================= */
 .filters {
     padding: 40px 0;
@@ -1905,7 +1905,7 @@ body:not(.home) .header__nav-item a {
 /* ------------------------------------------------- */
 
 /* ================================================= */
-/* === FILTROS DE BÚSQUEDA (properties.php) === */
+/* === FILTROS DE BÚSQUEDA (properties.html) === */
 /* ================================================= */
 
 .filters-section-v2 {
@@ -3342,7 +3342,7 @@ main.properties {
 }
 
 /* ================================================= */
-/* === MEJORAS PARA FILTROS RESPONSIVOS (header_properties.php) === */
+/* === MEJORAS PARA FILTROS RESPONSIVOS (header_properties.html) === */
 /* ================================================= */
 
 .header-properties__bottom {
