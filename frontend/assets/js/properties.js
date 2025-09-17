@@ -261,8 +261,9 @@
                     ? capitalize(property.category)
                     : '';
                 const locationText = property.location || '';
-                const price = typeof property.price === 'number'
-                    ? new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(property.price)
+                const priceValue = Number(property.price);
+                const price = Number.isFinite(priceValue)
+                    ? currencyFormatter.format(priceValue)
                     : '';
                 card.innerHTML = `
                     <a href="property_detail.php?id=${propertyId}" class="property-card__link">
@@ -281,7 +282,7 @@
                             </p>
                         </div>
                         <div class="property-card__footer">
-                            <p class="property-card__price">${price} MXN</p>
+                            <p class="property-card__price">${price}</p>
                             <span class="property-card__details-button">Ver detalles &rarr;</span>
                         </div>
                     </a>
