@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticia - DOMABLY</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container">
+            <div class="header__top">
+                <!-- Icono de menú hamburguesa -->
+                <div class="header__toggle">
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                </div>
+                <!-- Logo -->
+                <div class="header__logo">
+                    <a href="index.html">
+                        <img src="assets/images/iconcaracteristic/logo-light.png" alt="Logo DOMABLY" class="header__logo--light">
+                        <img src="assets/images/iconcaracteristic/logo-dark.png" alt="Logo DOMABLY" class="header__logo--dark">
+                        <h1 class="header__title sr-only">DOMABLY</h1>
+                    </a>
+                </div>
+            </div>
+            <!-- Línea separadora -->
+            <hr class="header__divider">
+            <!-- Nueva lista de navegación para enlaces fuera del menú hamburguesa -->
+            <ul class="header__nav">
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=terrenos">Terrenos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=casas">Casas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=departamentos">Departamentos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=desarrollos">Desarrollos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Benito Juárez">Cancún</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Tulum">Tulum</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Lázaro Cárdenas">Lázaro Cárdenas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Playa del Carmen">Playa del Carmen</a></li>
+            </ul>
+            <hr class="header__divider">
+            <nav class="mobile-nav">
+                <ul class="mobile-nav__list">
+                    <li class="mobile-nav__header">
+                        <span class="mobile-nav__title">Tu propiedad ideal</span>
+                        <span class="mobile-nav__close-button">✕</span>
+                    </li>
+
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="properties.html"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="mobile-nav__icon">Propiedades</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="mobile-nav__icon">Sobre Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="mobile-nav__icon">Únete a Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="mobile-nav__overlay"></div>
+    </header>
+
+    <main class="news-article-page">
+        <div class="container">
+            <div id="article-error" class="article-error" hidden>Noticia no encontrada.</div>
+            <div id="article-loading" class="article-loading">Cargando noticia...</div>
+            <article class="news-article" id="news-article" hidden>
+                <h1 class="article-title" id="article-title"></h1>
+                <p class="article-meta" id="article-meta"></p>
+
+                <figure class="article-main-image" id="article-main-image" hidden>
+                    <img id="article-main-image-img" src="" alt="Imagen principal de la noticia">
+                </figure>
+
+                <div class="article-content" id="article-content"></div>
+
+                <section class="article-gallery" id="article-gallery" hidden>
+                    <h3 class="gallery-title">Galería de Imágenes</h3>
+                    <div class="gallery-grid" id="gallery-grid"></div>
+                </section>
+
+                <footer class="article-footer" id="article-sources" hidden>
+                    <h3 class="sources-title">Fuentes</h3>
+                    <div class="sources-content" id="sources-content"></div>
+                </footer>
+            </article>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__column">
+                    <h3 class="site-footer__logo">DOMABLY</h3>
+                    <p>Encuentra la propiedad de tus sueños. Te acompañamos en cada paso del camino.</p>
+                </div>
+
+                <div class="site-footer__column">
+                    <h4>Explora</h4>
+                    <ul>
+                        <li><a href="properties.html?category=terrenos">Terrenos</a></li>
+                        <li><a href="properties.html?category=casas">Casas</a></li>
+                        <li><a href="properties.html?category=departamentos">Departamentos</a></li>
+                        <li><a href="properties.html?category=desarrollos">Desarrollos</a></li>
+                        <li><a href="contact.php">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="site-footer__column">
+                    <h4>Contáctanos</h4>
+                    <p><i class="icon-phone"></i> (52) 999-763-2818</p>
+                    <p><i class="icon-email"></i> <a href="mailto:info@cedralsales.com">info@cedralsales.com</a></p>
+                    <p><i class="icon-location"></i> Cancún, Quintana Roo, México</p>
+                </div>
+
+                <div class="site-footer__column">
+                    <h4>Síguenos</h4>
+                    <div class="site-footer__socials">
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/facebook-icon.png" alt="Facebook"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/instagram-icon.png" alt="Instagram"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/twitter-icon.png" alt="Twitter"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="site-footer__bottom">
+            <p>&copy; <span id="year"></span> DOMABLY. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_URL = 'http://localhost:3000/api';
+
+            const articleElement = document.getElementById('news-article');
+            const loadingMessage = document.getElementById('article-loading');
+            const errorMessage = document.getElementById('article-error');
+            const titleElement = document.getElementById('article-title');
+            const metaElement = document.getElementById('article-meta');
+            const mainImageFigure = document.getElementById('article-main-image');
+            const mainImageElement = document.getElementById('article-main-image-img');
+            const contentElement = document.getElementById('article-content');
+            const gallerySection = document.getElementById('article-gallery');
+            const galleryGrid = document.getElementById('gallery-grid');
+            const sourcesSection = document.getElementById('article-sources');
+            const sourcesContent = document.getElementById('sources-content');
+
+            const params = new URLSearchParams(window.location.search);
+            const newsId = params.get('id');
+
+            const updateYear = () => {
+                const yearSpan = document.getElementById('year');
+                if (yearSpan) {
+                    yearSpan.textContent = new Date().getFullYear();
+                }
+            };
+
+            const hideLoading = () => {
+                if (loadingMessage) {
+                    loadingMessage.remove();
+                }
+            };
+
+            const showError = (message) => {
+                if (errorMessage) {
+                    errorMessage.textContent = message;
+                    errorMessage.hidden = false;
+                }
+                if (articleElement) {
+                    articleElement.hidden = true;
+                }
+            };
+
+            const parseImages = (imagesField) => {
+                if (!imagesField) return [];
+                if (Array.isArray(imagesField)) return imagesField;
+                try {
+                    const parsed = JSON.parse(imagesField);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (error) {
+                    return [];
+                }
+            };
+
+            const normalizeImages = (imagesField) => {
+                return parseImages(imagesField)
+                    .map((image) => {
+                        if (typeof image === 'string') {
+                            return image;
+                        }
+                        if (image && typeof image === 'object') {
+                            return image.image_path || image.url || image.path || '';
+                        }
+                        return '';
+                    })
+                    .filter((image) => typeof image === 'string' && image.length > 0);
+            };
+
+            const renderMultilineText = (container, text) => {
+                if (!container) return;
+
+                container.innerHTML = '';
+                if (!text) {
+                    return;
+                }
+
+                const lines = String(text).split(/\n+/).map(line => line.trim()).filter(line => line.length > 0);
+                if (lines.length === 0) {
+                    const paragraph = document.createElement('p');
+                    paragraph.textContent = String(text).trim();
+                    container.appendChild(paragraph);
+                    return;
+                }
+
+                lines.forEach((line) => {
+                    const paragraph = document.createElement('p');
+                    paragraph.textContent = line;
+                    container.appendChild(paragraph);
+                });
+            };
+
+            const renderNews = (news) => {
+                if (!articleElement) return;
+
+                const images = normalizeImages(news.images);
+                const [mainImage, ...galleryImages] = images;
+
+                titleElement.textContent = news.title || '';
+                document.title = news.title ? `${news.title} - DOMABLY` : 'Noticia - DOMABLY';
+
+                const parsedDate = new Date(news.date);
+                if (!isNaN(parsedDate)) {
+                    metaElement.textContent = `Publicado el ${parsedDate.toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}`;
+                } else {
+                    metaElement.textContent = '';
+                }
+
+                if (mainImage) {
+                    if (mainImageElement) {
+                        mainImageElement.src = mainImage;
+                        mainImageElement.alt = news.title || 'Imagen principal de la noticia';
+                    }
+                    if (mainImageFigure) {
+                        mainImageFigure.hidden = false;
+                    }
+                } else if (mainImageFigure) {
+                    mainImageFigure.hidden = true;
+                }
+
+                renderMultilineText(contentElement, news.information);
+
+                if (galleryGrid) {
+                    galleryGrid.innerHTML = '';
+                }
+
+                if (galleryImages.length > 0) {
+                    if (gallerySection) {
+                        gallerySection.hidden = false;
+                    }
+                    galleryImages.forEach((imagePath) => {
+                        const figure = document.createElement('figure');
+                        figure.className = 'gallery-item';
+
+                        const img = document.createElement('img');
+                        img.src = imagePath;
+                        img.alt = 'Imagen de la noticia';
+
+                        figure.appendChild(img);
+                        if (galleryGrid) {
+                            galleryGrid.appendChild(figure);
+                        }
+                    });
+                } else if (gallerySection) {
+                    gallerySection.hidden = true;
+                }
+
+                const hasSources = typeof news.sources === 'string' && news.sources.trim().length > 0;
+                if (hasSources) {
+                    if (sourcesSection) {
+                        sourcesSection.hidden = false;
+                    }
+                    renderMultilineText(sourcesContent, news.sources);
+                } else if (sourcesSection) {
+                    sourcesSection.hidden = true;
+                }
+
+                if (errorMessage) {
+                    errorMessage.hidden = true;
+                }
+                articleElement.hidden = false;
+            };
+
+            const fetchNewsDetail = async (id) => {
+                if (!id) {
+                    showError('Noticia no encontrada.');
+                    hideLoading();
+                    updateYear();
+                    return;
+                }
+
+                try {
+                    const response = await fetch(`${API_URL}/news/${encodeURIComponent(id)}`);
+                    if (response.status === 404) {
+                        showError('La noticia solicitada no existe.');
+                        return;
+                    }
+
+                    if (!response.ok) {
+                        throw new Error('Error al obtener la noticia');
+                    }
+
+                    const news = await response.json();
+                    renderNews(news);
+                } catch (error) {
+                    console.error('Error al cargar la noticia:', error);
+                    showError('No se pudo cargar la noticia en este momento.');
+                } finally {
+                    hideLoading();
+                    updateYear();
+                }
+            };
+
+            fetchNewsDetail(newsId);
+        });
+    </script>
+</body>
+</html>

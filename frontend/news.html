@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias - DOMABLY</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+    <!-- Encabezado -->
+    <header>
+        <div class="container">
+            <div class="header__top">
+                <!-- Icono de menú hamburguesa -->
+                <div class="header__toggle">
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                </div>
+                <!-- Logo -->
+                <div class="header__logo">
+                    <a href="index.html">
+                        <img src="assets/images/iconcaracteristic/logo-light.png" alt="Logo DOMABLY" class="header__logo--light">
+                        <img src="assets/images/iconcaracteristic/logo-dark.png" alt="Logo DOMABLY" class="header__logo--dark">
+                        <h1 class="header__title sr-only">DOMABLY</h1>
+                    </a>
+                </div>
+            </div>
+            <!-- Línea separadora -->
+            <hr class="header__divider">
+            <!-- Nueva lista de navegación para enlaces fuera del menú hamburguesa -->
+            <ul class="header__nav">
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=terrenos">Terrenos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=casas">Casas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=departamentos">Departamentos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=desarrollos">Desarrollos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Benito Juárez">Cancún</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Tulum">Tulum</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Lázaro Cárdenas">Lázaro Cárdenas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Playa del Carmen">Playa del Carmen</a></li>
+            </ul>
+            <hr class="header__divider">
+            <nav class="mobile-nav">
+                <ul class="mobile-nav__list">
+                    <li class="mobile-nav__header">
+                        <span class="mobile-nav__title">Tu propiedad ideal</span>
+                        <span class="mobile-nav__close-button">✕</span>
+                    </li>
+
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="properties.html"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="mobile-nav__icon">Propiedades</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="mobile-nav__icon">Sobre Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="mobile-nav__icon">Únete a Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="mobile-nav__overlay"></div>
+    </header>
+
+    <main class="all-news-page">
+        <div class="container">
+            <div class="page-header">
+                <h1>Noticias y Actualidad</h1>
+                <p>Mantente informado con las últimas novedades del sector inmobiliario y de la región.</p>
+            </div>
+
+            <div id="news-loading" class="news-loading">Cargando noticias...</div>
+            <p id="news-empty-message" class="news-empty-message" hidden>No hay noticias disponibles en este momento.</p>
+            <div class="news-grid-container" id="all-news-grid"></div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__column">
+                    <h3 class="site-footer__logo">DOMABLY</h3>
+                    <p>Encuentra la propiedad de tus sueños. Te acompañamos en cada paso del camino.</p>
+                </div>
+
+                <div class="site-footer__column">
+                    <h4>Explora</h4>
+                    <ul>
+                        <li><a href="properties.html?category=terrenos">Terrenos</a></li>
+                        <li><a href="properties.html?category=casas">Casas</a></li>
+                        <li><a href="properties.html?category=departamentos">Departamentos</a></li>
+                        <li><a href="properties.html?category=desarrollos">Desarrollos</a></li>
+                        <li><a href="contact.php">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="site-footer__column">
+                    <h4>Contáctanos</h4>
+                    <p><i class="icon-phone"></i> (52) 999-763-2818</p>
+                    <p><i class="icon-email"></i> <a href="mailto:info@cedralsales.com">info@cedralsales.com</a></p>
+                    <p><i class="icon-location"></i> Cancún, Quintana Roo, México</p>
+                </div>
+
+                <div class="site-footer__column">
+                    <h4>Síguenos</h4>
+                    <div class="site-footer__socials">
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/facebook-icon.png" alt="Facebook"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/instagram-icon.png" alt="Instagram"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/twitter-icon.png" alt="Twitter"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="site-footer__bottom">
+            <p>&copy; <span id="year"></span> DOMABLY. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const API_URL = 'http://localhost:3000/api';
+            const NEWS_PLACEHOLDER_IMAGE = 'assets/images/hero/placeholder.jpg';
+
+            const newsGrid = document.getElementById('all-news-grid');
+            const loadingMessage = document.getElementById('news-loading');
+            const emptyMessage = document.getElementById('news-empty-message');
+
+            const updateYear = () => {
+                const yearSpan = document.getElementById('year');
+                if (yearSpan) {
+                    yearSpan.textContent = new Date().getFullYear();
+                }
+            };
+
+            const parseImages = (imagesField) => {
+                if (!imagesField) return [];
+                if (Array.isArray(imagesField)) return imagesField;
+                try {
+                    const parsed = JSON.parse(imagesField);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (error) {
+                    return [];
+                }
+            };
+
+            const normalizeImages = (imagesField) => {
+                return parseImages(imagesField)
+                    .map((image) => {
+                        if (typeof image === 'string') {
+                            return image;
+                        }
+                        if (image && typeof image === 'object') {
+                            return image.image_path || image.url || image.path || '';
+                        }
+                        return '';
+                    })
+                    .filter((image) => typeof image === 'string' && image.length > 0);
+            };
+
+            const getFirstImage = (imagesField) => {
+                const images = normalizeImages(imagesField);
+                return images.length > 0 ? images[0] : NEWS_PLACEHOLDER_IMAGE;
+            };
+
+            const createExcerpt = (text, maxLength) => {
+                const plainText = typeof text === 'string' ? text.replace(/<[^>]*>/g, '').trim() : '';
+                if (plainText.length <= maxLength) {
+                    return plainText;
+                }
+                return `${plainText.substring(0, maxLength).trim()}...`;
+            };
+
+            const showEmptyMessage = (message) => {
+                if (emptyMessage) {
+                    emptyMessage.textContent = message;
+                    emptyMessage.hidden = false;
+                }
+                if (newsGrid) {
+                    newsGrid.innerHTML = '';
+                }
+            };
+
+            const hideFeedbackMessages = () => {
+                if (loadingMessage) {
+                    loadingMessage.remove();
+                }
+                if (emptyMessage) {
+                    emptyMessage.hidden = true;
+                }
+            };
+
+            const renderNewsCard = (news) => {
+                const card = document.createElement('div');
+                card.className = 'news-list-card';
+
+                const link = document.createElement('a');
+                link.href = `news_detail.html?id=${encodeURIComponent(news.id)}`;
+
+                const imageWrapper = document.createElement('div');
+                imageWrapper.className = 'news-card-image';
+                const image = document.createElement('img');
+                image.src = getFirstImage(news.images);
+                image.alt = news.title || 'Imagen de la noticia';
+                imageWrapper.appendChild(image);
+
+                const content = document.createElement('div');
+                content.className = 'news-card-content';
+
+                const date = document.createElement('span');
+                date.className = 'news-card-date';
+                const parsedDate = new Date(news.date);
+                date.textContent = isNaN(parsedDate)
+                    ? ''
+                    : parsedDate.toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+
+                const title = document.createElement('h3');
+                title.className = 'news-card-title';
+                title.textContent = news.title || '';
+
+                const excerpt = document.createElement('p');
+                excerpt.className = 'news-card-excerpt';
+                excerpt.textContent = createExcerpt(news.information, 100);
+
+                const readMore = document.createElement('span');
+                readMore.className = 'read-more-link';
+                readMore.textContent = 'Leer más →';
+
+                content.appendChild(date);
+                content.appendChild(title);
+                content.appendChild(excerpt);
+                content.appendChild(readMore);
+
+                link.appendChild(imageWrapper);
+                link.appendChild(content);
+
+                card.appendChild(link);
+                return card;
+            };
+
+            const fetchNews = async () => {
+                if (!newsGrid) return;
+
+                try {
+                    const response = await fetch(`${API_URL}/news`);
+                    if (!response.ok) {
+                        throw new Error('No se pudieron cargar las noticias');
+                    }
+
+                    const newsItems = await response.json();
+                    if (!Array.isArray(newsItems) || newsItems.length === 0) {
+                        showEmptyMessage('No hay noticias disponibles en este momento.');
+                        return;
+                    }
+
+                    hideFeedbackMessages();
+                    newsGrid.innerHTML = '';
+
+                    newsItems.forEach((news) => {
+                        const card = renderNewsCard(news);
+                        newsGrid.appendChild(card);
+                    });
+                } catch (error) {
+                    console.error('Error al cargar las noticias:', error);
+                    showEmptyMessage('No se pudieron cargar las noticias en este momento.');
+                } finally {
+                    if (loadingMessage) {
+                        loadingMessage.remove();
+                    }
+                }
+            };
+
+            fetchNews();
+            updateYear();
+        });
+    </script>
+</body>
+</html>
