@@ -175,6 +175,7 @@
                 query.set('max_price', String(maxPriceParam));
             }
 
+            let priceRange = {};
             try {
                 const response = await fetch(`${API_BASE_URL}/properties?${query.toString()}`);
                 if (!response.ok) {
@@ -185,12 +186,11 @@
                 const total = typeof data.total === 'number' ? data.total : properties.length;
                 const filters = data.filters || {};
                 const locations = Array.isArray(filters.locations) ? filters.locations : [];
-                const priceRange = filters.priceRange || {};
+                priceRange = filters.priceRange || {};
 
                 renderLocations(locations);
                 renderProperties(properties);
                 updateResults(total);
-                setupPriceFilter(priceRange);
             } catch (error) {
                 console.error('Error al cargar propiedades:', error);
                 if (propertyGrid) {
@@ -203,6 +203,8 @@
                     noResultsMessage.hidden = false;
                     noResultsMessage.textContent = 'Ocurrió un error al cargar las propiedades. Intenta nuevamente.';
                 }
+            } finally {
+                setupPriceFilter(priceRange);
             }
         }
 
@@ -320,6 +322,9 @@
         function setupPriceFilter(priceRange) {
             if (!priceSliderEl || typeof noUiSlider === 'undefined') {
                 return;
+            }
+            if (priceSliderEl.noUiSlider) {
+                priceSliderEl.noUiSlider.destroy();
             }
             const availableMin = Number(priceRange.min) || 0;
             let availableMax = Number(priceRange.max) || 0;
