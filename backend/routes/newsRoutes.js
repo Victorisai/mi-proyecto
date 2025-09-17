@@ -6,5 +6,6 @@ const newsController = require('../controllers/newsController');
 
 // Ruta para obtener las noticias
 router.get('/news', newsController.getNews);
+router.get('/news/:id', newsController.getNewsById);
 
 module.exports = router;
