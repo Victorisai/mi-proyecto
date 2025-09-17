@@ -91,21 +91,44 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        const slides = document.querySelectorAll('.hero__slide');
-        const progressBarsMobile = document.querySelectorAll('.hero__progress-bar');
-        const progressBarsDesktop = document.querySelectorAll('.hero-nav__bar');
-        const prevArrowDesktop = document.querySelector('.hero-nav__arrow--prev');
-        const nextArrowDesktop = document.querySelector('.hero-nav__arrow--next');
-        let currentSlide = 0;
-        let slideInterval;
+        const heroSliderState = {
+            interval: null,
+            nextHandler: null,
+            prevHandler: null,
+        };
 
-        if (slides.length > 0) {
-            function showSlide(index) {
+        const setupHeroSlideshow = () => {
+            const slides = document.querySelectorAll('.hero__slide');
+            const progressBarsMobile = document.querySelectorAll('.hero__progress-bar');
+            const progressBarsDesktop = document.querySelectorAll('.hero-nav__bar');
+            const prevArrowDesktop = document.querySelector('.hero-nav__arrow--prev');
+            const nextArrowDesktop = document.querySelector('.hero-nav__arrow--next');
+
+            if (slides.length === 0) {
+                if (heroSliderState.interval) {
+                    clearInterval(heroSliderState.interval);
+                    heroSliderState.interval = null;
+                }
+                if (prevArrowDesktop && heroSliderState.prevHandler) {
+                    prevArrowDesktop.removeEventListener('click', heroSliderState.prevHandler);
+                }
+                if (nextArrowDesktop && heroSliderState.nextHandler) {
+                    nextArrowDesktop.removeEventListener('click', heroSliderState.nextHandler);
+                }
+                return;
+            }
+
+            let currentSlide = 0;
+
+            const showSlide = (index) => {
                 currentSlide = (index + slides.length) % slides.length;
-                slides.forEach((slide, i) => slide.classList.toggle('hero__slide--active', i === currentSlide));
-                
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('hero__slide--active', i === currentSlide);
+                });
+
                 progressBarsMobile.forEach((bar, i) => {
                     const fill = bar.querySelector('.hero__progress-bar-fill');
+                    if (!fill) return;
                     fill.style.transition = 'none';
                     fill.style.width = '0';
                     if (i === currentSlide) {
@@ -115,49 +138,61 @@ document.addEventListener('DOMContentLoaded', () => {
                         }, 50);
                     }
                 });
-                
+
                 progressBarsDesktop.forEach((bar, i) => {
                     const fill = bar.querySelector('.hero-nav__bar-fill');
+                    if (!fill) return;
                     fill.style.transition = 'none';
                     fill.style.width = '0';
-                    bar.classList.remove('hero-nav__bar--active');
+                    bar.classList.toggle('hero-nav__bar--active', i === currentSlide);
                     if (i === currentSlide) {
-                        bar.classList.add('hero-nav__bar--active');
                         setTimeout(() => {
                             fill.style.transition = 'width 5s linear';
                             fill.style.width = '100%';
                         }, 50);
                     }
                 });
-            }
+            };
 
-            function nextSlide() {
-                showSlide(currentSlide + 1);
-            }
-            
-            function prevSlide() {
-                showSlide(currentSlide - 1);
-            }
+            const nextSlide = () => showSlide(currentSlide + 1);
+            const prevSlide = () => showSlide(currentSlide - 1);
 
-            function startSlideshow() {
-                clearInterval(slideInterval);
+            const startSlideshow = () => {
+                if (heroSliderState.interval) {
+                    clearInterval(heroSliderState.interval);
+                }
                 showSlide(currentSlide);
-                slideInterval = setInterval(nextSlide, 5000);
+                heroSliderState.interval = setInterval(nextSlide, 5000);
+            };
+
+            if (nextArrowDesktop && heroSliderState.nextHandler) {
+                nextArrowDesktop.removeEventListener('click', heroSliderState.nextHandler);
             }
-            
-            if(nextArrowDesktop && prevArrowDesktop) {
-                nextArrowDesktop.addEventListener('click', () => {
-                    nextSlide();
-                    startSlideshow();
-                });
-                prevArrowDesktop.addEventListener('click', () => {
-                    prevSlide();
-                    startSlideshow();
-                });
+            if (prevArrowDesktop && heroSliderState.prevHandler) {
+                prevArrowDesktop.removeEventListener('click', heroSliderState.prevHandler);
+            }
+
+            heroSliderState.nextHandler = () => {
+                nextSlide();
+                startSlideshow();
+            };
+            heroSliderState.prevHandler = () => {
+                prevSlide();
+                startSlideshow();
+            };
+
+            if (nextArrowDesktop) {
+                nextArrowDesktop.addEventListener('click', heroSliderState.nextHandler);
+            }
+            if (prevArrowDesktop) {
+                prevArrowDesktop.addEventListener('click', heroSliderState.prevHandler);
             }
 
             startSlideshow();
-        }
+        };
+
+        setupHeroSlideshow();
+        document.addEventListener('heroImagesLoaded', setupHeroSlideshow);
     }
 
     // =======================================================
@@ -203,7 +238,21 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!showcase) return;
 
         const filterLinks = showcase.querySelectorAll('.property-showcase__filter-link');
-        const propertyCards = showcase.querySelectorAll('.property-showcase__slide-card');
+
+        const applyFilter = (category) => {
+            const normalizedCategory = (category || '').toLowerCase();
+            const propertyCards = showcase.querySelectorAll('.property-showcase__slide-card');
+
+            propertyCards.forEach(card => {
+                const cardCategory = (card.dataset.category || '').toLowerCase();
+
+                if (normalizedCategory === 'all' || normalizedCategory === '' || cardCategory === normalizedCategory) {
+                    card.classList.remove('property-showcase__slide-card--hidden');
+                } else {
+                    card.classList.add('property-showcase__slide-card--hidden');
+                }
+            });
+        };
 
         filterLinks.forEach(link => {
             link.addEventListener('click', (e) => {
@@ -212,142 +261,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 filterLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
 
-                const category = link.dataset.category;
-
-                propertyCards.forEach(card => {
-                    if (category === 'all' || card.dataset.category === category) {
-                        card.classList.remove('property-showcase__slide-card--hidden');
-                    } else {
-                        card.classList.add('property-showcase__slide-card--hidden');
-                    }
-                });
+                applyFilter(link.dataset.category);
             });
         });
+
+        const handlePropertiesLoaded = (event) => {
+            const { carouselId, showcaseId: loadedShowcaseId } = event.detail || {};
+
+            let targetShowcaseId = loadedShowcaseId || null;
+            if (!targetShowcaseId && carouselId) {
+                const carousel = document.querySelector(carouselId);
+                const parentShowcase = carousel ? carousel.closest('.property-showcase') : null;
+                targetShowcaseId = parentShowcase ? parentShowcase.id : null;
+            }
+
+            if (targetShowcaseId !== showcaseId) {
+                return;
+            }
+
+            const activeLink = showcase.querySelector('.property-showcase__filter-link.active')
+                || showcase.querySelector('.property-showcase__filter-link[data-category="all"]');
+
+            if (activeLink) {
+                applyFilter(activeLink.dataset.category);
+            }
+        };
+
+        document.addEventListener('propertiesLoaded', handlePropertiesLoaded);
+
+        const initialActiveLink = showcase.querySelector('.property-showcase__filter-link.active');
+        if (initialActiveLink) {
+            applyFilter(initialActiveLink.dataset.category);
+        }
     }
 
     setupCategoryFilter('destacadas-showcase');
     setupCategoryFilter('renta-showcase');
 
-    // =======================================================
-    // === LÓGICA PARA FILTRO DE PRECIOS (VERSIÓN FINAL) ===
-    // =======================================================
-    const priceFilterBtn = document.getElementById('price-filter-btn');
-    const pricePopover = document.getElementById('price-filter-popover');
-    const priceSliderEl = document.getElementById('price-slider');
-    const minPriceInput = document.getElementById('min-price-input');
-    const maxPriceInput = document.getElementById('max-price-input');
-    const minPriceHidden = document.getElementById('min_price_hidden');
-    const maxPriceHidden = document.getElementById('max_price_hidden');
-    const applyPriceBtn = document.querySelector('.price-filter__apply-btn');
-    const filtersForm = document.getElementById('filters-form');
-
-    if (priceSliderEl) {
-        // Objeto para dar formato de moneda
-        const mxnCurrencyFormat = {
-            to: (value) => new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value),
-            from: (value) => Number(String(value).replace(/[^0-9.-]+/g, ""))
-        };
-        
-        // Define los puntos de inicio del slider
-        const startMin = php_min_price_selected !== '' ? Number(php_min_price_selected) : php_min_price_available;
-        const startMax = php_max_price_selected !== '' ? Number(php_max_price_selected) : php_max_price_available;
-
-        // El rango siempre usa los valores GLOBALES para no "atascarse"
-        const range = {
-            'min': [php_min_price_available],
-            'max': [php_max_price_available]
-        };
-
-        const priceSlider = noUiSlider.create(priceSliderEl, {
-            start: [startMin, startMax],
-            connect: true,
-            range: range,
-            format: { // Usamos un formato numérico interno para el slider
-                to: value => Math.round(value),
-                from: value => Number(value)
-            }
-        });
-
-        // Evento que se dispara MIENTRAS se desliza
-        priceSlider.on('slide', function (values, handle) {
-            const [min, max] = values;
-            // Actualiza los campos de texto con formato de moneda
-            minPriceInput.value = mxnCurrencyFormat.to(min);
-            maxPriceInput.value = mxnCurrencyFormat.to(max);
-        });
-        
-        // Se activa cuando el usuario termina de escribir (al hacer clic fuera o presionar Enter)
-        minPriceInput.addEventListener('change', function () {
-            const numericValue = mxnCurrencyFormat.from(this.value);
-            priceSlider.set([numericValue, null]);
-        });
-        
-        maxPriceInput.addEventListener('change', function () {
-            const numericValue = mxnCurrencyFormat.from(this.value);
-            priceSlider.set([null, numericValue]);
-        });
-        
-        // **NUEVO: Formatea el texto MIENTRAS el usuario escribe**
-        [minPriceInput, maxPriceInput].forEach(input => {
-            input.addEventListener('input', function(e) {
-                const numericValue = mxnCurrencyFormat.from(e.target.value);
-                if (!isNaN(numericValue)) {
-                    // Guarda la posición del cursor
-                    let cursorPos = e.target.selectionStart;
-                    const originalLength = e.target.value.length;
-                    
-                    // Reformatea el valor
-                    e.target.value = mxnCurrencyFormat.to(numericValue);
-                    
-                    // Restaura la posición del cursor de forma inteligente
-                    const newLength = e.target.value.length;
-                    cursorPos += (newLength - originalLength);
-                    e.target.setSelectionRange(cursorPos, cursorPos);
-                }
-            });
-            // Al enfocar, selecciona todo el texto para facilitar la escritura
-            input.addEventListener('focus', function(e) {
-                e.target.select();
-            });
-        });
-
-
-        // Lógica para mostrar/ocultar el panel
-        const headerBottom = document.querySelector('.header-properties__bottom'); // <-- AÑADIMOS ESTA LÍNEA
-
-        priceFilterBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            pricePopover.classList.toggle('active');
-            priceFilterBtn.parentElement.classList.toggle('active');
-            if (headerBottom) headerBottom.classList.toggle('overflow-visible'); // <-- AÑADIMOS ESTA LÍNEA
-        
-            // Al abrir, asegura que los inputs reflejen el estado actual del slider
-            if (pricePopover.classList.contains('active')) {
-                const [min, max] = priceSlider.get();
-                minPriceInput.value = mxnCurrencyFormat.to(min);
-                maxPriceInput.value = mxnCurrencyFormat.to(max);
-            }
-        });
-
-        // Cierra el panel al hacer clic fuera
-        document.addEventListener('click', (event) => {
-            if (pricePopover.classList.contains('active') && !pricePopover.contains(event.target) && !priceFilterBtn.contains(event.target)) {
-                pricePopover.classList.remove('active');
-                priceFilterBtn.parentElement.classList.remove('active');
-                if (headerBottom) headerBottom.classList.remove('overflow-visible'); // <-- AÑADIMOS ESTA LÍNEA
-            }
-        });
-
-        // Lógica del botón "Aplicar"
-        if (applyPriceBtn) {
-            applyPriceBtn.addEventListener('click', () => {
-                const [min, max] = priceSlider.get();
-                minPriceHidden.value = min;
-                maxPriceHidden.value = max;
-                filtersForm.submit();
-            });
-        }
-    }
     // =======================================================
     // === LÓGICA PARA ROTACIÓN DE FLECHAS EN FILTROS SELECT ===
     // =======================================================
@@ -368,47 +318,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // =======================================================
-    // === LÓGICA PARA OCULTAR HEADER CON INTERSECTION OBSERVER ===
-    // === Alternativa de alto rendimiento para eliminar vibración ===
-    // =======================================================
-    if (document.body.classList.contains('properties-page')) {
-        const header = document.querySelector('.header-properties');
-        const scrollTrigger = document.getElementById('header-scroll-trigger');
-        const pricePopover = document.getElementById('price-filter-popover');
-
-        if (header && scrollTrigger) {
-            // La función que se ejecuta cuando el "trigger" entra o sale de la pantalla
-            const observerCallback = (entries) => {
-                const [entry] = entries; // Solo observamos un elemento
-
-                // Si el popover de precios está abierto, no hacemos nada
-                if (pricePopover && pricePopover.classList.contains('active')) {
-                    return;
-                }
-
-                // Solo para móvil
-                if (window.innerWidth <= 768) {
-                    // Si el trigger NO está en la pantalla (hemos bajado)
-                    if (!entry.isIntersecting) {
-                        header.classList.add('header-properties--collapsed');
-                    } else {
-                        // Si el trigger SÍ está en la pantalla (estamos arriba)
-                        header.classList.remove('header-properties--collapsed');
-                    }
-                } else {
-                    // En escritorio, siempre mostrar
-                    header.classList.remove('header-properties--collapsed');
-                }
-            };
-
-            // Creamos el observador
-            const observer = new IntersectionObserver(observerCallback);
-            
-            // Le decimos al observador que empiece a vigilar nuestro "trigger"
-            observer.observe(scrollTrigger);
-        }
-    }
     // ============================================================
     // === LÓGICA PARA LIGHTBOX V3 (MOSAICO Y SLIDER) ===
     // ============================================================
