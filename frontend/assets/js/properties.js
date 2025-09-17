@@ -320,12 +320,14 @@
         }
 
         function setupPriceFilter(priceRange) {
-            if (!priceSliderEl || typeof noUiSlider === 'undefined') {
+            if (!priceFilterBtn || !pricePopover) {
                 return;
             }
-            if (priceSliderEl.noUiSlider) {
+
+            if (priceSliderEl?.noUiSlider) {
                 priceSliderEl.noUiSlider.destroy();
             }
+
             const availableMin = Number(priceRange.min) || 0;
             let availableMax = Number(priceRange.max) || 0;
             if (availableMax <= availableMin) {
@@ -338,38 +340,72 @@
             const startMin = clampValue(minPriceParam ?? availableMin, availableMin, availableMax);
             const startMax = clampValue(maxPriceParam ?? availableMax, availableMin, availableMax);
 
-            const slider = noUiSlider.create(priceSliderEl, {
-                start: [startMin, startMax],
-                connect: true,
-                range: {
-                    min: availableMin,
-                    max: availableMax
-                },
-                format: {
-                    to: value => Math.round(value),
-                    from: value => Number(value)
+            const slider = (priceSliderEl && typeof noUiSlider !== 'undefined')
+                ? noUiSlider.create(priceSliderEl, {
+                    start: [startMin, startMax],
+                    connect: true,
+                    range: {
+                        min: availableMin,
+                        max: availableMax
+                    },
+                    format: {
+                        to: value => Math.round(value),
+                        from: value => Number(value)
+                    }
+                })
+                : null;
+
+            if (slider) {
+                slider.on('slide', (values) => {
+                    const [min, max] = values.map(Number);
+                    updatePriceInputs(min, max);
+                });
+
+                slider.on('change', (values) => {
+                    const [min, max] = values.map(Number);
+                    updatePriceButtonLabel(min, max, availableMin, availableMax);
+                });
+            }
+
+            const syncInputsWithSlider = () => {
+                if (slider) {
+                    const [min, max] = slider.get().map(Number);
+                    updatePriceInputs(min, max);
+                } else {
+                    const minValue = parseCurrency(minPriceInput?.value ?? '');
+                    const maxValue = parseCurrency(maxPriceInput?.value ?? '');
+                    const safeMin = Number.isFinite(minValue) ? minValue : availableMin;
+                    const safeMax = Number.isFinite(maxValue) ? maxValue : availableMax;
+                    updatePriceInputs(safeMin, safeMax);
                 }
-            });
+            };
 
             updatePriceInputs(startMin, startMax);
             updatePriceButtonLabel(startMin, startMax, availableMin, availableMax);
 
-            slider.on('slide', (values) => {
-                const [min, max] = values.map(Number);
-                updatePriceInputs(min, max);
-            });
-
             minPriceInput?.addEventListener('change', () => {
                 const numeric = parseCurrency(minPriceInput.value);
                 if (Number.isFinite(numeric)) {
-                    slider.set([numeric, null]);
+                    if (slider) {
+                        slider.set([numeric, null]);
+                    } else {
+                        const maxValue = parseCurrency(maxPriceInput?.value ?? '');
+                        const safeMax = Number.isFinite(maxValue) ? maxValue : availableMax;
+                        updatePriceInputs(numeric, safeMax);
+                    }
                 }
             });
 
             maxPriceInput?.addEventListener('change', () => {
                 const numeric = parseCurrency(maxPriceInput.value);
                 if (Number.isFinite(numeric)) {
-                    slider.set([null, numeric]);
+                    if (slider) {
+                        slider.set([null, numeric]);
+                    } else {
+                        const minValue = parseCurrency(minPriceInput?.value ?? '');
+                        const safeMin = Number.isFinite(minValue) ? minValue : availableMin;
+                        updatePriceInputs(safeMin, numeric);
+                    }
                 }
             });
 
@@ -399,35 +435,44 @@
                 });
             });
 
-            priceFilterBtn?.addEventListener('click', (event) => {
+            priceFilterBtn.addEventListener('click', (event) => {
                 event.stopPropagation();
-                pricePopover?.classList.toggle('active');
+                pricePopover.classList.toggle('active');
+                priceFilterBtn.classList.toggle('active');
                 priceFilterBtn.parentElement?.classList.toggle('active');
                 if (headerBottom) {
                     headerBottom.classList.toggle('overflow-visible');
                 }
-                if (pricePopover?.classList.contains('active')) {
-                    const [min, max] = slider.get().map(Number);
-                    updatePriceInputs(min, max);
+                if (pricePopover.classList.contains('active')) {
+                    syncInputsWithSlider();
                 }
             });
 
             document.addEventListener('click', (event) => {
-                if (!pricePopover?.classList.contains('active')) {
+                if (!pricePopover.classList.contains('active')) {
                     return;
                 }
-                if (pricePopover.contains(event.target) || priceFilterBtn?.contains(event.target)) {
+                if (pricePopover.contains(event.target) || priceFilterBtn.contains(event.target)) {
                     return;
                 }
                 pricePopover.classList.remove('active');
-                priceFilterBtn?.parentElement?.classList.remove('active');
+                priceFilterBtn.classList.remove('active');
+                priceFilterBtn.parentElement?.classList.remove('active');
                 if (headerBottom) {
                     headerBottom.classList.remove('overflow-visible');
                 }
             });
 
             applyPriceBtn?.addEventListener('click', () => {
-                const [min, max] = slider.get().map((value) => Math.round(Number(value)));
+                const [min, max] = slider
+                    ? slider.get().map((value) => Math.round(Number(value)))
+                    : (() => {
+                        const minValue = parseCurrency(minPriceInput?.value ?? '');
+                        const maxValue = parseCurrency(maxPriceInput?.value ?? '');
+                        const safeMin = Number.isFinite(minValue) ? minValue : availableMin;
+                        const safeMax = Number.isFinite(maxValue) ? maxValue : availableMax;
+                        return [Math.round(safeMin), Math.round(safeMax)];
+                    })();
                 if (minPriceHidden) {
                     minPriceHidden.disabled = false;
                     minPriceHidden.value = String(min);
@@ -437,11 +482,6 @@
                     maxPriceHidden.value = String(max);
                 }
                 filtersForm?.submit();
-            });
-
-            slider.on('change', (values) => {
-                const [min, max] = values.map(Number);
-                updatePriceButtonLabel(min, max, availableMin, availableMax);
             });
         }
 
