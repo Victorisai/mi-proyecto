@@ -211,9 +211,6 @@ body:not(.home){
     transition: color 0.3s ease; /* Transición suave para el color */
 }
 
-.home .header__toggle {
-    margin: 0 0 0 50px !important;
-}
 
 .header--scrolled .header__toggle {
     color: #2c3e50; /* Negro al deslizar en index */
@@ -322,7 +319,7 @@ body:not(.home) .header__nav-item a {
     }
 
     .header__toggle {
-        margin-left: 15px; /* Mantener margen izquierdo */
+        margin-left: 50px; /* Mantener margen izquierdo */
     }
 
     .header__logo {

@@ -118,6 +118,79 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/:id', async (req, res) => {
+  const propertyId = Number.parseInt(req.params.id, 10);
+  if (!Number.isInteger(propertyId) || propertyId <= 0) {
+    return res.status(400).json({ message: 'ID de propiedad inválido' });
+  }
+
+  let connection;
+  try {
+    connection = await db.getConnection();
+
+    const [propertyRows] = await connection.query(
+      'SELECT * FROM properties WHERE id = ? AND status = ? LIMIT 1',
+      [propertyId, 'disponible']
+    );
+
+    if (!Array.isArray(propertyRows) || propertyRows.length === 0) {
+      return res.status(404).json({ message: 'Propiedad no encontrada' });
+    }
+
+    const property = propertyRows[0];
+
+    let parsedFeatures = {};
+    if (property.features) {
+      try {
+        const rawFeatures = typeof property.features === 'string' ? property.features : JSON.stringify(property.features);
+        parsedFeatures = JSON.parse(rawFeatures) ?? {};
+      } catch (error) {
+        parsedFeatures = {};
+      }
+    }
+
+    const images = [];
+    if (property.main_image) {
+      images.push(property.main_image);
+    }
+    for (let i = 1; i <= 15; i += 1) {
+      const key = `thumbnail${i}`;
+      if (property[key]) {
+        images.push(property[key]);
+      }
+    }
+
+    const uniqueImages = [...new Set(images.filter((src) => typeof src === 'string' && src.trim().length > 0))];
+
+    const [similarProperties] = await connection.query(
+      `SELECT id, title, price, category, listing_type, location, main_image
+       FROM properties
+       WHERE category = ? AND id != ? AND status = ?
+       ORDER BY RAND()
+       LIMIT 10`,
+      [property.category, propertyId, 'disponible']
+    );
+
+    const sanitizedProperty = {
+      ...property,
+      features: parsedFeatures,
+    };
+
+    return res.json({
+      property: sanitizedProperty,
+      images: uniqueImages,
+      similarProperties: Array.isArray(similarProperties) ? similarProperties : [],
+    });
+  } catch (error) {
+    console.error('Error al obtener la propiedad:', error);
+    return res.status(500).json({ message: 'Error en el servidor' });
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+});
+
 function parseNumericValue(value) {
   if (value === undefined || value === null || value === '') {
     return null;
