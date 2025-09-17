@@ -322,8 +322,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // === LÓGICA PARA LIGHTBOX V3 (MOSAICO Y SLIDER) ===
     // ============================================================
     const lightbox = document.getElementById('property-lightbox');
+    let lightboxInitialized = false;
 
-    if (lightbox && typeof propertyImages !== 'undefined' && propertyImages.length > 0) {
+    function initializeLightbox(images) {
+        if (lightboxInitialized || !lightbox || !Array.isArray(images) || images.length === 0) {
+            return;
+        }
+
+        lightboxInitialized = true;
+        window.propertyImages = [...images];
+
+        const propertyImagesList = window.propertyImages;
         const galleryItems = document.querySelectorAll('.gallery__item');
         const openBtn = document.querySelector('.gallery__open-btn');
         const mainLightboxImage = document.getElementById('lightbox-main-image');
@@ -335,17 +344,21 @@ document.addEventListener('DOMContentLoaded', () => {
         const backToGridBtn = document.getElementById('lightbox-slider-back');
         const backFromGridBtn = document.getElementById('lightbox-grid-back');
 
+        if (!mainLightboxImage || !counter || !gridContainer) {
+            return;
+        }
+
         let currentIndex = 0;
 
         function showImage(index) {
-            currentIndex = (index + propertyImages.length) % propertyImages.length;
-            mainLightboxImage.src = propertyImages[currentIndex];
-            counter.textContent = `${currentIndex + 1} / ${propertyImages.length}`;
+            currentIndex = (index + propertyImagesList.length) % propertyImagesList.length;
+            mainLightboxImage.src = propertyImagesList[currentIndex];
+            counter.textContent = `${currentIndex + 1} / ${propertyImagesList.length}`;
         }
 
         function populateGrid() {
-            gridContainer.innerHTML = ''; // Limpiar para evitar duplicados
-            propertyImages.forEach((src, index) => {
+            gridContainer.innerHTML = '';
+            propertyImagesList.forEach((src, index) => {
                 const gridItem = document.createElement('div');
                 gridItem.className = 'lightbox__grid-item';
                 gridItem.dataset.index = index;
@@ -376,8 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.add('lightbox-active');
             populateGrid();
             lightbox.classList.add('active');
-            // Asegurarse de que siempre inicie en la vista de grid
-            switchToGridView(); 
+            switchToGridView();
         }
 
         function closeLightbox() {
@@ -385,7 +397,6 @@ document.addEventListener('DOMContentLoaded', () => {
             lightbox.classList.remove('active');
         }
 
-        // --- Event Listeners ---
         galleryItems.forEach(item => {
             item.addEventListener('click', openLightbox);
         });
@@ -395,34 +406,61 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         closeBtns.forEach(btn => btn.addEventListener('click', closeLightbox));
-        backToGridBtn.addEventListener('click', switchToGridView);
-        backFromGridBtn.addEventListener('click', () => {
-            // Simula el comportamiento de "volver" en un navegador
-            // En este caso, simplemente cerramos el lightbox.
-            closeLightbox();
-        });
 
-        nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
-        prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+        if (backToGridBtn) {
+            backToGridBtn.addEventListener('click', switchToGridView);
+        }
+
+        if (backFromGridBtn) {
+            backFromGridBtn.addEventListener('click', () => {
+                closeLightbox();
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => showImage(currentIndex + 1));
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => showImage(currentIndex - 1));
+        }
 
         document.addEventListener('keydown', (e) => {
             if (lightbox.classList.contains('active')) {
                 if (e.key === 'Escape') {
-                    // Si estamos en el slider, vuelve al grid. Si no, cierra.
                     if (lightbox.classList.contains('lightbox--slider-active')) {
                         switchToGridView();
                     } else {
                         closeLightbox();
                     }
                 }
-                // Navegación con flechas solo en la vista de slider
                 if (lightbox.classList.contains('lightbox--slider-active')) {
-                    if (e.key === 'ArrowRight') nextBtn.click();
-                    if (e.key === 'ArrowLeft') prevBtn.click();
+                    if (e.key === 'ArrowRight' && nextBtn) nextBtn.click();
+                    if (e.key === 'ArrowLeft' && prevBtn) prevBtn.click();
                 }
             }
         });
+
+        gridContainer.addEventListener('click', (event) => {
+            const item = event.target.closest('.lightbox__grid-item');
+            if (!item) return;
+            const index = parseInt(item.dataset.index, 10);
+            if (Number.isInteger(index)) {
+                switchToSliderView(index);
+            }
+        });
     }
+
+    if (lightbox && Array.isArray(window.propertyImages) && window.propertyImages.length > 0) {
+        initializeLightbox(window.propertyImages);
+    }
+
+    document.addEventListener('propertyImagesLoaded', (event) => {
+        const images = event?.detail?.images;
+        if (Array.isArray(images) && images.length > 0) {
+            initializeLightbox(images);
+        }
+    });
 // =======================================================
 // === LÓGICA PARA REVELAR TELÉFONO EN TARJETA DE CONTACTO ===
 // =======================================================

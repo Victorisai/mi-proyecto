@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 carousel.innerHTML += `
                     <div class="property-showcase__slide-card" data-category="${normalizedCategory}">
-                        <a href="property_detail.php?id=${prop.id}">
+                        <a href="property_detail.html?id=${prop.id}">
                             <div class="property-showcase__category-badge">${displayCategory}</div>
                             <img src="${prop.main_image}" alt="${prop.title}">
                             <div class="property-showcase__slide-card-info">

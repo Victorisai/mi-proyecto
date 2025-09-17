@@ -266,7 +266,7 @@
                     ? currencyFormatter.format(priceValue)
                     : '';
                 card.innerHTML = `
-                    <a href="property_detail.php?id=${propertyId}" class="property-card__link">
+                    <a href="property_detail.html?id=${propertyId}" class="property-card__link">
                         <div class="property-card__image-container">
                             <img class="property-card__image" src="${escapeHtml(imageSrc)}" alt="${escapeHtml(property.title || 'Propiedad')}">
                             <div class="property-card__badge property-card__badge--listing">${listingText}</div>
