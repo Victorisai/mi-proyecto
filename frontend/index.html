@@ -22,6 +22,17 @@
                         <h1 class="header__title sr-only">DOMABLY</h1>
                     </a>
                 </div>
+                <div class="header__actions">
+                    <button type="button" class="header__action-btn header__action-btn--ghost" data-auth-trigger="login" data-auth-visible="guest">
+                        Iniciar sesión
+                    </button>
+                    <button type="button" class="header__action-btn header__action-btn--primary" data-auth-trigger="register" data-auth-visible="guest">
+                        Crear cuenta
+                    </button>
+                    <a class="header__action-btn header__action-btn--primary header__action-btn--account" href="properties.html" data-account-link data-account-href-admin="admin/dashboard.php" data-account-href-user="properties.html" data-auth-visible="authenticated" hidden>
+                        Mi cuenta
+                    </a>
+                </div>
             </div>
             <hr class="header__divider">
             <ul class="header__nav">
@@ -46,7 +57,21 @@
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="mobile-nav__icon">Sobre Nosotros</a></li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="mobile-nav__icon">Únete a Nosotros</a></li>
-                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta</a></li>
+                    <li class="mobile-nav__item" data-auth-visible="guest">
+                        <button type="button" class="mobile-nav__link mobile-nav__button" data-auth-trigger="login">
+                            <img src="assets/images/iconcaracteristic/account-icon.png" alt="Icono iniciar sesión" class="mobile-nav__icon">Iniciar sesión
+                        </button>
+                    </li>
+                    <li class="mobile-nav__item" data-auth-visible="guest">
+                        <button type="button" class="mobile-nav__link mobile-nav__button mobile-nav__button--primary" data-auth-trigger="register">
+                            <img src="assets/images/iconcaracteristic/join-icon.png" alt="Icono crear cuenta" class="mobile-nav__icon">Crear cuenta
+                        </button>
+                    </li>
+                    <li class="mobile-nav__item" data-auth-visible="authenticated" hidden>
+                        <a class="mobile-nav__link mobile-nav__link--account" href="properties.html" data-account-link data-account-href-admin="admin/dashboard.php" data-account-href-user="properties.html">
+                            <img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -209,7 +234,73 @@
         </div>
     </footer>
 
+    <div class="auth-modal__overlay" id="auth-modal-overlay" hidden></div>
+
+    <section class="auth-modal" id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title" aria-hidden="true" tabindex="-1">
+        <div class="auth-modal__content">
+            <button type="button" class="auth-modal__close" data-modal-close aria-label="Cerrar formulario de inicio de sesión">✕</button>
+            <h2 class="auth-modal__title" id="login-modal-title">Iniciar sesión</h2>
+            <p class="auth-modal__description">Accede a tu cuenta para administrar tus propiedades y tu actividad en Domably.</p>
+            <form id="login-form" class="auth-modal__form">
+                <div class="auth-modal__form-group">
+                    <label for="login-email">Correo electrónico</label>
+                    <input type="email" id="login-email" name="email" autocomplete="email" required>
+                </div>
+                <div class="auth-modal__form-group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" name="password" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="header__action-btn header__action-btn--primary auth-modal__submit">Iniciar sesión</button>
+                <p class="auth-modal__message"></p>
+            </form>
+            <div class="auth-modal__footer">
+                <span>¿Aún no tienes cuenta?</span>
+                <button type="button" class="auth-modal__link" data-switch-modal="register">Crear una cuenta</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="auth-modal" id="register-modal" role="dialog" aria-modal="true" aria-labelledby="register-modal-title" aria-hidden="true" tabindex="-1">
+        <div class="auth-modal__content">
+            <button type="button" class="auth-modal__close" data-modal-close aria-label="Cerrar formulario de registro">✕</button>
+            <h2 class="auth-modal__title" id="register-modal-title">Crear cuenta</h2>
+            <p class="auth-modal__description">Únete a Domably para publicar propiedades, guardarlas como favoritas y seguir tu actividad.</p>
+            <form id="register-form" class="auth-modal__form">
+                <div class="auth-modal__form-group">
+                    <label for="register-name">Nombre completo</label>
+                    <input type="text" id="register-name" name="name" autocomplete="name" required>
+                </div>
+                <div class="auth-modal__form-group">
+                    <label for="register-email">Correo electrónico</label>
+                    <input type="email" id="register-email" name="email" autocomplete="email" required>
+                </div>
+                <div class="auth-modal__form-group">
+                    <label for="register-phone">Teléfono</label>
+                    <input type="tel" id="register-phone" name="phone" autocomplete="tel">
+                </div>
+                <div class="auth-modal__form-group">
+                    <label for="register-birthdate">Fecha de nacimiento</label>
+                    <input type="date" id="register-birthdate" name="birth_date" autocomplete="bday">
+                </div>
+                <div class="auth-modal__form-group">
+                    <label for="register-password">Contraseña</label>
+                    <input type="password" id="register-password" name="password" autocomplete="new-password" minlength="6" required>
+                </div>
+                <div class="auth-modal__form-group">
+                    <label for="register-confirm-password">Confirmar contraseña</label>
+                    <input type="password" id="register-confirm-password" name="confirm_password" autocomplete="new-password" minlength="6" required>
+                </div>
+                <button type="submit" class="header__action-btn header__action-btn--primary auth-modal__submit">Crear cuenta</button>
+                <p class="auth-modal__message"></p>
+            </form>
+            <div class="auth-modal__footer">
+                <span>¿Ya tienes una cuenta?</span>
+                <button type="button" class="auth-modal__link" data-switch-modal="login">Iniciar sesión</button>
+            </div>
+        </div>
+    </section>
+
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/app.js"></script> 
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

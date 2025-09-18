@@ -34,6 +34,434 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==================================
+    // === AUTENTICACIÓN (USUARIOS) ===
+    // ==================================
+    const AUTH_TOKEN_KEY = 'domablyToken';
+    const loginModal = document.getElementById('login-modal');
+    const registerModal = document.getElementById('register-modal');
+    const modalOverlay = document.getElementById('auth-modal-overlay');
+    const authModals = [loginModal, registerModal].filter(Boolean);
+    const authGuestElements = document.querySelectorAll('[data-auth-visible="guest"]');
+    const authUserElements = document.querySelectorAll('[data-auth-visible="authenticated"]');
+    const accountLinks = document.querySelectorAll('[data-account-link]');
+
+    let activeAuthModal = null;
+    let authenticatedUser = null;
+
+    accountLinks.forEach(link => {
+        if (!link.dataset.defaultLabel) {
+            link.dataset.defaultLabel = link.textContent.trim();
+        }
+    });
+
+    const decodeTokenPayload = (token) => {
+        if (!token || typeof token !== 'string') return null;
+        const segments = token.split('.');
+        if (segments.length < 2) return null;
+        try {
+            const base64 = segments[1].replace(/-/g, '+').replace(/_/g, '/');
+            const padded = base64.padEnd(Math.ceil(base64.length / 4) * 4, '=');
+            const json = atob(padded);
+            return JSON.parse(json);
+        } catch (error) {
+            console.error('No se pudo decodificar el token JWT:', error);
+            return null;
+        }
+    };
+
+    const getUserFromToken = (token) => {
+        const payload = decodeTokenPayload(token);
+        if (!payload || !payload.user) {
+            return null;
+        }
+
+        const currentTimestamp = Math.floor(Date.now() / 1000);
+        if (payload.exp && payload.exp <= currentTimestamp) {
+            return null;
+        }
+
+        return {
+            id: payload.user.id,
+            role: payload.user.role || 'user',
+        };
+    };
+
+    const resolveAccountHref = (link, role = 'user') => {
+        if (!link) return null;
+        const adminHref = link.dataset.accountHrefAdmin;
+        const userHref = link.dataset.accountHrefUser;
+        if (role === 'admin') {
+            return adminHref || userHref || link.getAttribute('href');
+        }
+        return userHref || adminHref || link.getAttribute('href');
+    };
+
+    const updateAuthUI = (user) => {
+        const isAuthenticated = Boolean(user);
+
+        authGuestElements.forEach(element => {
+            if (!element) return;
+            if (isAuthenticated) {
+                element.setAttribute('hidden', '');
+            } else {
+                element.removeAttribute('hidden');
+            }
+        });
+
+        authUserElements.forEach(element => {
+            if (!element) return;
+            if (isAuthenticated) {
+                element.removeAttribute('hidden');
+            } else {
+                element.setAttribute('hidden', '');
+            }
+        });
+
+        if (!isAuthenticated) {
+            return;
+        }
+
+        accountLinks.forEach(link => {
+            if (!link) return;
+            const href = resolveAccountHref(link, user.role || 'user');
+            if (href) {
+                link.setAttribute('href', href);
+            }
+            if (link.dataset.defaultLabel) {
+                link.textContent = link.dataset.defaultLabel;
+            }
+        });
+    };
+
+    const setFormFeedback = (element, message = '', type = 'info') => {
+        if (!element) return;
+        element.textContent = message;
+        element.classList.remove('auth-modal__message--error', 'auth-modal__message--success');
+        element.removeAttribute('role');
+        element.removeAttribute('aria-live');
+
+        if (!message) {
+            return;
+        }
+
+        if (type === 'error') {
+            element.classList.add('auth-modal__message--error');
+            element.setAttribute('role', 'alert');
+            element.setAttribute('aria-live', 'assertive');
+        } else {
+            element.classList.add('auth-modal__message--success');
+            element.setAttribute('role', 'status');
+            element.setAttribute('aria-live', 'polite');
+        }
+    };
+
+    const setSubmitLoading = (button, isLoading) => {
+        if (!button) return;
+        if (isLoading) {
+            if (!button.dataset.originalText) {
+                button.dataset.originalText = button.textContent.trim();
+            }
+            button.textContent = 'Procesando...';
+        } else if (button.dataset.originalText) {
+            button.textContent = button.dataset.originalText;
+        }
+        button.disabled = isLoading;
+    };
+
+    const showOverlay = () => {
+        if (!modalOverlay) return;
+        modalOverlay.hidden = false;
+        requestAnimationFrame(() => modalOverlay.classList.add('is-active'));
+        document.body.classList.add('no-scroll');
+    };
+
+    const hideOverlay = () => {
+        if (!modalOverlay) return;
+        modalOverlay.classList.remove('is-active');
+        const onTransitionEnd = () => {
+            modalOverlay.hidden = true;
+            modalOverlay.removeEventListener('transitionend', onTransitionEnd);
+        };
+        modalOverlay.addEventListener('transitionend', onTransitionEnd, { once: true });
+        document.body.classList.remove('no-scroll');
+    };
+
+    const resetAuthModal = (modal) => {
+        if (!modal) return;
+        const form = modal.querySelector('form');
+        if (form) {
+            form.reset();
+        }
+        const messageElement = modal.querySelector('.auth-modal__message');
+        if (messageElement) {
+            setFormFeedback(messageElement, '');
+        }
+    };
+
+    const closeAuthModal = (modal, { reset = true, preserveOverlay = false } = {}) => {
+        if (!modal) return;
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+
+        if (reset) {
+            resetAuthModal(modal);
+        }
+
+        if (activeAuthModal === modal) {
+            activeAuthModal = null;
+        }
+
+        if (preserveOverlay) {
+            return;
+        }
+
+        const anyModalOpen = authModals.some(item => item && item.classList.contains('is-open'));
+        if (!anyModalOpen) {
+            hideOverlay();
+        }
+    };
+
+    const openAuthModal = (modal) => {
+        if (!modal || !modalOverlay) return;
+        if (activeAuthModal && activeAuthModal !== modal) {
+            closeAuthModal(activeAuthModal, { preserveOverlay: true });
+        }
+        activeAuthModal = modal;
+        showOverlay();
+        modal.classList.add('is-open');
+        modal.removeAttribute('aria-hidden');
+        if (typeof modal.focus === 'function') {
+            modal.focus();
+        }
+    };
+
+    const setAuthenticatedUser = (user) => {
+        authenticatedUser = user;
+        updateAuthUI(user);
+        window.dispatchEvent(new CustomEvent('domably:auth-changed', { detail: { user } }));
+    };
+
+    const initializeAuthState = () => {
+        const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
+        if (!storedToken) {
+            setAuthenticatedUser(null);
+            return;
+        }
+
+        const user = getUserFromToken(storedToken);
+        if (user) {
+            setAuthenticatedUser(user);
+        } else {
+            localStorage.removeItem(AUTH_TOKEN_KEY);
+            setAuthenticatedUser(null);
+        }
+    };
+
+    initializeAuthState();
+
+    const loginTriggers = document.querySelectorAll('[data-auth-trigger="login"]');
+    const registerTriggers = document.querySelectorAll('[data-auth-trigger="register"]');
+
+    const closeMobileNavIfOpen = () => {
+        if (typeof closeNav === 'function') {
+            closeNav();
+        }
+    };
+
+    if (loginModal) {
+        loginTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                closeMobileNavIfOpen();
+                openAuthModal(loginModal);
+            });
+        });
+    }
+
+    if (registerModal) {
+        registerTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                closeMobileNavIfOpen();
+                openAuthModal(registerModal);
+            });
+        });
+    }
+
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', () => {
+            if (activeAuthModal) {
+                closeAuthModal(activeAuthModal);
+            }
+        });
+    }
+
+    document.querySelectorAll('[data-modal-close]').forEach(button => {
+        button.addEventListener('click', () => {
+            const modal = button.closest('.auth-modal');
+            closeAuthModal(modal);
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && activeAuthModal) {
+            closeAuthModal(activeAuthModal);
+        }
+    });
+
+    document.querySelectorAll('[data-switch-modal]').forEach(button => {
+        button.addEventListener('click', () => {
+            const target = button.dataset.switchModal;
+            if (target === 'register' && registerModal) {
+                closeAuthModal(loginModal, { preserveOverlay: true });
+                openAuthModal(registerModal);
+            } else if (target === 'login' && loginModal) {
+                closeAuthModal(registerModal, { preserveOverlay: true });
+                openAuthModal(loginModal);
+            }
+        });
+    });
+
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const loginMessage = loginForm ? loginForm.querySelector('.auth-modal__message') : null;
+    const registerMessage = registerForm ? registerForm.querySelector('.auth-modal__message') : null;
+    const loginSubmitButton = loginForm ? loginForm.querySelector('.auth-modal__submit') : null;
+    const registerSubmitButton = registerForm ? registerForm.querySelector('.auth-modal__submit') : null;
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = loginForm.email.value.trim();
+            const password = loginForm.password.value.trim();
+
+            if (!email || !password) {
+                setFormFeedback(loginMessage, 'Por favor, completa tu correo y contraseña.', 'error');
+                return;
+            }
+
+            setFormFeedback(loginMessage, '');
+            setSubmitLoading(loginSubmitButton, true);
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(data.message || 'No se pudo iniciar sesión.');
+                }
+
+                if (!data.token) {
+                    throw new Error('El servidor no devolvió un token válido.');
+                }
+
+                localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+                const user = getUserFromToken(data.token);
+                if (!user) {
+                    localStorage.removeItem(AUTH_TOKEN_KEY);
+                    throw new Error('No se pudo validar la sesión. Intenta nuevamente.');
+                }
+                setAuthenticatedUser(user);
+
+                setFormFeedback(loginMessage, 'Inicio de sesión exitoso. ¡Bienvenido de nuevo!', 'success');
+
+                setTimeout(() => {
+                    closeAuthModal(loginModal);
+                }, 900);
+            } catch (error) {
+                console.error('Error al iniciar sesión:', error);
+                setFormFeedback(loginMessage, error.message || 'No se pudo iniciar sesión.', 'error');
+            } finally {
+                setSubmitLoading(loginSubmitButton, false);
+            }
+        });
+    }
+
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const name = registerForm.name.value.trim();
+            const email = registerForm.email.value.trim();
+            const phone = registerForm.phone.value.trim();
+            const birthDate = registerForm.birth_date.value;
+            const password = registerForm.password.value.trim();
+            const confirmPassword = registerForm.confirm_password.value.trim();
+
+            if (!name || !email || !password || !confirmPassword) {
+                setFormFeedback(registerMessage, 'Por favor, completa los campos obligatorios.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                setFormFeedback(registerMessage, 'La contraseña debe tener al menos 6 caracteres.', 'error');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                setFormFeedback(registerMessage, 'Las contraseñas no coinciden.', 'error');
+                return;
+            }
+
+            const payload = {
+                name,
+                email,
+                password,
+            };
+
+            if (phone) {
+                payload.phone = phone;
+            }
+            if (birthDate) {
+                payload.birth_date = birthDate;
+            }
+
+            setFormFeedback(registerMessage, '');
+            setSubmitLoading(registerSubmitButton, true);
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) {
+                    throw new Error(data.message || 'No se pudo crear la cuenta.');
+                }
+
+                const successMessage = data.message || '¡Tu cuenta se creó con éxito! Ahora puedes iniciar sesión.';
+                setFormFeedback(registerMessage, successMessage, 'success');
+
+                setTimeout(() => {
+                    if (registerModal && loginModal) {
+                        closeAuthModal(registerModal, { preserveOverlay: true });
+                        openAuthModal(loginModal);
+                        if (loginMessage) {
+                            setFormFeedback(loginMessage, 'Cuenta creada. Ingresa tus datos para comenzar.', 'success');
+                        }
+                    } else if (registerModal) {
+                        closeAuthModal(registerModal);
+                    }
+                }, 1200);
+            } catch (error) {
+                console.error('Error al registrar usuario:', error);
+                setFormFeedback(registerMessage, error.message || 'No se pudo crear la cuenta.', 'error');
+            } finally {
+                setSubmitLoading(registerSubmitButton, false);
+            }
+        });
+    }
+
+    // ==================================
     // === LÓGICA DEL PANEL DE ADMIN ===
     // ==================================
     // Mostrar campos de características según la categoría
