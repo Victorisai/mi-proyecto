@@ -5002,3 +5002,64 @@ body.lightbox-active {
         padding-right: calc((100% - 1500px) / 2 + 10px);
     }
 }
+
+
+
+/*  LOGIN  */
+.header__actions {
+    position: fixed; /* Lo posicionamos con respecto a la ventana */
+    top: 32px;       /* Ajuste vertical para centrarlo con el logo */
+    right: 40px;     /* Distancia desde el borde derecho de la pantalla */
+    transform: translateY(-50%);
+    z-index: 101;    /* Nos aseguramos que esté por encima de otros elementos */
+    gap: 12px;
+}
+
+.header__action-button {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid #fff;
+    color: #fff;
+    white-space: nowrap; /* Evita que el texto se parta en dos líneas */
+}
+
+.header__action-button--register {
+    background-color: #fff;
+    color: #2c3e50;
+}
+
+.header__action-button:hover {
+    opacity: 0.8;
+}
+
+/* Estilos cuando se hace scroll */
+.header--scrolled .header__action-button {
+    border-color: #2c3e50;
+    color: #2c3e50;
+}
+
+.header--scrolled .header__action-button--register {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+/* Estilos para las otras páginas */
+body:not(.home) .header__action-button {
+    border-color: #2c3e50;
+    color: #2c3e50;
+}
+
+body:not(.home) .header__action-button--register {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .header__actions {
+        display: none;
+    }
+}
