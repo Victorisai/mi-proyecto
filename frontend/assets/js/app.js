@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             newsGrid.innerHTML += `
                 <div class="main-news-card">
-                    <a href="news_detail.php?id=${mainNews.id}">
+                    <a href="news_detail.html?id=${mainNews.id}">
                         <div class="main-news-card__image-container">
                             <img src="${mainNewsImage}" alt="${mainNews.title}">
                         </div>
@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     secondaryNewsGrid.innerHTML += `
                         <div class="secondary-news-card">
-                            <a href="news_detail.php?id=${news.id}">
+                            <a href="news_detail.html?id=${news.id}">
                                 <div class="secondary-news-card__image-container">
                                     <img src="${newsImage}" alt="${news.title}">
                                 </div>
