@@ -209,15 +209,38 @@
         <div class="auth-modal__overlay" data-auth-close></div>
         <div class="auth-modal__dialog" role="document">
             <button class="auth-modal__close" type="button" aria-label="Cerrar" data-auth-close>&times;</button>
-            <div class="auth-modal__content">
-                <div class="auth-modal__tabs" role="tablist">
-                    <button class="auth-modal__tab auth-modal__tab--active" type="button" role="tab" aria-selected="true" data-auth-tab="login">Iniciar Sesión</button>
-                    <button class="auth-modal__tab" type="button" role="tab" aria-selected="false" data-auth-tab="register">Registrar</button>
-                </div>
-                <div class="auth-modal__forms">
-                    <form id="login-form" class="auth-form auth-form--active" novalidate>
+            <div class="auth-modal__layout">
+                <aside class="auth-modal__illustration" aria-hidden="true">
+                    <div class="auth-modal__brand">
+                        <img src="assets/images/iconcaracteristic/logo-light.png" alt="Domably" class="auth-modal__brand-logo">
+                        <p class="auth-modal__brand-text">Experiencias inmobiliarias premium para compradores y asesores.</p>
+                    </div>
+                    <ul class="auth-modal__benefits">
+                        <li>Accede a propiedades exclusivas y oportunidades de inversión.</li>
+                        <li>Guarda tus favoritos y retoma tu búsqueda en cualquier dispositivo.</li>
+                        <li>Recibe asesoría personalizada por parte de nuestro equipo experto.</li>
+                    </ul>
+                </aside>
+                <div class="auth-modal__content">
+                    <div class="auth-modal__tabs" role="tablist">
+                        <button class="auth-modal__tab auth-modal__tab--active" type="button" role="tab" aria-selected="true" data-auth-tab="login">Iniciar Sesión</button>
+                        <button class="auth-modal__tab" type="button" role="tab" aria-selected="false" data-auth-tab="register">Registrar</button>
+                    </div>
+                    <div class="auth-modal__forms" role="presentation">
+                        <form id="login-form" class="auth-form auth-form--active" novalidate>
                         <h2 class="auth-form__title" id="auth-modal-title">Bienvenido de nuevo</h2>
                         <p class="auth-form__subtitle">Ingresa tus credenciales para continuar.</p>
+                        <div class="auth-form__social">
+                            <button type="button" class="auth-form__social-button auth-form__social-button--google">
+                                <span class="auth-form__social-icon" aria-hidden="true">🔐</span>
+                                Continuar con Google
+                            </button>
+                            <button type="button" class="auth-form__social-button auth-form__social-button--linkedin">
+                                <span class="auth-form__social-icon" aria-hidden="true">💼</span>
+                                Continuar con LinkedIn
+                            </button>
+                        </div>
+                        <div class="auth-form__divider" role="separator">o continúa con tu correo</div>
                         <div class="auth-form__group">
                             <label for="login-email" class="auth-form__label">Correo electrónico</label>
                             <input id="login-email" name="email" type="email" class="auth-form__input" placeholder="tu@correo.com" required>
@@ -226,12 +249,31 @@
                             <label for="login-password" class="auth-form__label">Contraseña</label>
                             <input id="login-password" name="password" type="password" class="auth-form__input" placeholder="••••••••" required>
                         </div>
+                        <div class="auth-form__actions">
+                            <label class="auth-form__checkbox">
+                                <input type="checkbox" name="remember">
+                                <span>Recordarme</span>
+                            </label>
+                            <a href="#" class="auth-form__link">¿Olvidaste tu contraseña?</a>
+                        </div>
                         <div class="auth-form__message" data-auth-message="login"></div>
                         <button type="submit" class="auth-form__submit">Iniciar Sesión</button>
                     </form>
-                    <form id="register-form" class="auth-form" novalidate>
+
+                        <form id="register-form" class="auth-form" novalidate>
                         <h2 class="auth-form__title">Crea tu cuenta</h2>
                         <p class="auth-form__subtitle">Completa los datos para unirte a Domably.</p>
+                        <div class="auth-form__social auth-form__social--compact">
+                            <button type="button" class="auth-form__social-button auth-form__social-button--google">
+                                <span class="auth-form__social-icon" aria-hidden="true">🔐</span>
+                                Google
+                            </button>
+                            <button type="button" class="auth-form__social-button auth-form__social-button--linkedin">
+                                <span class="auth-form__social-icon" aria-hidden="true">💼</span>
+                                LinkedIn
+                            </button>
+                        </div>
+                        <div class="auth-form__divider" role="separator">o crea tu cuenta manualmente</div>
                         <div class="auth-form__group">
                             <label for="register-name" class="auth-form__label">Nombre completo</label>
                             <input id="register-name" name="name" type="text" class="auth-form__input" placeholder="Tu nombre" required>
@@ -254,7 +296,9 @@
                         </div>
                         <div class="auth-form__message" data-auth-message="register"></div>
                         <button type="submit" class="auth-form__submit">Crear cuenta</button>
+                        <p class="auth-form__terms">Al registrarte aceptas nuestros <a href="#" class="auth-form__link">Términos y Condiciones</a> y la <a href="#" class="auth-form__link">Política de privacidad</a>.</p>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>
