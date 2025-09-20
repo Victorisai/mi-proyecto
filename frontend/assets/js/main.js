@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeNav = () => {
         if (navMenu) navMenu.classList.remove('active');
         if (pageOverlay) pageOverlay.classList.remove('active');
+        closeProfileMenus();
     };
 
     if (menuToggle) {
@@ -55,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const authAsideQuote = document.querySelector('[data-auth-aside-quote]');
     const authAsideAuthor = document.querySelector('[data-auth-aside-author]');
     const authProgressSteps = document.querySelectorAll('[data-auth-step]');
+    const profileMenuToggles = document.querySelectorAll('[data-profile-menu-toggle]');
 
     const AUTH_DYNAMIC_CONTENT = {
         login: {
@@ -218,6 +220,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const showLogin = target !== 'register';
         loginForm.hidden = !showLogin;
         registerForm.hidden = showLogin;
+        loginForm.setAttribute('aria-hidden', String(!showLogin));
+        registerForm.setAttribute('aria-hidden', String(showLogin));
 
         authTabs.forEach((tab) => {
             const tabTarget = tab.getAttribute('data-auth-tab');
@@ -237,6 +241,17 @@ document.addEventListener('DOMContentLoaded', () => {
             focusTarget.focus();
         }
     };
+
+    function closeProfileMenus() {
+        profileMenuToggles.forEach((toggle) => {
+            const group = toggle.closest('[data-auth-profile-group]');
+            const menu = group ? group.querySelector('[data-profile-menu]') : null;
+            toggle.setAttribute('aria-expanded', 'false');
+            if (menu) {
+                menu.hidden = true;
+            }
+        });
+    }
 
     updateAuthDynamicContent('login');
     applyRememberedEmailToForm();
@@ -295,38 +310,58 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const applyAuthStateToUI = (authData = null) => {
+        const isLoggedIn = Boolean(authData && authData.token);
+        const isAdmin = authData?.role === 'admin';
+        closeProfileMenus();
+
         authFormsContainer.forEach((container) => {
             const triggers = container.querySelectorAll('[data-auth-trigger]');
+            const profileGroup = container.querySelector('[data-auth-profile-group]');
+            const profileToggle = container.querySelector('[data-profile-menu-toggle]');
+            const profileLabel = container.querySelector('[data-auth-profile-label]');
             const profileLink = container.querySelector('[data-auth-profile]');
+            const profileMenu = container.querySelector('[data-profile-menu]');
             const logoutLink = container.querySelector('[data-auth-logout]');
 
-            if (authData && authData.token) {
-                triggers.forEach((trigger) => {
-                    trigger.hidden = true;
-                });
+            triggers.forEach((trigger) => {
+                trigger.hidden = isLoggedIn;
+            });
 
-                if (profileLink) {
-                    const isAdmin = authData.role === 'admin';
+            if (profileGroup) {
+                profileGroup.hidden = !isLoggedIn;
+            }
+
+            if (profileToggle) {
+                profileToggle.hidden = !isLoggedIn;
+                profileToggle.setAttribute('aria-expanded', 'false');
+            }
+
+            if (profileMenu) {
+                profileMenu.hidden = true;
+            }
+
+            if (profileLabel) {
+                profileLabel.textContent = isAdmin ? 'Panel Admin' : 'Mi perfil';
+            }
+
+            if (profileLink) {
+                if (isLoggedIn) {
                     profileLink.hidden = false;
-                    profileLink.textContent = isAdmin ? 'Panel Admin' : 'Mi perfil';
+                    profileLink.textContent = profileGroup
+                        ? (isAdmin ? 'Ir al panel admin' : 'Ir a mi perfil')
+                        : (isAdmin ? 'Panel Admin' : 'Mi perfil');
                     profileLink.setAttribute('href', isAdmin ? 'admin/index.php' : 'feed.html');
-                }
-
-                if (logoutLink) {
-                    logoutLink.hidden = false;
-                }
-            } else {
-                triggers.forEach((trigger) => {
-                    trigger.hidden = false;
-                });
-
-                if (profileLink) {
+                } else {
                     profileLink.hidden = true;
+                    if (profileGroup) {
+                        profileLink.textContent = 'Ir a mi perfil';
+                        profileLink.setAttribute('href', 'feed.html');
+                    }
                 }
+            }
 
-                if (logoutLink) {
-                    logoutLink.hidden = true;
-                }
+            if (logoutLink) {
+                logoutLink.hidden = !isLoggedIn;
             }
         });
     };
@@ -397,8 +432,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape' && authModal && authModal.classList.contains('auth-modal--visible')) {
-            closeAuthModal();
+        if (event.key === 'Escape') {
+            if (authModal && authModal.classList.contains('auth-modal--visible')) {
+                closeAuthModal();
+            }
+
+            const hasOpenProfileMenu = Array.from(profileMenuToggles).some(
+                (toggle) => toggle.getAttribute('aria-expanded') === 'true'
+            );
+
+            if (hasOpenProfileMenu) {
+                closeProfileMenus();
+            }
         }
     });
 
@@ -407,6 +452,38 @@ document.addEventListener('DOMContentLoaded', () => {
             const target = tab.getAttribute('data-auth-tab');
             toggleAuthForms(target || 'login');
         });
+    });
+
+    profileMenuToggles.forEach((toggle) => {
+        const group = toggle.closest('[data-auth-profile-group]');
+        const menu = group ? group.querySelector('[data-profile-menu]') : null;
+
+        toggle.addEventListener('click', (event) => {
+            event.preventDefault();
+            if (!menu) return;
+
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                toggle.setAttribute('aria-expanded', 'false');
+                menu.hidden = true;
+            } else {
+                closeProfileMenus();
+                toggle.setAttribute('aria-expanded', 'true');
+                menu.hidden = false;
+            }
+        });
+    });
+
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        if (!target || typeof target.closest !== 'function') return;
+
+        if (target.closest('[data-auth-profile-group]')) {
+            return;
+        }
+
+        closeProfileMenus();
     });
 
     if (loginForm) {
@@ -523,6 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
     logoutLinks.forEach((logoutLink) => {
         logoutLink.addEventListener('click', (event) => {
             event.preventDefault();
+            closeProfileMenus();
             clearAuthState();
             applyAuthStateToUI(null);
             closeAuthModal();

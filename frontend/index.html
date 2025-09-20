@@ -46,23 +46,33 @@
                         <span class="mobile-nav__title">Tu propiedad ideal</span>
                         <span class="mobile-nav__close-button">✕</span>
                     </li>
-                    <div class="mobile-nav__btn" data-auth-controls>
-                        <a href="#" class="mobile-nav__auth-link mobile-nav__auth-link--login" data-auth-trigger="login">
-                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <li class="mobile-nav__auth" data-auth-controls>
+                        <button type="button" class="mobile-nav__auth-link mobile-nav__auth-link--login" data-auth-trigger="login">
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
                             </svg>
-                            <span class="mobile-nav__auth-text">Iniciar Sesión / Registrar</span>
-                        </a>
-                        <a href="feed.html" class="mobile-nav__auth-link mobile-nav__auth-link--profile" data-auth-profile hidden>
-                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
+                            <span class="mobile-nav__auth-text">Iniciar sesión</span>
+                        </button>
+                        <button type="button" class="mobile-nav__auth-link mobile-nav__auth-link--register" data-auth-trigger="register">
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm8 2h-2.09a7.49 7.49 0 0 0-11.82 0H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h5.5a.5.5 0 0 0 .5-.5V18a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5H20a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2zm-6 2a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"/>
                             </svg>
-                            <span class="mobile-nav__auth-text">Mi perfil</span>
-                        </a>
-                        <a href="#" class="mobile-nav__auth-link mobile-nav__auth-link--logout" data-auth-logout hidden>
-                            <span class="mobile-nav__auth-text">Cerrar sesión</span>
-                        </a>
-                    </div>
+                            <span class="mobile-nav__auth-text">Crear cuenta</span>
+                        </button>
+                        <div class="mobile-nav__profile" data-auth-profile-group hidden>
+                            <button type="button" class="mobile-nav__auth-link mobile-nav__auth-link--profile" id="mobile-profile-toggle" data-profile-menu-toggle aria-expanded="false" aria-haspopup="true">
+                                <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                    <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                                </svg>
+                                <span class="mobile-nav__auth-text" data-auth-profile-label>Mi perfil</span>
+                                <span class="mobile-nav__profile-arrow" aria-hidden="true"></span>
+                            </button>
+                            <div class="mobile-nav__profile-menu" data-profile-menu role="menu" aria-labelledby="mobile-profile-toggle" hidden>
+                                <a href="feed.html" class="mobile-nav__profile-menu-link" data-auth-profile role="menuitem">Ir a mi perfil</a>
+                                <button type="button" class="mobile-nav__profile-menu-link mobile-nav__profile-menu-link--logout" data-auth-logout role="menuitem">Cerrar sesión</button>
+                            </div>
+                        </div>
+                    </li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="properties.html"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="mobile-nav__icon">Propiedades</a></li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
@@ -245,10 +255,10 @@
                         <p class="auth-modal__subtitle" id="auth-modal-subtitle" data-auth-subtitle>Inicia sesión para retomar tus oportunidades inmobiliarias en segundos.</p>
                     </div>
                     <div class="auth-modal__tabs" role="tablist" aria-label="Selecciona el modo de acceso">
-                        <button class="auth-modal__tab auth-modal__tab--active" type="button" data-auth-tab="login" aria-selected="true">Iniciar Sesión</button>
-                        <button class="auth-modal__tab" type="button" data-auth-tab="register" aria-selected="false">Registrarme</button>
+                        <button class="auth-modal__tab auth-modal__tab--active" type="button" role="tab" id="auth-tab-login" data-auth-tab="login" aria-selected="true" aria-controls="auth-login-form">Iniciar Sesión</button>
+                        <button class="auth-modal__tab" type="button" role="tab" id="auth-tab-register" data-auth-tab="register" aria-selected="false" aria-controls="auth-register-form">Registrarme</button>
                     </div>
-                    <form class="auth-form auth-form--login" id="auth-login-form" autocomplete="on">
+                    <form class="auth-form auth-form--login" id="auth-login-form" role="tabpanel" data-auth-pane="login" autocomplete="on" aria-labelledby="auth-tab-login" aria-hidden="false">
                         <div class="auth-form__group">
                             <label for="login-email">Correo electrónico</label>
                             <input type="email" id="login-email" name="email" placeholder="correo@dominio.com" required>
@@ -273,7 +283,7 @@
                         <button type="submit" class="auth-form__submit">Iniciar sesión</button>
                         <p class="auth-form__helper">Accede para recuperar tus búsquedas guardadas y continuar donde lo dejaste.</p>
                     </form>
-                    <form class="auth-form auth-form--register" id="auth-register-form" autocomplete="on" hidden>
+                    <form class="auth-form auth-form--register" id="auth-register-form" role="tabpanel" data-auth-pane="register" autocomplete="on" aria-labelledby="auth-tab-register" aria-hidden="true" hidden>
                         <div class="auth-form__grid">
                             <div class="auth-form__group">
                                 <label for="register-name">Nombre completo</label>

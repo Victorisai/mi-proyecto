@@ -5064,46 +5064,129 @@ body:not(.home) .header__action-button--register {
     }
 }
 
-/* BOTON LOGIN/REGISTER */
-.mobile-nav__btn {
+/* BOTÓN LOGIN/REGISTER */
+.mobile-nav__auth {
     padding: 1.5rem 1rem;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
 }
 
 .mobile-nav__auth-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.8rem 1.2rem;
-    border-radius: 8px;
-    background-color: #000000; /* Un color azul llamativo */
-    color: #dad8d8;
+    gap: 0.65rem;
+    padding: 0.85rem 1.2rem;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #0f172a, #1f2937);
+    color: #f8fafc;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    width: 100%;
     text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+    font-family: inherit;
+    appearance: none;
 }
 
-.mobile-nav__auth-link:hover {
-  background-color: #2b2d30; /* Un azul más oscuro para el hover */
+.mobile-nav__auth-link:hover,
+.mobile-nav__auth-link:focus-visible {
+    outline: 2px solid rgba(56, 189, 248, 0.65);
+    outline-offset: 3px;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.25);
+    background: linear-gradient(135deg, #1d4ed8, #1e293b);
 }
 
 .mobile-nav__auth-icon {
     width: 24px;
     height: 24px;
-    margin-right: 0.5rem;
 }
 
 .mobile-nav__auth-text {
     font-size: 1rem;
 }
 
-.mobile-nav__auth-link--logout {
-    justify-content: center;
-    gap: 0.5rem;
+.mobile-nav__auth-link--register {
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
 }
 
-.mobile-nav__auth-link--logout .mobile-nav__auth-text {
+.mobile-nav__auth-link--register:hover,
+.mobile-nav__auth-link--register:focus-visible {
+    outline: 2px solid rgba(191, 219, 254, 0.85);
+    outline-offset: 3px;
+    background: linear-gradient(135deg, #1d4ed8, #0ea5e9);
+}
+
+.mobile-nav__profile {
+    width: 100%;
+    position: relative;
+}
+
+.mobile-nav__profile-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.35);
+}
+
+.mobile-nav__profile-menu-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    border-radius: 8px;
     font-weight: 600;
+    color: #f8fafc;
+    text-decoration: none;
+    background: rgba(148, 163, 184, 0.14);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    font-family: inherit;
+    appearance: none;
+    width: 100%;
+}
+
+.mobile-nav__profile-menu-link:hover,
+.mobile-nav__profile-menu-link:focus-visible {
+    outline: 2px solid rgba(148, 163, 184, 0.7);
+    outline-offset: 3px;
+    background: rgba(59, 130, 246, 0.25);
+    color: #bfdbfe;
+}
+
+.mobile-nav__profile-menu-link--logout {
+    background: rgba(248, 113, 113, 0.18);
+}
+
+.mobile-nav__profile-menu-link--logout:hover,
+.mobile-nav__profile-menu-link--logout:focus-visible {
+    outline: 2px solid rgba(248, 113, 113, 0.6);
+    outline-offset: 3px;
+    background: rgba(220, 38, 38, 0.25);
+    color: #fecaca;
+}
+
+.mobile-nav__profile-arrow {
+    width: 0.75rem;
+    height: 0.75rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 0.2s ease;
+}
+
+[data-profile-menu-toggle][aria-expanded="true"] .mobile-nav__profile-arrow {
+    transform: rotate(-135deg);
 }
 
 /* ======================== */
@@ -5157,13 +5240,36 @@ body.auth-modal-open {
     padding: 2.25rem;
     box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
     position: relative;
-    max-height: 90vh;
-    overflow-y: auto;
+    max-height: min(90vh, 780px);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .auth-modal__body {
     display: grid;
     gap: 2rem;
+    overflow-y: auto;
+    padding-right: 0.35rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.6) transparent;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.auth-modal__body::-webkit-scrollbar {
+    width: 0.45rem;
+}
+
+.auth-modal__body::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.55);
+    border-radius: 999px;
+}
+
+.auth-modal [hidden] {
+    display: none !important;
 }
 
 .auth-modal__form-panel {
