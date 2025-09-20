@@ -22,9 +22,10 @@
                         <h1 class="header__title sr-only">DOMABLY</h1>
                     </a>
                 </div>
-                <div class="header__actions">
-                    <a href="login.html" class="header__action-button header__action-button--login">Iniciar Sesión</a>
-                    <a href="register.html" class="header__action-button header__action-button--register">Registrar</a>
+                <div class="header__actions" data-auth-controls>
+                    <a href="#" class="header__action-button header__action-button--login" data-auth-trigger="login">Iniciar Sesión</a>
+                    <a href="#" class="header__action-button header__action-button--register" data-auth-trigger="register">Registrar</a>
+                    <a href="feed.html" class="header__action-button header__action-button--profile" data-auth-profile hidden>Mi perfil</a>
                 </div>
             </div>
             <hr class="header__divider">
@@ -45,12 +46,21 @@
                         <span class="mobile-nav__title">Tu propiedad ideal</span>
                         <span class="mobile-nav__close-button">✕</span>
                     </li>
-                    <div class="mobile-nav__btn">
-                        <a href="admin/" class="mobile-nav__auth-link">
+                    <div class="mobile-nav__btn" data-auth-controls>
+                        <a href="#" class="mobile-nav__auth-link mobile-nav__auth-link--login" data-auth-trigger="login">
                             <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
                             </svg>
-                            <span class="mobile-nav__auth-text">Log in / Register</span>
+                            <span class="mobile-nav__auth-text">Iniciar Sesión / Registrar</span>
+                        </a>
+                        <a href="feed.html" class="mobile-nav__auth-link mobile-nav__auth-link--profile" data-auth-profile hidden>
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
+                            </svg>
+                            <span class="mobile-nav__auth-text">Mi perfil</span>
+                        </a>
+                        <a href="#" class="mobile-nav__auth-link mobile-nav__auth-link--logout" data-auth-logout hidden>
+                            <span class="mobile-nav__auth-text">Cerrar sesión</span>
                         </a>
                     </div>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
@@ -221,7 +231,63 @@
         </div>
     </footer>
 
+    <div class="auth-modal" id="auth-modal" aria-hidden="true" role="dialog" aria-labelledby="auth-modal-title">
+        <div class="auth-modal__content">
+            <button class="auth-modal__close" type="button" aria-label="Cerrar" data-auth-close>&times;</button>
+            <div class="auth-modal__header">
+                <h2 class="auth-modal__title" id="auth-modal-title">Bienvenido a Domably</h2>
+                <p class="auth-modal__subtitle">Crea tu cuenta o inicia sesión para continuar</p>
+            </div>
+            <div class="auth-modal__tabs">
+                <button class="auth-modal__tab auth-modal__tab--active" type="button" data-auth-tab="login">Iniciar Sesión</button>
+                <button class="auth-modal__tab" type="button" data-auth-tab="register">Registrarme</button>
+            </div>
+            <form class="auth-form auth-form--login" id="auth-login-form" autocomplete="on">
+                <div class="auth-form__group">
+                    <label for="login-email">Correo electrónico</label>
+                    <input type="email" id="login-email" name="email" placeholder="correo@dominio.com" required>
+                </div>
+                <div class="auth-form__group">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" name="password" placeholder="••••••••" minlength="6" required>
+                </div>
+                <button type="submit" class="auth-form__submit">Iniciar sesión</button>
+            </form>
+            <form class="auth-form auth-form--register" id="auth-register-form" autocomplete="on" hidden>
+                <div class="auth-form__grid">
+                    <div class="auth-form__group">
+                        <label for="register-name">Nombre completo</label>
+                        <input type="text" id="register-name" name="name" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="auth-form__group">
+                        <label for="register-email">Correo electrónico</label>
+                        <input type="email" id="register-email" name="email" placeholder="correo@dominio.com" required>
+                    </div>
+                    <div class="auth-form__group">
+                        <label for="register-phone">Teléfono</label>
+                        <input type="tel" id="register-phone" name="phone" placeholder="000 000 0000">
+                    </div>
+                    <div class="auth-form__group">
+                        <label for="register-birth">Fecha de nacimiento</label>
+                        <input type="date" id="register-birth" name="birth_date">
+                    </div>
+                    <div class="auth-form__group">
+                        <label for="register-password">Contraseña</label>
+                        <input type="password" id="register-password" name="password" placeholder="••••••••" minlength="6" required>
+                    </div>
+                    <div class="auth-form__group">
+                        <label for="register-password-confirm">Confirmar contraseña</label>
+                        <input type="password" id="register-password-confirm" name="password_confirm" placeholder="••••••••" minlength="6" required>
+                    </div>
+                </div>
+                <button type="submit" class="auth-form__submit">Crear cuenta</button>
+            </form>
+            <p class="auth-modal__message" id="auth-form-message" role="alert" aria-live="polite"></p>
+        </div>
+    </div>
+    <div class="auth-modal__overlay" id="auth-modal-overlay" data-auth-close></div>
+
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/app.js"></script> 
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

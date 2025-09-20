@@ -5096,3 +5096,206 @@ body:not(.home) .header__action-button--register {
 .mobile-nav__auth-text {
     font-size: 1rem;
 }
+
+.mobile-nav__auth-link--logout {
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.mobile-nav__auth-link--logout .mobile-nav__auth-text {
+    font-weight: 600;
+}
+
+/* ======================== */
+/* ====== AUTH MODAL ====== */
+/* ======================== */
+
+.auth-modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.98);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1001;
+}
+
+.auth-modal--visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+
+.auth-modal__overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1000;
+}
+
+.auth-modal__overlay--visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+body.auth-modal-open {
+    overflow: hidden;
+}
+
+.auth-modal__content {
+    background: #ffffff;
+    border-radius: 18px;
+    max-width: 520px;
+    width: 100%;
+    padding: 2rem;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.auth-modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border: none;
+    background: transparent;
+    font-size: 2rem;
+    line-height: 1;
+    color: #0f172a;
+    cursor: pointer;
+}
+
+.auth-modal__header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.auth-modal__title {
+    font-size: 1.75rem;
+    margin-bottom: 0.4rem;
+    color: #0f172a;
+}
+
+.auth-modal__subtitle {
+    font-size: 1rem;
+    color: #475569;
+}
+
+.auth-modal__tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    background: #f1f5f9;
+    padding: 0.35rem;
+    border-radius: 999px;
+}
+
+.auth-modal__tab {
+    border: none;
+    background: transparent;
+    border-radius: 999px;
+    padding: 0.65rem 1.25rem;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.auth-modal__tab--active {
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    color: #ffffff;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.auth-form__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 640px) {
+    .auth-form__grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.auth-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.auth-form__group label {
+    font-weight: 600;
+    color: #0f172a;
+    font-size: 0.95rem;
+}
+
+.auth-form__group input {
+    border: 1px solid #cbd5f5;
+    border-radius: 12px;
+    padding: 0.75rem 0.9rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-form__group input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+
+.auth-form__submit {
+    margin-top: 0.5rem;
+    background: linear-gradient(135deg, #0ea5e9, #2563eb);
+    border: none;
+    border-radius: 999px;
+    padding: 0.85rem 1.5rem;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-form__submit:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+}
+
+.auth-form__submit:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.25);
+}
+
+.auth-modal__message {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    text-align: center;
+    color: #0f172a;
+    min-height: 1.2rem;
+}
+
+.auth-modal__message--error {
+    color: #dc2626;
+}
+
+.auth-modal__message--success {
+    color: #16a34a;
+}
