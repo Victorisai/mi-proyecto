@@ -25,6 +25,13 @@
                 <div class="header__actions">
                     <a href="login.html" class="header__action-button header__action-button--login">Iniciar Sesión</a>
                     <a href="register.html" class="header__action-button header__action-button--register">Registrar</a>
+                    <a href="profile.html" class="header__action-button header__action-button--profile">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Mi Perfil
+                    </a>
                 </div>
             </div>
             <hr class="header__divider">
@@ -52,6 +59,21 @@
                             </svg>
                             <span class="mobile-nav__auth-text">Log in / Register</span>
                         </a>
+                    </div>
+                    <div class="mobile-nav__profile-section">
+                        <a href="#" id="profile-button" class="mobile-nav__auth-link">
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="mobile-nav__auth-text">Mi Perfil</span>
+                            <svg id="profile-arrow" class="mobile-nav__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <div id="profile-dropdown" class="mobile-nav__dropdown-menu" style="display: none;">
+                            <a href="logout.html" class="mobile-nav__dropdown-link">Cerrar Sesión</a>
+                        </div>
                     </div>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="properties.html"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="mobile-nav__icon">Propiedades</a></li>

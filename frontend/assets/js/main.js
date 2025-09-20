@@ -495,4 +495,26 @@ if (revealPhoneBtn) {
             });
         }
     }
+
+    // Seleccionamos los elementos del menú de perfil
+    const profileButton = document.getElementById('profile-button');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const profileArrow = document.getElementById('profile-arrow');
+
+    // Verificamos que los elementos existan antes de agregar el evento
+    if (profileButton && profileDropdown && profileArrow) {
+        profileButton.addEventListener('click', function(event) {
+            // Prevenimos que el enlace '#' nos lleve al inicio de la página
+            event.preventDefault();
+
+            // Verificamos si el menú está visible o no
+            const isVisible = profileDropdown.style.display === 'block';
+
+            // Mostramos u ocultamos el menú
+            profileDropdown.style.display = isVisible ? 'none' : 'block';
+            
+            // Agregamos o quitamos la clase 'open' a la flecha para la animación
+            profileArrow.classList.toggle('open');
+        });
+    }
 });

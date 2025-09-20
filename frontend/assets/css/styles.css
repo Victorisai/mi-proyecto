@@ -5047,6 +5047,11 @@ body.lightbox-active {
     color: #fff;
 }
 
+.header--scrolled .header__action-button--profile {
+    background-color: #000000;
+    color: #fff;
+}
+
 /* Estilos para las otras páginas */
 body:not(.home) .header__action-button {
     border-color: #2c3e50;
@@ -5095,4 +5100,78 @@ body:not(.home) .header__action-button--register {
 
 .mobile-nav__auth-text {
     font-size: 1rem;
+}
+
+/* Estilos para la sección de perfil en el menú móvil */
+
+.mobile-nav__profile-section {
+    padding: 0; 
+    border-bottom: 1px solid #e9ecef;
+}
+
+/* Estilo del botón/enlace "Mi Perfil" */
+.mobile-nav__profile-section .mobile-nav__auth-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    background-color: #2980b9;
+    color: #ffffff; 
+    width: 100%;
+    padding: 16px 20px; 
+    transition: background-color 0.2s ease-in-out;
+    margin-top: 15px;
+}
+
+.mobile-nav__profile-section .mobile-nav__auth-link:hover {
+    background-color: #0582ff;
+}
+
+
+.mobile-nav__profile-section .mobile-nav__auth-icon {
+    stroke: currentColor; 
+}
+
+.mobile-nav__profile-section .mobile-nav__auth-text {
+    flex-grow: 1;
+    margin-left: 15px;
+    font-weight: 500; 
+}
+
+/* El nuevo menú desplegable con estilo de tarjeta */
+.mobile-nav__dropdown-menu {
+    background-color: #ffffff; 
+    margin: 10px 0 15px 0;
+    border-radius: 8px; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f0f0f0; 
+    overflow: hidden;
+    padding: 5px;
+}
+
+/* Enlace "Cerrar Sesión" dentro del desplegable */
+.mobile-nav__dropdown-link {
+    display: block;
+    color: #d90429; 
+    font-weight: 500;
+    text-decoration: none;
+    padding: 12px 15px; 
+    font-size: 15px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+/* Efecto hover para el enlace de cerrar sesión */
+.mobile-nav__dropdown-link:hover {
+    background-color: #d90429;
+    color: #ffffff; 
+}
+
+/* Rotación de la flecha (se mantiene igual) */
+.mobile-nav__arrow-icon {
+    transition: transform 0.3s ease;
+}
+
+.mobile-nav__arrow-icon.open {
+    transform: rotate(180deg);
 }
