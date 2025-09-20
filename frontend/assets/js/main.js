@@ -33,6 +33,361 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', closeNav);
     });
 
+    // =============================
+    // === AUTENTICACIÓN (HOME) ===
+    // =============================
+    const AUTH_STORAGE_KEY = 'domablyAuthState';
+
+    const authModal = document.getElementById('auth-modal');
+    const authOverlay = document.getElementById('auth-modal-overlay');
+    const authTabs = document.querySelectorAll('[data-auth-tab]');
+    const authTriggers = document.querySelectorAll('[data-auth-trigger]');
+    const authCloseTriggers = document.querySelectorAll('[data-auth-close]');
+    const authFormsContainer = document.querySelectorAll('[data-auth-controls]');
+    const loginForm = document.getElementById('auth-login-form');
+    const registerForm = document.getElementById('auth-register-form');
+    const authMessage = document.getElementById('auth-form-message');
+
+    const decodeJwt = (token) => {
+        if (!token || typeof token !== 'string') return null;
+
+        const parts = token.split('.');
+        if (parts.length !== 3) return null;
+
+        try {
+            const payload = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+            const decodedPayload = atob(payload);
+            return JSON.parse(decodedPayload);
+        } catch (error) {
+            console.error('Error al decodificar el token JWT:', error);
+            return null;
+        }
+    };
+
+    const storeAuthState = (data) => {
+        try {
+            localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(data));
+        } catch (error) {
+            console.error('No se pudo almacenar el estado de autenticación:', error);
+        }
+    };
+
+    const clearAuthState = () => {
+        try {
+            localStorage.removeItem(AUTH_STORAGE_KEY);
+        } catch (error) {
+            console.error('No se pudo limpiar el estado de autenticación:', error);
+        }
+    };
+
+    const getStoredAuthState = () => {
+        try {
+            const rawState = localStorage.getItem(AUTH_STORAGE_KEY);
+            return rawState ? JSON.parse(rawState) : null;
+        } catch (error) {
+            console.error('No se pudo leer el estado de autenticación:', error);
+            return null;
+        }
+    };
+
+    const setAuthMessage = (message, type = '') => {
+        if (!authMessage) return;
+
+        authMessage.textContent = message || '';
+        authMessage.classList.remove('auth-modal__message--error', 'auth-modal__message--success');
+
+        if (type === 'error') {
+            authMessage.classList.add('auth-modal__message--error');
+        } else if (type === 'success') {
+            authMessage.classList.add('auth-modal__message--success');
+        }
+    };
+
+    const toggleAuthForms = (target = 'login') => {
+        if (!loginForm || !registerForm) return;
+
+        const showLogin = target !== 'register';
+        loginForm.hidden = !showLogin;
+        registerForm.hidden = showLogin;
+
+        authTabs.forEach((tab) => {
+            const tabTarget = tab.getAttribute('data-auth-tab');
+            tab.classList.toggle('auth-modal__tab--active', tabTarget === target);
+        });
+
+        const focusTarget = showLogin ? loginForm.querySelector('input') : registerForm.querySelector('input');
+        if (focusTarget) {
+            focusTarget.focus();
+        }
+    };
+
+    const closeAuthModal = () => {
+        if (!authModal) return;
+
+        authModal.classList.remove('auth-modal--visible');
+        authModal.setAttribute('aria-hidden', 'true');
+        if (authOverlay) authOverlay.classList.remove('auth-modal__overlay--visible');
+        document.body.classList.remove('auth-modal-open');
+        setAuthMessage('');
+    };
+
+    const openAuthModal = (target = 'login') => {
+        if (!authModal) return;
+
+        toggleAuthForms(target);
+        setAuthMessage('');
+        authModal.classList.add('auth-modal--visible');
+        authModal.setAttribute('aria-hidden', 'false');
+        if (authOverlay) authOverlay.classList.add('auth-modal__overlay--visible');
+        document.body.classList.add('auth-modal-open');
+    };
+
+    const applyAuthStateToUI = (authData = null) => {
+        authFormsContainer.forEach((container) => {
+            const triggers = container.querySelectorAll('[data-auth-trigger]');
+            const profileLink = container.querySelector('[data-auth-profile]');
+            const logoutLink = container.querySelector('[data-auth-logout]');
+
+            if (authData && authData.token) {
+                triggers.forEach((trigger) => {
+                    trigger.hidden = true;
+                });
+
+                if (profileLink) {
+                    const isAdmin = authData.role === 'admin';
+                    profileLink.hidden = false;
+                    profileLink.textContent = isAdmin ? 'Panel Admin' : 'Mi perfil';
+                    profileLink.setAttribute('href', isAdmin ? 'admin/index.php' : 'feed.html');
+                }
+
+                if (logoutLink) {
+                    logoutLink.hidden = false;
+                }
+            } else {
+                triggers.forEach((trigger) => {
+                    trigger.hidden = false;
+                });
+
+                if (profileLink) {
+                    profileLink.hidden = true;
+                }
+
+                if (logoutLink) {
+                    logoutLink.hidden = true;
+                }
+            }
+        });
+    };
+
+    const buildAuthState = (token, extra = {}) => {
+        const payload = decodeJwt(token);
+        if (!payload || !payload.user) {
+            throw new Error('Token de autenticación inválido.');
+        }
+
+        const exp = payload.exp ? payload.exp * 1000 : null;
+        if (exp && Date.now() > exp) {
+            throw new Error('La sesión ha expirado, por favor vuelve a iniciar sesión.');
+        }
+
+        return {
+            token,
+            role: payload.user.role || 'user',
+            userId: payload.user.id || null,
+            ...extra
+        };
+    };
+
+    const authenticateUser = async (email, password) => {
+        const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
+
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+            throw new Error(data.message || 'No fue posible iniciar sesión.');
+        }
+
+        if (!data.token) {
+            throw new Error('No se recibió el token de autenticación.');
+        }
+
+        const authState = buildAuthState(data.token, { email });
+        storeAuthState(authState);
+        applyAuthStateToUI(authState);
+
+        return authState;
+    };
+
+    authTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            closeNav();
+            const target = trigger.getAttribute('data-auth-trigger');
+            openAuthModal(target === 'register' ? 'register' : 'login');
+        });
+    });
+
+    authCloseTriggers.forEach((trigger) => {
+        trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            closeAuthModal();
+        });
+    });
+
+    if (authOverlay) {
+        authOverlay.addEventListener('click', closeAuthModal);
+    }
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && authModal && authModal.classList.contains('auth-modal--visible')) {
+            closeAuthModal();
+        }
+    });
+
+    authTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+            const target = tab.getAttribute('data-auth-tab');
+            toggleAuthForms(target || 'login');
+        });
+    });
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = (loginForm.email?.value || '').trim();
+            const password = loginForm.password?.value || '';
+
+            if (!email || !password) {
+                setAuthMessage('Por favor, completa todos los campos requeridos.', 'error');
+                return;
+            }
+
+            const submitButton = loginForm.querySelector('.auth-form__submit');
+            if (submitButton) submitButton.disabled = true;
+            setAuthMessage('');
+
+            try {
+                await authenticateUser(email, password);
+                setAuthMessage('¡Has iniciado sesión correctamente!', 'success');
+                loginForm.reset();
+                setTimeout(() => {
+                    closeAuthModal();
+                }, 900);
+            } catch (error) {
+                console.error('Error en el inicio de sesión:', error);
+                setAuthMessage(error.message || 'No fue posible iniciar sesión.', 'error');
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+            }
+        });
+    }
+
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const formData = new FormData(registerForm);
+            const name = (formData.get('name') || '').toString().trim();
+            const email = (formData.get('email') || '').toString().trim();
+            const phone = (formData.get('phone') || '').toString().trim();
+            const birthDate = (formData.get('birth_date') || '').toString().trim();
+            const password = (formData.get('password') || '').toString();
+            const passwordConfirm = (formData.get('password_confirm') || '').toString();
+
+            if (!name || !email || !password) {
+                setAuthMessage('Por favor, completa los campos obligatorios.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                setAuthMessage('La contraseña debe tener al menos 6 caracteres.', 'error');
+                return;
+            }
+
+            if (password !== passwordConfirm) {
+                setAuthMessage('Las contraseñas no coinciden.', 'error');
+                return;
+            }
+
+            const submitButton = registerForm.querySelector('.auth-form__submit');
+            if (submitButton) submitButton.disabled = true;
+            setAuthMessage('');
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        phone: phone || null,
+                        birth_date: birthDate || null
+                    })
+                });
+
+                const data = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'No fue posible completar el registro.');
+                }
+
+                setAuthMessage('Cuenta creada con éxito. Iniciando sesión...', 'success');
+
+                await authenticateUser(email, password);
+                registerForm.reset();
+                if (loginForm) loginForm.reset();
+
+                setTimeout(() => {
+                    closeAuthModal();
+                }, 900);
+            } catch (error) {
+                console.error('Error en el registro:', error);
+                setAuthMessage(error.message || 'No fue posible completar el registro.', 'error');
+            } finally {
+                if (submitButton) submitButton.disabled = false;
+            }
+        });
+    }
+
+    const logoutLinks = document.querySelectorAll('[data-auth-logout]');
+    logoutLinks.forEach((logoutLink) => {
+        logoutLink.addEventListener('click', (event) => {
+            event.preventDefault();
+            clearAuthState();
+            applyAuthStateToUI(null);
+            closeAuthModal();
+            setAuthMessage('');
+            closeNav();
+        });
+    });
+
+    const initialState = (() => {
+        const stored = getStoredAuthState();
+        if (!stored || !stored.token) return null;
+
+        try {
+            return buildAuthState(stored.token, {
+                email: stored.email || null
+            });
+        } catch (error) {
+            console.warn('El token almacenado no es válido o expiró:', error.message);
+            clearAuthState();
+            return null;
+        }
+    })();
+
+    applyAuthStateToUI(initialState);
+
     // ==================================
     // === LÓGICA DEL PANEL DE ADMIN ===
     // ==================================
