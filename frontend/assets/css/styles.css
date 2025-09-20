@@ -5063,3 +5063,36 @@ body:not(.home) .header__action-button--register {
         display: none;
     }
 }
+
+/* BOTON LOGIN/REGISTER */
+.mobile-nav__btn {
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.mobile-nav__auth-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    background-color: #000000; /* Un color azul llamativo */
+    color: #dad8d8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-nav__auth-link:hover {
+  background-color: #2b2d30; /* Un azul más oscuro para el hover */
+}
+
+.mobile-nav__auth-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;
+}
+
+.mobile-nav__auth-text {
+    font-size: 1rem;
+}
