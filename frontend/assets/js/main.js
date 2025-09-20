@@ -512,9 +512,231 @@ if (revealPhoneBtn) {
 
             // Mostramos u ocultamos el menú
             profileDropdown.style.display = isVisible ? 'none' : 'block';
-            
+
             // Agregamos o quitamos la clase 'open' a la flecha para la animación
             profileArrow.classList.toggle('open');
         });
     }
+
+    // ==============================
+    // === LÓGICA DE AUTENTICACIÓN ===
+    // ==============================
+    const AUTH_TOKEN_KEY = 'domablyToken';
+    const authModal = document.getElementById('auth-modal');
+    const authTriggers = document.querySelectorAll('[data-auth-trigger]');
+    const authCloseElements = document.querySelectorAll('[data-auth-close]');
+    const authTabs = document.querySelectorAll('[data-auth-tab]');
+    const authForms = document.querySelectorAll('.auth-form');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const authMessages = {
+        login: document.querySelector('[data-auth-message="login"]'),
+        register: document.querySelector('[data-auth-message="register"]'),
+    };
+    const authSections = document.querySelectorAll('[data-auth-section]');
+
+    const setAuthMessage = (type, message, status) => {
+        const container = authMessages[type];
+        if (!container) return;
+
+        container.textContent = message || '';
+        container.classList.remove('auth-form__message--error', 'auth-form__message--success');
+
+        if (status === 'error') {
+            container.classList.add('auth-form__message--error');
+        } else if (status === 'success') {
+            container.classList.add('auth-form__message--success');
+        }
+    };
+
+    const switchAuthMode = (mode) => {
+        setAuthMessage('login');
+        setAuthMessage('register');
+
+        authTabs.forEach(tab => {
+            const isActive = tab.dataset.authTab === mode;
+            tab.classList.toggle('auth-modal__tab--active', isActive);
+            tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+        });
+
+        authForms.forEach(form => {
+            const formMode = form.id === 'login-form' ? 'login' : 'register';
+            form.classList.toggle('auth-form--active', formMode === mode);
+        });
+    };
+
+    const openAuthModal = (mode = 'login') => {
+        if (!authModal) return;
+        switchAuthMode(mode);
+        authModal.classList.add('auth-modal--visible');
+        authModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+
+    const closeAuthModal = () => {
+        if (!authModal) return;
+        authModal.classList.remove('auth-modal--visible');
+        authModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        setAuthMessage('login');
+        setAuthMessage('register');
+    };
+
+    const updateAuthUI = () => {
+        const token = localStorage.getItem(AUTH_TOKEN_KEY);
+        const isLoggedIn = Boolean(token);
+
+        authSections.forEach(section => {
+            const sectionType = section.dataset.authSection;
+            if (sectionType === 'profile') {
+                section.classList.toggle('is-hidden', !isLoggedIn);
+            } else if (sectionType === 'guest') {
+                section.classList.toggle('is-hidden', isLoggedIn);
+            }
+        });
+    };
+
+    authTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            const mode = trigger.dataset.authTrigger || 'login';
+            openAuthModal(mode);
+        });
+    });
+
+    authCloseElements.forEach(element => {
+        element.addEventListener('click', closeAuthModal);
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && authModal && authModal.classList.contains('auth-modal--visible')) {
+            closeAuthModal();
+        }
+    });
+
+    authTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const mode = tab.dataset.authTab;
+            switchAuthMode(mode);
+        });
+    });
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const submitButton = loginForm.querySelector('button[type="submit"]');
+            const email = loginForm.email.value.trim();
+            const password = loginForm.password.value.trim();
+
+            setAuthMessage('login');
+
+            if (!email || !password) {
+                setAuthMessage('login', 'Por favor, completa todos los campos.', 'error');
+                return;
+            }
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Iniciando…';
+            }
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'No pudimos iniciar sesión.');
+                }
+
+                localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+                setAuthMessage('login', '¡Inicio de sesión exitoso!', 'success');
+                updateAuthUI();
+
+                setTimeout(() => {
+                    closeAuthModal();
+                    loginForm.reset();
+                }, 800);
+            } catch (error) {
+                setAuthMessage('login', error.message, 'error');
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Iniciar Sesión';
+                }
+            }
+        });
+    }
+
+    if (registerForm) {
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const submitButton = registerForm.querySelector('button[type="submit"]');
+            const formData = new FormData(registerForm);
+            const payload = {
+                name: (formData.get('name') || '').toString().trim(),
+                email: (formData.get('email') || '').toString().trim(),
+                password: (formData.get('password') || '').toString().trim(),
+                phone: (formData.get('phone') || '').toString().trim() || null,
+                birth_date: formData.get('birth_date') || null,
+            };
+
+            setAuthMessage('register');
+
+            if (!payload.name || !payload.email || !payload.password) {
+                setAuthMessage('register', 'Por favor, completa los campos obligatorios.', 'error');
+                return;
+            }
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Creando cuenta…';
+            }
+
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'No pudimos completar el registro.');
+                }
+
+                setAuthMessage('register', '¡Registro exitoso! Ahora puedes iniciar sesión.', 'success');
+                registerForm.reset();
+                setTimeout(() => {
+                    switchAuthMode('login');
+                }, 1200);
+            } catch (error) {
+                setAuthMessage('register', error.message, 'error');
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Crear cuenta';
+                }
+            }
+        });
+    }
+
+    window.addEventListener('storage', (event) => {
+        if (event.key === AUTH_TOKEN_KEY) {
+            updateAuthUI();
+        }
+    });
+
+    updateAuthUI();
 });
