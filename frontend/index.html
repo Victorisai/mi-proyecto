@@ -23,8 +23,9 @@
                     </a>
                 </div>
                 <div class="header__actions">
-                    <a href="login.html" class="header__action-button header__action-button--login">Iniciar Sesión</a>
-                    <a href="register.html" class="header__action-button header__action-button--register">Registrar</a>
+                    <a href="#" class="header__action-button header__action-button--login" data-login-trigger data-auth-state="guest">Iniciar Sesión</a>
+                    <a href="register.html" class="header__action-button header__action-button--register" data-auth-state="guest">Registrar</a>
+                    <a href="admin/index.php" class="header__action-button header__action-button--profile is-hidden" data-auth-state="authenticated">Mi Perfil</a>
                 </div>
             </div>
             <hr class="header__divider">
@@ -45,8 +46,8 @@
                         <span class="mobile-nav__title">Tu propiedad ideal</span>
                         <span class="mobile-nav__close-button">✕</span>
                     </li>
-                    <div class="mobile-nav__btn">
-                        <a href="admin/" class="mobile-nav__auth-link">
+                    <div class="mobile-nav__btn" data-auth-state="guest">
+                        <a href="#" class="mobile-nav__auth-link" data-login-trigger>
                             <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
                             </svg>
@@ -58,7 +59,7 @@
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="mobile-nav__icon">Sobre Nosotros</a></li>
                     <li class="mobile-nav__item"><a class="mobile-nav__link" href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="mobile-nav__icon">Únete a Nosotros</a></li>
-                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta</a></li>
+                    <li class="mobile-nav__item is-hidden" data-auth-state="authenticated"><a class="mobile-nav__link" href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Perfil</a></li>
                 </ul>
             </nav>
         </div>
@@ -221,7 +222,31 @@
         </div>
     </footer>
 
+    <div class="auth-modal" id="login-modal" aria-hidden="true">
+        <div class="auth-modal__overlay" data-login-close></div>
+        <div class="auth-modal__content" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+            <button class="auth-modal__close" type="button" aria-label="Cerrar" data-login-close>×</button>
+            <div class="auth-modal__header">
+                <h2 class="auth-modal__title" id="login-modal-title">Iniciar Sesión</h2>
+                <p class="auth-modal__subtitle">Ingresa tus credenciales para acceder a tu cuenta.</p>
+            </div>
+            <form class="auth-modal__form" id="login-form" novalidate>
+                <div class="auth-modal__field">
+                    <label for="login-email">Correo electrónico</label>
+                    <input type="email" id="login-email" name="email" placeholder="tu@correo.com" required>
+                </div>
+                <div class="auth-modal__field">
+                    <label for="login-password">Contraseña</label>
+                    <input type="password" id="login-password" name="password" placeholder="••••••••" required>
+                </div>
+                <div class="auth-modal__feedback" id="login-feedback" role="alert" aria-live="polite"></div>
+                <button type="submit" class="auth-modal__submit">Ingresar</button>
+                <p class="auth-modal__register-hint">¿Aún no tienes cuenta? <a href="register.html">Regístrate aquí</a>.</p>
+            </form>
+        </div>
+    </div>
+
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/app.js"></script> 
+    <script src="assets/js/app.js"></script>
 </body>
 </html>

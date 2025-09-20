@@ -1,6 +1,236 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('main.js unificado cargado'); // Mensaje de depuración
 
+    const API_BASE_URL = 'http://localhost:3000/api';
+    const AUTH_TOKEN_KEY = 'domablyAuthToken';
+
+    const loginModal = document.getElementById('login-modal');
+    const loginForm = document.getElementById('login-form');
+    const loginFeedback = document.getElementById('login-feedback');
+    const loginTriggers = document.querySelectorAll('[data-login-trigger]');
+    const authStateElements = document.querySelectorAll('[data-auth-state]');
+
+    let tokenExpiryTimeoutId;
+
+    const decodeToken = (token) => {
+        try {
+            const payloadPart = token.split('.')[1];
+            if (!payloadPart) return null;
+            const decoded = atob(payloadPart.replace(/-/g, '+').replace(/_/g, '/'));
+            return JSON.parse(decoded);
+        } catch (error) {
+            console.warn('No se pudo decodificar el token JWT:', error);
+            return null;
+        }
+    };
+
+    const isTokenValid = (token) => {
+        if (!token) return false;
+        const payload = decodeToken(token);
+        if (!payload?.exp) return true;
+        const expiresAt = payload.exp * 1000;
+        return expiresAt > Date.now();
+    };
+
+    const getStoredToken = () => {
+        const storedToken = localStorage.getItem(AUTH_TOKEN_KEY);
+        if (storedToken && isTokenValid(storedToken)) {
+            return storedToken;
+        }
+        if (storedToken) {
+            localStorage.removeItem(AUTH_TOKEN_KEY);
+        }
+        return null;
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem(AUTH_TOKEN_KEY);
+        updateAuthState(null);
+    };
+
+    const scheduleTokenExpiryCheck = (token) => {
+        if (tokenExpiryTimeoutId) {
+            clearTimeout(tokenExpiryTimeoutId);
+            tokenExpiryTimeoutId = undefined;
+        }
+
+        const payload = decodeToken(token);
+        if (!payload?.exp) {
+            return;
+        }
+
+        const millisecondsToExpire = payload.exp * 1000 - Date.now();
+        if (millisecondsToExpire <= 0) {
+            handleLogout();
+            return;
+        }
+
+        tokenExpiryTimeoutId = setTimeout(handleLogout, millisecondsToExpire);
+    };
+
+    function updateAuthState(token) {
+        const isAuthenticated = Boolean(token);
+
+        authStateElements.forEach((element) => {
+            const state = element.getAttribute('data-auth-state');
+            if (state === 'authenticated') {
+                element.classList.toggle('is-hidden', !isAuthenticated);
+            }
+            if (state === 'guest') {
+                element.classList.toggle('is-hidden', isAuthenticated);
+            }
+        });
+
+        if (isAuthenticated) {
+            scheduleTokenExpiryCheck(token);
+        } else if (tokenExpiryTimeoutId) {
+            clearTimeout(tokenExpiryTimeoutId);
+            tokenExpiryTimeoutId = undefined;
+        }
+    }
+
+    const storedToken = getStoredToken();
+    if (storedToken) {
+        updateAuthState(storedToken);
+    } else {
+        updateAuthState(null);
+    }
+
+    const openLoginModal = () => {
+        if (!loginModal) return;
+        loginModal.classList.add('is-open');
+        loginModal.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        if (loginForm) {
+            const emailInput = loginForm.querySelector('input[type="email"]');
+            if (emailInput) {
+                setTimeout(() => emailInput.focus(), 150);
+            }
+        }
+    };
+
+    const closeLoginModal = () => {
+        if (!loginModal) return;
+        loginModal.classList.remove('is-open');
+        loginModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        if (loginForm) {
+            loginForm.reset();
+        }
+        if (loginFeedback) {
+            loginFeedback.textContent = '';
+            loginFeedback.classList.remove('auth-modal__feedback--success');
+        }
+    };
+
+    if (loginModal) {
+        loginTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (event) => {
+                event.preventDefault();
+                openLoginModal();
+            });
+        });
+
+        const modalCloseButtons = loginModal.querySelectorAll('[data-login-close]');
+        modalCloseButtons.forEach((button) => {
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                closeLoginModal();
+            });
+        });
+
+        loginModal.addEventListener('click', (event) => {
+            if (event.target === loginModal) {
+                closeLoginModal();
+            }
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && loginModal.classList.contains('is-open')) {
+                closeLoginModal();
+            }
+        });
+    }
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = loginForm.email?.value.trim();
+            const password = loginForm.password?.value.trim();
+            const submitButton = loginForm.querySelector('.auth-modal__submit');
+
+            if (!email || !password) {
+                if (loginFeedback) {
+                    loginFeedback.textContent = 'Por favor ingresa correo y contraseña.';
+                    loginFeedback.classList.remove('auth-modal__feedback--success');
+                }
+                return;
+            }
+
+            if (loginFeedback) {
+                loginFeedback.textContent = '';
+                loginFeedback.classList.remove('auth-modal__feedback--success');
+            }
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.textContent = 'Ingresando…';
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    const errorMessage = data?.message || 'No se pudo iniciar sesión. Verifica tus datos.';
+                    throw new Error(errorMessage);
+                }
+
+                if (!data?.token) {
+                    throw new Error('La respuesta del servidor no contiene un token válido.');
+                }
+
+                localStorage.setItem(AUTH_TOKEN_KEY, data.token);
+                updateAuthState(data.token);
+
+                if (loginFeedback) {
+                    loginFeedback.textContent = 'Inicio de sesión exitoso. Redirigiendo…';
+                    loginFeedback.classList.add('auth-modal__feedback--success');
+                }
+
+                setTimeout(() => {
+                    closeLoginModal();
+                }, 600);
+            } catch (error) {
+                console.error('Error durante el inicio de sesión:', error);
+                if (loginFeedback) {
+                    loginFeedback.textContent = error.message || 'Ocurrió un error inesperado.';
+                    loginFeedback.classList.remove('auth-modal__feedback--success');
+                }
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Ingresar';
+                }
+            }
+        });
+    }
+
+    window.addEventListener('storage', (event) => {
+        if (event.key === AUTH_TOKEN_KEY) {
+            const refreshedToken = getStoredToken();
+            updateAuthState(refreshedToken);
+        }
+    });
+
     // ===================================
     // === LÓGICA DEL MENÚ HAMBURGUESA ===
     // ===================================
