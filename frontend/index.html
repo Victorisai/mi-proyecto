@@ -23,9 +23,19 @@
                     </a>
                 </div>
                 <div class="header__actions" data-auth-controls>
-                    <a href="#" class="header__action-button header__action-button--login" data-auth-trigger="login">Iniciar Sesión</a>
-                    <a href="#" class="header__action-button header__action-button--register" data-auth-trigger="register">Registrar</a>
-                    <a href="feed.html" class="header__action-button header__action-button--profile" data-auth-profile hidden>Mi perfil</a>
+                    <button type="button" class="header__action-button header__action-button--primary" data-auth-trigger="login">
+                        Log in / Register
+                    </button>
+                    <div class="header__profile" data-auth-profile-group hidden>
+                        <button type="button" class="header__profile-toggle" data-profile-menu-toggle aria-haspopup="true" aria-expanded="false">
+                            <span class="header__profile-label" data-auth-profile-label>Mi perfil</span>
+                            <span class="header__profile-arrow" aria-hidden="true"></span>
+                        </button>
+                        <div class="header__profile-menu" data-profile-menu role="menu" hidden>
+                            <a href="feed.html" class="header__profile-menu-link" data-auth-profile role="menuitem">Ir a mi perfil</a>
+                            <button type="button" class="header__profile-menu-link header__profile-menu-link--logout" data-auth-logout role="menuitem">Cerrar sesión</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <hr class="header__divider">
@@ -47,17 +57,11 @@
                         <span class="mobile-nav__close-button">✕</span>
                     </li>
                     <li class="mobile-nav__auth" data-auth-controls>
-                        <button type="button" class="mobile-nav__auth-link mobile-nav__auth-link--login" data-auth-trigger="login">
+                        <button type="button" class="mobile-nav__auth-link mobile-nav__auth-link--primary" data-auth-trigger="login">
                             <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                                 <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
                             </svg>
-                            <span class="mobile-nav__auth-text">Iniciar sesión</span>
-                        </button>
-                        <button type="button" class="mobile-nav__auth-link mobile-nav__auth-link--register" data-auth-trigger="register">
-                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm8 2h-2.09a7.49 7.49 0 0 0-11.82 0H4a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h5.5a.5.5 0 0 0 .5-.5V18a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v.5a.5.5 0 0 0 .5.5H20a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2zm-6 2a1 1 0 1 1-1-1 1 1 0 0 1 1 1z"/>
-                            </svg>
-                            <span class="mobile-nav__auth-text">Crear cuenta</span>
+                            <span class="mobile-nav__auth-text">Log in / Register</span>
                         </button>
                         <div class="mobile-nav__profile" data-auth-profile-group hidden>
                             <button type="button" class="mobile-nav__auth-link mobile-nav__auth-link--profile" id="mobile-profile-toggle" data-profile-menu-toggle aria-expanded="false" aria-haspopup="true">
