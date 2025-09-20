@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // === AUTENTICACIÓN (HOME) ===
     // =============================
     const AUTH_STORAGE_KEY = 'domablyAuthState';
+    const REMEMBER_EMAIL_KEY = 'domablyRememberedEmail';
 
     const authModal = document.getElementById('auth-modal');
     const authOverlay = document.getElementById('auth-modal-overlay');
@@ -47,6 +48,114 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('auth-login-form');
     const registerForm = document.getElementById('auth-register-form');
     const authMessage = document.getElementById('auth-form-message');
+    const authSubtitle = document.querySelector('[data-auth-subtitle]');
+    const authAsideTitle = document.querySelector('[data-auth-aside-title]');
+    const authAsideText = document.querySelector('[data-auth-aside-text]');
+    const authAsideList = document.querySelector('[data-auth-aside-list]');
+    const authAsideQuote = document.querySelector('[data-auth-aside-quote]');
+    const authAsideAuthor = document.querySelector('[data-auth-aside-author]');
+    const authProgressSteps = document.querySelectorAll('[data-auth-step]');
+
+    const AUTH_DYNAMIC_CONTENT = {
+        login: {
+            subtitle: 'Inicia sesión para retomar tus oportunidades inmobiliarias en segundos.',
+            asideTitle: 'Vuelve a tu estrategia',
+            asideText: 'Retoma tus búsquedas guardadas, consulta comparativas y continúa la conversación con tus asesores.',
+            benefits: [
+                'Accede a tus búsquedas y alertas personalizadas.',
+                'Contacta asesores y vendedores con un clic.',
+                'Recibe notificaciones sobre nuevos desarrollos.'
+            ],
+            testimonial: {
+                quote: '“En menos de 5 minutos retomé el análisis de un proyecto que estaba revisando.”',
+                author: 'Diego, Inversionista'
+            }
+        },
+        register: {
+            subtitle: 'Crea una cuenta gratuita y descubre oportunidades exclusivas en Domably.',
+            asideTitle: 'Domina tu portafolio inmobiliario',
+            asideText: 'Publica, administra y comparte listados con herramientas colaborativas diseñadas para equipos inmobiliarios.',
+            benefits: [
+                'Publica propiedades y lleva control desde un único panel.',
+                'Guarda comparativas y genera reportes inteligentes.',
+                'Invita a tu equipo para colaborar en tiempo real.'
+            ],
+            testimonial: {
+                quote: '“Domably centralizó mi inventario y me ayudó a cerrar más ventas.”',
+                author: 'Laura, Broker inmobiliaria'
+            }
+        }
+    };
+
+    const getRememberedEmail = () => {
+        try {
+            return localStorage.getItem(REMEMBER_EMAIL_KEY) || '';
+        } catch (error) {
+            console.error('No se pudo leer el correo recordado:', error);
+            return '';
+        }
+    };
+
+    const setRememberedEmail = (email) => {
+        try {
+            if (email) {
+                localStorage.setItem(REMEMBER_EMAIL_KEY, email);
+            } else {
+                localStorage.removeItem(REMEMBER_EMAIL_KEY);
+            }
+        } catch (error) {
+            console.error('No se pudo almacenar el correo recordado:', error);
+        }
+    };
+
+    const updateAuthDynamicContent = (mode = 'login') => {
+        const config = AUTH_DYNAMIC_CONTENT[mode] || AUTH_DYNAMIC_CONTENT.login;
+
+        if (authSubtitle) {
+            authSubtitle.textContent = config.subtitle;
+        }
+        if (authAsideTitle) {
+            authAsideTitle.textContent = config.asideTitle;
+        }
+        if (authAsideText) {
+            authAsideText.textContent = config.asideText;
+        }
+        if (authAsideList && Array.isArray(config.benefits)) {
+            authAsideList.innerHTML = '';
+            config.benefits.forEach((benefit) => {
+                const item = document.createElement('li');
+                item.textContent = benefit;
+                authAsideList.appendChild(item);
+            });
+        }
+        if (authAsideQuote) {
+            authAsideQuote.textContent = config.testimonial?.quote || '';
+        }
+        if (authAsideAuthor) {
+            authAsideAuthor.textContent = config.testimonial?.author || '';
+        }
+        if (authProgressSteps.length) {
+            authProgressSteps.forEach((step) => {
+                const stepTarget = step.getAttribute('data-auth-step');
+                const isActive = stepTarget === mode;
+                step.classList.toggle('auth-modal__progress-step--active', isActive);
+            });
+        }
+    };
+
+    const applyRememberedEmailToForm = () => {
+        if (!loginForm || !loginForm.email) return;
+
+        const storedEmail = getRememberedEmail();
+        if (storedEmail && !loginForm.email.value) {
+            loginForm.email.value = storedEmail;
+        }
+
+        const rememberCheckbox = loginForm.querySelector('input[name="remember"]');
+        if (rememberCheckbox) {
+            rememberCheckbox.checked = Boolean(storedEmail);
+        }
+    };
 
     const decodeJwt = (token) => {
         if (!token || typeof token !== 'string') return null;
@@ -112,14 +221,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
         authTabs.forEach((tab) => {
             const tabTarget = tab.getAttribute('data-auth-tab');
-            tab.classList.toggle('auth-modal__tab--active', tabTarget === target);
+            const isActive = tabTarget === target;
+            tab.classList.toggle('auth-modal__tab--active', isActive);
+            tab.setAttribute('aria-selected', String(isActive));
         });
+
+        updateAuthDynamicContent(showLogin ? 'login' : 'register');
+
+        if (showLogin) {
+            applyRememberedEmailToForm();
+        }
 
         const focusTarget = showLogin ? loginForm.querySelector('input') : registerForm.querySelector('input');
         if (focusTarget) {
             focusTarget.focus();
         }
     };
+
+    updateAuthDynamicContent('login');
+    applyRememberedEmailToForm();
+
+    const togglePasswordVisibility = (button) => {
+        if (!button) return;
+
+        const targetId = button.getAttribute('data-password-toggle');
+        if (!targetId) return;
+
+        const field = document.getElementById(targetId);
+        if (!field) return;
+
+        const isVisible = field.type === 'text';
+        field.type = isVisible ? 'password' : 'text';
+        button.setAttribute('aria-pressed', String(!isVisible));
+
+        const label = button.querySelector('.auth-input-toggle__label');
+        if (label) {
+            label.textContent = isVisible ? 'Mostrar' : 'Ocultar';
+        }
+
+        if (typeof field.focus === 'function') {
+            try {
+                field.focus({ preventScroll: true });
+            } catch (error) {
+                field.focus();
+            }
+        }
+    };
+
+    const passwordToggleButtons = document.querySelectorAll('[data-password-toggle]');
+    passwordToggleButtons.forEach((button) => {
+        button.addEventListener('click', () => togglePasswordVisibility(button));
+    });
 
     const closeAuthModal = () => {
         if (!authModal) return;
@@ -276,7 +428,14 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 await authenticateUser(email, password);
                 setAuthMessage('¡Has iniciado sesión correctamente!', 'success');
+                const rememberCheckbox = loginForm.querySelector('input[name="remember"]');
+                if (rememberCheckbox && rememberCheckbox.checked) {
+                    setRememberedEmail(email);
+                } else {
+                    setRememberedEmail('');
+                }
                 loginForm.reset();
+                applyRememberedEmailToForm();
                 setTimeout(() => {
                     closeAuthModal();
                 }, 900);
@@ -346,6 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await authenticateUser(email, password);
                 registerForm.reset();
                 if (loginForm) loginForm.reset();
+                applyRememberedEmailToForm();
 
                 setTimeout(() => {
                     closeAuthModal();

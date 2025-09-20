@@ -234,55 +234,106 @@
     <div class="auth-modal" id="auth-modal" aria-hidden="true" role="dialog" aria-labelledby="auth-modal-title">
         <div class="auth-modal__content">
             <button class="auth-modal__close" type="button" aria-label="Cerrar" data-auth-close>&times;</button>
-            <div class="auth-modal__header">
-                <h2 class="auth-modal__title" id="auth-modal-title">Bienvenido a Domably</h2>
-                <p class="auth-modal__subtitle">Crea tu cuenta o inicia sesión para continuar</p>
+            <div class="auth-modal__body">
+                <div class="auth-modal__form-panel">
+                    <div class="auth-modal__progress" role="list" aria-label="Progreso de autenticación">
+                        <span class="auth-modal__progress-step auth-modal__progress-step--active" data-auth-step="login">1. Accede</span>
+                        <span class="auth-modal__progress-step" data-auth-step="register">2. Crea tu cuenta</span>
+                    </div>
+                    <div class="auth-modal__header">
+                        <h2 class="auth-modal__title" id="auth-modal-title">Bienvenido a Domably</h2>
+                        <p class="auth-modal__subtitle" id="auth-modal-subtitle" data-auth-subtitle>Inicia sesión para retomar tus oportunidades inmobiliarias en segundos.</p>
+                    </div>
+                    <div class="auth-modal__tabs" role="tablist" aria-label="Selecciona el modo de acceso">
+                        <button class="auth-modal__tab auth-modal__tab--active" type="button" data-auth-tab="login" aria-selected="true">Iniciar Sesión</button>
+                        <button class="auth-modal__tab" type="button" data-auth-tab="register" aria-selected="false">Registrarme</button>
+                    </div>
+                    <form class="auth-form auth-form--login" id="auth-login-form" autocomplete="on">
+                        <div class="auth-form__group">
+                            <label for="login-email">Correo electrónico</label>
+                            <input type="email" id="login-email" name="email" placeholder="correo@dominio.com" required>
+                        </div>
+                        <div class="auth-form__group auth-form__group--password">
+                            <label for="login-password">Contraseña</label>
+                            <div class="auth-input-wrap">
+                                <input type="password" id="login-password" name="password" placeholder="••••••••" minlength="6" required>
+                                <button type="button" class="auth-input-toggle" data-password-toggle="login-password" aria-pressed="false">
+                                    <span class="auth-input-toggle__icon" aria-hidden="true"></span>
+                                    <span class="auth-input-toggle__label">Mostrar</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="auth-form__options">
+                            <label class="auth-form__checkbox">
+                                <input type="checkbox" name="remember" value="1">
+                                <span>Recordarme</span>
+                            </label>
+                            <a href="contact.php#soporte" class="auth-form__link">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <button type="submit" class="auth-form__submit">Iniciar sesión</button>
+                        <p class="auth-form__helper">Accede para recuperar tus búsquedas guardadas y continuar donde lo dejaste.</p>
+                    </form>
+                    <form class="auth-form auth-form--register" id="auth-register-form" autocomplete="on" hidden>
+                        <div class="auth-form__grid">
+                            <div class="auth-form__group">
+                                <label for="register-name">Nombre completo</label>
+                                <input type="text" id="register-name" name="name" placeholder="Tu nombre" required>
+                            </div>
+                            <div class="auth-form__group">
+                                <label for="register-email">Correo electrónico</label>
+                                <input type="email" id="register-email" name="email" placeholder="correo@dominio.com" required>
+                            </div>
+                            <div class="auth-form__group">
+                                <label for="register-phone">Teléfono</label>
+                                <input type="tel" id="register-phone" name="phone" placeholder="000 000 0000">
+                            </div>
+                            <div class="auth-form__group">
+                                <label for="register-birth">Fecha de nacimiento</label>
+                                <input type="date" id="register-birth" name="birth_date">
+                            </div>
+                            <div class="auth-form__group auth-form__group--password">
+                                <label for="register-password">Contraseña</label>
+                                <div class="auth-input-wrap">
+                                    <input type="password" id="register-password" name="password" placeholder="Mínimo 6 caracteres" minlength="6" required>
+                                    <button type="button" class="auth-input-toggle" data-password-toggle="register-password" aria-pressed="false">
+                                        <span class="auth-input-toggle__icon" aria-hidden="true"></span>
+                                        <span class="auth-input-toggle__label">Mostrar</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="auth-form__group auth-form__group--password">
+                                <label for="register-password-confirm">Confirmar contraseña</label>
+                                <div class="auth-input-wrap">
+                                    <input type="password" id="register-password-confirm" name="password_confirm" placeholder="Repite tu contraseña" minlength="6" required>
+                                    <button type="button" class="auth-input-toggle" data-password-toggle="register-password-confirm" aria-pressed="false">
+                                        <span class="auth-input-toggle__icon" aria-hidden="true"></span>
+                                        <span class="auth-input-toggle__label">Mostrar</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="auth-form__helper">Tu cuenta te permitirá guardar propiedades, recibir alertas y compartir listados con tu equipo.</p>
+                        <button type="submit" class="auth-form__submit">Crear cuenta</button>
+                        <p class="auth-form__legal">Al continuar aceptas las <a href="#">Condiciones de servicio</a> y la <a href="#">Política de privacidad</a>.</p>
+                    </form>
+                    <p class="auth-modal__message" id="auth-form-message" role="alert" aria-live="polite"></p>
+                </div>
+                <aside class="auth-modal__aside" aria-live="polite">
+                    <div class="auth-modal__aside-content">
+                        <h3 class="auth-modal__aside-title" data-auth-aside-title>Impulsa tu próxima inversión</h3>
+                        <p class="auth-modal__aside-text" data-auth-aside-text>Gestiona tus propiedades favoritas y recibe oportunidades seleccionadas para ti.</p>
+                        <ul class="auth-modal__aside-list" data-auth-aside-list>
+                            <li>Guarda propiedades y crea colecciones personalizadas.</li>
+                            <li>Accede a estadísticas y comparativos exclusivos.</li>
+                            <li>Coordina visitas y da seguimiento a tus negociaciones.</li>
+                        </ul>
+                        <blockquote class="auth-modal__aside-highlight">
+                            <p class="auth-modal__aside-quote" data-auth-aside-quote>“Domably mantiene mi pipeline organizado y siempre actualizado.”</p>
+                            <footer class="auth-modal__aside-author" data-auth-aside-author>Laura, Broker inmobiliaria</footer>
+                        </blockquote>
+                    </div>
+                </aside>
             </div>
-            <div class="auth-modal__tabs">
-                <button class="auth-modal__tab auth-modal__tab--active" type="button" data-auth-tab="login">Iniciar Sesión</button>
-                <button class="auth-modal__tab" type="button" data-auth-tab="register">Registrarme</button>
-            </div>
-            <form class="auth-form auth-form--login" id="auth-login-form" autocomplete="on">
-                <div class="auth-form__group">
-                    <label for="login-email">Correo electrónico</label>
-                    <input type="email" id="login-email" name="email" placeholder="correo@dominio.com" required>
-                </div>
-                <div class="auth-form__group">
-                    <label for="login-password">Contraseña</label>
-                    <input type="password" id="login-password" name="password" placeholder="••••••••" minlength="6" required>
-                </div>
-                <button type="submit" class="auth-form__submit">Iniciar sesión</button>
-            </form>
-            <form class="auth-form auth-form--register" id="auth-register-form" autocomplete="on" hidden>
-                <div class="auth-form__grid">
-                    <div class="auth-form__group">
-                        <label for="register-name">Nombre completo</label>
-                        <input type="text" id="register-name" name="name" placeholder="Tu nombre" required>
-                    </div>
-                    <div class="auth-form__group">
-                        <label for="register-email">Correo electrónico</label>
-                        <input type="email" id="register-email" name="email" placeholder="correo@dominio.com" required>
-                    </div>
-                    <div class="auth-form__group">
-                        <label for="register-phone">Teléfono</label>
-                        <input type="tel" id="register-phone" name="phone" placeholder="000 000 0000">
-                    </div>
-                    <div class="auth-form__group">
-                        <label for="register-birth">Fecha de nacimiento</label>
-                        <input type="date" id="register-birth" name="birth_date">
-                    </div>
-                    <div class="auth-form__group">
-                        <label for="register-password">Contraseña</label>
-                        <input type="password" id="register-password" name="password" placeholder="••••••••" minlength="6" required>
-                    </div>
-                    <div class="auth-form__group">
-                        <label for="register-password-confirm">Confirmar contraseña</label>
-                        <input type="password" id="register-password-confirm" name="password_confirm" placeholder="••••••••" minlength="6" required>
-                    </div>
-                </div>
-                <button type="submit" class="auth-form__submit">Crear cuenta</button>
-            </form>
-            <p class="auth-modal__message" id="auth-form-message" role="alert" aria-live="polite"></p>
         </div>
     </div>
     <div class="auth-modal__overlay" id="auth-modal-overlay" data-auth-close></div>
