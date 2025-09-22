@@ -33,6 +33,219 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', closeNav);
     });
 
+    // ===================================
+    // === AUTENTICACIÓN Y MODAL LOGIN ===
+    // ===================================
+    const AUTH_STORAGE_KEY = 'domablyAuthState';
+    const loginModal = document.getElementById('login-modal');
+    const loginOverlay = document.getElementById('login-modal-overlay');
+    const loginDialog = loginModal ? loginModal.querySelector('.auth-modal__dialog') : null;
+    const loginCloseBtn = document.getElementById('login-modal-close');
+    const loginForm = document.getElementById('login-form');
+    const loginError = document.getElementById('login-error');
+    const loginEmailInput = document.getElementById('login-email');
+    const loginPasswordInput = document.getElementById('login-password');
+    const rememberCheckbox = document.getElementById('remember-me');
+    const passwordToggle = document.querySelector('.auth-modal__toggle-password');
+
+    const headerLoginButton = document.getElementById('header-login-button');
+    const headerRegisterButton = document.getElementById('header-register-button');
+    const headerProfileLink = document.getElementById('header-profile-link');
+    const mobileLoginButtonWrapper = document.getElementById('mobile-login-button-wrapper');
+    const mobileLoginButton = document.getElementById('mobile-login-button');
+    const mobileProfileSection = document.getElementById('mobile-profile-section');
+    const authLogoutLinks = document.querySelectorAll('[data-auth-action="logout"]');
+
+    const profileButton = document.getElementById('profile-button');
+    const profileDropdown = document.getElementById('profile-dropdown');
+    const profileArrow = document.getElementById('profile-arrow');
+
+    const parseAuthData = (value) => {
+        if (!value) return null;
+        try {
+            return JSON.parse(value);
+        } catch (error) {
+            console.warn('No se pudo analizar el estado de autenticación almacenado.', error);
+            return null;
+        }
+    };
+
+    const getStoredAuth = () => {
+        return parseAuthData(localStorage.getItem(AUTH_STORAGE_KEY))
+            || parseAuthData(sessionStorage.getItem(AUTH_STORAGE_KEY));
+    };
+
+    const storeAuth = (data, persistent) => {
+        const payload = JSON.stringify(data);
+        if (persistent) {
+            localStorage.setItem(AUTH_STORAGE_KEY, payload);
+            sessionStorage.removeItem(AUTH_STORAGE_KEY);
+        } else {
+            sessionStorage.setItem(AUTH_STORAGE_KEY, payload);
+            localStorage.removeItem(AUTH_STORAGE_KEY);
+        }
+    };
+
+    const clearStoredAuth = () => {
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    };
+
+    const updateAuthUI = (isLoggedIn) => {
+        if (headerProfileLink) headerProfileLink.classList.toggle('is-hidden', !isLoggedIn);
+        if (headerLoginButton) headerLoginButton.classList.toggle('is-hidden', isLoggedIn);
+        if (headerRegisterButton) headerRegisterButton.classList.toggle('is-hidden', isLoggedIn);
+        if (mobileLoginButtonWrapper) mobileLoginButtonWrapper.classList.toggle('is-hidden', isLoggedIn);
+        if (mobileProfileSection) mobileProfileSection.classList.toggle('is-hidden', !isLoggedIn);
+        if (!isLoggedIn && profileDropdown) {
+            profileDropdown.style.display = 'none';
+        }
+        if (!isLoggedIn && profileArrow) {
+            profileArrow.classList.remove('open');
+        }
+    };
+
+    const openLoginModal = () => {
+        if (!loginModal) return;
+        loginModal.classList.add('is-visible');
+        loginModal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('auth-modal-open');
+        if (loginError) loginError.textContent = '';
+        if (loginEmailInput) {
+            setTimeout(() => loginEmailInput.focus(), 120);
+        }
+        if (typeof closeNav === 'function') {
+            closeNav();
+        }
+    };
+
+    const closeLoginModal = () => {
+        if (!loginModal) return;
+        loginModal.classList.remove('is-visible');
+        loginModal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('auth-modal-open');
+        if (loginPasswordInput) {
+            loginPasswordInput.type = 'password';
+        }
+        if (passwordToggle) {
+            passwordToggle.classList.remove('is-active');
+        }
+    };
+
+    const handleLogout = () => {
+        clearStoredAuth();
+        updateAuthUI(false);
+        if (loginForm) {
+            loginForm.reset();
+        }
+        if (passwordToggle) {
+            passwordToggle.classList.remove('is-active');
+        }
+    };
+
+    const loginTriggers = [headerLoginButton, mobileLoginButton];
+    loginTriggers.forEach(trigger => {
+        if (!trigger) return;
+        trigger.addEventListener('click', (event) => {
+            event.preventDefault();
+            openLoginModal();
+        });
+    });
+
+    if (loginOverlay) {
+        loginOverlay.addEventListener('click', closeLoginModal);
+    }
+
+    if (loginCloseBtn) {
+        loginCloseBtn.addEventListener('click', closeLoginModal);
+    }
+
+    if (loginDialog) {
+        loginDialog.addEventListener('click', (event) => event.stopPropagation());
+    }
+
+    if (passwordToggle && loginPasswordInput) {
+        passwordToggle.addEventListener('click', () => {
+            const showPassword = loginPasswordInput.type === 'password';
+            loginPasswordInput.type = showPassword ? 'text' : 'password';
+            passwordToggle.classList.toggle('is-active', showPassword);
+        });
+    }
+
+    if (loginForm) {
+        loginForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const email = loginEmailInput ? loginEmailInput.value.trim() : '';
+            const password = loginPasswordInput ? loginPasswordInput.value.trim() : '';
+            const remember = rememberCheckbox ? rememberCheckbox.checked : false;
+
+            if (loginError) loginError.textContent = '';
+
+            if (!email || !password) {
+                if (loginError) loginError.textContent = 'Por favor ingresa tu correo y contraseña.';
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                if (loginError) loginError.textContent = 'Ingresa un correo electrónico válido.';
+                return;
+            }
+
+            if (password.length < 6) {
+                if (loginError) loginError.textContent = 'La contraseña debe tener al menos 6 caracteres.';
+                return;
+            }
+
+            const authData = {
+                email,
+                loggedInAt: new Date().toISOString(),
+            };
+
+            storeAuth(authData, remember);
+            updateAuthUI(true);
+            closeLoginModal();
+            loginForm.reset();
+            if (passwordToggle) {
+                passwordToggle.classList.remove('is-active');
+            }
+        });
+    }
+
+    authLogoutLinks.forEach(link => {
+        link.addEventListener('click', (event) => {
+            event.preventDefault();
+            handleLogout();
+            if (typeof closeNav === 'function') {
+                closeNav();
+            }
+        });
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && loginModal && loginModal.classList.contains('is-visible')) {
+            closeLoginModal();
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!profileDropdown || !profileButton) {
+            return;
+        }
+
+        const isClickInsideProfile = profileDropdown.contains(event.target) || profileButton.contains(event.target);
+        if (!isClickInsideProfile && profileDropdown.style.display === 'block') {
+            profileDropdown.style.display = 'none';
+            if (profileArrow) {
+                profileArrow.classList.remove('open');
+            }
+        }
+    });
+
+    const storedAuth = getStoredAuth();
+    updateAuthUI(!!storedAuth);
+
     // ==================================
     // === LÓGICA DEL PANEL DE ADMIN ===
     // ==================================
@@ -496,11 +709,6 @@ if (revealPhoneBtn) {
         }
     }
 
-    // Seleccionamos los elementos del menú de perfil
-    const profileButton = document.getElementById('profile-button');
-    const profileDropdown = document.getElementById('profile-dropdown');
-    const profileArrow = document.getElementById('profile-arrow');
-
     // Verificamos que los elementos existan antes de agregar el evento
     if (profileButton && profileDropdown && profileArrow) {
         profileButton.addEventListener('click', function(event) {
@@ -512,9 +720,9 @@ if (revealPhoneBtn) {
 
             // Mostramos u ocultamos el menú
             profileDropdown.style.display = isVisible ? 'none' : 'block';
-            
+
             // Agregamos o quitamos la clase 'open' a la flecha para la animación
-            profileArrow.classList.toggle('open');
+            profileArrow.classList.toggle('open', !isVisible);
         });
     }
 });
