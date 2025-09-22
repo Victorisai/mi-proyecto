@@ -211,6 +211,28 @@ body:not(.home){
     transition: color 0.3s ease; /* Transición suave para el color */
 }
 
+.header__back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    color: #fff;
+    border-radius: 50%;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.header__back-link svg {
+    width: 24px;
+    height: 24px;
+}
+
+.header__back-link:hover,
+.header__back-link:focus {
+    color: #0f96da;
+    background-color: #ffffff1a;
+}
+
 
 .header--scrolled .header__toggle {
     color: #2c3e50; /* Negro al deslizar en index */
@@ -218,6 +240,18 @@ body:not(.home){
 
 body:not(.home) .header__toggle {
     color: #2c3e50; /* Negro en otras páginas */
+}
+
+.header--scrolled .header__back-link,
+body:not(.home) .header__back-link {
+    color: #2c3e50;
+}
+
+.header--scrolled .header__back-link:hover,
+.header--scrolled .header__back-link:focus,
+body:not(.home) .header__back-link:hover,
+body:not(.home) .header__back-link:focus {
+    background-color: #2c3e500f;
 }
 
 .mobile-nav__close-button {
@@ -314,11 +348,12 @@ body:not(.home) .header__nav-item a {
         padding-left: 0;
     }
 
-    .header__toggle, .header__logo {
+    .header__toggle, .header__logo, .header__back-link {
         margin-left: 0; /* Sin margen izquierdo */
     }
 
-    .header__toggle {
+    .header__toggle,
+    .header__back-link {
         margin-left: 50px; /* Mantener margen izquierdo */
     }
 
