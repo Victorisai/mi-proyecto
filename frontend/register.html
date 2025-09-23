@@ -147,16 +147,43 @@
                     <p>Accede a listados exclusivos, guarda tus propiedades favoritas y recibe alertas personalizadas según tus intereses. Diseñamos una experiencia ágil y segura para inversionistas, asesores y compradores.</p>
                     <ul class="register-benefits" aria-label="Beneficios de crear una cuenta">
                         <li>
-                            <h3>Alertas inteligentes</h3>
-                            <p>Te notificamos nuevas oportunidades basadas en tus filtros.</p>
+                            <span class="register-benefits__icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 18l6-6-6-6" />
+                                    <path d="M5 12h14" />
+                                </svg>
+                            </span>
+                            <div class="register-benefits__content">
+                                <h3>Alertas inteligentes</h3>
+                                <p>Te notificamos nuevas oportunidades basadas en tus filtros.</p>
+                            </div>
                         </li>
                         <li>
-                            <h3>Panel personalizado</h3>
-                            <p>Administra seguimientos, visitas y documentos desde un solo lugar.</p>
+                            <span class="register-benefits__icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="14" rx="2" ry="2" />
+                                    <path d="M7 21h10" />
+                                    <path d="M12 17v4" />
+                                </svg>
+                            </span>
+                            <div class="register-benefits__content">
+                                <h3>Panel personalizado</h3>
+                                <p>Administra seguimientos, visitas y documentos desde un solo lugar.</p>
+                            </div>
                         </li>
                         <li>
-                            <h3>Soporte dedicado</h3>
-                            <p>Contamos con especialistas inmobiliarios listos para ayudarte.</p>
+                            <span class="register-benefits__icon" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 20a6 6 0 0 0-12 0" />
+                                    <circle cx="12" cy="10" r="4" />
+                                    <path d="M19 8v6" />
+                                    <path d="M22 11h-6" />
+                                </svg>
+                            </span>
+                            <div class="register-benefits__content">
+                                <h3>Soporte dedicado</h3>
+                                <p>Contamos con especialistas inmobiliarios listos para ayudarte.</p>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -185,61 +212,69 @@
                         </div>
                     </div>
                     <form id="register-form" class="register-form" novalidate>
-                        <div class="register-form__group" data-field="name">
-                            <label for="register-name">Nombre completo</label>
-                            <input type="text" id="register-name" name="name" placeholder="Como aparece en tu identificación" autocomplete="name" required>
-                            <p class="register-form__helper">Usa nombres y apellidos sin abreviaturas.</p>
-                            <p class="register-form__error" aria-live="polite"></p>
-                        </div>
-                        <div class="register-form__group" data-field="email">
-                            <label for="register-email">Correo electrónico</label>
-                            <input type="email" id="register-email" name="email" placeholder="nombre@dominio.com" autocomplete="email" required>
-                            <p class="register-form__error" aria-live="polite"></p>
-                        </div>
-                        <div class="register-form__row">
-                            <div class="register-form__group" data-field="phone">
-                                <label for="register-phone">Teléfono móvil</label>
-                                <input type="tel" id="register-phone" name="phone" placeholder="10 dígitos" autocomplete="tel">
-                                <p class="register-form__helper">Te contactaremos sólo para agendar visitas o confirmar citas.</p>
+                        <fieldset class="register-form__section" aria-describedby="register-section-details">
+                            <legend id="register-section-details">Datos personales</legend>
+                            <div class="register-form__group" data-field="name">
+                                <label for="register-name">Nombre completo</label>
+                                <input type="text" id="register-name" name="name" placeholder="Como aparece en tu identificación" autocomplete="name" required>
+                                <p class="register-form__helper">Usa nombres y apellidos sin abreviaturas.</p>
                                 <p class="register-form__error" aria-live="polite"></p>
                             </div>
-                            <div class="register-form__group" data-field="birth_date">
-                                <label for="register-birth">Fecha de nacimiento</label>
-                                <input type="date" id="register-birth" name="birth_date" max="">
-                                <p class="register-form__helper">Personalizamos recomendaciones según tu perfil.</p>
+                            <div class="register-form__group" data-field="email">
+                                <label for="register-email">Correo electrónico</label>
+                                <input type="email" id="register-email" name="email" placeholder="nombre@dominio.com" autocomplete="email" required>
                                 <p class="register-form__error" aria-live="polite"></p>
                             </div>
-                        </div>
-                        <div class="register-form__group" data-field="password">
-                            <label for="register-password">Crea una contraseña</label>
-                            <div class="register-form__password-wrapper">
-                                <input type="password" id="register-password" name="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required>
-                                <button class="register-form__toggle" type="button" aria-label="Mostrar u ocultar contraseña">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                </button>
+                            <div class="register-form__row">
+                                <div class="register-form__group" data-field="phone">
+                                    <label for="register-phone">Teléfono móvil</label>
+                                    <input type="tel" id="register-phone" name="phone" placeholder="10 dígitos" autocomplete="tel">
+                                    <p class="register-form__helper">Te contactaremos sólo para agendar visitas o confirmar citas.</p>
+                                    <p class="register-form__error" aria-live="polite"></p>
+                                </div>
+                                <div class="register-form__group" data-field="birth_date">
+                                    <label for="register-birth">Fecha de nacimiento</label>
+                                    <input type="date" id="register-birth" name="birth_date" max="">
+                                    <p class="register-form__helper">Personalizamos recomendaciones según tu perfil.</p>
+                                    <p class="register-form__error" aria-live="polite"></p>
+                                </div>
                             </div>
-                            <div class="register-form__password-meter" aria-hidden="true">
-                                <div class="register-form__password-meter-bar" id="password-strength-bar"></div>
+                        </fieldset>
+
+                        <fieldset class="register-form__section" aria-describedby="register-section-access">
+                            <legend id="register-section-access">Acceso seguro</legend>
+                            <div class="register-form__group" data-field="password">
+                                <label for="register-password">Crea una contraseña</label>
+                                <div class="register-form__password-wrapper">
+                                    <input type="password" id="register-password" name="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required>
+                                    <button class="register-form__toggle" type="button" aria-label="Mostrar u ocultar contraseña">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <div class="register-form__password-meter" aria-hidden="true">
+                                    <div class="register-form__password-meter-bar" id="password-strength-bar"></div>
+                                </div>
+                                <p class="register-form__helper" id="password-strength-text">Usa mayúsculas, números y símbolos para una contraseña robusta.</p>
+                                <p class="register-form__error" aria-live="polite"></p>
                             </div>
-                            <p class="register-form__helper" id="password-strength-text">Usa mayúsculas, números y símbolos para una contraseña robusta.</p>
-                            <p class="register-form__error" aria-live="polite"></p>
-                        </div>
-                        <div class="register-form__group" data-field="confirm_password">
-                            <label for="register-confirm-password">Confirma tu contraseña</label>
-                            <div class="register-form__password-wrapper">
-                                <input type="password" id="register-confirm-password" name="confirm_password" placeholder="Repite la contraseña" autocomplete="new-password" required>
-                                <button class="register-form__toggle" type="button" aria-label="Mostrar u ocultar contraseña">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
-                                        <circle cx="12" cy="12" r="3"></circle>
-                                    </svg>
-                                </button>
+                            <div class="register-form__group" data-field="confirm_password">
+                                <label for="register-confirm-password">Confirma tu contraseña</label>
+                                <div class="register-form__password-wrapper">
+                                    <input type="password" id="register-confirm-password" name="confirm_password" placeholder="Repite la contraseña" autocomplete="new-password" required>
+                                    <button class="register-form__toggle" type="button" aria-label="Mostrar u ocultar contraseña">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <p class="register-form__error" aria-live="polite"></p>
                             </div>
-                            <p class="register-form__error" aria-live="polite"></p>
-                        </div>
+                        </fieldset>
+
                         <div class="register-form__options">
                             <label class="register-form__checkbox">
                                 <input type="checkbox" id="register-terms" name="terms" required>
@@ -263,6 +298,20 @@
                             <polyline points="9 12 12 15 15 9"></polyline>
                         </svg>
                         <p>Tus datos se almacenan con cifrado AES-256 y auditorías constantes.</p>
+                    </div>
+                    <div class="register-support" role="complementary" aria-label="Soporte personalizado">
+                        <div class="register-support__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92V19a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2 4.18 2 2 0 0 1 4 2h2.09a2 2 0 0 1 2 1.72 12.65 12.65 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.65 12.65 0 0 0 2.81.7 2 2 0 0 1 1.72 2.03z"></path>
+                                <path d="M14 4l6 6" />
+                                <path d="M16 2l6 6" />
+                            </svg>
+                        </div>
+                        <div class="register-support__content">
+                            <h3>¿Necesitas ayuda durante el registro?</h3>
+                            <p>Un asesor de DOMABLY puede guiarte para completar tu perfil e identificar las mejores oportunidades.</p>
+                            <a class="register-support__link" href="contact.php">Agendar asesoría gratuita</a>
+                        </div>
                     </div>
                 </div>
             </div>
