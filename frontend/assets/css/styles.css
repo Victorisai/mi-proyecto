@@ -5558,6 +5558,33 @@ body.register-page .header__action-button.is-active:hover {
     box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
     backdrop-filter: blur(4px);
     border: 1px solid rgba(148, 163, 184, 0.2);
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.register-benefits li:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 28px 55px rgba(15, 23, 42, 0.14);
+}
+
+.register-benefits__icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.12), rgba(14, 116, 144, 0.08));
+    color: #1d4ed8;
+}
+
+.register-benefits__content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .register-benefits h3 {
@@ -5676,7 +5703,36 @@ body.register-page .header__action-button.is-active:hover {
 .register-form {
     display: flex;
     flex-direction: column;
+    gap: 22px;
+}
+
+.register-form__section {
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 18px;
+    padding: 24px 26px;
+    display: flex;
+    flex-direction: column;
     gap: 18px;
+    background: rgba(248, 250, 252, 0.75);
+    margin: 0;
+    position: relative;
+}
+
+.register-form__section legend {
+    font-weight: 700;
+    color: #1d4ed8;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+    padding: 0 12px;
+    background: #fff;
+    border-radius: 999px;
+    align-self: flex-start;
+}
+
+.register-form__section legend + * {
+    margin-top: 2px;
 }
 
 .register-form__row {
@@ -5883,6 +5939,71 @@ body.register-page .header__action-button.is-active:hover {
     font-weight: 600;
 }
 
+.register-support {
+    margin-top: 28px;
+    display: flex;
+    gap: 18px;
+    padding: 22px 24px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, rgba(30, 64, 175, 0.08), rgba(37, 99, 235, 0.15));
+    border: 1px solid rgba(37, 99, 235, 0.2);
+    align-items: flex-start;
+}
+
+.register-support__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: #1d4ed8;
+    color: #fff;
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+}
+
+.register-support__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.register-support__content h3 {
+    font-size: 1.05rem;
+    color: #0f172a;
+}
+
+.register-support__content p {
+    color: #475569;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.register-support__link {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #fff;
+    border: 1px solid rgba(37, 99, 235, 0.4);
+    color: #1d4ed8;
+    font-weight: 600;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.register-support__link::after {
+    content: '→';
+    font-size: 1.1rem;
+}
+
+.register-support__link:hover {
+    background: #1d4ed8;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
 .register-security {
     display: flex;
     align-items: center;
@@ -5967,6 +6088,10 @@ body.register-page .header__action-button.is-active:hover {
     .register-benefits {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     }
+
+    .register-support {
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 768px) {
@@ -5976,6 +6101,10 @@ body.register-page .header__action-button.is-active:hover {
 
     .register__card {
         padding: 28px;
+    }
+
+    .register-form__section {
+        padding: 20px;
     }
 
     .register-form__row {
@@ -6000,6 +6129,10 @@ body.register-page .header__action-button.is-active:hover {
         padding: 24px 22px;
     }
 
+    .register-form__section {
+        padding: 18px;
+    }
+
     .register-progress__steps {
         flex-direction: column;
         align-items: flex-start;
@@ -6017,6 +6150,11 @@ body.register-page .header__action-button.is-active:hover {
 
     .register__card-header h2 {
         font-size: 1.5rem;
+    }
+
+    .register-support__icon {
+        width: 46px;
+        height: 46px;
     }
 }
 
