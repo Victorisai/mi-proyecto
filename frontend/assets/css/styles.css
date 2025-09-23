@@ -5479,7 +5479,7 @@ body.register-page .header__action-button.is-active:hover {
 
 .register-hero {
     position: relative;
-    padding: 160px 0 100px;
+    padding: 130px 0 90px;
     overflow: hidden;
 }
 
@@ -5506,7 +5506,7 @@ body.register-page .header__action-button.is-active:hover {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 70px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .register__intro {
@@ -6061,9 +6061,19 @@ body.register-page .header__action-button.is-active:hover {
     }
 }
 
+@media (min-width: 1200px) {
+    .register-hero {
+        padding: 120px 0 90px;
+    }
+
+    .register__intro {
+        max-width: 540px;
+    }
+}
+
 @media (max-width: 992px) {
     .register-hero {
-        padding: 140px 0 80px;
+        padding: 120px 0 80px;
     }
 
     .register__grid {
