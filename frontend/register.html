@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta - DOMABLY</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body class="register-page">
+    <header>
+        <div class="container">
+            <div class="header__top">
+                <div class="header__toggle">
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                </div>
+                <div class="header__logo">
+                    <a href="index.html">
+                        <img src="assets/images/iconcaracteristic/logo-light.png" alt="Logo DOMABLY" class="header__logo--light">
+                        <img src="assets/images/iconcaracteristic/logo-dark.png" alt="Logo DOMABLY" class="header__logo--dark">
+                        <h1 class="header__title sr-only">DOMABLY</h1>
+                    </a>
+                </div>
+                <div class="header__actions">
+                    <a href="#" id="header-login-button" class="header__action-button header__action-button--login">Iniciar Sesión</a>
+                    <a href="register.html" id="header-register-button" class="header__action-button header__action-button--register is-active">Registrar</a>
+                    <a href="profile.html" id="header-profile-link" class="header__action-button header__action-button--profile is-hidden">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Mi Perfil
+                    </a>
+                </div>
+            </div>
+            <hr class="header__divider">
+            <ul class="header__nav">
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=terrenos">Terrenos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=casas">Casas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=departamentos">Departamentos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=desarrollos">Desarrollos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Benito Juárez">Cancún</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Tulum">Tulum</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Lázaro Cárdenas">Lázaro Cárdenas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Playa del Carmen">Playa del Carmen</a></li>
+            </ul>
+            <hr class="header__divider">
+            <nav class="mobile-nav">
+                <ul class="mobile-nav__list">
+                    <li class="mobile-nav__header">
+                        <span class="mobile-nav__title">Tu propiedad ideal</span>
+                        <span class="mobile-nav__close-button">✕</span>
+                    </li>
+                    <div class="mobile-nav__btn" id="mobile-login-button-wrapper">
+                        <a href="#" id="mobile-login-button" class="mobile-nav__auth-link" role="button">
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
+                            </svg>
+                            <span class="mobile-nav__auth-text">Log in / Register</span>
+                        </a>
+                    </div>
+                    <div class="mobile-nav__profile-section is-hidden" id="mobile-profile-section">
+                        <a href="#" id="profile-button" class="mobile-nav__auth-link">
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="mobile-nav__auth-text">Mi Perfil</span>
+                            <svg id="profile-arrow" class="mobile-nav__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <div id="profile-dropdown" class="mobile-nav__dropdown-menu" style="display: none;">
+                            <a href="#" class="mobile-nav__dropdown-link" data-auth-action="logout">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="assets/images/iconcaracteristic/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="properties.html"><img src="assets/images/iconcaracteristic/properties-icon.png" alt="Propiedades Icon" class="mobile-nav__icon">Propiedades</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="assets/images/iconcaracteristic/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="about.php"><img src="assets/images/iconcaracteristic/about-icon.png" alt="Sobre Nosotros Icon" class="mobile-nav__icon">Sobre Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="join.php"><img src="assets/images/iconcaracteristic/join-icon.png" alt="Únete a Nosotros Icon" class="mobile-nav__icon">Únete a Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="admin/index.php"><img src="assets/images/iconcaracteristic/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="mobile-nav__overlay"></div>
+        <div id="login-modal" class="auth-modal" aria-hidden="true">
+            <div class="auth-modal__overlay" id="login-modal-overlay"></div>
+            <div class="auth-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+                <button type="button" class="auth-modal__close" id="login-modal-close" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="auth-modal__header">
+                    <h2 id="login-modal-title">Bienvenido de vuelta</h2>
+                    <p>Ingresa tus credenciales para continuar explorando oportunidades inmobiliarias.</p>
+                </div>
+                <form id="login-form" class="auth-modal__form" novalidate>
+                    <div class="auth-modal__form-group">
+                        <label for="login-email">Correo electrónico</label>
+                        <input type="email" id="login-email" name="email" placeholder="nombre@dominio.com" required>
+                    </div>
+                    <div class="auth-modal__form-group">
+                        <label for="login-password">Contraseña</label>
+                        <div class="auth-modal__password-wrapper">
+                            <input type="password" id="login-password" name="password" placeholder="Ingresa tu contraseña" required minlength="6">
+                            <button type="button" class="auth-modal__toggle-password" aria-label="Mostrar u ocultar contraseña">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-modal__form-row">
+                        <label class="auth-modal__checkbox">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <span>Recordarme</span>
+                        </label>
+                        <a href="forgot-password.html" class="auth-modal__link">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <p class="auth-modal__error" id="login-error" role="alert" aria-live="polite"></p>
+                    <button type="submit" class="auth-modal__submit">Iniciar sesión</button>
+                </form>
+                <div class="auth-modal__footer">
+                    <p>¿Aún no tienes cuenta? <a href="register.html" class="auth-modal__link">Crea una ahora</a></p>
+                    <div class="auth-modal__secure">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M4 9V5a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v4"></path>
+                            <rect x="2" y="9" width="20" height="13" rx="2" ry="2"></rect>
+                            <path d="M12 14v3"></path>
+                        </svg>
+                        <span>Protegemos tus datos con cifrado de grado bancario.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="register">
+        <section class="register-hero" aria-labelledby="register-title">
+            <div class="register-hero__background" aria-hidden="true"></div>
+            <div class="container register__grid">
+                <div class="register__intro">
+                    <span class="register__badge">Cuenta gratuita</span>
+                    <h1 id="register-title">Potencia tus inversiones con una cuenta DOMABLY</h1>
+                    <p>Accede a listados exclusivos, guarda tus propiedades favoritas y recibe alertas personalizadas según tus intereses. Diseñamos una experiencia ágil y segura para inversionistas, asesores y compradores.</p>
+                    <ul class="register-benefits" aria-label="Beneficios de crear una cuenta">
+                        <li>
+                            <h3>Alertas inteligentes</h3>
+                            <p>Te notificamos nuevas oportunidades basadas en tus filtros.</p>
+                        </li>
+                        <li>
+                            <h3>Panel personalizado</h3>
+                            <p>Administra seguimientos, visitas y documentos desde un solo lugar.</p>
+                        </li>
+                        <li>
+                            <h3>Soporte dedicado</h3>
+                            <p>Contamos con especialistas inmobiliarios listos para ayudarte.</p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="register__card" aria-live="polite">
+                    <div class="register__card-header">
+                        <h2>Crea tu perfil en minutos</h2>
+                        <p>Completa la información y comienza a explorar propiedades diseñadas para ti.</p>
+                        <div class="register-progress" aria-hidden="true">
+                            <div class="register-progress__steps">
+                                <div class="register-progress__step" data-step="1">
+                                    <span class="register-progress__circle">1</span>
+                                    <span class="register-progress__label">Datos personales</span>
+                                </div>
+                                <div class="register-progress__step" data-step="2">
+                                    <span class="register-progress__circle">2</span>
+                                    <span class="register-progress__label">Acceso seguro</span>
+                                </div>
+                                <div class="register-progress__step" data-step="3">
+                                    <span class="register-progress__circle">3</span>
+                                    <span class="register-progress__label">Listo</span>
+                                </div>
+                            </div>
+                            <div class="register-progress__bar">
+                                <div class="register-progress__bar-fill" style="width: 0%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="register-form" class="register-form" novalidate>
+                        <div class="register-form__group" data-field="name">
+                            <label for="register-name">Nombre completo</label>
+                            <input type="text" id="register-name" name="name" placeholder="Como aparece en tu identificación" autocomplete="name" required>
+                            <p class="register-form__helper">Usa nombres y apellidos sin abreviaturas.</p>
+                            <p class="register-form__error" aria-live="polite"></p>
+                        </div>
+                        <div class="register-form__group" data-field="email">
+                            <label for="register-email">Correo electrónico</label>
+                            <input type="email" id="register-email" name="email" placeholder="nombre@dominio.com" autocomplete="email" required>
+                            <p class="register-form__error" aria-live="polite"></p>
+                        </div>
+                        <div class="register-form__row">
+                            <div class="register-form__group" data-field="phone">
+                                <label for="register-phone">Teléfono móvil</label>
+                                <input type="tel" id="register-phone" name="phone" placeholder="10 dígitos" autocomplete="tel">
+                                <p class="register-form__helper">Te contactaremos sólo para agendar visitas o confirmar citas.</p>
+                                <p class="register-form__error" aria-live="polite"></p>
+                            </div>
+                            <div class="register-form__group" data-field="birth_date">
+                                <label for="register-birth">Fecha de nacimiento</label>
+                                <input type="date" id="register-birth" name="birth_date" max="">
+                                <p class="register-form__helper">Personalizamos recomendaciones según tu perfil.</p>
+                                <p class="register-form__error" aria-live="polite"></p>
+                            </div>
+                        </div>
+                        <div class="register-form__group" data-field="password">
+                            <label for="register-password">Crea una contraseña</label>
+                            <div class="register-form__password-wrapper">
+                                <input type="password" id="register-password" name="password" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required>
+                                <button class="register-form__toggle" type="button" aria-label="Mostrar u ocultar contraseña">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="register-form__password-meter" aria-hidden="true">
+                                <div class="register-form__password-meter-bar" id="password-strength-bar"></div>
+                            </div>
+                            <p class="register-form__helper" id="password-strength-text">Usa mayúsculas, números y símbolos para una contraseña robusta.</p>
+                            <p class="register-form__error" aria-live="polite"></p>
+                        </div>
+                        <div class="register-form__group" data-field="confirm_password">
+                            <label for="register-confirm-password">Confirma tu contraseña</label>
+                            <div class="register-form__password-wrapper">
+                                <input type="password" id="register-confirm-password" name="confirm_password" placeholder="Repite la contraseña" autocomplete="new-password" required>
+                                <button class="register-form__toggle" type="button" aria-label="Mostrar u ocultar contraseña">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="register-form__error" aria-live="polite"></p>
+                        </div>
+                        <div class="register-form__options">
+                            <label class="register-form__checkbox">
+                                <input type="checkbox" id="register-terms" name="terms" required>
+                                <span>Acepto los <a href="#" target="_blank" rel="noopener">términos y condiciones</a> y la <a href="#" target="_blank" rel="noopener">política de privacidad</a>.</span>
+                            </label>
+                            <label class="register-form__checkbox">
+                                <input type="checkbox" id="register-news" name="newsletter">
+                                <span>Quiero recibir novedades y oportunidades exclusivas.</span>
+                            </label>
+                        </div>
+                        <p class="register-form__feedback" id="register-feedback" role="alert" aria-live="polite"></p>
+                        <button type="submit" class="register-form__submit" disabled>
+                            <span class="register-form__submit-text">Crear cuenta</span>
+                            <span class="register-form__spinner" aria-hidden="true"></span>
+                        </button>
+                        <p class="register-form__footer">¿Ya tienes una cuenta? <a href="#" id="register-login-link">Inicia sesión</a></p>
+                    </form>
+                    <div class="register-security" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <polyline points="9 12 12 15 15 9"></polyline>
+                        </svg>
+                        <p>Tus datos se almacenan con cifrado AES-256 y auditorías constantes.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="register-insights" aria-label="Estadísticas y testimonios">
+            <div class="container register-insights__grid">
+                <div class="register-insight">
+                    <h3>+4,500 usuarios</h3>
+                    <p>Profesionales inmobiliarios y compradores activos que confían en DOMABLY.</p>
+                </div>
+                <div class="register-insight">
+                    <h3>Respuesta en 24h</h3>
+                    <p>Nuestro equipo valida tus solicitudes y te acompaña durante todo el proceso.</p>
+                </div>
+                <div class="register-insight">
+                    <h3>Experiencia 360°</h3>
+                    <p>Visitas virtuales, firmas digitales y asesoría financiera desde la plataforma.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="site-footer__grid">
+                <div class="site-footer__column">
+                    <h3 class="site-footer__logo">DOMABLY</h3>
+                    <p>Encuentra la propiedad de tus sueños. Te acompañamos en cada paso del camino.</p>
+                </div>
+                <div class="site-footer__column">
+                    <h4>Explora</h4>
+                    <ul>
+                        <li><a href="properties.html?category=terrenos">Terrenos</a></li>
+                        <li><a href="properties.html?category=casas">Casas</a></li>
+                        <li><a href="properties.html?category=departamentos">Departamentos</a></li>
+                        <li><a href="properties.html?category=desarrollos">Desarrollos</a></li>
+                        <li><a href="contact.php">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="site-footer__column">
+                    <h4>Contáctanos</h4>
+                    <p><i class="icon-phone"></i> (52) 999-763-2818</p>
+                    <p><i class="icon-email"></i> <a href="mailto:info@cedralsales.com">info@cedralsales.com</a></p>
+                    <p><i class="icon-location"></i> Cancún, Quintana Roo, México</p>
+                </div>
+                <div class="site-footer__column">
+                    <h4>Síguenos</h4>
+                    <div class="site-footer__socials">
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/facebook-icon.png" alt="Facebook"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/instagram-icon.png" alt="Instagram"></a>
+                        <a href="#" class="site-footer__social-link" target="_blank"><img src="assets/images/iconcaracteristic/twitter-icon.png" alt="Twitter"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="site-footer__bottom">
+            <p>&copy; <span id="year"></span> DOMABLY. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/main.js" defer></script>
+    <script src="assets/js/register.js" defer></script>
+</body>
+</html>
