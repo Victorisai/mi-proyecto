@@ -5512,6 +5512,9 @@ body.register-page .header__action-button.is-active:hover {
 .register__intro {
     color: #0f172a;
     animation: fadeIn 0.8s ease-out;
+    position: sticky;
+    top: 120px;
+    align-self: flex-start;
 }
 
 .register__badge {
@@ -6082,6 +6085,7 @@ body.register-page .header__action-button.is-active:hover {
 
     .register__intro {
         text-align: center;
+        position: static;
     }
 
     .register__intro p,
