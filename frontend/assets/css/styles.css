@@ -6096,7 +6096,7 @@ body.register-page {
 
 @media (max-width: 768px) {
     .register-hero {
-        padding: 40px 0 70px;
+        padding: 30px 0 70px;
     }
 
     .register__card {
@@ -6114,6 +6114,11 @@ body.register-page {
     .register-insights__grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .register__intro {
+    position: relative;
+    top: 10px;
+}
 }
 
 @media (max-width: 600px) {
