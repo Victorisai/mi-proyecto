@@ -5456,6 +5456,7 @@ body.auth-modal-open {
 /* ================================================= */
 body.register-page {
     background: linear-gradient(180deg, #f5f7fb 0%, #ffffff 60%);
+    padding-top: 35px;
 }
 
 .register {
@@ -5465,7 +5466,7 @@ body.register-page {
 
 .register-hero {
     position: relative;
-    padding: 130px 0 90px;
+    padding: 40px 0 90px;
 }
 
 .register-hero::before {
@@ -5496,7 +5497,7 @@ body.register-page {
 
 .register__intro {
     position: sticky;
-    top: 120px;
+    top: 60px;
     align-self: start;
     height: fit-content;
     color: #0f172a;
@@ -6052,7 +6053,7 @@ body.register-page {
 
 @media (min-width: 1200px) {
     .register-hero {
-        padding: 120px 0 90px;
+        padding: 40px 0 90px;
     }
 
     .register__intro {
@@ -6062,7 +6063,7 @@ body.register-page {
 
 @media (max-width: 992px) {
     .register-hero {
-        padding: 120px 0 80px;
+        padding: 40px 0 80px;
     }
 
     .register__grid {
@@ -6095,7 +6096,7 @@ body.register-page {
 
 @media (max-width: 768px) {
     .register-hero {
-        padding: 120px 0 70px;
+        padding: 40px 0 70px;
     }
 
     .register__card {
@@ -6140,7 +6141,7 @@ body.register-page {
 
 @media (max-width: 480px) {
     .register-hero {
-        padding: 110px 0 60px;
+        padding: 40px 0 60px;
     }
 
     .register__badge {
