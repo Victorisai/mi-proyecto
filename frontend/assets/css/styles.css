@@ -5502,6 +5502,7 @@ body.register-page {
     height: fit-content;
     color: #0f172a;
     animation: fadeIn 0.8s ease-out;
+    max-width: 600px;
 }
 
 .register__badge {
@@ -6048,6 +6049,42 @@ body.register-page {
 
     .register__card {
         padding: 34px 36px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .register__grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 60px;
+    }
+
+    .register__intro {
+        position: relative;
+        top: 0;
+        margin: 0 auto;
+        text-align: center;
+        max-width: 640px;
+    }
+
+    .register__intro p,
+    .register-benefits {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .register-benefits {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .register__card {
+        max-width: 640px;
+        margin: 0 auto;
+    }
+
+    .register-support {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
 }
 
