@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Usuario - CedralSales</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <aside class="dashboard__sidebar">
+            <div class="dashboard__brand">
+                <img src="assets/img/logo.svg" alt="CedralSales" class="dashboard__logo" />
+                <span class="dashboard__brand-name">CedralSales</span>
+            </div>
+            <nav class="dashboard__nav">
+                <a class="dashboard__nav-item dashboard__nav-item--active" href="#inicio">Inicio</a>
+                <a class="dashboard__nav-item" href="#mis-propiedades">Mis propiedades</a>
+                <a class="dashboard__nav-item" href="#mensajes">Mensajes</a>
+                <a class="dashboard__nav-item" href="#favoritos">Favoritos</a>
+                <a class="dashboard__nav-item" href="#borradores">Borradores</a>
+                <a class="dashboard__nav-item" href="#perfil">Perfil</a>
+                <a class="dashboard__nav-item" href="#verificacion">Verificación</a>
+                <a class="dashboard__nav-item" href="#facturacion">Facturación</a>
+                <a class="dashboard__nav-item" href="#ajustes">Ajustes</a>
+            </nav>
+            <div class="dashboard__help">
+                <h4>¿Necesitas ayuda?</h4>
+                <p>Nuestro equipo puede apoyarte a optimizar tus anuncios y coordinar visitas.</p>
+                <button class="btn btn-secondary">Hablar con soporte</button>
+            </div>
+        </aside>
+        <main class="dashboard__main" id="inicio">
+            <header class="dashboard__header">
+                <div class="dashboard__user">
+                    <img class="dashboard__avatar" src="assets/img/sample/avatar-agent.jpg" alt="Avatar del usuario" />
+                    <div>
+                        <h1>Hola, Ana López</h1>
+                        <p class="dashboard__role">Agente inmobiliaria · Verificada</p>
+                    </div>
+                </div>
+                <div class="dashboard__actions">
+                    <button class="btn btn-primary">+ Nueva propiedad</button>
+                    <button class="btn btn-icon" aria-label="Notificaciones">
+                        <span class="dashboard__badge">3</span>
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2a6 6 0 0 0-6 6v3.586l-.707.707A1 1 0 0 0 6 14h12a1 1 0 0 0 .707-1.707L18 11.586V8a6 6 0 0 0-6-6zm0 20a3 3 0 0 0 3-3H9a3 3 0 0 0 3 3z"/>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <section class="dashboard__section stats">
+                <h2>Resumen de anuncios</h2>
+                <div class="stats__grid">
+                    <article class="stats__card stats__card--published">
+                        <span class="stats__label">Publicadas</span>
+                        <strong class="stats__value">12</strong>
+                    </article>
+                    <article class="stats__card stats__card--drafts">
+                        <span class="stats__label">Borradores</span>
+                        <strong class="stats__value">4</strong>
+                    </article>
+                    <article class="stats__card stats__card--review">
+                        <span class="stats__label">En revisión</span>
+                        <strong class="stats__value">2</strong>
+                    </article>
+                    <article class="stats__card stats__card--paused">
+                        <span class="stats__label">Pausadas</span>
+                        <strong class="stats__value">1</strong>
+                    </article>
+                    <article class="stats__card stats__card--expired">
+                        <span class="stats__label">Vencidas</span>
+                        <strong class="stats__value">3</strong>
+                    </article>
+                </div>
+            </section>
+
+            <div class="dashboard__grid">
+                <section class="dashboard__section performance">
+                    <header class="dashboard__section-header">
+                        <h2>Rendimiento rápido</h2>
+                        <div class="performance__toggle">
+                            <button class="performance__btn performance__btn--active">7 días</button>
+                            <button class="performance__btn">30 días</button>
+                        </div>
+                    </header>
+                    <div class="performance__grid">
+                        <div class="performance__item">
+                            <span class="performance__label">Vistas totales</span>
+                            <span class="performance__value">4,532</span>
+                            <small class="performance__delta positivo">+18% vs. semana anterior</small>
+                        </div>
+                        <div class="performance__item">
+                            <span class="performance__label">Clics a WhatsApp</span>
+                            <span class="performance__value">68</span>
+                            <small class="performance__delta positivo">+9 nuevos contactos</small>
+                        </div>
+                        <div class="performance__item">
+                            <span class="performance__label">Clics a teléfono</span>
+                            <span class="performance__value">54</span>
+                            <small class="performance__delta neutro">Sin cambios</small>
+                        </div>
+                        <div class="performance__item">
+                            <span class="performance__label">Consultas recibidas</span>
+                            <span class="performance__value">21</span>
+                            <small class="performance__delta negativo">-3 respecto a 30 días</small>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="dashboard__section tasks">
+                    <h2>Tareas pendientes</h2>
+                    <ul class="tasks__list">
+                        <li class="tasks__item">
+                            <span>Completa las fotos de <strong>Casa Jardines del Lago</strong></span>
+                            <button class="btn btn-link">Ir al gestor</button>
+                        </li>
+                        <li class="tasks__item">
+                            <span>Falta verificación de identidad</span>
+                            <button class="btn btn-link">Subir documentos</button>
+                        </li>
+                        <li class="tasks__item">
+                            <span>Añade título llamativo a <strong>Departamento Midtown</strong></span>
+                            <button class="btn btn-link">Editar</button>
+                        </li>
+                    </ul>
+                    <p class="microcopy">Los anuncios con 12+ fotos reciben 2.3× más contactos.</p>
+                </section>
+            </div>
+
+            <section class="dashboard__section alerts">
+                <h2>Alertas</h2>
+                <div class="alerts__grid">
+                    <article class="alerts__card alerts__card--warning">
+                        <h3>Propiedad próxima a vencer</h3>
+                        <p>"Casa Lago Vista" vence en 3 días. Renueva para no perder exposición.</p>
+                        <button class="btn btn-outline">Renovar anuncio</button>
+                    </article>
+                    <article class="alerts__card alerts__card--danger">
+                        <h3>Anuncio rechazado</h3>
+                        <p>"Loft Centro Histórico" fue rechazado por fotos borrosas. Revisa el checklist.</p>
+                        <button class="btn btn-outline">Ver motivos</button>
+                    </article>
+                    <article class="alerts__card alerts__card--info">
+                        <h3>Precios de mercado</h3>
+                        <p>Los departamentos en tu zona han bajado 4%. Ajusta tu precio para destacar.</p>
+                        <button class="btn btn-outline">Comparar precios</button>
+                    </article>
+                </div>
+            </section>
+
+            <section class="dashboard__section" id="mis-propiedades">
+                <header class="dashboard__section-header">
+                    <div>
+                        <h2>Mis propiedades</h2>
+                        <p>Gestiona tus anuncios activos, pausados o en revisión.</p>
+                    </div>
+                    <div class="dashboard__filters">
+                        <select>
+                            <option>Estado: Todos</option>
+                            <option>Publicada</option>
+                            <option>Pausada</option>
+                            <option>Borrador</option>
+                            <option>En revisión</option>
+                            <option>Vencida</option>
+                            <option>Rechazada</option>
+                        </select>
+                        <select>
+                            <option>Tipo: Todos</option>
+                            <option>Casa</option>
+                            <option>Departamento</option>
+                            <option>Terreno</option>
+                            <option>Bodega</option>
+                        </select>
+                        <select>
+                            <option>Ordenar por fecha</option>
+                            <option>Mayor precio</option>
+                            <option>Menor precio</option>
+                            <option>Más vistas</option>
+                        </select>
+                    </div>
+                </header>
+                <div class="props-list">
+                    <article class="props-list__item">
+                        <img class="props-list__thumb" src="assets/img/sample/property-01.jpg" alt="Casa Jardines del Lago" />
+                        <div class="props-list__meta">
+                            <div class="props-list__header">
+                                <h3>Casa Jardines del Lago</h3>
+                                <span class="props-list__status props-list__status--published">Publicada</span>
+                            </div>
+                            <p>Venta · Casa · 3 recámaras · 2.5 baños · 180 m²</p>
+                            <p class="props-list__price">$4,250,000 MXN</p>
+                            <div class="props-list__tags">
+                                <span>Estrenar</span>
+                                <span>Jardín</span>
+                                <span>Oportunidad</span>
+                            </div>
+                        </div>
+                        <div class="props-list__actions">
+                            <button class="btn btn-outline">Editar</button>
+                            <button class="btn btn-outline">Pausar</button>
+                            <button class="btn btn-outline">Duplicar</button>
+                            <button class="btn btn-outline">Compartir</button>
+                            <button class="btn btn-outline">Ver estadísticas</button>
+                            <button class="btn btn-text">Eliminar</button>
+                        </div>
+                    </article>
+                    <article class="props-list__item">
+                        <img class="props-list__thumb" src="assets/img/sample/property-02.jpg" alt="Loft Centro Histórico" />
+                        <div class="props-list__meta">
+                            <div class="props-list__header">
+                                <h3>Loft Centro Histórico</h3>
+                                <span class="props-list__status props-list__status--rejected">Rechazada</span>
+                            </div>
+                            <p>Renta · Loft · 1 recámara · 1 baño · 65 m²</p>
+                            <p class="props-list__price">$18,500 MXN</p>
+                            <div class="props-list__tags">
+                                <span>Amueblado</span>
+                                <span>Centro</span>
+                            </div>
+                        </div>
+                        <div class="props-list__actions">
+                            <button class="btn btn-outline">Editar</button>
+                            <button class="btn btn-outline">Ver motivos</button>
+                            <button class="btn btn-outline">Enviar a revisión</button>
+                            <button class="btn btn-text">Eliminar</button>
+                        </div>
+                    </article>
+                </div>
+                <div class="props-list__bulk-actions">
+                    <label class="checkbox"><input type="checkbox"> Seleccionar todos</label>
+                    <div class="props-list__bulk-buttons">
+                        <button class="btn btn-outline">Pausar</button>
+                        <button class="btn btn-outline">Activar</button>
+                        <button class="btn btn-outline">Compartir</button>
+                        <button class="btn btn-outline">Exportar CSV</button>
+                    </div>
+                </div>
+                <p class="microcopy">Publica con precio realista para aparecer en más búsquedas.</p>
+            </section>
+
+            <section class="dashboard__section media-manager" id="borradores">
+                <header class="dashboard__section-header">
+                    <h2>Gestor de medios</h2>
+                    <button class="btn btn-outline">Subir archivos</button>
+                </header>
+                <div class="media-manager__grid">
+                    <article class="media-manager__item media-manager__item--empty">
+                        <p>Arrastra y suelta tus fotos o videos aquí</p>
+                        <button class="btn btn-link">Explorar archivos</button>
+                    </article>
+                    <article class="media-manager__item">
+                        <img src="assets/img/sample/property-03.jpg" alt="Fachada" />
+                        <div class="media-manager__meta">
+                            <span class="media-manager__label">Fachada</span>
+                            <button class="btn btn-text">Cambiar cover</button>
+                        </div>
+                    </article>
+                    <article class="media-manager__item">
+                        <img src="assets/img/sample/property-04.jpg" alt="Cocina" />
+                        <div class="media-manager__meta">
+                            <span class="media-manager__label">Cocina</span>
+                            <button class="btn btn-text">Reordenar</button>
+                        </div>
+                    </article>
+                </div>
+                <p class="microcopy">Verifica que tus imágenes sean nítidas. Detectamos 2 archivos con baja resolución.</p>
+            </section>
+
+            <section class="dashboard__grid">
+                <section class="dashboard__section inbox" id="mensajes">
+                    <h2>Mensajes y contactos</h2>
+                    <div class="inbox__threads">
+                        <article class="inbox__thread inbox__thread--active">
+                            <div>
+                                <h3>Departamento Midtown</h3>
+                                <span class="inbox__origin">Web</span>
+                            </div>
+                            <time>Hace 2 h</time>
+                        </article>
+                        <article class="inbox__thread">
+                            <div>
+                                <h3>Casa Jardines del Lago</h3>
+                                <span class="inbox__origin">WhatsApp</span>
+                            </div>
+                            <time>Ayer</time>
+                        </article>
+                        <article class="inbox__thread">
+                            <div>
+                                <h3>Loft Centro Histórico</h3>
+                                <span class="inbox__origin">Teléfono</span>
+                            </div>
+                            <time>Hace 3 días</time>
+                        </article>
+                    </div>
+                    <div class="inbox__messages">
+                        <div class="inbox__message inbox__message--incoming">
+                            <p>Hola, me interesa agendar visita para este fin de semana. ¿Tienes disponibilidad?</p>
+                            <time>10:24</time>
+                        </div>
+                        <div class="inbox__message inbox__message--outgoing">
+                            <p>Hola, claro. Tengo espacio el sábado a las 11 am. ¿Te viene bien?</p>
+                            <time>10:26</time>
+                        </div>
+                        <div class="inbox__quick-replies">
+                            <button class="btn btn-outline">Agendar visita</button>
+                            <button class="btn btn-outline">Enviar ubicación</button>
+                            <button class="btn btn-outline">Compartir documentos</button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="dashboard__section analytics" id="analytics">
+                    <h2>Analytics por propiedad</h2>
+                    <div class="analytics__summary">
+                        <div>
+                            <span>Vistas</span>
+                            <strong>1,245</strong>
+                        </div>
+                        <div>
+                            <span>Tiempo en ficha</span>
+                            <strong>02:18 min</strong>
+                        </div>
+                        <div>
+                            <span>CTR botones</span>
+                            <strong>13%</strong>
+                        </div>
+                        <div>
+                            <span>Consultas</span>
+                            <strong>32</strong>
+                        </div>
+                    </div>
+                    <div class="analytics__funnel">
+                        <div class="analytics__step">
+                            <span>Vistas</span>
+                            <strong>4,532</strong>
+                        </div>
+                        <div class="analytics__step">
+                            <span>Consultas</span>
+                            <strong>89</strong>
+                        </div>
+                        <div class="analytics__step">
+                            <span>Visitas agendadas</span>
+                            <strong>17</strong>
+                        </div>
+                        <div class="analytics__step">
+                            <span>Ofertas</span>
+                            <strong>3</strong>
+                        </div>
+                    </div>
+                    <ul class="analytics__suggestions">
+                        <li>Sube 5 fotos más para mejorar tu ranking.</li>
+                        <li>Tu precio está 7% arriba del mercado. Ajusta para recibir más consultas.</li>
+                        <li>Verifica tu identidad para ganar confianza y prioridad.</li>
+                    </ul>
+                </section>
+            </section>
+
+            <section class="dashboard__grid">
+                <section class="dashboard__section favorites" id="favoritos">
+                    <h2>Favoritos</h2>
+                    <div class="favorites__grid">
+                        <article class="favorites__card">
+                            <h3>Casa con alberca en Mérida</h3>
+                            <p>Guardada el 12/06 · Notificar si baja de precio</p>
+                            <button class="btn btn-outline">Ver ficha</button>
+                        </article>
+                        <article class="favorites__card">
+                            <h3>Departamento loft en CDMX</h3>
+                            <p>Guardada el 08/06 · Notificar nuevos similares</p>
+                            <button class="btn btn-outline">Ver ficha</button>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="dashboard__section saved-searches">
+                    <h2>Búsquedas guardadas</h2>
+                    <ul class="saved-searches__list">
+                        <li>
+                            <div>
+                                <strong>Casas en Querétaro</strong>
+                                <p>Rango $3M - $5M · 3 recámaras · Enviar alertas por WhatsApp</p>
+                            </div>
+                            <button class="btn btn-outline">Editar filtros</button>
+                        </li>
+                        <li>
+                            <div>
+                                <strong>Departamentos en renta en Cancún</strong>
+                                <p>$18k - $28k · Frente al mar · Alerta por email</p>
+                            </div>
+                            <button class="btn btn-outline">Editar filtros</button>
+                        </li>
+                    </ul>
+                </section>
+            </section>
+
+            <section class="dashboard__grid">
+                <section class="dashboard__section billing" id="facturacion">
+                    <h2>Facturación y planes</h2>
+                    <div class="billing__plan">
+                        <div>
+                            <h3>Plan Profesional</h3>
+                            <p>Incluye 20 anuncios activos, 5 destacados, soporte prioritario.</p>
+                            <p>Consumo: 14/20 anuncios · 2/5 destacados</p>
+                        </div>
+                        <button class="btn btn-outline">Actualizar plan</button>
+                    </div>
+                    <div class="billing__history">
+                        <h3>Historial de pagos</h3>
+                        <ul>
+                            <li>Factura CFDI #2024-045 · $1,999 MXN · Pagada el 01/06/24</li>
+                            <li>Factura CFDI #2024-032 · $1,999 MXN · Pagada el 01/05/24</li>
+                        </ul>
+                    </div>
+                    <div class="billing__upsell">
+                        <p>Destaca tu anuncio 7 días y consigue hasta 3× más vistas.</p>
+                        <button class="btn btn-primary">Comprar destacado</button>
+                    </div>
+                </section>
+
+                <section class="dashboard__section team" id="equipo">
+                    <h2>Equipo y roles</h2>
+                    <div class="team__members">
+                        <article class="team__member">
+                            <h3>Ana López</h3>
+                            <span class="team__role">Propietaria</span>
+                            <p>Último acceso: hoy 09:20</p>
+                        </article>
+                        <article class="team__member">
+                            <h3>Marcos Díaz</h3>
+                            <span class="team__role">Editor</span>
+                            <p>Invitado: fotógrafo de interiores</p>
+                        </article>
+                        <article class="team__member">
+                            <h3>Laura Gómez</h3>
+                            <span class="team__role">Solo lectura</span>
+                            <p>Agente asociado</p>
+                        </article>
+                    </div>
+                    <button class="btn btn-outline">Invitar colaborador</button>
+                    <p class="microcopy">Consulta la bitácora de cambios para ver quién editó cada anuncio.</p>
+                </section>
+            </section>
+
+            <section class="dashboard__section profile" id="perfil">
+                <h2>Perfil y verificación</h2>
+                <div class="profile__grid">
+                    <div class="profile__block">
+                        <h3>Perfil público</h3>
+                        <form class="profile__form">
+                            <label>Nombre público
+                                <input type="text" value="Ana López" />
+                            </label>
+                            <label>Biografía
+                                <textarea rows="3">Agente especializada en residencias premium en la Riviera Maya.</textarea>
+                            </label>
+                            <label>Teléfono verificado
+                                <input type="tel" value="+52 55 1234 5678" />
+                            </label>
+                            <label>Enlace a WhatsApp
+                                <input type="url" value="https://wa.me/525512345678" />
+                            </label>
+                            <button class="btn btn-primary">Guardar cambios</button>
+                        </form>
+                    </div>
+                    <div class="profile__block" id="verificacion">
+                        <h3>Verificación</h3>
+                        <ul class="profile__status">
+                            <li>Email: <span class="positivo">Verificado</span></li>
+                            <li>Teléfono: <span class="positivo">Verificado</span></li>
+                            <li>INE / Pasaporte: <span class="negativo">Pendiente</span></li>
+                        </ul>
+                        <button class="btn btn-outline">Subir identificación</button>
+                        <div class="profile__preferences" id="ajustes">
+                            <h3>Preferencias</h3>
+                            <label>Moneda favorita
+                                <select>
+                                    <option>MXN</option>
+                                    <option>USD</option>
+                                </select>
+                            </label>
+                            <label>Unidades
+                                <select>
+                                    <option>m²</option>
+                                    <option>ft²</option>
+                                </select>
+                            </label>
+                            <label>Idioma
+                                <select>
+                                    <option>Español</option>
+                                    <option>Inglés</option>
+                                </select>
+                            </label>
+                            <label>Notificaciones
+                                <div class="profile__toggles">
+                                    <label><input type="checkbox" checked> Email</label>
+                                    <label><input type="checkbox" checked> Push</label>
+                                    <label><input type="checkbox"> WhatsApp</label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dashboard__section trust">
+                <h2>Confianza y seguridad</h2>
+                <div class="trust__grid">
+                    <article>
+                        <h3>Checklist de publicación</h3>
+                        <ul>
+                            <li>Título descriptivo (Quality Score +2)</li>
+                            <li>12 fotos HD (Quality Score +3)</li>
+                            <li>Tour virtual 3D (Quality Score +4)</li>
+                        </ul>
+                    </article>
+                    <article>
+                        <h3>Motivos de rechazo más comunes</h3>
+                        <p>Fotografías borrosas, precios irreales, información incompleta.</p>
+                        <button class="btn btn-link">Ver guía rápida</button>
+                    </article>
+                    <article>
+                        <h3>Reportes y spam</h3>
+                        <p>Protegemos tus anuncios con captcha invisible y moderación en 24 h.</p>
+                        <button class="btn btn-link">Reportar usuario</button>
+                    </article>
+                </div>
+            </section>
+
+            <section class="dashboard__section empty-states">
+                <h2>Estados vacíos</h2>
+                <div class="empty-states__grid">
+                    <article class="empty-states__card">
+                        <h3>Sin propiedades</h3>
+                        <p>Crea tu primer anuncio en minutos con nuestra guía paso a paso.</p>
+                        <button class="btn btn-primary">Crear anuncio</button>
+                    </article>
+                    <article class="empty-states__card">
+                        <h3>Sin mensajes</h3>
+                        <p>Aún no tienes consultas. Comparte tu enlace para empezar a recibir contactos.</p>
+                        <button class="btn btn-outline">Copiar enlace</button>
+                    </article>
+                    <article class="empty-states__card">
+                        <h3>Sin fotos</h3>
+                        <p>Arrastra tus fotografías aquí y sigue los tips de calidad.</p>
+                        <button class="btn btn-outline">Subir fotos</button>
+                    </article>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>
+</html>
