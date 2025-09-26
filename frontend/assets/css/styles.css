@@ -6191,10 +6191,15 @@ body.profile-page {
 
 /* --- Bloque del Sidebar --- */
 .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
     width: 260px;
     background-color: #1f2937;
     padding: 25px;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+    z-index: 100;
     display: flex;
     flex-direction: column;
 }
@@ -6268,6 +6273,191 @@ body.profile-page {
 
 /* --- Contenido principal (derecha) --- */
 .profile__main-content {
-    flex-grow: 1; /* El contenido ocupa el resto del espacio */
-    padding: 30px;
+    flex-grow: 1;
+    padding: 30px 40px;
+    margin-left: 260px;
+}
+
+/*
+=================================
+DASHBOARD DEL PERFIL
+=================================
+*/
+
+.profile__main-content {
+    flex-grow: 1;
+    padding: 30px 40px;
+    overflow-y: auto; /* Para scroll si el contenido es largo */
+}
+
+
+.dashboard__title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.dashboard__section {
+    margin-bottom: 40px;
+}
+
+.dashboard__section-title {
+    font-size: 20px;
+    color: #34495e;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+/* Estilos para las tarjetas genéricas */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* --- Grid de Resumen --- */
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.summary-card {
+    text-align: center;
+}
+
+.summary-card__title {
+    font-size: 16px;
+    color: #7f8c8d;
+    margin: 0 0 10px;
+}
+
+.summary-card__number {
+    font-size: 40px;
+    font-weight: 700;
+    color: #3498db;
+    margin: 0;
+}
+
+/* --- Grid de Analíticas --- */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    align-items: stretch;
+}
+
+.analytics__metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.metric-pill {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 25px;
+}
+
+.metric-pill__title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #34495e;
+}
+
+.metric-pill__number {
+    font-size: 28px;
+    font-weight: 600;
+    color: #2ecc71;
+}
+
+.analytics__chart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-placeholder {
+    width: 80%;
+    height: 120px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    border-left: 2px solid #ecf0f1;
+    border-bottom: 2px solid #ecf0f1;
+    padding: 10px;
+}
+
+.chart-placeholder__bar {
+    width: 20px;
+    background-color: #3498db;
+    border-radius: 4px 4px 0 0;
+}
+
+/* --- Grid de Alertas --- */
+.alerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.alert-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-left: 5px solid;
+}
+
+.alert-card__info {
+    flex-grow: 1;
+}
+
+.alert-card__title {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 5px;
+}
+
+.alert-card__subtitle {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin: 0;
+}
+
+/* Modificadores de color para alertas */
+.alert-card--danger { border-color: #e74c3c; }
+.alert-card--warning { border-color: #f39c12; }
+.alert-card--info { border-color: #3498db; }
+
+/* Estilo para los botones */
+.btn {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    padding: 8px 18px;
+    transition: background-color 0.3s ease;
+}
+
+.btn--rounded {
+    border-radius: 20px;
+    background-color: #5d6d7e;
+}
+
+.alert-card--danger .btn--rounded { background-color: #e74c3c; }
+.alert-card--warning .btn--rounded { background-color: #f39c12; }
+.alert-card--info .btn--rounded { background-color: #3498db; }
+
+.btn--rounded:hover {
+    background-color: #34495e;
 }

@@ -42,8 +42,85 @@
         </aside>
 
         <main class="profile__main-content">
-            <h1>Contenido Principal</h1>
-            <p>Aquí irá el resto de tu página.</p>
+                <h1 class="dashboard__title">Panel General</h1>
+                
+            <section class="dashboard__section">
+                <h2 class="dashboard__section-title">Resumen de tus anuncios</h2>
+                <div class="summary-grid">
+                    <div class="card summary-card">
+                        <h3 class="summary-card__title">Publicadas</h3>
+                        <p class="summary-card__number">0</p>
+                    </div>
+                    <div class="card summary-card">
+                        <h3 class="summary-card__title">Borradores</h3>
+                        <p class="summary-card__number">0</p>
+                    </div>
+                    <div class="card summary-card">
+                        <h3 class="summary-card__title">En Revisión</h3>
+                        <p class="summary-card__number">0</p>
+                    </div>
+                    <div class="card summary-card">
+                        <h3 class="summary-card__title">Pausadas</h3>
+                        <p class="summary-card__number">0</p>
+                    </div>
+                </div>
+            </section>
+        
+            <section class="dashboard__section">
+                <h2 class="dashboard__section-title">Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="analytics__metrics">
+                        <div class="card metric-pill">
+                            <span class="metric-pill__title">Vistas Totales</span>
+                            <span class="metric-pill__number">0</span>
+                        </div>
+                        <div class="card metric-pill">
+                            <span class="metric-pill__title">Consultas recibidas</span>
+                            <span class="metric-pill__number">0</span>
+                        </div>
+                        <div class="card metric-pill">
+                            <span class="metric-pill__title">Chats activos</span>
+                            <span class="metric-pill__number">0</span>
+                        </div>
+                    </div>
+                    <div class="card analytics__chart">
+                        <p>Mini Gráfico de Barras</p>
+                        <div class="chart-placeholder">
+                            <div class="chart-placeholder__bar" style="height: 60%;"></div>
+                            <div class="chart-placeholder__bar" style="height: 80%;"></div>
+                            <div class="chart-placeholder__bar" style="height: 40%;"></div>
+                            <div class="chart-placeholder__bar" style="height: 70%;"></div>
+                            <div class="chart-placeholder__bar" style="height: 50%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        
+            <section class="dashboard__section">
+                <h2 class="dashboard__section-title">Alertas</h2>
+                <div class="alerts-grid">
+                    <div class="card alert-card alert-card--danger">
+                        <div class="alert-card__info">
+                            <h3 class="alert-card__title">Anuncios rechazados</h3>
+                            <p class="alert-card__subtitle">Loft. en Cancún etc.</p>
+                        </div>
+                        <a href="#" class="btn btn--rounded">Ver motivos</a>
+                    </div>
+                    <div class="card alert-card alert-card--warning">
+                        <div class="alert-card__info">
+                            <h3 class="alert-card__title">Mensajes sin contestar</h3>
+                            <p class="alert-card__subtitle">Juan Martínez: hola</p>
+                        </div>
+                        <a href="#" class="btn btn--rounded">Responder</a>
+                    </div>
+                    <div class="card alert-card alert-card--info">
+                        <div class="alert-card__info">
+                            <h3 class="alert-card__title">Falta verificar cuenta</h3>
+                        </div>
+                        <a href="#" class="btn btn--rounded">Continuar</a>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
 
