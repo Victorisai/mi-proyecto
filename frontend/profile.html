@@ -6,45 +6,50 @@
     <title>Panel de Usuario - Cedral Sales</title>
     <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body>
+<body class="dashboard-page">
 
     <div class="dashboard">
         <aside class="dashboard__sidebar">
             <div class="dashboard__user-info">
-                <img class="dashboard__user-avatar" src="https://via.placeholder.com/60" alt="Foto de perfil">
-                <span class="dashboard__user-greeting">Bienvenido!</span>
-                <span class="dashboard__user-name">Isai</span>
+                <div class="dashboard__user-avatar" data-profile-avatar>
+                    <span class="dashboard__user-initials" data-profile-initials>IM</span>
+                    <img src="https://via.placeholder.com/60" alt="Foto de perfil" data-profile-photo hidden>
+                </div>
+                <div class="dashboard__user-texts">
+                    <span class="dashboard__user-greeting">Bienvenido!</span>
+                    <span class="dashboard__user-name" data-profile-name>Usuario</span>
+                </div>
             </div>
-            <nav class="dashboard__nav">
+            <nav class="dashboard__nav" aria-label="Menú principal del panel">
                 <ul class="dashboard__nav-list">
                     <li class="dashboard__nav-item">
-                        <a href="#" class="dashboard__nav-link dashboard__nav-link--active">
-                            <i class="fas fa-home dashboard__nav-icon"></i> Inicio
+                        <a href="#" class="dashboard__nav-link dashboard__nav-link--active" data-nav="inicio">
+                            <i class="fas fa-home dashboard__nav-icon" aria-hidden="true"></i> Inicio
                         </a>
                     </li>
                     <li class="dashboard__nav-item">
-                        <a href="#" class="dashboard__nav-link">
-                            <i class="fas fa-building dashboard__nav-icon"></i> Mis propiedades
+                        <a href="#" class="dashboard__nav-link" data-nav="propiedades">
+                            <i class="fas fa-building dashboard__nav-icon" aria-hidden="true"></i> Mis propiedades
                         </a>
                     </li>
                     <li class="dashboard__nav-item">
-                        <a href="#" class="dashboard__nav-link">
-                            <i class="fas fa-bullhorn dashboard__nav-icon"></i> Leads
+                        <a href="#" class="dashboard__nav-link" data-nav="leads">
+                            <i class="fas fa-bullhorn dashboard__nav-icon" aria-hidden="true"></i> Leads
                         </a>
                     </li>
                     <li class="dashboard__nav-item">
-                        <a href="#" class="dashboard__nav-link">
-                            <i class="fas fa-comments dashboard__nav-icon"></i> Mensajes
+                        <a href="#" class="dashboard__nav-link" data-nav="mensajes">
+                            <i class="fas fa-comments dashboard__nav-icon" aria-hidden="true"></i> Mensajes
                         </a>
                     </li>
                     <li class="dashboard__nav-item">
-                        <a href="#" class="dashboard__nav-link">
-                            <i class="fas fa-user-circle dashboard__nav-icon"></i> Mi perfil
+                        <a href="#" class="dashboard__nav-link" data-nav="perfil">
+                            <i class="fas fa-user-circle dashboard__nav-icon" aria-hidden="true"></i> Mi perfil
                         </a>
                     </li>
                     <li class="dashboard__nav-item">
-                        <a href="#" class="dashboard__nav-link">
-                            <i class="fas fa-chart-line dashboard__nav-icon"></i> Mi plan
+                        <a href="#" class="dashboard__nav-link" data-nav="plan">
+                            <i class="fas fa-chart-line dashboard__nav-icon" aria-hidden="true"></i> Mi plan
                         </a>
                     </li>
                 </ul>
@@ -52,77 +57,128 @@
         </aside>
 
         <main class="dashboard__content">
-            <h1 class="dashboard__content-title">Panel General</h1>
-
-            <section class="dashboard__section">
-                <h2 class="dashboard__section-title">Resumen de anuncios</h2>
-                <div class="dashboard__cards-grid">
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Publicadas</span>
-                        <span class="dashboard__card-value">0</span>
-                    </div>
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Borradores</span>
-                        <span class="dashboard__card-value">0</span>
-                    </div>
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">En Revisión</span>
-                        <span class="dashboard__card-value">0</span>
-                    </div>
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Pausadas</span>
-                        <span class="dashboard__card-value">0</span>
-                    </div>
+            <header class="dashboard__header">
+                <div>
+                    <p class="dashboard__subtitle">Panel General</p>
+                    <h1 class="dashboard__content-title">Resumen de tu actividad</h1>
                 </div>
-            </section>
+                <div class="dashboard__date" data-dashboard-date>Actualizado el --</div>
+            </header>
 
-            <section class="dashboard__section">
+            <section class="dashboard__section" data-section="inicio">
+                <h2 class="dashboard__section-title">Resumen de anuncios</h2>
+                <div class="dashboard__cards-grid" data-summary-grid>
+                    <article class="dashboard__card" data-summary-card>
+                        <div class="dashboard__card-icon dashboard__card-icon--published">
+                            <i class="fas fa-check-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="dashboard__card-content">
+                            <span class="dashboard__card-label">Publicadas</span>
+                            <span class="dashboard__card-value" data-summary="published">0</span>
+                        </div>
+                    </article>
+                    <article class="dashboard__card" data-summary-card>
+                        <div class="dashboard__card-icon dashboard__card-icon--drafts">
+                            <i class="fas fa-file-alt" aria-hidden="true"></i>
+                        </div>
+                        <div class="dashboard__card-content">
+                            <span class="dashboard__card-label">Borradores</span>
+                            <span class="dashboard__card-value" data-summary="drafts">0</span>
+                        </div>
+                    </article>
+                    <article class="dashboard__card" data-summary-card>
+                        <div class="dashboard__card-icon dashboard__card-icon--review">
+                            <i class="fas fa-search" aria-hidden="true"></i>
+                        </div>
+                        <div class="dashboard__card-content">
+                            <span class="dashboard__card-label">En revisión</span>
+                            <span class="dashboard__card-value" data-summary="review">0</span>
+                        </div>
+                    </article>
+                    <article class="dashboard__card" data-summary-card>
+                        <div class="dashboard__card-icon dashboard__card-icon--paused">
+                            <i class="fas fa-pause-circle" aria-hidden="true"></i>
+                        </div>
+                        <div class="dashboard__card-content">
+                            <span class="dashboard__card-label">Pausadas</span>
+                            <span class="dashboard__card-value" data-summary="paused">0</span>
+                        </div>
+                    </article>
+                </div>
+
                 <h2 class="dashboard__section-title">Analytics</h2>
                 <div class="dashboard__analytics-grid">
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Vistas Totales:</span>
-                        <span class="dashboard__card-value">0</span>
-                    </div>
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Consultas recibidas:</span>
-                        <span class="dashboard__card-value">0</span>
-                    </div>
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Chats activos:</span>
-                        <span class="dashboard__card-value">0</span>
-                    </div>
-                    <div class="dashboard__card dashboard__card--chart">
-                        <div class="dashboard__chart-placeholder">
-                           
-                        </div>
-                    </div>
+                    <article class="dashboard__card dashboard__card--kpi">
+                        <span class="dashboard__card-label">Vistas totales</span>
+                        <div class="dashboard__kpi-value" data-analytics="views">0</div>
+                        <span class="dashboard__kpi-trend" data-analytics-trend="views">0% vs. semana pasada</span>
+                    </article>
+                    <article class="dashboard__card dashboard__card--kpi">
+                        <span class="dashboard__card-label">Consultas recibidas</span>
+                        <div class="dashboard__kpi-value" data-analytics="inquiries">0</div>
+                        <span class="dashboard__kpi-trend" data-analytics-trend="inquiries">0% vs. semana pasada</span>
+                    </article>
+                    <article class="dashboard__card dashboard__card--kpi">
+                        <span class="dashboard__card-label">Chats activos</span>
+                        <div class="dashboard__kpi-value" data-analytics="chats">0</div>
+                        <span class="dashboard__kpi-trend" data-analytics-trend="chats">0% vs. semana pasada</span>
+                    </article>
+                    <article class="dashboard__card dashboard__card--chart">
+                        <div class="dashboard__chart" data-chart aria-label="Gráfico de vistas semanales"></div>
+                    </article>
+                </div>
+
+                <h2 class="dashboard__section-title">Alertas</h2>
+                <div class="dashboard__alerts" data-alerts>
+                    <!-- Renderizado dinámico desde profile.js -->
                 </div>
             </section>
 
-            <section class="dashboard__section">
-                <h2 class="dashboard__section-title">Alertas</h2>
-                <div class="dashboard__cards-grid">
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Anuncios rechazados</span>
-                        <span class="dashboard__card-text">Loft. en cancun etc</span>
-                        <button class="dashboard__button dashboard__button--primary">Ver motivos</button>
-                    </div>
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Mensajes sin contestar</span>
-                        <span class="dashboard__card-text">Juan Martinez: hola</span>
-                        <button class="dashboard__button dashboard__button--secondary">Responder</button>
-                    </div>
-                    <div class="dashboard__card">
-                        <span class="dashboard__card-label">Falta verificar cuenta</span>
-                        <button class="dashboard__button dashboard__button--primary">Continuar</button>
-                    </div>
+            <section class="dashboard__section dashboard__section--placeholder" data-section="propiedades" hidden>
+                <div class="dashboard__placeholder">
+                    <i class="fas fa-building" aria-hidden="true"></i>
+                    <h2>Gestión de propiedades</h2>
+                    <p>Estamos preparando esta sección. Pronto podrás administrar tus listados desde aquí.</p>
+                </div>
+            </section>
+
+            <section class="dashboard__section dashboard__section--placeholder" data-section="leads" hidden>
+                <div class="dashboard__placeholder">
+                    <i class="fas fa-bullhorn" aria-hidden="true"></i>
+                    <h2>Seguimiento de leads</h2>
+                    <p>Accede a tus oportunidades más adelante. Seguimos trabajando en esta vista.</p>
+                </div>
+            </section>
+
+            <section class="dashboard__section dashboard__section--placeholder" data-section="mensajes" hidden>
+                <div class="dashboard__placeholder">
+                    <i class="fas fa-comments" aria-hidden="true"></i>
+                    <h2>Bandeja de mensajes</h2>
+                    <p>Recibirás y responderás mensajes desde esta sección muy pronto.</p>
+                </div>
+            </section>
+
+            <section class="dashboard__section dashboard__section--placeholder" data-section="perfil" hidden>
+                <div class="dashboard__placeholder">
+                    <i class="fas fa-user-circle" aria-hidden="true"></i>
+                    <h2>Mi perfil</h2>
+                    <p>Personaliza tus datos y preferencias una vez habilitemos esta funcionalidad.</p>
+                </div>
+            </section>
+
+            <section class="dashboard__section dashboard__section--placeholder" data-section="plan" hidden>
+                <div class="dashboard__placeholder">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i>
+                    <h2>Mi plan</h2>
+                    <p>Consulta detalles de tu suscripción y beneficios próximamente.</p>
                 </div>
             </section>
 
         </main>
     </div>
 
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/profile.js" type="module"></script>
 </body>
 </html>
