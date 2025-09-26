@@ -37,6 +37,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // === AUTENTICACIÓN Y MODAL LOGIN ===
     // ===================================
     const AUTH_STORAGE_KEY = 'domablyAuthState';
+    const DEFAULT_API = 'http://localhost:3000/api';
+
+    const resolveApiBase = () => {
+        const explicit = document.body.dataset.apiBase;
+        if (explicit) {
+            return explicit.replace(/\/$/, '');
+        }
+
+        const { origin, hostname } = window.location;
+        if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            return DEFAULT_API;
+        }
+
+        if (origin && origin !== 'null' && origin !== 'file://') {
+            return `${origin.replace(/\/$/, '')}/api`;
+        }
+
+        return DEFAULT_API;
+    };
+
+    const API_BASE = resolveApiBase();
+    const LOGIN_ENDPOINT = `${API_BASE}/auth/login`;
+    const PROFILE_ENDPOINT = `${API_BASE}/users/me`;
+
     const loginModal = document.getElementById('login-modal');
     const loginOverlay = document.getElementById('login-modal-overlay');
     const loginDialog = loginModal ? loginModal.querySelector('.auth-modal__dialog') : null;
@@ -47,18 +71,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginPasswordInput = document.getElementById('login-password');
     const rememberCheckbox = document.getElementById('remember-me');
     const passwordToggle = document.querySelector('.auth-modal__toggle-password');
+    const loginSubmitButton = loginForm ? loginForm.querySelector('.auth-modal__submit') : null;
 
     const headerLoginButton = document.getElementById('header-login-button');
     const headerRegisterButton = document.getElementById('header-register-button');
     const headerProfileLink = document.getElementById('header-profile-link');
+    const headerProfileName = document.getElementById('header-profile-name');
+    const headerProfileAvatar = document.getElementById('header-profile-avatar');
     const mobileLoginButtonWrapper = document.getElementById('mobile-login-button-wrapper');
     const mobileLoginButton = document.getElementById('mobile-login-button');
     const mobileProfileSection = document.getElementById('mobile-profile-section');
+    const mobileProfileName = document.getElementById('mobile-profile-name');
+    const mobileProfileAvatar = document.getElementById('mobile-profile-avatar');
     const authLogoutLinks = document.querySelectorAll('[data-auth-action="logout"]');
+    const profileLinks = document.querySelectorAll('[data-auth-action="profile"]');
 
     const profileButton = document.getElementById('profile-button');
     const profileDropdown = document.getElementById('profile-dropdown');
     const profileArrow = document.getElementById('profile-arrow');
+
+    let authState = null;
 
     const parseAuthData = (value) => {
         if (!value) return null;
@@ -76,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const storeAuth = (data, persistent) => {
-        const payload = JSON.stringify(data);
+        const payload = JSON.stringify({ ...data, remember: Boolean(persistent) });
         if (persistent) {
             localStorage.setItem(AUTH_STORAGE_KEY, payload);
             sessionStorage.removeItem(AUTH_STORAGE_KEY);
@@ -91,17 +123,99 @@ document.addEventListener('DOMContentLoaded', () => {
         sessionStorage.removeItem(AUTH_STORAGE_KEY);
     };
 
-    const updateAuthUI = (isLoggedIn) => {
+    const computeDisplayName = (user) => {
+        if (!user) {
+            return 'Mi perfil';
+        }
+
+        if (user.name) {
+            const trimmed = user.name.trim();
+            if (trimmed.length > 0) {
+                const [first] = trimmed.split(/\s+/);
+                return first.charAt(0).toUpperCase() + first.slice(1);
+            }
+        }
+
+        return user.email || 'Mi perfil';
+    };
+
+    const computeInitials = (user) => {
+        if (!user) {
+            return 'U';
+        }
+
+        if (user.name) {
+            const parts = user.name.trim().split(/\s+/).filter(Boolean);
+            if (parts.length >= 2) {
+                return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+            }
+            if (parts.length === 1) {
+                return parts[0][0].toUpperCase();
+            }
+        }
+
+        if (user.email) {
+            return user.email.charAt(0).toUpperCase();
+        }
+
+        return 'U';
+    };
+
+    const applyAvatar = (element, imageUrl, initials) => {
+        if (!element) {
+            return;
+        }
+
+        if (imageUrl) {
+            element.style.backgroundImage = `url(${imageUrl})`;
+            element.classList.add('has-photo');
+            element.textContent = '';
+        } else {
+            element.style.backgroundImage = '';
+            element.classList.remove('has-photo');
+            element.textContent = initials;
+        }
+    };
+
+    const updateAuthUI = (state) => {
+        const isLoggedIn = Boolean(state?.token);
+
         if (headerProfileLink) headerProfileLink.classList.toggle('is-hidden', !isLoggedIn);
         if (headerLoginButton) headerLoginButton.classList.toggle('is-hidden', isLoggedIn);
         if (headerRegisterButton) headerRegisterButton.classList.toggle('is-hidden', isLoggedIn);
         if (mobileLoginButtonWrapper) mobileLoginButtonWrapper.classList.toggle('is-hidden', isLoggedIn);
         if (mobileProfileSection) mobileProfileSection.classList.toggle('is-hidden', !isLoggedIn);
+
         if (!isLoggedIn && profileDropdown) {
             profileDropdown.style.display = 'none';
         }
         if (!isLoggedIn && profileArrow) {
             profileArrow.classList.remove('open');
+        }
+
+        if (isLoggedIn) {
+            const displayName = computeDisplayName(state.user);
+            const initials = computeInitials(state.user);
+
+            if (headerProfileName) {
+                headerProfileName.textContent = displayName;
+            }
+            applyAvatar(headerProfileAvatar, state.user?.profileImageUrl, initials);
+
+            if (mobileProfileName) {
+                mobileProfileName.textContent = displayName;
+            }
+            applyAvatar(mobileProfileAvatar, state.user?.profileImageUrl, initials);
+        } else {
+            if (headerProfileName) {
+                headerProfileName.textContent = 'Mi perfil';
+            }
+            applyAvatar(headerProfileAvatar, null, 'U');
+
+            if (mobileProfileName) {
+                mobileProfileName.textContent = 'Invitado';
+            }
+            applyAvatar(mobileProfileAvatar, null, 'U');
         }
     };
 
@@ -132,15 +246,64 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const persistAuthState = (nextState, options = {}) => {
+        if (!nextState) {
+            authState = null;
+            clearStoredAuth();
+            updateAuthUI(null);
+            return;
+        }
+
+        const remember = options.remember ?? nextState.remember ?? false;
+        const enrichedState = { ...nextState, remember };
+        authState = enrichedState;
+        storeAuth(enrichedState, remember);
+        updateAuthUI(enrichedState);
+    };
+
     const handleLogout = () => {
-        clearStoredAuth();
-        updateAuthUI(false);
+        persistAuthState(null);
         if (loginForm) {
             loginForm.reset();
         }
         if (passwordToggle) {
             passwordToggle.classList.remove('is-active');
         }
+    };
+
+    const setLoginSubmitting = (isSubmitting) => {
+        if (!loginSubmitButton) {
+            return;
+        }
+        loginSubmitButton.disabled = isSubmitting;
+        loginSubmitButton.classList.toggle('is-loading', isSubmitting);
+        loginSubmitButton.textContent = isSubmitting ? 'Ingresando…' : 'Iniciar sesión';
+    };
+
+    const authenticate = async ({ email, password }) => {
+        const response = await fetch(LOGIN_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+
+        let data = null;
+        try {
+            data = await response.json();
+        } catch (error) {
+            data = null;
+        }
+
+        if (!response.ok) {
+            const message = data?.message || 'No se pudo iniciar sesión. Verifica tus credenciales.';
+            throw new Error(message);
+        }
+
+        if (!data?.token || !data?.user) {
+            throw new Error('La respuesta del servidor es inválida. Inténtalo nuevamente.');
+        }
+
+        return data;
     };
 
     const loginTriggers = [headerLoginButton, mobileLoginButton];
@@ -173,7 +336,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (loginForm) {
-        loginForm.addEventListener('submit', (event) => {
+        loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const email = loginEmailInput ? loginEmailInput.value.trim() : '';
@@ -198,17 +361,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            const authData = {
-                email,
-                loggedInAt: new Date().toISOString(),
-            };
+            setLoginSubmitting(true);
 
-            storeAuth(authData, remember);
-            updateAuthUI(true);
-            closeLoginModal();
-            loginForm.reset();
-            if (passwordToggle) {
-                passwordToggle.classList.remove('is-active');
+            try {
+                const { token, user } = await authenticate({ email, password });
+                const payload = {
+                    token,
+                    user,
+                    loggedInAt: new Date().toISOString(),
+                };
+
+                persistAuthState(payload, { remember });
+                closeLoginModal();
+                loginForm.reset();
+                if (passwordToggle) {
+                    passwordToggle.classList.remove('is-active');
+                }
+            } catch (error) {
+                if (loginError) {
+                    loginError.textContent = error.message;
+                }
+            } finally {
+                setLoginSubmitting(false);
             }
         });
     }
@@ -219,6 +393,26 @@ document.addEventListener('DOMContentLoaded', () => {
             handleLogout();
             if (typeof closeNav === 'function') {
                 closeNav();
+            }
+            if (profileDropdown) {
+                profileDropdown.style.display = 'none';
+            }
+            if (profileArrow) {
+                profileArrow.classList.remove('open');
+            }
+        });
+    });
+
+    profileLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (typeof closeNav === 'function') {
+                closeNav();
+            }
+            if (profileDropdown) {
+                profileDropdown.style.display = 'none';
+            }
+            if (profileArrow) {
+                profileArrow.classList.remove('open');
             }
         });
     });
@@ -243,8 +437,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const storedAuth = getStoredAuth();
-    updateAuthUI(!!storedAuth);
+    const bootstrapAuth = async () => {
+        const stored = getStoredAuth();
+
+        if (!stored || !stored.token) {
+            updateAuthUI(null);
+            return;
+        }
+
+        authState = stored;
+        updateAuthUI(stored);
+
+        try {
+            const response = await fetch(PROFILE_ENDPOINT, {
+                headers: {
+                    Authorization: `Bearer ${stored.token}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Sesión expirada.');
+            }
+
+            const data = await response.json();
+            if (data?.user) {
+                persistAuthState({ ...stored, user: data.user }, { remember: stored.remember });
+            }
+        } catch (error) {
+            console.warn('No se pudo validar la sesión almacenada:', error);
+            handleLogout();
+        }
+    };
+
+    bootstrapAuth();
 
     // ==================================
     // === LÓGICA DEL PANEL DE ADMIN ===

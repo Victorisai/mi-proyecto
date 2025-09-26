@@ -3,6 +3,7 @@
 const db = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { formatUserForResponse } = require('../utils/userFormatter');
 
 // Función para registrar un nuevo usuario
 exports.register = async (req, res) => {
@@ -83,8 +84,11 @@ exports.login = async (req, res) => {
       { expiresIn: '1h' }, // El token expira en 1 hora
       (error, token) => {
         if (error) throw error;
-        // 4. Enviar el token al cliente
-        res.json({ token });
+        // 4. Enviar el token y los datos básicos del usuario al cliente
+        res.json({
+          token,
+          user: formatUserForResponse(req, user)
+        });
       }
     );
 
