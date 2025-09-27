@@ -6282,6 +6282,92 @@ body.profile-page {
     overflow-y: auto; /* Para scroll si el contenido es largo */
 }
 
+.profile__panel {
+    display: none;
+    min-height: 100%;
+}
+
+.profile__panel--active {
+    display: block;
+}
+
+.properties-empty {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 36px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(236, 248, 255, 0.9));
+    border: 1px solid rgba(52, 152, 219, 0.15);
+}
+
+.properties-empty__illustration {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 24px;
+    background: radial-gradient(circle at 35% 35%, rgba(46, 204, 113, 0.35), transparent 65%),
+                linear-gradient(135deg, rgba(52, 152, 219, 0.15), rgba(41, 128, 185, 0.3));
+    position: relative;
+}
+
+.properties-empty__illustration::after {
+    content: "";
+    position: absolute;
+    inset: 24px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.65);
+    box-shadow: 0 16px 32px rgba(52, 152, 219, 0.15);
+}
+
+.properties-empty__content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.properties-empty__title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.properties-empty__description {
+    font-size: 16px;
+    color: #4b5563;
+    margin: 0;
+    max-width: 520px;
+}
+
+.properties-empty__note {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+.properties-tips {
+    padding: 36px 40px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(243, 249, 255, 0.96));
+    border: 1px solid rgba(209, 213, 219, 0.6);
+}
+
+.properties-tips__title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 18px;
+}
+
+.properties-tips__list {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    gap: 12px;
+    color: #4b5563;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
 /*
 =================================
 DASHBOARD DEL PERFIL
