@@ -10,7 +10,11 @@
 <body class="profile-page">
 
     <div class="profile">
-        <aside class="sidebar">
+        <button class="profile__menu-toggle" type="button" aria-controls="profile-sidebar" aria-expanded="false">
+            <span class="profile__menu-toggle-icon" aria-hidden="true"></span>
+            Menú
+        </button>
+        <aside class="sidebar" id="profile-sidebar">
             <div class="sidebar__profile">
                 <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="sidebar__profile-picture">
                 <div class="sidebar__profile-info">
@@ -41,6 +45,7 @@
                 </ul>
             </nav>
         </aside>
+        <div class="profile__menu-overlay" data-menu-overlay></div>
 
         <main class="profile__main-content">
             <div class="profile__panel profile__panel--active" data-section="inicio" data-src="assets/templates/profile/inicio.html"></div>
