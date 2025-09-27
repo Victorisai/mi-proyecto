@@ -113,10 +113,259 @@
                 <h1 class="properties-header__main-title">Navega nuevas opciones</h1>
                 <h2 class="properties-header__title" id="results-count">Cargando propiedades...</h2>
             </div>
+        </div>
+
+        <section class="publish-cta">
+            <div class="container publish-cta__container">
+                <div class="publish-cta__content">
+                    <p class="publish-cta__eyebrow">Publica en minutos</p>
+                    <h2 class="publish-cta__title">Comparte tu propiedad con una experiencia profesional</h2>
+                    <p class="publish-cta__description">Centraliza fotografías, datos clave y amenidades en un flujo guiado. Obtén un anuncio listo para cautivar a tus próximos clientes.</p>
+                    <div class="publish-cta__actions">
+                        <button class="publish-cta__button" type="button" data-open-wizard="propertyListingWizard">Comenzar publicación</button>
+                        <a class="publish-cta__link" href="#propertyWizardBenefits">Ver recomendaciones</a>
+                    </div>
+                </div>
+                <ul class="publish-cta__highlights">
+                    <li class="publish-cta__highlight">
+                        <h3>Flujo inteligente</h3>
+                        <p>Cada paso valida tu información para garantizar anuncios consistentes.</p>
+                    </li>
+                    <li class="publish-cta__highlight">
+                        <h3>Enfoque comercial</h3>
+                        <p>Destaca atributos, ubicación y amenidades relevantes desde el inicio.</p>
+                    </li>
+                    <li class="publish-cta__highlight">
+                        <h3>Listo para compartir</h3>
+                        <p>Genera una ficha lista para revisión interna o publicación inmediata.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="container">
             <div class="property-grid" id="property-grid"></div>
             <p class="properties__no-results" id="no-results-message" hidden>No se encontraron propiedades que coincidan con tu búsqueda.</p>
         </div>
     </main>
+
+    <div class="property-wizard property-wizard--hidden" id="propertyListingWizard" data-property-wizard role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="propertyListingWizardTitle">
+        <div class="property-wizard__backdrop" data-close-dialog></div>
+        <div class="property-wizard__dialog" role="document" tabindex="-1">
+            <header class="property-wizard__header">
+                <div>
+                    <p class="property-wizard__eyebrow">Nueva publicación</p>
+                    <h2 class="property-wizard__title" id="propertyListingWizardTitle">Crea un anuncio profesional</h2>
+                    <p class="property-wizard__subtitle">Comparte los datos esenciales de tu propiedad y publícala cuando estés listo.</p>
+                </div>
+                <button class="property-wizard__close" type="button" aria-label="Cerrar" data-close-dialog>&times;</button>
+            </header>
+
+            <ol class="property-wizard__steps" role="list">
+                <li class="property-wizard__step-indicator property-wizard__step-indicator--active" data-step="0">
+                    <span class="property-wizard__step-number">1</span>
+                    <span class="property-wizard__step-label">Operación</span>
+                </li>
+                <li class="property-wizard__step-indicator" data-step="1">
+                    <span class="property-wizard__step-number">2</span>
+                    <span class="property-wizard__step-label">Tipo</span>
+                </li>
+                <li class="property-wizard__step-indicator" data-step="2">
+                    <span class="property-wizard__step-number">3</span>
+                    <span class="property-wizard__step-label">Detalles</span>
+                </li>
+                <li class="property-wizard__step-indicator" data-step="3">
+                    <span class="property-wizard__step-number">4</span>
+                    <span class="property-wizard__step-label">Características</span>
+                </li>
+                <li class="property-wizard__step-indicator" data-step="4">
+                    <span class="property-wizard__step-number">5</span>
+                    <span class="property-wizard__step-label">Precio</span>
+                </li>
+            </ol>
+
+            <form class="property-wizard__form" novalidate>
+                <section class="property-wizard__step" data-step-index="0">
+                    <h3 class="property-wizard__section-title">¿Qué tipo de operación buscas?</h3>
+                    <p class="property-wizard__section-description">Selecciona si publicarás una propiedad en venta o renta. Esto ayudará a mostrarla en el catálogo adecuado.</p>
+                    <div class="property-wizard__options">
+                        <label class="property-option">
+                            <input type="radio" name="operation" value="venta" required>
+                            <span class="property-option__content">
+                                <span class="property-option__title">Venta</span>
+                                <span class="property-option__description">Publica propiedades en venta y destaca beneficios de inversión.</span>
+                            </span>
+                        </label>
+                        <label class="property-option">
+                            <input type="radio" name="operation" value="renta" required>
+                            <span class="property-option__content">
+                                <span class="property-option__title">Renta</span>
+                                <span class="property-option__description">Ideal para arrendamientos residenciales o comerciales.</span>
+                            </span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="property-wizard__step" data-step-index="1" hidden>
+                    <h3 class="property-wizard__section-title">Selecciona el tipo de propiedad</h3>
+                    <p class="property-wizard__section-description">Escoge el tipo de inmueble que deseas promocionar.</p>
+                    <div class="property-wizard__options property-wizard__options--grid">
+                        <label class="property-type-card">
+                            <input type="radio" name="propertyType" value="casa" required>
+                            <span class="property-type-card__content">
+                                <span class="property-type-card__title">Casa</span>
+                                <span class="property-type-card__description">Ideal para propiedades residenciales unifamiliares.</span>
+                            </span>
+                        </label>
+                        <label class="property-type-card">
+                            <input type="radio" name="propertyType" value="departamento" required>
+                            <span class="property-type-card__content">
+                                <span class="property-type-card__title">Departamento</span>
+                                <span class="property-type-card__description">Perfecto para condominios y lofts urbanos.</span>
+                            </span>
+                        </label>
+                        <label class="property-type-card">
+                            <input type="radio" name="propertyType" value="terreno" required>
+                            <span class="property-type-card__content">
+                                <span class="property-type-card__title">Terreno</span>
+                                <span class="property-type-card__description">Comparte lotes y predios listos para desarrollar.</span>
+                            </span>
+                        </label>
+                        <label class="property-type-card">
+                            <input type="radio" name="propertyType" value="desarrollo" required>
+                            <span class="property-type-card__content">
+                                <span class="property-type-card__title">Desarrollo</span>
+                                <span class="property-type-card__description">Presenta proyectos con múltiples unidades o etapas.</span>
+                            </span>
+                        </label>
+                    </div>
+                </section>
+
+                <section class="property-wizard__step" data-step-index="2" hidden>
+                    <h3 class="property-wizard__section-title">Agrega la información principal</h3>
+                    <p class="property-wizard__section-description">Incluye fotografías, datos clave y localización precisa para mejorar la visibilidad de tu anuncio.</p>
+                    <div class="property-wizard__form-grid">
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyPhotos">Fotografías (mínimo 5, máximo 50)</label>
+                            <input class="form-field__input" type="file" id="propertyPhotos" name="propertyPhotos" accept="image/*" multiple required>
+                            <p class="form-field__hint" data-photos-hint>Selecciona imágenes en alta resolución. Puedes arrastrar y soltar varias a la vez.</p>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyTitle">Título del anuncio</label>
+                            <input class="form-field__input" type="text" id="propertyTitle" name="propertyTitle" placeholder="Ej. Residencia contemporánea en Cedral" required>
+                        </div>
+                        <div class="form-field form-field--full">
+                            <label class="form-field__label" for="propertyDescription">Descripción</label>
+                            <textarea class="form-field__textarea" id="propertyDescription" name="propertyDescription" rows="5" placeholder="Describe los espacios, amenidades y ventajas competitivas" required></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyLocation">Ubicación</label>
+                            <input class="form-field__input" type="text" id="propertyLocation" name="propertyLocation" placeholder="Ciudad, colonia o desarrollo" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyAddress">Dirección completa</label>
+                            <input class="form-field__input" type="text" id="propertyAddress" name="propertyAddress" placeholder="Calle, número exterior e interior" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyLatitude">Latitud</label>
+                            <input class="form-field__input" type="text" id="propertyLatitude" name="propertyLatitude" placeholder="Ej. 21.234567" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyLongitude">Longitud</label>
+                            <input class="form-field__input" type="text" id="propertyLongitude" name="propertyLongitude" placeholder="Ej. -99.123456" required>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="property-wizard__step" data-step-index="3" hidden>
+                    <h3 class="property-wizard__section-title">Características de la propiedad</h3>
+                    <p class="property-wizard__section-description">Detalla las características para que los interesados tengan claridad sobre el inmueble.</p>
+                    <div class="property-wizard__form-grid">
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyBedrooms">Habitaciones</label>
+                            <input class="form-field__input" type="number" id="propertyBedrooms" name="propertyBedrooms" min="0" placeholder="Ej. 3" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyBathrooms">Baños</label>
+                            <input class="form-field__input" type="number" id="propertyBathrooms" name="propertyBathrooms" min="0" step="0.5" placeholder="Ej. 2.5" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyParking">Estacionamientos</label>
+                            <input class="form-field__input" type="number" id="propertyParking" name="propertyParking" min="0" placeholder="Ej. 2" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertySize">Superficie construida (m²)</label>
+                            <input class="form-field__input" type="number" id="propertySize" name="propertySize" min="0" placeholder="Ej. 180" required>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyLand">Superficie de terreno (m²)</label>
+                            <input class="form-field__input" type="number" id="propertyLand" name="propertyLand" min="0" placeholder="Ej. 220">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyAmenities">Amenidades destacadas</label>
+                            <textarea class="form-field__textarea" id="propertyAmenities" name="propertyAmenities" rows="4" placeholder="Ej. Alberca, gimnasio, roof garden, seguridad 24/7"></textarea>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="property-wizard__step" data-step-index="4" hidden>
+                    <h3 class="property-wizard__section-title">Define el precio y publica</h3>
+                    <p class="property-wizard__section-description">Establece el precio de mercado y confirma la publicación de la propiedad.</p>
+                    <div class="property-wizard__form-grid">
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyPrice">Precio</label>
+                            <div class="form-field__input-wrapper">
+                                <span class="form-field__prefix">$</span>
+                                <input class="form-field__input" type="number" id="propertyPrice" name="propertyPrice" min="0" step="1000" placeholder="Ej. 2,350,000" required>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-field__label" for="propertyCurrency">Moneda</label>
+                            <select class="form-field__input" id="propertyCurrency" name="propertyCurrency" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="mxn">MXN - Peso mexicano</option>
+                                <option value="usd">USD - Dólar estadounidense</option>
+                            </select>
+                        </div>
+                        <div class="form-field form-field--full">
+                            <label class="form-field__label" for="propertyAvailability">Disponibilidad</label>
+                            <select class="form-field__input" id="propertyAvailability" name="propertyAvailability" required>
+                                <option value="" disabled selected>Selecciona una opción</option>
+                                <option value="inmediata">Entrega inmediata</option>
+                                <option value="en_construccion">En construcción</option>
+                                <option value="preventas">Preventas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="property-wizard__disclaimer" id="propertyWizardBenefits">
+                        <h4 class="property-wizard__disclaimer-title">Antes de publicar</h4>
+                        <ul class="property-wizard__disclaimer-list">
+                            <li>Verifica que la información sea correcta y que las fotografías representen el estado actual.</li>
+                            <li>Una vez publicada, podrás editar detalles desde el panel de propiedades.</li>
+                            <li>El equipo de DOMABLY revisará tu anuncio para mantener la calidad de la plataforma.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <div class="property-wizard__feedback" aria-live="polite"></div>
+
+                <footer class="property-wizard__footer">
+                    <button class="dashboard__action-btn dashboard__action-btn--ghost property-wizard__prev" type="button">Volver</button>
+                    <div class="property-wizard__footer-actions">
+                        <button class="dashboard__action-btn dashboard__action-btn--primary property-wizard__next" type="button">Continuar</button>
+                        <button class="dashboard__action-btn dashboard__action-btn--primary property-wizard__submit" type="submit">Publicar propiedad</button>
+                    </div>
+                </footer>
+            </form>
+
+            <div class="property-wizard__success" role="status" hidden>
+                <div class="property-wizard__success-icon" aria-hidden="true"></div>
+                <h3 class="property-wizard__success-title">¡Propiedad lista para revisión!</h3>
+                <p class="property-wizard__success-message">Hemos guardado toda la información. Podrás dar seguimiento y completar los datos restantes desde tu panel de propiedades.</p>
+                <button class="dashboard__action-btn dashboard__action-btn--primary" type="button" data-close-dialog>Cerrar</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="site-footer">
         <div class="container">
@@ -160,6 +409,7 @@
     </footer>
 
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/property-wizard.js"></script>
     <script src="assets/js/properties.js"></script>
 </body>
 </html>

@@ -7,20 +7,20 @@
 <section class="dashboard__section">
     <div class="dashboard__section-heading">
         <h2 class="dashboard__section-title">Gestiona tu portafolio</h2>
-        <button class="dashboard__action-btn dashboard__action-btn--primary js-open-listing-wizard">Publicar propiedad</button>
+        <button class="dashboard__action-btn dashboard__action-btn--primary js-open-listing-wizard" data-open-wizard="dashboardPropertyWizard">Publicar propiedad</button>
     </div>
     <div class="card properties-empty">
         <div class="properties-empty__illustration" aria-hidden="true"></div>
         <div class="properties-empty__content">
             <h3 class="properties-empty__title">Aún no tienes propiedades publicadas</h3>
             <p class="properties-empty__description">Comparte tu primera propiedad para comenzar a recibir clientes potenciales y seguimiento inteligente.</p>
-            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary js-open-listing-wizard">Publicar mi primera propiedad</a>
+            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary js-open-listing-wizard" data-open-wizard="dashboardPropertyWizard">Publicar mi primera propiedad</a>
             <p class="properties-empty__note">¿Necesitas ayuda? Consulta nuestra guía para preparar un anuncio profesional.</p>
         </div>
     </div>
 </section>
 
-<div class="property-wizard property-wizard--hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="propertyWizardTitle">
+<div class="property-wizard property-wizard--hidden" id="dashboardPropertyWizard" data-property-wizard role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="propertyWizardTitle">
     <div class="property-wizard__backdrop" data-close-dialog></div>
     <div class="property-wizard__dialog" role="document" tabindex="-1">
         <header class="property-wizard__header">
