@@ -6590,10 +6590,134 @@ body.profile-page {
     justify-content: flex-end;
 }
 
-.modal-publish__footer [data-publish-finish][disabled] {
+.modal-publish__footer [data-publish-finish][disabled],
+.modal-publish__footer [data-publish-continue][disabled] {
     opacity: 0.6;
     cursor: not-allowed;
     box-shadow: none;
+}
+
+.modal-publish__form {
+    display: grid;
+    gap: 24px;
+    margin-top: 28px;
+}
+
+.modal__dialog {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-publish__field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-publish__label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.modal-publish__input,
+.modal-publish__textarea {
+    width: 100%;
+    border: 1.5px solid #d1d5db;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 15px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #ffffff;
+    color: #111827;
+}
+
+.modal-publish__input:focus,
+.modal-publish__textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.modal-publish__textarea {
+    min-height: 140px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+.modal-publish__hint {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.modal-publish__upload {
+    border: 2px dashed #bfdbfe;
+    border-radius: 16px;
+    background: #f8fafc;
+    padding: 24px;
+    display: grid;
+    justify-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+}
+
+.modal-publish__upload:focus,
+.modal-publish__upload:hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 12px 24px rgba(37, 99, 235, 0.12);
+    outline: none;
+}
+
+.modal-publish__upload-input {
+    display: none;
+}
+
+.modal-publish__upload-icon {
+    font-size: 28px;
+}
+
+.modal-publish__upload-text {
+    font-size: 14px;
+    color: #1f2937;
+}
+
+.modal-publish__upload-text span {
+    color: #2563eb;
+    font-weight: 600;
+}
+
+.modal-publish__upload-note {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.modal-publish__input-wrapper {
+    position: relative;
+}
+
+.modal-publish__input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    color: #2563eb;
+}
+
+.modal-publish__input-wrapper .modal-publish__input {
+    padding-left: 44px;
+}
+
+.modal-publish__footer--end {
+    padding-top: 8px;
+    border-top: 1px solid #e5e7eb;
+}
+
+.modal-publish__footer--end .dashboard__action-btn {
+    min-width: 210px;
 }
 
 @media (max-width: 600px) {
@@ -6607,6 +6731,11 @@ body.profile-page {
 
     .modal-publish__options--grid {
         grid-template-columns: 1fr;
+    }
+
+    .modal-publish__form {
+        margin-top: 20px;
+        gap: 20px;
     }
 }
 
