@@ -6368,6 +6368,248 @@ body.profile-page {
     line-height: 1.6;
 }
 
+.modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(17, 24, 39, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 200;
+    padding: 24px;
+}
+
+.modal--visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__overlay {
+    position: absolute;
+    inset: 0;
+}
+
+.modal__dialog {
+    position: relative;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 48px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+}
+
+.modal__title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 12px;
+}
+
+.modal__subtitle {
+    font-size: 16px;
+    color: #4b5563;
+    margin-bottom: 28px;
+}
+
+.modal__actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.modal__action {
+    flex: 1;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.modal__action:not(.dashboard__action-btn--primary) {
+    background: #e5f2ff;
+    color: #1f2937;
+}
+
+.modal__action:not(.dashboard__action-btn--primary):hover {
+    background: #d6e9ff;
+}
+
+.modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s ease;
+}
+
+.modal__close:hover {
+    color: #4b5563;
+}
+
+.modal-publish {
+    padding: 44px 48px 40px;
+    text-align: left;
+}
+
+.modal-publish__summary {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 32px;
+    margin-bottom: 12px;
+}
+
+.modal-publish__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #eff6ff;
+    color: #1d4ed8;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+.modal-publish__step {
+    display: none;
+    animation: modal-step-in 0.25s ease;
+}
+
+.modal-publish__step--active {
+    display: block;
+}
+
+@keyframes modal-step-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modal-publish__options {
+    display: grid;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.modal-publish__options--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.modal-publish__option {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 22px;
+    border-radius: 16px;
+    border: 1.5px solid #e5e7eb;
+    background: #ffffff;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: pointer;
+    text-align: left;
+}
+
+.modal-publish__option:hover,
+.modal-publish__option:focus {
+    border-color: #2563eb;
+    box-shadow: 0 14px 32px rgba(37, 99, 235, 0.15);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+.modal-publish__option.is-selected {
+    border-color: #2563eb;
+    box-shadow: 0 16px 36px rgba(37, 99, 235, 0.18);
+}
+
+.modal-publish__icon {
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    background: #f1f5f9;
+}
+
+.modal-publish__icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.modal-publish__label {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.modal-publish__description {
+    font-size: 14px;
+    color: #4b5563;
+    line-height: 1.5;
+}
+
+.modal-publish__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    background: transparent;
+    color: #2563eb;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+
+.modal-publish__back:hover,
+.modal-publish__back:focus {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+.modal-publish__footer {
+    margin-top: 28px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-publish__footer [data-publish-finish][disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+@media (max-width: 600px) {
+    .modal__dialog {
+        padding: 32px 24px;
+    }
+
+    .modal-publish {
+        padding: 32px 24px;
+    }
+
+    .modal-publish__options--grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 /*
 =================================
 DASHBOARD DEL PERFIL

@@ -7,14 +7,14 @@
 <section class="dashboard__section">
     <div class="dashboard__section-heading">
         <h2 class="dashboard__section-title">Gestiona tu portafolio</h2>
-        <button class="dashboard__action-btn dashboard__action-btn--primary">Publicar propiedad</button>
+        <button class="dashboard__action-btn dashboard__action-btn--primary" data-modal-trigger="publish">Publicar propiedad</button>
     </div>
     <div class="card properties-empty">
         <div class="properties-empty__illustration" aria-hidden="true"></div>
         <div class="properties-empty__content">
             <h3 class="properties-empty__title">Aún no tienes propiedades publicadas</h3>
             <p class="properties-empty__description">Comparte tu primera propiedad para comenzar a recibir clientes potenciales y seguimiento inteligente.</p>
-            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary">Publicar mi primera propiedad</a>
+            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary" data-modal-trigger="publish">Publicar mi primera propiedad</a>
             <p class="properties-empty__note">¿Necesitas ayuda? Consulta nuestra guía para preparar un anuncio profesional.</p>
         </div>
     </div>
@@ -31,3 +31,101 @@
         </ul>
     </div>
 </section>
+
+<div class="modal" data-modal="publish" aria-hidden="true" role="dialog">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog modal-publish" role="document">
+        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+        <div class="modal-publish__summary" aria-live="polite">
+            <span class="modal-publish__badge" data-selection-purpose hidden></span>
+            <span class="modal-publish__badge" data-selection-type hidden></span>
+        </div>
+
+        <div class="modal-publish__step modal-publish__step--active" data-step="purpose" role="group" aria-labelledby="publish-purpose-title">
+            <h2 class="modal__title" id="publish-purpose-title">¿Qué deseas hacer?</h2>
+            <p class="modal__subtitle">Elige si quieres publicar una propiedad para venta o renta.</p>
+            <div class="modal-publish__options">
+                <button type="button" class="modal-publish__option" data-purpose="vender" data-label="Vender">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="M9 20.5 24 9l15 11.5v15.5a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3V20.5Z" fill="#e8f5ff" stroke="#2563eb" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M19.5 33h9" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="24" cy="26" r="5" fill="#2563eb" fill-opacity="0.12" stroke="#2563eb" stroke-width="2"/>
+                            <text x="24" y="28" text-anchor="middle" font-size="9" font-family="'Inter', sans-serif" fill="#2563eb">$</text>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Vender</span>
+                    <span class="modal-publish__description">Encuentra compradores ideales para tu propiedad.</span>
+                </button>
+                <button type="button" class="modal-publish__option" data-purpose="rentar" data-label="Rentar">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="M16 22v-5.5L24 11l8 5.5V22" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M14 22h20v14H14z" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M24 26a4 4 0 1 1 0 8" stroke="#4f46e5" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M24 26h4v8" stroke="#4f46e5" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Rentar</span>
+                    <span class="modal-publish__description">Conecta con inquilinos confiables para tu inmueble.</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-publish__step" data-step="type" role="group" aria-labelledby="publish-type-title">
+            <button type="button" class="modal-publish__back" data-publish-back>
+                <span aria-hidden="true">&#8592;</span>
+                Volver
+            </button>
+            <h2 class="modal__title" id="publish-type-title">¿Qué tipo de propiedad publicarás?</h2>
+            <p class="modal__subtitle">Selecciona la categoría que mejor describe tu inmueble.</p>
+            <div class="modal-publish__options modal-publish__options--grid" role="list">
+                <button type="button" class="modal-publish__option" data-type="casa" data-label="Casa" role="listitem">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="M8 22 24 10l16 12v16H8Z" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M20 38V26h8v12" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Casa</span>
+                </button>
+                <button type="button" class="modal-publish__option" data-type="departamento" data-label="Departamento" role="listitem">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="M12 8h24v32H12z" fill="#eef2ff" stroke="#6366f1" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M18 16h4m4 0h4m-12 8h4m4 0h4m-12 8h4m4 0h4" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M22 40v-6h4v6" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Departamento</span>
+                </button>
+                <button type="button" class="modal-publish__option" data-type="terreno" data-label="Terreno" role="listitem">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="M6 34 24 14l18 20" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M10 34h28" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M18 26h12" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Terreno</span>
+                </button>
+                <button type="button" class="modal-publish__option" data-type="desarrollo" data-label="Desarrollo" role="listitem">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="M10 34V16l8-4v22" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M22 34V10l8 4v20" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M34 34V20l4 2v12" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M10 34h28" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Desarrollo</span>
+                </button>
+            </div>
+            <footer class="modal-publish__footer">
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-finish disabled>
+                    Continuar con la publicación
+                </button>
+            </footer>
+        </div>
+    </div>
+</div>
