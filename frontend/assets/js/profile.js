@@ -2,6 +2,67 @@ document.addEventListener('DOMContentLoaded', () => {
     const menuLinks = document.querySelectorAll('.sidebar__menu-link[data-section]');
     const panels = document.querySelectorAll('.profile__panel');
 
+    const setupPublishModal = (panel) => {
+        const modal = panel.querySelector('[data-modal="publish"]');
+        if (!modal) {
+            return;
+        }
+
+        const openButtons = panel.querySelectorAll('[data-modal-trigger="publish"]');
+        if (!openButtons.length) {
+            return;
+        }
+
+        const closers = modal.querySelectorAll('[data-modal-close]');
+
+        const updateAria = (isOpen) => {
+            modal.setAttribute('aria-hidden', String(!isOpen));
+            if (isOpen) {
+                modal.setAttribute('aria-modal', 'true');
+            } else {
+                modal.removeAttribute('aria-modal');
+            }
+        };
+
+        const closeModal = () => {
+            modal.classList.remove('modal--visible');
+            updateAria(false);
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        };
+
+        const openModal = () => {
+            modal.classList.add('modal--visible');
+            updateAria(true);
+            document.addEventListener('keydown', handleKeyDown);
+        };
+
+        openButtons.forEach(button => {
+            button.addEventListener('click', event => {
+                event.preventDefault();
+                openModal();
+            });
+        });
+
+        closers.forEach(element => {
+            element.addEventListener('click', event => {
+                event.preventDefault();
+                closeModal();
+            });
+        });
+    };
+
+    const initializePanelFeatures = (panel) => {
+        if (panel.dataset.section === 'propiedades') {
+            setupPublishModal(panel);
+        }
+    };
+
     const loadPanelContent = (panel) => {
         const source = panel.dataset.src;
         if (!source) {
@@ -17,6 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(html => {
                 panel.innerHTML = html;
+                initializePanelFeatures(panel);
             })
             .catch(error => {
                 console.error(error);
@@ -41,6 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
             panels.forEach(panel => {
                 const isActive = panel.dataset.section === targetSection;
                 panel.classList.toggle('profile__panel--active', isActive);
+                if (isActive && !panel.innerHTML.trim()) {
+                    loadPanelContent(panel);
+                }
             });
         });
     });

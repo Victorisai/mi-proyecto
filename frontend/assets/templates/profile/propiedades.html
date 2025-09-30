@@ -7,14 +7,14 @@
 <section class="dashboard__section">
     <div class="dashboard__section-heading">
         <h2 class="dashboard__section-title">Gestiona tu portafolio</h2>
-        <button class="dashboard__action-btn dashboard__action-btn--primary">Publicar propiedad</button>
+        <button class="dashboard__action-btn dashboard__action-btn--primary" data-modal-trigger="publish">Publicar propiedad</button>
     </div>
     <div class="card properties-empty">
         <div class="properties-empty__illustration" aria-hidden="true"></div>
         <div class="properties-empty__content">
             <h3 class="properties-empty__title">Aún no tienes propiedades publicadas</h3>
             <p class="properties-empty__description">Comparte tu primera propiedad para comenzar a recibir clientes potenciales y seguimiento inteligente.</p>
-            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary">Publicar mi primera propiedad</a>
+            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary" data-modal-trigger="publish">Publicar mi primera propiedad</a>
             <p class="properties-empty__note">¿Necesitas ayuda? Consulta nuestra guía para preparar un anuncio profesional.</p>
         </div>
     </div>
@@ -31,3 +31,16 @@
         </ul>
     </div>
 </section>
+
+<div class="modal" data-modal="publish" aria-hidden="true" role="dialog">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog" role="document">
+        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+        <h2 class="modal__title">¿Qué buscas?</h2>
+        <p class="modal__subtitle">Selecciona la opción que mejor se adapte a tu objetivo.</p>
+        <div class="modal__actions">
+            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary modal__action">Vender</a>
+            <a href="#" class="dashboard__action-btn modal__action">Rentar</a>
+        </div>
+    </div>
+</div>

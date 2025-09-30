@@ -6368,6 +6368,92 @@ body.profile-page {
     line-height: 1.6;
 }
 
+.modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(17, 24, 39, 0.45);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+    z-index: 200;
+    padding: 24px;
+}
+
+.modal--visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__overlay {
+    position: absolute;
+    inset: 0;
+}
+
+.modal__dialog {
+    position: relative;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px 48px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+}
+
+.modal__title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 12px;
+}
+
+.modal__subtitle {
+    font-size: 16px;
+    color: #4b5563;
+    margin-bottom: 28px;
+}
+
+.modal__actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+}
+
+.modal__action {
+    flex: 1;
+    text-align: center;
+    border-radius: 12px;
+}
+
+.modal__action:not(.dashboard__action-btn--primary) {
+    background: #e5f2ff;
+    color: #1f2937;
+}
+
+.modal__action:not(.dashboard__action-btn--primary):hover {
+    background: #d6e9ff;
+}
+
+.modal__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: transparent;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #9ca3af;
+    transition: color 0.2s ease;
+}
+
+.modal__close:hover {
+    color: #4b5563;
+}
+
 /*
 =================================
 DASHBOARD DEL PERFIL
