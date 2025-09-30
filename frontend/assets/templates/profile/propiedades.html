@@ -73,7 +73,7 @@
         </div>
 
         <div class="modal-publish__step" data-step="type" role="group" aria-labelledby="publish-type-title">
-            <button type="button" class="modal-publish__back" data-publish-back>
+            <button type="button" class="modal-publish__back" data-publish-back="purpose">
                 <span aria-hidden="true">&#8592;</span>
                 Volver
             </button>
@@ -122,10 +122,56 @@
                 </button>
             </div>
             <footer class="modal-publish__footer">
-                <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-finish disabled>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-continue disabled>
                     Continuar con la publicación
                 </button>
             </footer>
+        </div>
+
+        <div class="modal-publish__step" data-step="details" role="group" aria-labelledby="publish-details-title">
+            <button type="button" class="modal-publish__back" data-publish-back="type">
+                <span aria-hidden="true">&#8592;</span>
+                Volver
+            </button>
+            <h2 class="modal__title" id="publish-details-title">Información de la propiedad</h2>
+            <p class="modal__subtitle">Completa los detalles principales para preparar tu anuncio profesional.</p>
+            <form class="modal-publish__form" data-publish-form>
+                <div class="modal-publish__form-grid">
+                    <div class="form-field">
+                        <label class="form-field__label" for="publish-title">Título del anuncio</label>
+                        <input class="form-field__input" type="text" id="publish-title" name="title" placeholder="Ej. Residencia contemporánea en zona exclusiva" required>
+                    </div>
+                    <div class="form-field form-field--full">
+                        <label class="form-field__label" for="publish-description">Descripción</label>
+                        <textarea class="form-field__textarea" id="publish-description" name="description" rows="4" placeholder="Describe los espacios, amenidades y beneficios clave." required></textarea>
+                    </div>
+                    <div class="form-field form-field--full">
+                        <label class="form-field__label" for="publish-images">Imágenes destacadas</label>
+                        <input class="form-field__input" type="file" id="publish-images" name="images" accept="image/*" multiple>
+                        <p class="form-field__hint">Agrega fotografías en alta resolución (JPG o PNG). Puedes seleccionar varias a la vez.</p>
+                    </div>
+                    <fieldset class="form-field form-field--full">
+                        <legend class="form-field__label">Ubicación</legend>
+                        <div class="form-field__group">
+                            <label class="form-field__sub-label" for="publish-location-city">Ciudad</label>
+                            <input class="form-field__input" type="text" id="publish-location-city" name="city" placeholder="Cancún" required>
+                        </div>
+                        <div class="form-field__group">
+                            <label class="form-field__sub-label" for="publish-location-neighborhood">Colonia o fraccionamiento</label>
+                            <input class="form-field__input" type="text" id="publish-location-neighborhood" name="neighborhood" placeholder="Puerto Cancún" required>
+                        </div>
+                        <div class="form-field__group">
+                            <label class="form-field__sub-label" for="publish-location-address">Dirección (opcional)</label>
+                            <input class="form-field__input" type="text" id="publish-location-address" name="address" placeholder="Av. Bonampak 125, Torre Norte">
+                        </div>
+                    </fieldset>
+                </div>
+                <footer class="modal-publish__footer">
+                    <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-submit>
+                        Guardar y continuar más tarde
+                    </button>
+                </footer>
+            </form>
         </div>
     </div>
 </div>

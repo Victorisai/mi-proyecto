@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const purposeOptions = Array.from(modal.querySelectorAll('[data-purpose]'));
         const typeOptions = Array.from(modal.querySelectorAll('[data-type]'));
-        const backButton = modal.querySelector('[data-publish-back]');
-        const finishButton = modal.querySelector('[data-publish-finish]');
+        const backButtons = Array.from(modal.querySelectorAll('[data-publish-back]'));
+        const continueButton = modal.querySelector('[data-publish-continue]');
+        const publishForm = modal.querySelector('[data-publish-form]');
 
         let publishState = {
             purpose: null,
@@ -65,8 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleOptionSelection(typeOptions, null);
             setBadge(summaryBadges.purpose, '');
             setBadge(summaryBadges.type, '');
-            if (finishButton) {
-                finishButton.disabled = true;
+            if (continueButton) {
+                continueButton.disabled = true;
+            }
+            if (publishForm) {
+                publishForm.reset();
             }
             showStep('purpose');
         };
@@ -121,8 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 publishState.type = null;
                 toggleOptionSelection(typeOptions, null);
                 setBadge(summaryBadges.type, '');
-                if (finishButton) {
-                    finishButton.disabled = true;
+                if (continueButton) {
+                    continueButton.disabled = true;
                 }
                 showStep('type');
             });
@@ -133,28 +137,56 @@ document.addEventListener('DOMContentLoaded', () => {
                 publishState.type = option.dataset.type || null;
                 toggleOptionSelection(typeOptions, option);
                 setBadge(summaryBadges.type, option.dataset.label || '');
-                if (finishButton) {
-                    finishButton.disabled = false;
+                if (continueButton) {
+                    continueButton.disabled = false;
                 }
             });
         });
 
-        if (backButton) {
-            backButton.addEventListener('click', event => {
+        backButtons.forEach(button => {
+            button.addEventListener('click', event => {
                 event.preventDefault();
-                showStep('purpose');
-                if (finishButton) {
-                    finishButton.disabled = !publishState.type;
+                const target = button.dataset.publishBack;
+                if (!target) {
+                    return;
                 }
+                showStep(target);
+                if (continueButton) {
+                    if (target === 'type') {
+                        continueButton.disabled = !publishState.type;
+                    }
+                    if (target === 'purpose') {
+                        continueButton.disabled = true;
+                    }
+                }
+            });
+        });
+
+        if (continueButton) {
+            continueButton.addEventListener('click', event => {
+                event.preventDefault();
+                if (continueButton.disabled) {
+                    return;
+                }
+                showStep('details');
             });
         }
 
-        if (finishButton) {
-            finishButton.addEventListener('click', event => {
+        if (publishForm) {
+            publishForm.addEventListener('submit', event => {
                 event.preventDefault();
-                if (finishButton.disabled) {
-                    return;
-                }
+                const formData = new FormData(publishForm);
+                const details = {
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    city: formData.get('city'),
+                    neighborhood: formData.get('neighborhood'),
+                    address: formData.get('address')
+                };
+                console.info('Información lista para publicar:', {
+                    ...publishState,
+                    details
+                });
                 closeModal();
             });
         }
