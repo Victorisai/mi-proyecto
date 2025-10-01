@@ -39,7 +39,6 @@
         <div class="modal-publish__summary" aria-live="polite">
             <span class="modal-publish__badge" data-selection-purpose hidden></span>
             <span class="modal-publish__badge" data-selection-type hidden></span>
-            <span class="modal-publish__badge" data-selection-title hidden></span>
         </div>
 
         <div class="modal-publish__step modal-publish__step--active" data-step="purpose" role="group" aria-labelledby="publish-purpose-title">
@@ -74,7 +73,7 @@
         </div>
 
         <div class="modal-publish__step" data-step="type" role="group" aria-labelledby="publish-type-title">
-            <button type="button" class="modal-publish__back" data-publish-back="purpose">
+            <button type="button" class="modal-publish__back" data-publish-back>
                 <span aria-hidden="true">&#8592;</span>
                 Volver
             </button>
@@ -123,60 +122,10 @@
                 </button>
             </div>
             <footer class="modal-publish__footer">
-                <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-continue disabled>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-finish disabled>
                     Continuar con la publicación
                 </button>
             </footer>
-        </div>
-
-        <div class="modal-publish__step" data-step="details" role="group" aria-labelledby="publish-details-title">
-            <button type="button" class="modal-publish__back" data-publish-back="type">
-                <span aria-hidden="true">&#8592;</span>
-                Volver
-            </button>
-            <h2 class="modal__title" id="publish-details-title">Personaliza tu anuncio</h2>
-            <p class="modal__subtitle">Completa la información esencial para presentar tu propiedad de forma profesional.</p>
-
-            <form class="modal-publish__form" data-publish-form>
-                <div class="modal-publish__field">
-                    <label for="publish-title" class="modal-publish__label">Título del anuncio</label>
-                    <input type="text" id="publish-title" name="property-title" class="modal-publish__input" placeholder="Ej. Casa moderna con terraza en Lomas del Valle" required maxlength="120">
-                    <p class="modal-publish__hint">Utiliza un título conciso que destaque el principal atractivo del inmueble.</p>
-                </div>
-
-                <div class="modal-publish__field">
-                    <label for="publish-description" class="modal-publish__label">Descripción</label>
-                    <textarea id="publish-description" name="property-description" class="modal-publish__textarea" placeholder="Describe distribución, amenidades, acabados y beneficios de la zona." rows="5" required></textarea>
-                    <p class="modal-publish__hint">Incluye información relevante como metros cuadrados, número de habitaciones y servicios cercanos.</p>
-                </div>
-
-                <div class="modal-publish__field">
-                    <span class="modal-publish__label">Galería de imágenes</span>
-                    <label for="publish-images" class="modal-publish__upload" tabindex="0">
-                        <input type="file" id="publish-images" name="property-images" class="modal-publish__upload-input" accept="image/*" multiple>
-                        <span class="modal-publish__upload-icon" aria-hidden="true">📁</span>
-                        <span class="modal-publish__upload-text">
-                            Arrastra y suelta tus fotografías o <span>haz clic para seleccionarlas</span>
-                        </span>
-                        <span class="modal-publish__upload-note">Formatos JPG o PNG. Recomendado: mínimo 1200px por lado.</span>
-                    </label>
-                </div>
-
-                <div class="modal-publish__field">
-                    <label for="publish-location" class="modal-publish__label">Ubicación</label>
-                    <div class="modal-publish__input-wrapper">
-                        <span class="modal-publish__input-icon" aria-hidden="true">📍</span>
-                        <input type="text" id="publish-location" name="property-location" class="modal-publish__input" placeholder="Ingresa colonia, ciudad o dirección aproximada" required>
-                    </div>
-                    <p class="modal-publish__hint">Comparte una ubicación referencial para ayudar a tus clientes a identificar la zona.</p>
-                </div>
-
-                <footer class="modal-publish__footer modal-publish__footer--end">
-                    <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-finish disabled>
-                        Guardar y continuar
-                    </button>
-                </footer>
-            </form>
         </div>
     </div>
 </div>

@@ -17,21 +17,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const steps = Array.from(modal.querySelectorAll('.modal-publish__step'));
         const summaryBadges = {
             purpose: modal.querySelector('[data-selection-purpose]'),
-            type: modal.querySelector('[data-selection-type]'),
-            title: modal.querySelector('[data-selection-title]')
+            type: modal.querySelector('[data-selection-type]')
         };
         const purposeOptions = Array.from(modal.querySelectorAll('[data-purpose]'));
         const typeOptions = Array.from(modal.querySelectorAll('[data-type]'));
-        const backButtons = Array.from(modal.querySelectorAll('[data-publish-back]'));
-        const continueButton = modal.querySelector('[data-publish-continue]');
+        const backButton = modal.querySelector('[data-publish-back]');
         const finishButton = modal.querySelector('[data-publish-finish]');
-        const detailsForm = modal.querySelector('[data-publish-form]');
-        const firstDetailField = detailsForm ? detailsForm.querySelector('input, textarea') : null;
 
         let publishState = {
             purpose: null,
-            type: null,
-            title: ''
+            type: null
         };
 
         const setBadge = (badge, label) => {
@@ -65,20 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const resetPublishState = () => {
-            publishState = { purpose: null, type: null, title: '' };
+            publishState = { purpose: null, type: null };
             toggleOptionSelection(purposeOptions, null);
             toggleOptionSelection(typeOptions, null);
             setBadge(summaryBadges.purpose, '');
             setBadge(summaryBadges.type, '');
-            setBadge(summaryBadges.title, '');
-            if (continueButton) {
-                continueButton.disabled = true;
-            }
             if (finishButton) {
                 finishButton.disabled = true;
-            }
-            if (detailsForm) {
-                detailsForm.reset();
             }
             showStep('purpose');
         };
@@ -133,16 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 publishState.type = null;
                 toggleOptionSelection(typeOptions, null);
                 setBadge(summaryBadges.type, '');
-                setBadge(summaryBadges.title, '');
-                publishState.title = '';
                 if (finishButton) {
                     finishButton.disabled = true;
-                }
-                if (continueButton) {
-                    continueButton.disabled = true;
-                }
-                if (detailsForm) {
-                    detailsForm.reset();
                 }
                 showStep('type');
             });
@@ -153,74 +133,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 publishState.type = option.dataset.type || null;
                 toggleOptionSelection(typeOptions, option);
                 setBadge(summaryBadges.type, option.dataset.label || '');
-                if (continueButton) {
-                    continueButton.disabled = false;
+                if (finishButton) {
+                    finishButton.disabled = false;
                 }
             });
         });
 
-        const updateFinishState = () => {
-            if (!finishButton || !detailsForm) {
-                return;
-            }
-            finishButton.disabled = !detailsForm.checkValidity();
-        };
-
-        if (detailsForm) {
-            detailsForm.addEventListener('input', updateFinishState);
-            detailsForm.addEventListener('change', updateFinishState);
-        }
-
-        if (continueButton) {
-            continueButton.addEventListener('click', event => {
+        if (backButton) {
+            backButton.addEventListener('click', event => {
                 event.preventDefault();
-                if (continueButton.disabled) {
-                    return;
-                }
-                showStep('details');
-                if (firstDetailField) {
-                    firstDetailField.focus();
-                }
-                updateFinishState();
-            });
-        }
-
-        backButtons.forEach(button => {
-            button.addEventListener('click', event => {
-                event.preventDefault();
-                const targetStep = button.dataset.publishBack || 'purpose';
-                showStep(targetStep);
-                if (targetStep === 'purpose') {
-                    if (continueButton) {
-                        continueButton.disabled = true;
-                    }
-                    if (finishButton) {
-                        finishButton.disabled = true;
-                    }
-                }
-                if (targetStep === 'type' && continueButton) {
-                    continueButton.disabled = !publishState.type;
+                showStep('purpose');
+                if (finishButton) {
+                    finishButton.disabled = !publishState.type;
                 }
             });
-        });
-
-        const titleInput = detailsForm ? detailsForm.querySelector('[name="property-title"]') : null;
-        if (titleInput) {
-            const handleTitleUpdate = () => {
-                publishState.title = titleInput.value.trim();
-                setBadge(summaryBadges.title, publishState.title);
-            };
-            titleInput.addEventListener('input', handleTitleUpdate);
-            titleInput.addEventListener('change', handleTitleUpdate);
         }
 
         if (finishButton) {
             finishButton.addEventListener('click', event => {
                 event.preventDefault();
                 if (finishButton.disabled) {
-                    return;
-                }
-                if (detailsForm && !detailsForm.reportValidity()) {
                     return;
                 }
                 closeModal();
