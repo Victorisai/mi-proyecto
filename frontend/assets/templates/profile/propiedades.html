@@ -129,3 +129,66 @@
         </div>
     </div>
 </div>
+
+<div class="modal" data-modal="publish-details" aria-hidden="true" role="dialog">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog modal-publish-details" role="document">
+        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+        <header class="modal-publish-details__header">
+            <span class="modal-publish-details__badge">Ficha profesional</span>
+            <h2 class="modal__title">Comparte los detalles clave</h2>
+            <p class="modal__subtitle">Completa la información esencial para que tu propiedad destaque.</p>
+        </header>
+        <form class="publish-details" novalidate>
+            <div class="publish-details__grid">
+                <div class="publish-details__field">
+                    <label for="publish-title">Título del anuncio</label>
+                    <input type="text" id="publish-title" name="title" placeholder="Ej. Residencia moderna en Puerto Cancún" required>
+                    <span class="publish-details__hint">Usa un título atractivo que resalte el valor principal.</span>
+                </div>
+                <div class="publish-details__field">
+                    <label for="publish-location">Ubicación</label>
+                    <div class="publish-details__location">
+                        <input type="text" id="publish-location" name="location" placeholder="Ciudad, colonia o desarrollo" required>
+                        <button type="button" class="publish-details__location-btn" aria-label="Localizar en mapa">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <span class="publish-details__hint">Comparte la zona o punto de referencia más conocido.</span>
+                </div>
+            </div>
+
+            <div class="publish-details__field">
+                <label for="publish-description">Descripción destacada</label>
+                <textarea id="publish-description" name="description" rows="5" placeholder="Describe amenidades, distribución, acabados y cualquier detalle relevante." required></textarea>
+                <span class="publish-details__hint">Incluye los diferenciales de la propiedad y detalles que inspiren confianza.</span>
+            </div>
+
+            <div class="publish-details__field">
+                <label for="publish-images">Galería fotográfica</label>
+                <div class="publish-details__upload" role="group" aria-labelledby="publish-images">
+                    <input type="file" id="publish-images" name="images" accept="image/*" multiple class="publish-details__file-input" hidden>
+                    <div class="publish-details__upload-illustration" aria-hidden="true">
+                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="8" y="12" width="48" height="40" rx="10" fill="rgba(59,130,246,0.1)"/>
+                            <path d="M16 36l8-10 10 13 6-7 8 10" fill="none" stroke="#3b82f6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                            <circle cx="24" cy="24" r="4" fill="#3b82f6"/>
+                        </svg>
+                    </div>
+                    <div class="publish-details__upload-copy">
+                        <strong>Arrastra y suelta tus imágenes</strong>
+                        <span>Admite JPG, PNG o WebP. Peso recomendado: &lt; 5MB por archivo.</span>
+                        <button type="button" class="publish-details__upload-btn">Seleccionar archivos</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="publish-details__actions">
+                <button type="button" class="modal__action" data-modal-close>Completar más tarde</button>
+                <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary">Guardar y continuar</button>
+            </div>
+        </form>
+    </div>
+</div>
