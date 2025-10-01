@@ -73,7 +73,7 @@
         </div>
 
         <div class="modal-publish__step" data-step="type" role="group" aria-labelledby="publish-type-title">
-            <button type="button" class="modal-publish__back" data-publish-back>
+            <button type="button" class="modal-publish__back" data-publish-back="purpose">
                 <span aria-hidden="true">&#8592;</span>
                 Volver
             </button>
@@ -121,11 +121,77 @@
                     <span class="modal-publish__label">Desarrollo</span>
                 </button>
             </div>
-            <footer class="modal-publish__footer">
-                <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-finish disabled>
-                    Continuar con la publicación
-                </button>
-            </footer>
+        </div>
+
+        <div class="modal-publish__step" data-step="details" role="group" aria-labelledby="publish-details-title">
+            <button type="button" class="modal-publish__back" data-publish-back="type">
+                <span aria-hidden="true">&#8592;</span>
+                Volver a tipos de propiedad
+            </button>
+            <h2 class="modal__title" id="publish-details-title">Personaliza tu anuncio</h2>
+            <p class="modal__subtitle">Completa la información clave para cautivar a tus futuros clientes.</p>
+            <form class="modal-publish__form" data-publish-form>
+                <div class="modal-publish__field">
+                    <label class="modal-publish__label-text" for="publish-title">Título del anuncio</label>
+                    <input type="text" id="publish-title" name="property-title" class="modal-publish__control" placeholder="Ej. Residencia contemporánea con alberca en zona norte" required>
+                    <p class="modal-publish__help">Utiliza un título descriptivo que resalte el atributo más atractivo de tu propiedad.</p>
+                </div>
+
+                <div class="modal-publish__field">
+                    <label class="modal-publish__label-text" for="publish-description">Descripción detallada</label>
+                    <textarea id="publish-description" name="property-description" class="modal-publish__control modal-publish__control--textarea" rows="6" placeholder="Describe distribución, amenidades, renovaciones y cualquier detalle que ayude a dimensionar el inmueble." required></textarea>
+                    <p class="modal-publish__help">Incluye información sobre acabados, orientación, amenidades, mantenimiento y puntos de interés cercanos.</p>
+                </div>
+
+                <div class="modal-publish__field">
+                    <span class="modal-publish__label-text">Galería de imágenes</span>
+                    <div class="modal-publish__upload" data-publish-dropzone>
+                        <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                            <path d="M24 10v20" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+                            <path d="M34 20H14" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"/>
+                            <rect x="6" y="16" width="36" height="24" rx="8" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="1.5"/>
+                        </svg>
+                        <p class="modal-publish__upload-text">Arrastra y suelta tus imágenes en alta resolución o</p>
+                        <label class="modal-publish__upload-action" for="publish-images">
+                            <input type="file" id="publish-images" name="property-images" class="modal-publish__file-input" accept="image/*" multiple>
+                            Seleccionar archivos
+                        </label>
+                        <p class="modal-publish__help">Carga al menos 5 fotografías horizontales, de 1920 px o más, para destacar cada ambiente.</p>
+                    </div>
+                    <ul class="modal-publish__upload-list" data-upload-list hidden></ul>
+                </div>
+
+                <div class="modal-publish__field">
+                    <span class="modal-publish__label-text">Ubicación</span>
+                    <div class="modal-publish__field-grid">
+                        <label class="modal-publish__subfield" for="publish-address">
+                            <span>Dirección completa</span>
+                            <input type="text" id="publish-address" name="property-address" class="modal-publish__control" placeholder="Calle, número y colonia" required data-location-input>
+                        </label>
+                        <label class="modal-publish__subfield" for="publish-city">
+                            <span>Ciudad</span>
+                            <input type="text" id="publish-city" name="property-city" class="modal-publish__control" placeholder="Ej. Mérida" data-location-input>
+                        </label>
+                        <label class="modal-publish__subfield" for="publish-state">
+                            <span>Estado</span>
+                            <input type="text" id="publish-state" name="property-state" class="modal-publish__control" placeholder="Ej. Yucatán" data-location-input>
+                        </label>
+                        <label class="modal-publish__subfield" for="publish-zip">
+                            <span>Código postal</span>
+                            <input type="text" id="publish-zip" name="property-zip" class="modal-publish__control" placeholder="Ej. 97115" data-location-input>
+                        </label>
+                    </div>
+                    <div class="modal-publish__map" role="presentation" aria-hidden="true">
+                        <div class="modal-publish__map-preview">Vista previa del mapa</div>
+                        <p class="modal-publish__help">Una vez publiques, podrás ajustar el pin en el mapa para asegurar la localización exacta.</p>
+                    </div>
+                </div>
+
+                <footer class="modal-publish__footer modal-publish__footer--form">
+                    <button type="button" class="dashboard__action-btn" data-publish-save>Guardar borrador</button>
+                    <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-finish disabled>Publicar propiedad</button>
+                </footer>
+            </form>
         </div>
     </div>
 </div>

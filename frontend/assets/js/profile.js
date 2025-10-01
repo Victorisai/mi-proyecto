@@ -21,12 +21,68 @@ document.addEventListener('DOMContentLoaded', () => {
         };
         const purposeOptions = Array.from(modal.querySelectorAll('[data-purpose]'));
         const typeOptions = Array.from(modal.querySelectorAll('[data-type]'));
-        const backButton = modal.querySelector('[data-publish-back]');
+        const backButtons = Array.from(modal.querySelectorAll('[data-publish-back]'));
         const finishButton = modal.querySelector('[data-publish-finish]');
+        const detailsForm = modal.querySelector('[data-publish-form]');
+        const titleInput = modal.querySelector('[name="property-title"]');
+        const descriptionInput = modal.querySelector('[name="property-description"]');
+        const imagesInput = modal.querySelector('[name="property-images"]');
+        const uploadList = modal.querySelector('[data-upload-list]');
+        const dropzone = modal.querySelector('[data-publish-dropzone]');
+        const locationInputs = Array.from(modal.querySelectorAll('[data-location-input]'));
 
         let publishState = {
             purpose: null,
             type: null
+        };
+
+        const clearUploadList = () => {
+            if (!uploadList) {
+                return;
+            }
+            uploadList.innerHTML = '';
+            uploadList.hidden = true;
+        };
+
+        const renderUploadList = files => {
+            if (!uploadList) {
+                return;
+            }
+
+            clearUploadList();
+
+            if (!files || !files.length) {
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+
+            Array.from(files).forEach(file => {
+                const item = document.createElement('li');
+                item.className = 'modal-publish__upload-item';
+                item.textContent = file.name;
+                const size = document.createElement('span');
+                size.textContent = `${Math.round(file.size / 1024)} KB`;
+                size.setAttribute('aria-hidden', 'true');
+                item.appendChild(size);
+                fragment.appendChild(item);
+            });
+
+            uploadList.appendChild(fragment);
+            uploadList.hidden = false;
+        };
+
+        const updateFinishState = () => {
+            if (!finishButton) {
+                return;
+            }
+
+            const hasTitle = titleInput && titleInput.value.trim().length > 0;
+            const hasDescription = descriptionInput && descriptionInput.value.trim().length > 0;
+            const hasAddress = locationInputs.length === 0 || locationInputs.some(input => input.name === 'property-address' && input.value.trim().length > 0);
+            const hasImages = imagesInput && imagesInput.files && imagesInput.files.length > 0;
+
+            finishButton.disabled = !(hasTitle && hasDescription && hasAddress && hasImages);
         };
 
         const setBadge = (badge, label) => {
@@ -65,9 +121,11 @@ document.addEventListener('DOMContentLoaded', () => {
             toggleOptionSelection(typeOptions, null);
             setBadge(summaryBadges.purpose, '');
             setBadge(summaryBadges.type, '');
-            if (finishButton) {
-                finishButton.disabled = true;
+            clearUploadList();
+            if (detailsForm) {
+                detailsForm.reset();
             }
+            updateFinishState();
             showStep('purpose');
         };
 
@@ -121,9 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 publishState.type = null;
                 toggleOptionSelection(typeOptions, null);
                 setBadge(summaryBadges.type, '');
-                if (finishButton) {
-                    finishButton.disabled = true;
-                }
+                updateFinishState();
                 showStep('type');
             });
         });
@@ -133,29 +189,93 @@ document.addEventListener('DOMContentLoaded', () => {
                 publishState.type = option.dataset.type || null;
                 toggleOptionSelection(typeOptions, option);
                 setBadge(summaryBadges.type, option.dataset.label || '');
-                if (finishButton) {
-                    finishButton.disabled = false;
+                showStep('details');
+                updateFinishState();
+                if (titleInput) {
+                    window.requestAnimationFrame(() => {
+                        titleInput.focus();
+                    });
                 }
             });
         });
 
-        if (backButton) {
-            backButton.addEventListener('click', event => {
+        backButtons.forEach(button => {
+            button.addEventListener('click', event => {
                 event.preventDefault();
-                showStep('purpose');
-                if (finishButton) {
-                    finishButton.disabled = !publishState.type;
-                }
+                const target = button.dataset.publishBack || 'purpose';
+                showStep(target);
+                updateFinishState();
             });
-        }
+        });
 
-        if (finishButton) {
-            finishButton.addEventListener('click', event => {
+        if (detailsForm) {
+            detailsForm.addEventListener('submit', event => {
                 event.preventDefault();
-                if (finishButton.disabled) {
+                updateFinishState();
+                if (finishButton && finishButton.disabled) {
                     return;
                 }
                 closeModal();
+            });
+        }
+
+        if (titleInput) {
+            titleInput.addEventListener('input', updateFinishState);
+        }
+
+        if (descriptionInput) {
+            descriptionInput.addEventListener('input', updateFinishState);
+        }
+
+        locationInputs.forEach(input => {
+            input.addEventListener('input', updateFinishState);
+        });
+
+        if (imagesInput) {
+            imagesInput.addEventListener('change', () => {
+                renderUploadList(imagesInput.files);
+                updateFinishState();
+            });
+        }
+
+        if (dropzone) {
+            const toggleDropzoneState = isActive => {
+                dropzone.classList.toggle('is-active', isActive);
+            };
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, event => {
+                    event.preventDefault();
+                    toggleDropzoneState(true);
+                });
+            });
+
+            ['dragleave', 'dragend', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, () => {
+                    toggleDropzoneState(false);
+                });
+            });
+
+            dropzone.addEventListener('drop', event => {
+                event.preventDefault();
+                if (!imagesInput) {
+                    return;
+                }
+                const { files } = event.dataTransfer || {};
+                if (files && files.length) {
+                    try {
+                        if (typeof DataTransfer !== 'undefined') {
+                            const dataTransfer = new DataTransfer();
+                            Array.from(files).forEach(file => dataTransfer.items.add(file));
+                            imagesInput.files = dataTransfer.files;
+                        } else {
+                            imagesInput.files = files;
+                        }
+                    } catch (error) {
+                        imagesInput.files = files;
+                    }
+                    imagesInput.dispatchEvent(new Event('change', { bubbles: true }));
+                }
             });
         }
     };
