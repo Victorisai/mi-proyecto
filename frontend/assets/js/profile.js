@@ -23,6 +23,83 @@ document.addEventListener('DOMContentLoaded', () => {
         const typeOptions = Array.from(modal.querySelectorAll('[data-type]'));
         const backButton = modal.querySelector('[data-publish-back]');
         const finishButton = modal.querySelector('[data-publish-finish]');
+        const detailsModal = panel.querySelector('[data-modal="publish-details"]');
+
+        const createModalController = (modalElement) => {
+            if (!modalElement) {
+                return null;
+            }
+
+            const closers = Array.from(modalElement.querySelectorAll('[data-modal-close]'));
+            const firstField = modalElement.querySelector('input, textarea, select, button');
+
+            const updateAriaState = (isOpen) => {
+                modalElement.setAttribute('aria-hidden', String(!isOpen));
+                if (isOpen) {
+                    modalElement.setAttribute('aria-modal', 'true');
+                } else {
+                    modalElement.removeAttribute('aria-modal');
+                }
+            };
+
+            const handleKeyDown = (event) => {
+                if (event.key === 'Escape') {
+                    close();
+                }
+            };
+
+            const close = () => {
+                modalElement.classList.remove('modal--visible');
+                updateAriaState(false);
+                document.removeEventListener('keydown', handleKeyDown);
+            };
+
+            const open = () => {
+                modalElement.classList.add('modal--visible');
+                updateAriaState(true);
+                document.addEventListener('keydown', handleKeyDown);
+                if (firstField) {
+                    setTimeout(() => firstField.focus(), 50);
+                }
+            };
+
+            closers.forEach(closer => {
+                closer.addEventListener('click', event => {
+                    event.preventDefault();
+                    close();
+                });
+            });
+
+            const fileInput = modalElement.querySelector('.publish-details__file-input');
+            const uploadButton = modalElement.querySelector('.publish-details__upload-btn');
+            const uploadArea = modalElement.querySelector('.publish-details__upload');
+
+            const triggerFileDialog = () => {
+                if (fileInput) {
+                    fileInput.click();
+                }
+            };
+
+            if (uploadButton && fileInput) {
+                uploadButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    triggerFileDialog();
+                });
+            }
+
+            if (uploadArea && fileInput) {
+                uploadArea.addEventListener('click', event => {
+                    if (event.target.closest('button') || event.target === fileInput) {
+                        return;
+                    }
+                    triggerFileDialog();
+                });
+            }
+
+            return { open, close };
+        };
+
+        const detailsModalController = createModalController(detailsModal);
 
         let publishState = {
             purpose: null,
@@ -156,6 +233,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 closeModal();
+                if (detailsModalController) {
+                    detailsModalController.open();
+                }
             });
         }
     };
