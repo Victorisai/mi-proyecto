@@ -231,6 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     indexBadge.className = 'publish-details__gallery-index';
                     indexBadge.textContent = String(index + 1);
 
+                    const info = document.createElement('div');
+                    info.className = 'publish-details__gallery-info';
+
                     const name = document.createElement('span');
                     name.className = 'publish-details__gallery-name';
                     name.title = item.file.name;
@@ -239,6 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const meta = document.createElement('span');
                     meta.className = 'publish-details__gallery-meta';
                     meta.textContent = formatFileSize(item.file.size);
+
+                    info.append(name, meta);
 
                     const actions = document.createElement('div');
                     actions.className = 'publish-details__gallery-actions';
@@ -259,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
 
                     actions.append(handleIcon, removeButton);
-                    footer.append(indexBadge, name, meta, actions);
+                    footer.append(indexBadge, info, actions);
                     listItem.append(image, footer);
 
                     listItem.addEventListener('dragstart', handleItemDragStart);
