@@ -184,9 +184,35 @@
                     </div>
                 </div>
                 <div class="publish-details__gallery" aria-live="polite" data-empty="true">
+                    <div class="publish-details__gallery-status" data-gallery-status data-state="empty">
+                        <div class="publish-details__gallery-status-main">
+                            <span class="publish-details__gallery-count"><strong data-gallery-count>0</strong> imágenes cargadas</span>
+                            <span class="publish-details__gallery-note" data-gallery-cover>La portada se asignará a la primera imagen que cargues.</span>
+                        </div>
+                        <div class="publish-details__gallery-progress" data-gallery-progress-wrapper role="img" aria-label="Progreso de la galería 0% listo">
+                            <div class="publish-details__gallery-progress-track">
+                                <div class="publish-details__gallery-progress-bar" data-gallery-progress style="width: 0%;"></div>
+                            </div>
+                            <span class="publish-details__gallery-progress-label" data-gallery-progress-label>0% listo</span>
+                        </div>
+                    </div>
                     <div class="publish-details__gallery-placeholder" data-gallery-placeholder>
-                        <strong>Aquí verás la vista previa de tu galería.</strong>
-                        <span>Organiza el orden arrastrando cada imagen. La primera será la portada de tu anuncio.</span>
+                        <span class="publish-details__gallery-placeholder-icon" aria-hidden="true">
+                            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                <rect x="5" y="9" width="46" height="36" rx="10" fill="rgba(59,130,246,0.12)" />
+                                <path d="M16 32l7-9 8 11 5-6 6 7" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                                <circle cx="21" cy="22" r="4" fill="#2563eb" fill-opacity="0.85" />
+                            </svg>
+                        </span>
+                        <div class="publish-details__gallery-placeholder-copy">
+                            <strong>Aquí verás la vista previa de tu galería.</strong>
+                            <p>Ordena las fotografías para narrar un recorrido atractivo: inicia con la fachada, continúa con las áreas sociales y finaliza con los detalles clave.</p>
+                            <ul class="publish-details__gallery-tips">
+                                <li>Utiliza imágenes horizontales en alta resolución y buena iluminación.</li>
+                                <li>Incluye al menos una foto por espacio destacado y amenidad relevante.</li>
+                                <li>Añade planos, renders o vistas aéreas si cuentas con ellos.</li>
+                            </ul>
+                        </div>
                     </div>
                     <ul class="publish-details__gallery-list" data-gallery-list></ul>
                 </div>

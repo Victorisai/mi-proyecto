@@ -37,7 +37,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const uploadArea = modalElement.querySelector('.publish-details__upload');
             const galleryContainer = modalElement.querySelector('.publish-details__gallery');
             const galleryList = modalElement.querySelector('[data-gallery-list]');
+            const galleryStatus = modalElement.querySelector('[data-gallery-status]');
+            const galleryCount = modalElement.querySelector('[data-gallery-count]');
+            const galleryProgress = modalElement.querySelector('[data-gallery-progress]');
+            const galleryProgressWrapper = modalElement.querySelector('[data-gallery-progress-wrapper]');
+            const galleryProgressLabel = modalElement.querySelector('[data-gallery-progress-label]');
+            const galleryCover = modalElement.querySelector('[data-gallery-cover]');
             const galleryItems = [];
+            const recommendedGallerySize = 12;
             let dragSourceIndex = null;
 
             const updateAriaState = (isOpen) => {
@@ -111,7 +118,45 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!galleryContainer) {
                     return;
                 }
-                galleryContainer.dataset.empty = galleryItems.length ? 'false' : 'true';
+
+                const count = galleryItems.length;
+                const isEmpty = count === 0;
+                const percentage = Math.min(Math.round((count / recommendedGallerySize) * 100), 100);
+                const statusState = isEmpty ? 'empty' : (count >= recommendedGallerySize ? 'complete' : 'filled');
+
+                galleryContainer.dataset.empty = isEmpty ? 'true' : 'false';
+
+                if (galleryStatus) {
+                    galleryStatus.dataset.state = statusState;
+                }
+
+                if (galleryCount) {
+                    galleryCount.textContent = String(count);
+                }
+
+                if (galleryCover) {
+                    galleryCover.textContent = isEmpty
+                        ? 'La portada se asignará a la primera imagen que cargues.'
+                        : `Portada actual: ${formatFileName(galleryItems[0].file.name)}`;
+                }
+
+                if (galleryProgress) {
+                    galleryProgress.style.width = `${percentage}%`;
+                    galleryProgress.setAttribute('data-progress-value', String(percentage));
+                }
+
+                if (galleryProgressLabel) {
+                    galleryProgressLabel.textContent = count >= recommendedGallerySize
+                        ? 'Galería lista'
+                        : `${count}/${recommendedGallerySize} sugeridas`;
+                }
+
+                if (galleryProgressWrapper) {
+                    const label = statusState === 'complete'
+                        ? 'Progreso de la galería completado'
+                        : `Progreso de la galería ${percentage}% listo`;
+                    galleryProgressWrapper.setAttribute('aria-label', label);
+                }
             };
 
             const removeGalleryItem = (index) => {
