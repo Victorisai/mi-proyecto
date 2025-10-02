@@ -6731,6 +6731,12 @@ body.profile-page {
     cursor: pointer;
 }
 
+.publish-details__upload.is-dragover {
+    border-color: rgba(37, 99, 235, 0.7);
+    background: linear-gradient(135deg, rgba(191, 219, 254, 0.6), rgba(191, 219, 254, 0.4));
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+}
+
 .publish-details__file-input {
     display: none;
 }
@@ -6775,6 +6781,161 @@ body.profile-page {
 .publish-details__upload-btn:focus {
     transform: translateY(-1px);
     box-shadow: 0 16px 30px rgba(37, 99, 235, 0.3);
+}
+
+.publish-details__gallery {
+    margin-top: 1.5rem;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    border-radius: 18px;
+    padding: 1.5rem;
+    background-color: #ffffff;
+    box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.12);
+}
+
+.publish-details__gallery-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-align: center;
+    color: #475569;
+    font-size: 0.9rem;
+}
+
+.publish-details__gallery-placeholder strong {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.publish-details__gallery-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.publish-details__gallery[data-empty="true"] .publish-details__gallery-list {
+    display: none;
+}
+
+.publish-details__gallery[data-empty="true"] .publish-details__gallery-placeholder {
+    display: flex;
+}
+
+.publish-details__gallery:not([data-empty="true"]) .publish-details__gallery-placeholder {
+    display: none;
+}
+
+.publish-details__gallery-item {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.publish-details__gallery-item:active {
+    cursor: grabbing;
+    transform: scale(0.98);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+}
+
+.publish-details__gallery-item.is-dragging {
+    opacity: 0.65;
+    border-color: rgba(37, 99, 235, 0.55);
+}
+
+.publish-details__gallery-thumb {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    display: block;
+}
+
+.publish-details__gallery-item footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 0.75rem;
+    background: rgba(15, 23, 42, 0.04);
+    font-size: 0.8rem;
+    color: #1e293b;
+    gap: 0.5rem;
+}
+
+.publish-details__gallery-name {
+    flex: 1;
+    min-width: 0;
+    font-weight: 500;
+    color: #1f2937;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.publish-details__gallery-meta {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.publish-details__gallery-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 999px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.publish-details__gallery-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-left: auto;
+}
+
+.publish-details__gallery-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(37, 99, 235, 0.35);
+    background: rgba(37, 99, 235, 0.08);
+    color: #1d4ed8;
+    font-size: 0.85rem;
+    pointer-events: none;
+}
+
+.publish-details__gallery-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 999px;
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.publish-details__gallery-remove:hover,
+.publish-details__gallery-remove:focus {
+    background: rgba(239, 68, 68, 0.16);
+    color: #dc2626;
 }
 
 .publish-details__actions {

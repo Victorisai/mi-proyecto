@@ -32,6 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const closers = Array.from(modalElement.querySelectorAll('[data-modal-close]'));
             const firstField = modalElement.querySelector('input, textarea, select, button');
+            const fileInput = modalElement.querySelector('.publish-details__file-input');
+            const uploadButton = modalElement.querySelector('.publish-details__upload-btn');
+            const uploadArea = modalElement.querySelector('.publish-details__upload');
+            const galleryContainer = modalElement.querySelector('.publish-details__gallery');
+            const galleryList = modalElement.querySelector('[data-gallery-list]');
+            const galleryItems = [];
+            let dragSourceIndex = null;
 
             const updateAriaState = (isOpen) => {
                 modalElement.setAttribute('aria-hidden', String(!isOpen));
@@ -52,6 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalElement.classList.remove('modal--visible');
                 updateAriaState(false);
                 document.removeEventListener('keydown', handleKeyDown);
+                dragSourceIndex = null;
+                if (uploadArea) {
+                    uploadArea.classList.remove('is-dragover');
+                }
             };
 
             const open = () => {
@@ -70,9 +81,176 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
-            const fileInput = modalElement.querySelector('.publish-details__file-input');
-            const uploadButton = modalElement.querySelector('.publish-details__upload-btn');
-            const uploadArea = modalElement.querySelector('.publish-details__upload');
+            const formatFileName = (name = '') => {
+                if (name.length <= 32) {
+                    return name;
+                }
+                const start = name.slice(0, 18);
+                const end = name.slice(-10);
+                return `${start}…${end}`;
+            };
+
+            const formatFileSize = (size = 0) => {
+                if (size <= 0) {
+                    return '';
+                }
+                const kilobytes = size / 1024;
+                if (kilobytes < 1024) {
+                    return `${kilobytes.toFixed(1)} KB`;
+                }
+                return `${(kilobytes / 1024).toFixed(2)} MB`;
+            };
+
+            const revokePreview = (item) => {
+                if (item && item.previewUrl) {
+                    URL.revokeObjectURL(item.previewUrl);
+                }
+            };
+
+            const updateGalleryEmptyState = () => {
+                if (!galleryContainer) {
+                    return;
+                }
+                galleryContainer.dataset.empty = galleryItems.length ? 'false' : 'true';
+            };
+
+            const removeGalleryItem = (index) => {
+                if (index < 0 || index >= galleryItems.length) {
+                    return;
+                }
+                const [removed] = galleryItems.splice(index, 1);
+                revokePreview(removed);
+                renderGallery();
+            };
+
+            const handleItemDragStart = (event) => {
+                const target = event.currentTarget;
+                dragSourceIndex = Number(target.dataset.index);
+                target.classList.add('is-dragging');
+                if (event.dataTransfer) {
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', String(dragSourceIndex));
+                }
+            };
+
+            const handleItemDragOver = (event) => {
+                event.preventDefault();
+                if (event.dataTransfer) {
+                    event.dataTransfer.dropEffect = 'move';
+                }
+            };
+
+            const handleItemDrop = (event) => {
+                event.preventDefault();
+                const targetIndex = Number(event.currentTarget.dataset.index);
+                if (
+                    Number.isInteger(dragSourceIndex) &&
+                    dragSourceIndex !== null &&
+                    dragSourceIndex !== targetIndex &&
+                    targetIndex >= 0 &&
+                    targetIndex < galleryItems.length
+                ) {
+                    const [movedItem] = galleryItems.splice(dragSourceIndex, 1);
+                    galleryItems.splice(targetIndex, 0, movedItem);
+                    renderGallery();
+                }
+                dragSourceIndex = null;
+            };
+
+            const handleItemDragEnd = (event) => {
+                event.currentTarget.classList.remove('is-dragging');
+            };
+
+            const renderGallery = () => {
+                if (!galleryList) {
+                    return;
+                }
+
+                galleryList.innerHTML = '';
+                updateGalleryEmptyState();
+
+                galleryItems.forEach((item, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'publish-details__gallery-item';
+                    listItem.draggable = true;
+                    listItem.dataset.index = String(index);
+
+                    const image = document.createElement('img');
+                    image.className = 'publish-details__gallery-thumb';
+                    image.src = item.previewUrl;
+                    image.alt = `Vista previa ${index + 1}`;
+
+                    const footer = document.createElement('footer');
+
+                    const indexBadge = document.createElement('span');
+                    indexBadge.className = 'publish-details__gallery-index';
+                    indexBadge.textContent = String(index + 1);
+
+                    const name = document.createElement('span');
+                    name.className = 'publish-details__gallery-name';
+                    name.title = item.file.name;
+                    name.textContent = formatFileName(item.file.name);
+
+                    const meta = document.createElement('span');
+                    meta.className = 'publish-details__gallery-meta';
+                    meta.textContent = formatFileSize(item.file.size);
+
+                    const actions = document.createElement('div');
+                    actions.className = 'publish-details__gallery-actions';
+
+                    const handleIcon = document.createElement('span');
+                    handleIcon.className = 'publish-details__gallery-handle';
+                    handleIcon.setAttribute('aria-hidden', 'true');
+                    handleIcon.innerHTML = '&#8942;';
+
+                    const removeButton = document.createElement('button');
+                    removeButton.type = 'button';
+                    removeButton.className = 'publish-details__gallery-remove';
+                    removeButton.setAttribute('aria-label', `Quitar ${item.file.name}`);
+                    removeButton.innerHTML = '&times;';
+                    removeButton.addEventListener('click', (event) => {
+                        event.preventDefault();
+                        removeGalleryItem(index);
+                    });
+
+                    actions.append(handleIcon, removeButton);
+                    footer.append(indexBadge, name, meta, actions);
+                    listItem.append(image, footer);
+
+                    listItem.addEventListener('dragstart', handleItemDragStart);
+                    listItem.addEventListener('dragover', handleItemDragOver);
+                    listItem.addEventListener('drop', handleItemDrop);
+                    listItem.addEventListener('dragend', handleItemDragEnd);
+
+                    galleryList.append(listItem);
+                });
+            };
+
+            const addFilesToGallery = (files) => {
+                if (!files || !files.length) {
+                    return;
+                }
+
+                Array.from(files).forEach(file => {
+                    if (!file.type.startsWith('image/')) {
+                        return;
+                    }
+
+                    const identifier = `${file.name}-${file.lastModified}-${file.size}`;
+                    const isDuplicate = galleryItems.some(item => item.id === identifier);
+                    if (isDuplicate) {
+                        return;
+                    }
+
+                    galleryItems.push({
+                        id: identifier,
+                        file,
+                        previewUrl: URL.createObjectURL(file)
+                    });
+                });
+
+                renderGallery();
+            };
 
             const triggerFileDialog = () => {
                 if (fileInput) {
@@ -94,7 +272,56 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     triggerFileDialog();
                 });
+
+                const preventDefaults = (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                };
+
+                const activateDragState = (event) => {
+                    preventDefaults(event);
+                    uploadArea.classList.add('is-dragover');
+                };
+
+                const deactivateDragState = (event) => {
+                    preventDefaults(event);
+                    uploadArea.classList.remove('is-dragover');
+                };
+
+                ['dragenter', 'dragover'].forEach(type => {
+                    uploadArea.addEventListener(type, activateDragState);
+                });
+
+                ['dragleave', 'dragend'].forEach(type => {
+                    uploadArea.addEventListener(type, event => {
+                        preventDefaults(event);
+                        setTimeout(() => {
+                            if (!uploadArea.matches(':hover')) {
+                                uploadArea.classList.remove('is-dragover');
+                            }
+                        }, 50);
+                    });
+                });
+
+                uploadArea.addEventListener('drop', event => {
+                    deactivateDragState(event);
+                    if (event.dataTransfer?.files?.length) {
+                        addFilesToGallery(event.dataTransfer.files);
+                    }
+                });
             }
+
+            if (fileInput) {
+                fileInput.addEventListener('change', event => {
+                    const target = event.target;
+                    if (target && target.files) {
+                        addFilesToGallery(target.files);
+                        target.value = '';
+                    }
+                });
+            }
+
+            renderGallery();
 
             return { open, close };
         };
