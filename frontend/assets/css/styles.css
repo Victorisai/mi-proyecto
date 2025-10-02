@@ -6598,12 +6598,36 @@ body.profile-page {
 
 .modal-publish-details {
     max-width: 720px;
+    max-height: calc(100vh - 96px);
     padding: 48px 56px;
     text-align: left;
     display: flex;
     flex-direction: column;
     gap: 32px;
     background: linear-gradient(165deg, #ffffff 60%, rgba(219, 234, 254, 0.5));
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #60a5fa rgba(148, 163, 184, 0.18);
+    scrollbar-gutter: stable both-edges;
+}
+
+.modal-publish-details::-webkit-scrollbar {
+    width: 10px;
+}
+
+.modal-publish-details::-webkit-scrollbar-track {
+    background: rgba(226, 232, 240, 0.45);
+    border-radius: 999px;
+}
+
+.modal-publish-details::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #93c5fd, #3b82f6);
+    border-radius: 999px;
+    border: 2px solid rgba(226, 232, 240, 0.65);
+}
+
+.modal-publish-details::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #60a5fa, #2563eb);
 }
 
 .modal-publish-details__header {
