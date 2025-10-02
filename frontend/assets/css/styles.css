@@ -7018,14 +7018,16 @@ body.profile-page {
 }
 
 .publish-details__gallery-item footer {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.5rem 0.75rem;
+    column-gap: 0.75rem;
+    row-gap: 0.35rem;
+    padding: 0.65rem 0.85rem;
     background: rgba(15, 23, 42, 0.04);
     font-size: 0.8rem;
     color: #1e293b;
-    gap: 0.5rem;
 }
 
 .publish-details__gallery-name {
@@ -7036,11 +7038,16 @@ body.profile-page {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
+    grid-column: 2;
+    grid-row: 1;
 }
 
 .publish-details__gallery-meta {
     font-size: 0.75rem;
     color: #64748b;
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
 }
 
 .publish-details__gallery-index {
@@ -7054,13 +7061,16 @@ body.profile-page {
     color: #fff;
     font-weight: 600;
     font-size: 0.75rem;
+    grid-row: 1 / span 2;
 }
 
 .publish-details__gallery-actions {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    margin-left: auto;
+    justify-self: end;
+    grid-row: 1 / span 2;
+    align-self: center;
 }
 
 .publish-details__gallery-handle {
