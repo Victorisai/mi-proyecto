@@ -7127,12 +7127,14 @@ body.profile-page {
     flex-direction: column;
     gap: 24px;
     width: 100%;
+    max-width: 100%;
     padding: 28px 32px;
     border-radius: 28px;
     border: 1px solid rgba(148, 163, 184, 0.25);
     background: rgba(255, 255, 255, 0.92);
     box-shadow: 0 24px 36px -28px rgba(15, 23, 42, 0.45);
     box-sizing: border-box;
+    align-self: stretch;
 }
 
 .property-features__intro {
@@ -7206,17 +7208,22 @@ body.profile-page {
 @media (min-width: 768px) {
     .property-features__header {
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
+        flex-wrap: wrap;
+        row-gap: 24px;
+        column-gap: 32px;
     }
 
     .property-features__intro {
         max-width: 360px;
+        flex: 1 1 280px;
     }
 
     .property-features__type {
-        flex: 1 1 auto;
+        flex: 1 1 320px;
         align-items: center;
+        max-width: 100%;
     }
 }
 
