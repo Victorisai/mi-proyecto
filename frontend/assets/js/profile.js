@@ -225,28 +225,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     image.src = item.previewUrl;
                     image.alt = `Vista previa ${index + 1}`;
 
-                    const footer = document.createElement('footer');
+                    const overlay = document.createElement('div');
+                    overlay.className = 'publish-details__gallery-overlay';
 
                     const indexBadge = document.createElement('span');
                     indexBadge.className = 'publish-details__gallery-index';
                     indexBadge.textContent = String(index + 1);
-
-                    const name = document.createElement('span');
-                    name.className = 'publish-details__gallery-name';
-                    name.title = item.file.name;
-                    name.textContent = formatFileName(item.file.name);
-
-                    const meta = document.createElement('span');
-                    meta.className = 'publish-details__gallery-meta';
-                    meta.textContent = formatFileSize(item.file.size);
-
-                    const actions = document.createElement('div');
-                    actions.className = 'publish-details__gallery-actions';
-
-                    const handleIcon = document.createElement('span');
-                    handleIcon.className = 'publish-details__gallery-handle';
-                    handleIcon.setAttribute('aria-hidden', 'true');
-                    handleIcon.innerHTML = '&#8942;';
 
                     const removeButton = document.createElement('button');
                     removeButton.type = 'button';
@@ -258,9 +242,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         removeGalleryItem(index);
                     });
 
-                    actions.append(handleIcon, removeButton);
-                    footer.append(indexBadge, name, meta, actions);
-                    listItem.append(image, footer);
+                    overlay.append(indexBadge, removeButton);
+                    listItem.append(image, overlay);
 
                     listItem.addEventListener('dragstart', handleItemDragStart);
                     listItem.addEventListener('dragover', handleItemDragOver);
