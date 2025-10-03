@@ -7123,10 +7123,19 @@ body.profile-page {
 }
 
 .property-features__header {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    gap: 24px;
+    width: 100%;
+    max-width: 100%;
+    padding: 28px 32px;
+    border-radius: 28px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 36px -28px rgba(15, 23, 42, 0.45);
 }
+
 
 .property-features__badge {
     display: inline-flex;
