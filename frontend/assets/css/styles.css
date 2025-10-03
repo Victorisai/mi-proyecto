@@ -7125,7 +7125,24 @@ body.profile-page {
 .property-features__header {
     display: flex;
     flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    padding: 28px 32px;
+    border-radius: 28px;
+    border: 1px solid rgba(148, 163, 184, 0.25);
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 36px -28px rgba(15, 23, 42, 0.45);
+    box-sizing: border-box;
+}
+
+.property-features__intro {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
+}
+
+.property-features__intro .property-features__badge {
+    align-self: flex-start;
 }
 
 .property-features__badge {
@@ -7155,7 +7172,8 @@ body.profile-page {
 
 .property-features__type {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
     gap: 16px;
     padding: 16px 20px;
     border-radius: 18px;
@@ -7178,15 +7196,51 @@ body.profile-page {
     height: 32px;
 }
 
+.property-features__type-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+@media (min-width: 768px) {
+    .property-features__header {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .property-features__intro {
+        max-width: 360px;
+    }
+
+    .property-features__type {
+        flex: 1 1 auto;
+        align-items: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .property-features__header {
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .property-features__type {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
 .property-features__type-label {
-    font-weight: 700;
+    font-weight: 600;
     color: #0f172a;
 }
 
 .property-features__type-note {
     margin: 4px 0 0;
     color: #475569;
-    font-size: 0.92rem;
+    font-size: 0.9rem;
 }
 
 .property-features__empty {
