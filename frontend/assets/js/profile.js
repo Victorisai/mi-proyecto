@@ -240,13 +240,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     meta.className = 'publish-details__gallery-meta';
                     meta.textContent = formatFileSize(item.file.size);
 
+                    const info = document.createElement('div');
+                    info.className = 'publish-details__gallery-info';
+                    info.append(name, meta);
+
                     const actions = document.createElement('div');
                     actions.className = 'publish-details__gallery-actions';
-
-                    const handleIcon = document.createElement('span');
-                    handleIcon.className = 'publish-details__gallery-handle';
-                    handleIcon.setAttribute('aria-hidden', 'true');
-                    handleIcon.innerHTML = '&#8942;';
 
                     const removeButton = document.createElement('button');
                     removeButton.type = 'button';
@@ -258,8 +257,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         removeGalleryItem(index);
                     });
 
-                    actions.append(handleIcon, removeButton);
-                    footer.append(indexBadge, name, meta, actions);
+                    actions.append(removeButton);
+                    footer.append(indexBadge, info, actions);
                     listItem.append(image, footer);
 
                     listItem.addEventListener('dragstart', handleItemDragStart);
