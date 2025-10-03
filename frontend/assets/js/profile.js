@@ -54,6 +54,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const featureGroups = Array.from(modalElement.querySelectorAll('[data-feature-category]'));
             const featureTypeLabel = modalElement.querySelector('[data-feature-type-label]');
             const featureSummary = modalElement.querySelector('[data-feature-summary]');
+            const featureProgressBadge = modalElement.querySelector('[data-feature-progress]');
+            const featureOptionalBadge = modalElement.querySelector('[data-feature-optional]');
+            const featureProgressBar = modalElement.querySelector('[data-feature-progress-bar]');
+            const featureProgressFill = modalElement.querySelector('[data-feature-progress-fill]');
+            const featureProgressValue = modalElement.querySelector('[data-feature-progress-value]');
+            const featureSummaryCompleted = modalElement.querySelector('[data-feature-summary-completed]');
+            const featureSummaryPending = modalElement.querySelector('[data-feature-summary-pending]');
+            const featureSummaryUpdated = modalElement.querySelector('[data-feature-summary-updated]');
+            const featureSearchInput = modalElement.querySelector('#feature-search');
+            const featureSearchClear = modalElement.querySelector('[data-feature-search-clear]');
+            const featureChips = Array.from(modalElement.querySelectorAll('[data-feature-chip]'));
+            const featureExpandButton = modalElement.querySelector('[data-features-expand]');
+            const featureCollapseButton = modalElement.querySelector('[data-features-collapse]');
+            const previewFeaturesButton = modalElement.querySelector('[data-preview-features]');
             let currentDetailsStep = 'basic';
             let selectedPropertyType = null;
             let selectedPropertyTypeLabel = '';
@@ -76,6 +90,109 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
 
+            const getActiveFeatureGroup = () => featureGroups.find(group => group.classList.contains('property-features__group--active'));
+
+            const setGroupExpanded = (group, shouldExpand = true) => {
+                if (!group) {
+                    return;
+                }
+                const toggle = group.querySelector('[data-feature-toggle]');
+                const body = group.querySelector('.feature-card__body');
+                if (toggle) {
+                    toggle.setAttribute('aria-expanded', String(shouldExpand));
+                }
+                group.classList.toggle('feature-card--collapsed', !shouldExpand);
+                if (body) {
+                    body.hidden = !shouldExpand;
+                }
+            };
+
+            const resetFeatureHighlights = () => {
+                featureGroups.forEach(group => {
+                    group.classList.remove('feature-card--highlighted');
+                    const highlightables = group.querySelectorAll('.is-highlighted');
+                    highlightables.forEach(element => element.classList.remove('is-highlighted'));
+                });
+            };
+
+            const updateFeatureProgress = () => {
+                const activeGroup = getActiveFeatureGroup();
+                const fields = activeGroup
+                    ? Array.from(activeGroup.querySelectorAll('input, select, textarea'))
+                        .filter(field => !field.disabled && field.type !== 'hidden')
+                    : [];
+                const total = fields.length;
+                const completed = fields.filter(field => {
+                    if (field.type === 'checkbox' || field.type === 'radio') {
+                        return field.checked;
+                    }
+                    return String(field.value || '').trim().length > 0;
+                }).length;
+                const percent = total ? Math.round((completed / total) * 100) : 0;
+
+                if (featureProgressBadge) {
+                    featureProgressBadge.textContent = `${completed} campos completados`;
+                }
+                if (featureProgressBar) {
+                    featureProgressBar.setAttribute('aria-valuenow', String(percent));
+                }
+                if (featureProgressFill) {
+                    featureProgressFill.style.width = `${percent}%`;
+                }
+                if (featureProgressValue) {
+                    featureProgressValue.textContent = `${percent}%`;
+                }
+                if (featureSummaryCompleted) {
+                    featureSummaryCompleted.textContent = completed;
+                }
+                if (featureSummaryPending) {
+                    featureSummaryPending.textContent = Math.max(total - completed, 0);
+                }
+                if (featureSummaryUpdated) {
+                    const now = new Date();
+                    const time = new Intl.DateTimeFormat('es-MX', {
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    }).format(now);
+                    featureSummaryUpdated.textContent = total ? `Actualizado ${time}` : 'Sin información registrada';
+                }
+                if (featureOptionalBadge) {
+                    featureOptionalBadge.textContent = percent >= 70
+                        ? 'Excelente detalle, listo para publicar'
+                        : 'Incluye detalles opcionales para destacar';
+                }
+            };
+
+            const applyFeatureHighlights = (term = '') => {
+                const query = term.trim().toLowerCase();
+                const activeGroup = getActiveFeatureGroup();
+                resetFeatureHighlights();
+                if (!activeGroup || !query) {
+                    return;
+                }
+                const highlightables = Array.from(activeGroup.querySelectorAll('.property-features__field, .property-features__toggle, .property-features__toggle-group-title'));
+                let matches = 0;
+                highlightables.forEach(element => {
+                    const text = (element.textContent || '').toLowerCase();
+                    const match = text.includes(query);
+                    element.classList.toggle('is-highlighted', match);
+                    if (match) {
+                        matches += 1;
+                    }
+                });
+                if (matches > 0) {
+                    activeGroup.classList.add('feature-card--highlighted');
+                }
+            };
+
+            const resetFeatureSearch = () => {
+                if (featureSearchInput) {
+                    featureSearchInput.value = '';
+                }
+                featureChips.forEach(chip => chip.classList.remove('is-active'));
+                resetFeatureHighlights();
+            };
+
             const updateFeatureGroups = () => {
                 const hasType = Boolean(selectedPropertyType);
                 featureGroups.forEach(group => {
@@ -83,8 +200,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     group.classList.toggle('property-features__group--active', matches);
                     if (matches) {
                         group.removeAttribute('hidden');
+                        setGroupExpanded(group, true);
                     } else {
                         group.setAttribute('hidden', '');
+                        setGroupExpanded(group, false);
+                        group.classList.remove('feature-card--highlighted');
                     }
                 });
                 if (featuresContent) {
@@ -93,8 +213,119 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (featuresEmptyState) {
                     featuresEmptyState.hidden = hasType;
                 }
+                if (!hasType) {
+                    resetFeatureSearch();
+                }
                 updateFeatureSummary();
+                updateFeatureProgress();
+                if (hasType && featureSearchInput && featureSearchInput.value.trim()) {
+                    applyFeatureHighlights(featureSearchInput.value);
+                }
             };
+
+            const featureToggleButtons = Array.from(modalElement.querySelectorAll('[data-feature-toggle]'));
+            featureToggleButtons.forEach(button => {
+                button.addEventListener('click', event => {
+                    event.preventDefault();
+                    const group = button.closest('[data-feature-category]');
+                    const expanded = button.getAttribute('aria-expanded') === 'true';
+                    setGroupExpanded(group, !expanded);
+                    updateFeatureProgress();
+                });
+            });
+
+            if (featureExpandButton) {
+                featureExpandButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    featureGroups.forEach(group => {
+                        if (group.classList.contains('property-features__group--active')) {
+                            setGroupExpanded(group, true);
+                        }
+                    });
+                    if (featureSearchInput && featureSearchInput.value.trim()) {
+                        applyFeatureHighlights(featureSearchInput.value);
+                    }
+                });
+            }
+
+            if (featureCollapseButton) {
+                featureCollapseButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    featureGroups.forEach(group => {
+                        if (group.classList.contains('property-features__group--active')) {
+                            setGroupExpanded(group, false);
+                        }
+                    });
+                    resetFeatureHighlights();
+                });
+            }
+
+            if (featureSearchInput) {
+                featureSearchInput.addEventListener('input', event => {
+                    const term = event.target.value;
+                    const normalized = term.trim().toLowerCase();
+                    featureChips.forEach(chip => {
+                        const chipTerm = (chip.dataset.featureChip || chip.textContent || '').toLowerCase();
+                        chip.classList.toggle('is-active', normalized.length > 0 && chipTerm === normalized);
+                    });
+                    applyFeatureHighlights(term);
+                });
+            }
+
+            if (featureSearchClear) {
+                featureSearchClear.addEventListener('click', event => {
+                    event.preventDefault();
+                    resetFeatureSearch();
+                    if (featureSearchInput) {
+                        featureSearchInput.focus();
+                    }
+                });
+            }
+
+            featureChips.forEach(chip => {
+                chip.addEventListener('click', event => {
+                    event.preventDefault();
+                    const wasActive = chip.classList.contains('is-active');
+                    featureChips.forEach(other => other.classList.remove('is-active'));
+                    if (wasActive) {
+                        resetFeatureSearch();
+                        if (featureSearchInput) {
+                            featureSearchInput.focus();
+                        }
+                        return;
+                    }
+                    chip.classList.add('is-active');
+                    const term = chip.textContent ? chip.textContent.trim() : '';
+                    if (featureSearchInput) {
+                        featureSearchInput.value = term;
+                        featureSearchInput.focus();
+                        const length = term.length;
+                        featureSearchInput.setSelectionRange(length, length);
+                    }
+                    applyFeatureHighlights(term);
+                });
+            });
+
+            if (previewFeaturesButton) {
+                previewFeaturesButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    const activeGroup = getActiveFeatureGroup();
+                    if (!activeGroup) {
+                        return;
+                    }
+                    setGroupExpanded(activeGroup, true);
+                    activeGroup.classList.add('feature-card--highlighted');
+                    activeGroup.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(() => {
+                        activeGroup.classList.remove('feature-card--highlighted');
+                    }, 1600);
+                });
+            }
+
+            if (featuresContent) {
+                featuresContent.addEventListener('input', updateFeatureProgress);
+                featuresContent.addEventListener('change', updateFeatureProgress);
+            }
 
             const showDetailsStep = (step) => {
                 currentDetailsStep = step;
@@ -165,6 +396,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedPropertyType = type;
                 selectedPropertyTypeLabel = typeLabel;
                 currentDetailsStep = 'basic';
+                resetFeatureSearch();
                 updateFeatureSummary();
                 updateFeatureGroups();
                 showDetailsStep('basic');
