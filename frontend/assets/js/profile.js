@@ -46,6 +46,86 @@ document.addEventListener('DOMContentLoaded', () => {
             const galleryItems = [];
             const recommendedGallerySize = 12;
             let dragSourceIndex = null;
+            const detailsForm = modalElement.querySelector('.publish-details');
+            const detailsSteps = detailsForm ? Array.from(detailsForm.querySelectorAll('[data-details-step]')) : [];
+            const detailsPrevButton = modalElement.querySelector('[data-details-prev]');
+            const featuresContent = modalElement.querySelector('[data-features-content]');
+            const featuresEmptyState = modalElement.querySelector('[data-features-empty]');
+            const featureGroups = Array.from(modalElement.querySelectorAll('[data-feature-category]'));
+            const featureTypeLabel = modalElement.querySelector('[data-feature-type-label]');
+            const featureSummary = modalElement.querySelector('[data-feature-summary]');
+            let currentDetailsStep = 'basic';
+            let selectedPropertyType = null;
+            let selectedPropertyTypeLabel = '';
+            const propertyTypeNames = {
+                casa: 'Casa',
+                departamento: 'Departamento',
+                terreno: 'Terreno',
+                desarrollo: 'Desarrollo'
+            };
+
+            const updateFeatureSummary = () => {
+                const displayName = selectedPropertyTypeLabel || propertyTypeNames[selectedPropertyType] || '';
+                if (featureTypeLabel) {
+                    featureTypeLabel.textContent = displayName || 'Tipo no seleccionado';
+                }
+                if (featureSummary) {
+                    featureSummary.textContent = displayName
+                        ? `Personaliza los atributos clave para ${displayName}.`
+                        : 'Selecciona un tipo de propiedad en el paso anterior para ver las opciones disponibles.';
+                }
+            };
+
+            const updateFeatureGroups = () => {
+                const hasType = Boolean(selectedPropertyType);
+                featureGroups.forEach(group => {
+                    const matches = hasType && group.dataset.featureCategory === selectedPropertyType;
+                    group.classList.toggle('property-features__group--active', matches);
+                    if (matches) {
+                        group.removeAttribute('hidden');
+                    } else {
+                        group.setAttribute('hidden', '');
+                    }
+                });
+                if (featuresContent) {
+                    featuresContent.hidden = !hasType;
+                }
+                if (featuresEmptyState) {
+                    featuresEmptyState.hidden = hasType;
+                }
+                updateFeatureSummary();
+            };
+
+            const showDetailsStep = (step) => {
+                currentDetailsStep = step;
+                if (!detailsSteps.length) {
+                    updateFeatureGroups();
+                    return;
+                }
+                if (detailsForm) {
+                    detailsForm.dataset.currentStep = step;
+                }
+                detailsSteps.forEach(section => {
+                    const isActive = section.dataset.detailsStep === step;
+                    section.classList.toggle('publish-details__step--active', isActive);
+                    section.classList.toggle('is-active', isActive);
+                    if (isActive) {
+                        section.removeAttribute('hidden');
+                    } else {
+                        section.setAttribute('hidden', '');
+                    }
+                });
+                const activeSection = detailsSteps.find(section => section.dataset.detailsStep === step);
+                if (activeSection) {
+                    const focusable = activeSection.querySelector('input, textarea, select, button:not([type="hidden"])');
+                    if (focusable) {
+                        setTimeout(() => focusable.focus(), 80);
+                    }
+                }
+                if (step === 'features') {
+                    updateFeatureGroups();
+                }
+            };
 
             const updateAriaState = (isOpen) => {
                 modalElement.setAttribute('aria-hidden', String(!isOpen));
@@ -70,9 +150,24 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (uploadArea) {
                     uploadArea.classList.remove('is-dragover');
                 }
+                selectedPropertyType = null;
+                selectedPropertyTypeLabel = '';
+                currentDetailsStep = 'basic';
+                if (detailsForm) {
+                    detailsForm.dataset.currentStep = 'basic';
+                }
+                showDetailsStep('basic');
+                updateFeatureGroups();
             };
 
-            const open = () => {
+            const open = (context = {}) => {
+                const { type = null, typeLabel = '' } = context;
+                selectedPropertyType = type;
+                selectedPropertyTypeLabel = typeLabel;
+                currentDetailsStep = 'basic';
+                updateFeatureSummary();
+                updateFeatureGroups();
+                showDetailsStep('basic');
                 modalElement.classList.add('modal--visible');
                 updateAriaState(true);
                 document.addEventListener('keydown', handleKeyDown);
@@ -351,6 +446,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
             renderGallery();
 
+            if (detailsPrevButton) {
+                detailsPrevButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    showDetailsStep('basic');
+                });
+            }
+
+            if (detailsForm) {
+                detailsForm.addEventListener('submit', event => {
+                    if (currentDetailsStep === 'basic') {
+                        event.preventDefault();
+                        showDetailsStep('features');
+                        return;
+                    }
+                    event.preventDefault();
+                    close();
+                });
+            }
+
+            updateFeatureSummary();
+            showDetailsStep('basic');
+            updateFeatureGroups();
+
             return { open, close };
         };
 
@@ -358,7 +476,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let publishState = {
             purpose: null,
-            type: null
+            type: null,
+            typeLabel: null
         };
 
         const setBadge = (badge, label) => {
@@ -392,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const resetPublishState = () => {
-            publishState = { purpose: null, type: null };
+            publishState = { purpose: null, type: null, typeLabel: null };
             toggleOptionSelection(purposeOptions, null);
             toggleOptionSelection(typeOptions, null);
             setBadge(summaryBadges.purpose, '');
@@ -451,6 +570,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 toggleOptionSelection(purposeOptions, option);
                 setBadge(summaryBadges.purpose, option.dataset.label || '');
                 publishState.type = null;
+                publishState.typeLabel = null;
                 toggleOptionSelection(typeOptions, null);
                 setBadge(summaryBadges.type, '');
                 if (finishButton) {
@@ -463,6 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 publishState.type = option.dataset.type || null;
+                publishState.typeLabel = option.dataset.label || null;
                 toggleOptionSelection(typeOptions, option);
                 setBadge(summaryBadges.type, option.dataset.label || '');
                 if (finishButton) {
@@ -489,7 +610,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 closeModal();
                 if (detailsModalController) {
-                    detailsModalController.open();
+                    detailsModalController.open({
+                        type: publishState.type,
+                        typeLabel: publishState.typeLabel
+                    });
                 }
             });
         }
