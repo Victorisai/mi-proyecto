@@ -139,89 +139,658 @@
             <h2 class="modal__title">Comparte los detalles clave</h2>
             <p class="modal__subtitle">Completa la información esencial para que tu propiedad destaque.</p>
         </header>
-        <form class="publish-details" novalidate>
-            <div class="publish-details__grid">
-                <div class="publish-details__field">
-                    <label for="publish-title">Título del anuncio</label>
-                    <input type="text" id="publish-title" name="title" placeholder="Ej. Residencia moderna en Puerto Cancún" required>
-                    <span class="publish-details__hint">Usa un título atractivo que resalte el valor principal.</span>
-                </div>
-                <div class="publish-details__field">
-                    <label for="publish-location">Ubicación</label>
-                    <div class="publish-details__location">
-                        <input type="text" id="publish-location" name="location" placeholder="Ciudad, colonia o desarrollo" required>
-                        <button type="button" class="publish-details__location-btn" aria-label="Localizar en mapa">
-                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-                                <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <span class="publish-details__hint">Comparte la zona o punto de referencia más conocido.</span>
-                </div>
-            </div>
-
-            <div class="publish-details__field">
-                <label for="publish-description">Descripción destacada</label>
-                <textarea id="publish-description" name="description" rows="5" placeholder="Describe amenidades, distribución, acabados y cualquier detalle relevante." required></textarea>
-                <span class="publish-details__hint">Incluye los diferenciales de la propiedad y detalles que inspiren confianza.</span>
-            </div>
-
-            <div class="publish-details__field">
-                <label for="publish-images">Galería fotográfica</label>
-                <div class="publish-details__upload" role="group" aria-labelledby="publish-images">
-                    <input type="file" id="publish-images" name="images" accept="image/*" multiple class="publish-details__file-input" hidden>
-                    <div class="publish-details__upload-illustration" aria-hidden="true">
-                        <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="8" y="12" width="48" height="40" rx="10" fill="rgba(59,130,246,0.1)"/>
-                            <path d="M16 36l8-10 10 13 6-7 8 10" fill="none" stroke="#3b82f6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                            <circle cx="24" cy="24" r="4" fill="#3b82f6"/>
-                        </svg>
-                    </div>
-                    <div class="publish-details__upload-copy">
-                        <strong>Arrastra y suelta tus imágenes</strong>
-                        <span>Admite JPG, PNG o WebP. Peso recomendado: &lt; 5MB por archivo.</span>
-                        <button type="button" class="publish-details__upload-btn">Seleccionar archivos</button>
-                    </div>
-                </div>
-                <div class="publish-details__gallery" aria-live="polite" data-empty="true">
-                    <div class="publish-details__gallery-status" data-gallery-status data-state="empty">
-                        <div class="publish-details__gallery-status-main">
-                            <span class="publish-details__gallery-count"><strong data-gallery-count>0</strong> imágenes cargadas</span>
-                            <span class="publish-details__gallery-note" data-gallery-cover>La portada se asignará a la primera imagen que cargues.</span>
+        
+        <form class="publish-details" novalidate data-current-step="basic">
+            <div class="publish-details__steps">
+                <section class="publish-details__step publish-details__step--active" data-details-step="basic">
+                    <div class="publish-details__grid">
+                        <div class="publish-details__field">
+                            <label for="publish-title">Título del anuncio</label>
+                            <input type="text" id="publish-title" name="title" placeholder="Ej. Residencia moderna en Puerto Cancún" required>
+                            <span class="publish-details__hint">Usa un título atractivo que resalte el valor principal.</span>
                         </div>
-                        <div class="publish-details__gallery-progress" data-gallery-progress-wrapper role="img" aria-label="Progreso de la galería 0% listo">
-                            <div class="publish-details__gallery-progress-track">
-                                <div class="publish-details__gallery-progress-bar" data-gallery-progress style="width: 0%;"></div>
+                        <div class="publish-details__field">
+                            <label for="publish-location">Ubicación</label>
+                            <div class="publish-details__location">
+                                <input type="text" id="publish-location" name="location" placeholder="Ciudad, colonia o desarrollo" required>
+                                <button type="button" class="publish-details__location-btn" aria-label="Localizar en mapa">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                        <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/>
+                                    </svg>
+                                </button>
                             </div>
-                            <span class="publish-details__gallery-progress-label" data-gallery-progress-label>0% listo</span>
+                            <span class="publish-details__hint">Comparte la zona o punto de referencia más conocido.</span>
                         </div>
                     </div>
-                    <div class="publish-details__gallery-placeholder" data-gallery-placeholder>
-                        <span class="publish-details__gallery-placeholder-icon" aria-hidden="true">
-                            <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                                <rect x="5" y="9" width="46" height="36" rx="10" fill="rgba(59,130,246,0.12)" />
-                                <path d="M16 32l7-9 8 11 5-6 6 7" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
-                                <circle cx="21" cy="22" r="4" fill="#2563eb" fill-opacity="0.85" />
-                            </svg>
-                        </span>
-                        <div class="publish-details__gallery-placeholder-copy">
-                            <strong>Aquí verás la vista previa de tu galería.</strong>
-                            <p>Ordena las fotografías para narrar un recorrido atractivo: inicia con la fachada, continúa con las áreas sociales y finaliza con los detalles clave.</p>
-                            <ul class="publish-details__gallery-tips">
-                                <li>Utiliza imágenes horizontales en alta resolución y buena iluminación.</li>
-                                <li>Incluye al menos una foto por espacio destacado y amenidad relevante.</li>
-                                <li>Añade planos, renders o vistas aéreas si cuentas con ellos.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <ul class="publish-details__gallery-list" data-gallery-list></ul>
-                </div>
-            </div>
 
-            <div class="publish-details__actions">
-                <button type="button" class="modal__action" data-modal-close>Completar más tarde</button>
-                <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary">Guardar y continuar</button>
+                    <div class="publish-details__field">
+                        <label for="publish-description">Descripción destacada</label>
+                        <textarea id="publish-description" name="description" rows="5" placeholder="Describe amenidades, distribución, acabados y cualquier detalle relevante." required></textarea>
+                        <span class="publish-details__hint">Incluye los diferenciales de la propiedad y detalles que inspiren confianza.</span>
+                    </div>
+
+                    <div class="publish-details__field">
+                        <label for="publish-images">Galería fotográfica</label>
+                        <div class="publish-details__upload" role="group" aria-labelledby="publish-images">
+                            <input type="file" id="publish-images" name="images" accept="image/*" multiple class="publish-details__file-input" hidden>
+                            <div class="publish-details__upload-illustration" aria-hidden="true">
+                                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="8" y="12" width="48" height="40" rx="10" fill="rgba(59,130,246,0.1)"/>
+                                    <path d="M16 36l8-10 10 13 6-7 8 10" fill="none" stroke="#3b82f6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="24" cy="24" r="4" fill="#3b82f6"/>
+                                </svg>
+                            </div>
+                            <div class="publish-details__upload-copy">
+                                <strong>Arrastra y suelta tus imágenes</strong>
+                                <span>Admite JPG, PNG o WebP. Peso recomendado: &lt; 5MB por archivo.</span>
+                                <button type="button" class="publish-details__upload-btn">Seleccionar archivos</button>
+                            </div>
+                        </div>
+                        <div class="publish-details__gallery" aria-live="polite" data-empty="true">
+                            <div class="publish-details__gallery-status" data-gallery-status data-state="empty">
+                                <div class="publish-details__gallery-status-main">
+                                    <span class="publish-details__gallery-count"><strong data-gallery-count>0</strong> imágenes cargadas</span>
+                                    <span class="publish-details__gallery-note" data-gallery-cover>La portada se asignará a la primera imagen que cargues.</span>
+                                </div>
+                                <div class="publish-details__gallery-progress" data-gallery-progress-wrapper role="img" aria-label="Progreso de la galería 0% listo">
+                                    <div class="publish-details__gallery-progress-track">
+                                        <div class="publish-details__gallery-progress-bar" data-gallery-progress style="width: 0%;"></div>
+                                    </div>
+                                    <span class="publish-details__gallery-progress-label" data-gallery-progress-label>0% listo</span>
+                                </div>
+                            </div>
+                            <div class="publish-details__gallery-placeholder" data-gallery-placeholder>
+                                <span class="publish-details__gallery-placeholder-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                        <rect x="5" y="9" width="46" height="36" rx="10" fill="rgba(59,130,246,0.12)" />
+                                        <path d="M16 32l7-9 8 11 5-6 6 7" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
+                                        <circle cx="21" cy="22" r="4" fill="#2563eb" fill-opacity="0.85" />
+                                    </svg>
+                                </span>
+                                <div class="publish-details__gallery-placeholder-copy">
+                                    <strong>Aquí verás la vista previa de tu galería.</strong>
+                                    <p>Ordena las fotografías para narrar un recorrido atractivo: inicia con la fachada, continúa con las áreas sociales y finaliza con los detalles clave.</p>
+                                    <ul class="publish-details__gallery-tips">
+                                        <li>Utiliza imágenes horizontales en alta resolución y buena iluminación.</li>
+                                        <li>Incluye al menos una foto por espacio destacado y amenidad relevante.</li>
+                                        <li>Añade planos, renders o vistas aéreas si cuentas con ellos.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <ul class="publish-details__gallery-list" data-gallery-list></ul>
+                        </div>
+                    </div>
+
+                    <div class="publish-details__actions">
+                        <button type="button" class="modal__action" data-modal-close>Completar más tarde</button>
+                        <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-details-next>Guardar y continuar</button>
+                    </div>
+                </section>
+
+                <section class="publish-details__step" data-details-step="features">
+                    <header class="property-features__header">
+                        <span class="property-features__badge">Paso 2 de 2</span>
+                        <h3 class="property-features__title">Define las características técnicas</h3>
+                        <p class="property-features__subtitle">Personaliza la ficha según la tipología seleccionada.</p>
+                        <div class="property-features__type">
+                            <span class="property-features__type-icon" aria-hidden="true">
+                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                    <path d="M6 14 16 6l10 8v12a2 2 0 0 1-2 2h-6v-8h-4v8H8a2 2 0 0 1-2-2Z" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
+                                    <path d="M6 14h20" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                </svg>
+                            </span>
+                            <div class="property-features__type-content">
+                                <span class="property-features__type-label" data-feature-type-label>Tipo no seleccionado</span>
+                                <p class="property-features__type-note" data-feature-summary>Selecciona un tipo de propiedad en el paso anterior para ver las opciones disponibles.</p>
+                            </div>
+                        </div>
+                    </header>
+
+                    <div class="property-features__empty" data-features-empty>
+                        <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                            <circle cx="16" cy="16" r="14" fill="#f8fafc" stroke="#cbd5f5" stroke-width="1.5"/>
+                            <path d="M16 9v8" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="16" cy="21" r="1.4" fill="#6366f1"/>
+                        </svg>
+                        <p>Para continuar, regresa al paso anterior y elige la categoría de tu propiedad.</p>
+                    </div>
+
+                    <div class="property-features__content" data-features-content>
+                        <div class="property-features__group" data-feature-category="casa">
+                            <div class="property-features__group-header">
+                                <span class="property-features__group-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                        <path d="M6 14 16 6l10 8v12a2 2 0 0 1-2 2h-6v-8h-4v8H8a2 2 0 0 1-2-2Z" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <h4>Distribución residencial</h4>
+                                    <p>Describe la configuración general de la casa.</p>
+                                </div>
+                            </div>
+                            <div class="property-features__grid">
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-casa-recamaras">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="3" y="10" width="18" height="8" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+                                                <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Recámaras</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-casa-recamaras" name="recamaras_casas" class="property-features__input" placeholder="Ej. 3">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-casa-banos">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 11h14" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M6 11v3a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5v-3" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
+                                                <path d="M9 7a3 3 0 0 1 6 0v4" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Baños</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-casa-banos" name="banos_casas" class="property-features__input" placeholder="Ej. 2.5">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-casa-estacionamientos">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="7" width="16" height="10" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
+                                                <path d="M7 17v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M17 17v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Estacionamientos</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-casa-estacionamientos" name="estacionamientos_casas" class="property-features__input" placeholder="Ej. 2">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-casa-superficie-total">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="4" width="16" height="16" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6"/>
+                                                <path d="M8 8h8v8H8z" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Superficie total</span>
+                                    </label>
+                                    <input type="text" id="feature-casa-superficie-total" name="superficie_total_casas" class="property-features__input" placeholder="Ej. 240 m²">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-casa-superficie-construida">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 18V9l7-5 7 5v9" fill="#e0f2f1" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round"/>
+                                                <path d="M9 18v-5h6v5" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Superficie construida</span>
+                                    </label>
+                                    <input type="text" id="feature-casa-superficie-construida" name="superficie_construida_casas" class="property-features__input" placeholder="Ej. 180 m²">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-casa-niveles">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6 18h12" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M6 14h8" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M6 10h4" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Niveles</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-casa-niveles" name="niveles_casas" class="property-features__input" placeholder="Ej. 2">
+                                </div>
+                            </div>
+                            <div class="property-features__toggles">
+                                <label class="property-features__toggle" for="feature-casa-terraza">
+                                    <input type="checkbox" id="feature-casa-terraza" name="terraza_casas">
+                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4 16h16" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                            <path d="M6 16V9a6 6 0 0 1 12 0v7" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                        </svg>
+                                    </span>
+                                    <span>Terraza</span>
+                                </label>
+                                <label class="property-features__toggle" for="feature-casa-alberca">
+                                    <input type="checkbox" id="feature-casa-alberca" name="alberca_casas">
+                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4 15c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
+                                            <path d="M4 11c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
+                                        </svg>
+                                    </span>
+                                    <span>Alberca</span>
+                                </label>
+                                <label class="property-features__toggle" for="feature-casa-amueblada">
+                                    <input type="checkbox" id="feature-casa-amueblada" name="amueblada_casas">
+                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="3" y="10" width="18" height="8" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
+                                            <path d="M5 18v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
+                                            <path d="M19 18v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
+                                        </svg>
+                                    </span>
+                                    <span>Amueblada</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="property-features__group" data-feature-category="departamento">
+                            <div class="property-features__group-header">
+                                <span class="property-features__group-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                        <rect x="8" y="4" width="16" height="24" rx="2.5" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.6"/>
+                                        <path d="M12 10h4m4 0h4M12 16h4m4 0h4M12 22h4m4 0h4" stroke="#4f46e5" stroke-width="1.4" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <h4>Ficha del departamento</h4>
+                                    <p>Agrega los datos clave de la unidad.</p>
+                                </div>
+                            </div>
+                            <div class="property-features__grid">
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-departamento-recamaras">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="3" y="10" width="18" height="8" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+                                                <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Recámaras</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-departamento-recamaras" name="recamaras_departamentos" class="property-features__input" placeholder="Ej. 2">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-departamento-banos">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 11h14" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M6 11v3a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5v-3" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
+                                                <path d="M9 7a3 3 0 0 1 6 0v4" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Baños</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-departamento-banos" name="banos_departamentos" class="property-features__input" placeholder="Ej. 2">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-departamento-estacionamientos">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="7" width="16" height="10" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
+                                                <path d="M7 17v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M17 17v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Estacionamientos</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-departamento-estacionamientos" name="estacionamientos_departamentos" class="property-features__input" placeholder="Ej. 1">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-departamento-superficie-total">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="4" width="16" height="16" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6"/>
+                                                <path d="M8 8h8v8H8z" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Superficie total</span>
+                                    </label>
+                                    <input type="text" id="feature-departamento-superficie-total" name="superficie_total_departamentos" class="property-features__input" placeholder="Ej. 95 m²">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-departamento-piso">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M8 5h8v14H8z" fill="#f1f5f9" stroke="#1d4ed8" stroke-width="1.6" stroke-linejoin="round"/>
+                                                <path d="M10 9h4m-4 4h4" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Piso</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-departamento-piso" name="piso_departamentos" class="property-features__input" placeholder="Ej. 12">
+                                </div>
+                            </div>
+                            <div class="property-features__toggles">
+                                <label class="property-features__toggle" for="feature-departamento-terraza">
+                                    <input type="checkbox" id="feature-departamento-terraza" name="terraza_departamentos">
+                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M4 16h16" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                            <path d="M6 16V9a6 6 0 0 1 12 0v7" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
+                                        </svg>
+                                    </span>
+                                    <span>Terraza privada</span>
+                                </label>
+                                <div class="property-features__toggle-group" role="group" aria-labelledby="feature-departamento-amenidades">
+                                    <span id="feature-departamento-amenidades" class="property-features__toggle-group-title">Amenidades</span>
+                                    <div class="property-features__toggle-list">
+                                        <label class="property-features__toggle" for="feature-departamento-gimnasio">
+                                            <input type="checkbox" id="feature-departamento-gimnasio" name="gimnasio_departamentos">
+                                            <span class="property-features__toggle-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M5 8h2v8H5zM17 8h2v8h-2z" fill="#60a5fa"/>
+                                                    <rect x="8" y="6" width="8" height="12" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.4"/>
+                                                </svg>
+                                            </span>
+                                            <span>Gimnasio</span>
+                                        </label>
+                                        <label class="property-features__toggle" for="feature-departamento-alberca">
+                                            <input type="checkbox" id="feature-departamento-alberca" name="alberca_departamentos">
+                                            <span class="property-features__toggle-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M4 15c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
+                                                    <path d="M4 11c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
+                                                </svg>
+                                            </span>
+                                            <span>Alberca</span>
+                                        </label>
+                                        <label class="property-features__toggle" for="feature-departamento-salon-eventos">
+                                            <input type="checkbox" id="feature-departamento-salon-eventos" name="salon_eventos_departamentos">
+                                            <span class="property-features__toggle-icon" aria-hidden="true">
+                                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                    <rect x="4" y="8" width="16" height="10" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4"/>
+                                                    <path d="M7 12h10" stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round"/>
+                                                </svg>
+                                            </span>
+                                            <span>Salón de eventos</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <label class="property-features__toggle" for="feature-departamento-elevador">
+                                    <input type="checkbox" id="feature-departamento-elevador" name="elevador_departamentos">
+                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <rect x="6" y="4" width="12" height="16" rx="2" fill="#f1f5f9" stroke="#1d4ed8" stroke-width="1.6"/>
+                                            <path d="M10 9h4M10 15h4" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/>
+                                            <path d="M12 6v2" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/>
+                                        </svg>
+                                    </span>
+                                    <span>Elevador</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="property-features__group" data-feature-category="terreno">
+                            <div class="property-features__group-header">
+                                <span class="property-features__group-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                        <path d="M4 24 16 8l12 16" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
+                                        <path d="M8 24h16" stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round"/>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <h4>Información del terreno</h4>
+                                    <p>Comparte medidas, servicios y potencial de desarrollo.</p>
+                                </div>
+                            </div>
+                            <div class="property-features__grid">
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-terreno-superficie-total">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="4" width="16" height="16" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6"/>
+                                                <path d="M8 8h8v8H8z" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Superficie total</span>
+                                    </label>
+                                    <input type="text" id="feature-terreno-superficie-total" name="superficie_total_terrenos" class="property-features__input" placeholder="Ej. 1,200 m²">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-terreno-tipo-suelo">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 18h16l-3-6-5 4-3-4z" fill="#fef9c3" stroke="#d97706" stroke-width="1.6" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Tipo de suelo</span>
+                                    </label>
+                                    <input type="text" id="feature-terreno-tipo-suelo" name="tipo_suelo_terrenos" class="property-features__input" placeholder="Ej. Rocoso, nivelado">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-terreno-frente">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 7h14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M5 17h14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Frente</span>
+                                    </label>
+                                    <input type="text" id="feature-terreno-frente" name="frente_terrenos" class="property-features__input" placeholder="Ej. 30 m">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-terreno-fondo">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M7 5v14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M17 5v14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Fondo</span>
+                                    </label>
+                                    <input type="text" id="feature-terreno-fondo" name="fondo_terrenos" class="property-features__input" placeholder="Ej. 40 m">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-terreno-tipo-propiedad">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 15h16" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M6 11h12" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M8 7h8" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Tipo de propiedad</span>
+                                    </label>
+                                    <select id="feature-terreno-tipo-propiedad" name="tipo_propiedad_terrenos" class="property-features__input">
+                                        <option value="">Selecciona una opción</option>
+                                        <option value="residencial">Residencial</option>
+                                        <option value="comercial">Comercial</option>
+                                        <option value="industrial">Industrial</option>
+                                        <option value="mixto">Uso mixto</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="property-features__toggle-group" role="group" aria-labelledby="feature-terreno-servicios">
+                                <span id="feature-terreno-servicios" class="property-features__toggle-group-title">Servicios disponibles</span>
+                                <div class="property-features__toggle-list">
+                                    <label class="property-features__toggle" for="feature-terreno-luz">
+                                        <input type="checkbox" id="feature-terreno-luz" name="luz_terrenos">
+                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 4a6 6 0 0 1 6 6c0 2.2-1 3.6-2 4.6a3 3 0 0 0-1 2.2V18h-6v-1.2a3 3 0 0 0-1-2.2c-1-1-2-2.4-2-4.6a6 6 0 0 1 6-6Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.4"/>
+                                                <path d="M10 20h4" stroke="#f59e0b" stroke-width="1.4" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Luz</span>
+                                    </label>
+                                    <label class="property-features__toggle" for="feature-terreno-agua">
+                                        <input type="checkbox" id="feature-terreno-agua" name="agua_terrenos">
+                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 4s5 5.2 5 9a5 5 0 1 1-10 0c0-3.8 5-9 5-9Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.4"/>
+                                            </svg>
+                                        </span>
+                                        <span>Agua</span>
+                                    </label>
+                                    <label class="property-features__toggle" for="feature-terreno-drenaje">
+                                        <input type="checkbox" id="feature-terreno-drenaje" name="drenaje_terrenos">
+                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M6 9h12v2a6 6 0 0 1-12 0Z" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4" stroke-linejoin="round"/>
+                                                <path d="M9 14h6" stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Drenaje</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="property-features__group" data-feature-category="desarrollo">
+                            <div class="property-features__group-header">
+                                <span class="property-features__group-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                        <path d="M6 24V10l6-3v17" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
+                                        <path d="M16 24V6l6 3v15" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
+                                        <path d="M24 24v-9l2 1v8" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <h4>Proyecto en desarrollo</h4>
+                                    <p>Detalla etapas, amenidades y alcance del proyecto.</p>
+                                </div>
+                            </div>
+                            <div class="property-features__grid">
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-desarrollo-unidades">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="4" y="4" width="16" height="16" rx="2" fill="#e0f2fe" stroke="#2563eb" stroke-width="1.4"/>
+                                                <path d="M8 8h8v8H8z" fill="none" stroke="#2563eb" stroke-width="1.4" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Número de unidades</span>
+                                    </label>
+                                    <input type="number" min="0" id="feature-desarrollo-unidades" name="num_unidades_desarrollos" class="property-features__input" placeholder="Ej. 120">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-desarrollo-superficie-min">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="5" y="5" width="7" height="7" rx="1.5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+                                            </svg>
+                                        </span>
+                                        <span>Superficie mínima</span>
+                                    </label>
+                                    <input type="text" id="feature-desarrollo-superficie-min" name="superficie_min_desarrollos" class="property-features__input" placeholder="Ej. 45 m²">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-desarrollo-superficie-max">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="12" y="12" width="7" height="7" rx="1.5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+                                            </svg>
+                                        </span>
+                                        <span>Superficie máxima</span>
+                                    </label>
+                                    <input type="text" id="feature-desarrollo-superficie-max" name="superficie_max_desarrollos" class="property-features__input" placeholder="Ej. 180 m²">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-desarrollo-rango-recamaras">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="3" y="10" width="18" height="8" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="1.4"/>
+                                                <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="#2563eb" stroke-width="1.4" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Rango de recámaras</span>
+                                    </label>
+                                    <input type="text" id="feature-desarrollo-rango-recamaras" name="rango_recamaras_desarrollos" class="property-features__input" placeholder="Ej. 1 a 4">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-desarrollo-rango-banos">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 11h14" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M6 11v3a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5v-3" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Rango de baños</span>
+                                    </label>
+                                    <input type="text" id="feature-desarrollo-rango-banos" name="rango_banos_desarrollos" class="property-features__input" placeholder="Ej. 1 a 3.5">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-desarrollo-etapas">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 18h16" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M4 14h10" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M4 10h6" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Etapas</span>
+                                    </label>
+                                    <input type="text" id="feature-desarrollo-etapas" name="etapas_desarrollos" class="property-features__input" placeholder="Ej. 3 fases">
+                                </div>
+                                <div class="property-features__field">
+                                    <label class="property-features__field-label" for="feature-desarrollo-entrega">
+                                        <span aria-hidden="true" class="property-features__label-icon">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 3v18" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M6 7h12" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M8 12h8" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Entrega estimada</span>
+                                    </label>
+                                    <input type="text" id="feature-desarrollo-entrega" name="entrega_estimada_desarrollos" class="property-features__input" placeholder="Ej. 4T 2025">
+                                </div>
+                            </div>
+                            <div class="property-features__toggle-group" role="group" aria-labelledby="feature-desarrollo-amenidades">
+                                <span id="feature-desarrollo-amenidades" class="property-features__toggle-group-title">Amenidades destacadas</span>
+                                <div class="property-features__toggle-list">
+                                    <label class="property-features__toggle" for="feature-desarrollo-alberca">
+                                        <input type="checkbox" id="feature-desarrollo-alberca" name="alberca_desarrollos">
+                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M4 15c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
+                                                <path d="M4 11c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
+                                            </svg>
+                                        </span>
+                                        <span>Alberca</span>
+                                    </label>
+                                    <label class="property-features__toggle" for="feature-desarrollo-areas-verdes">
+                                        <input type="checkbox" id="feature-desarrollo-areas-verdes" name="areas_verdes_desarrollos">
+                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M12 4c3 3 5 5.5 5 8.5a5 5 0 0 1-10 0C7 9.5 9 7 12 4Z" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
+                                            </svg>
+                                        </span>
+                                        <span>Áreas verdes</span>
+                                    </label>
+                                    <label class="property-features__toggle" for="feature-desarrollo-gimnasio">
+                                        <input type="checkbox" id="feature-desarrollo-gimnasio" name="gimnasio_desarrollos">
+                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5 8h2v8H5zM17 8h2v8h-2z" fill="#60a5fa"/>
+                                                <rect x="8" y="6" width="8" height="12" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.4"/>
+                                            </svg>
+                                        </span>
+                                        <span>Gimnasio</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="property-features__toggles">
+                                <label class="property-features__toggle" for="feature-desarrollo-pet-friendly">
+                                    <input type="checkbox" id="feature-desarrollo-pet-friendly" name="pet_friendly_desarrollos">
+                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M8 11a4 4 0 0 1 8 0v1a4 4 0 0 1-8 0Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.4"/>
+                                            <circle cx="7" cy="8" r="1.5" fill="#f59e0b"/>
+                                            <circle cx="17" cy="8" r="1.5" fill="#f59e0b"/>
+                                        </svg>
+                                    </span>
+                                    <span>Pet friendly</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="publish-details__actions publish-details__actions--between">
+                        <button type="button" class="modal__action" data-details-prev>Volver a información</button>
+                        <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-details-submit>Guardar ficha profesional</button>
+                    </div>
+                </section>
             </div>
         </form>
+
     </div>
 </div>
