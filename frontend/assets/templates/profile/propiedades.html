@@ -276,8 +276,8 @@
                     <div class="property-features__content" data-features-content>
                         <div class="property-features__layout">
                             <div class="property-features__primary">
-                                <div class="property-features__toolbar" role="search">
-                                    <label for="feature-search" class="property-features__search-label">Busca una característica</label>
+                                <div class="property-features__toolbar" role="search" aria-labelledby="feature-search-label">
+                                    <label for="feature-search" class="property-features__search-label" id="feature-search-label">Busca una característica</label>
                                     <div class="property-features__search">
                                         <span aria-hidden="true" class="property-features__search-icon">
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -288,31 +288,32 @@
                                         <input id="feature-search" type="search" class="property-features__search-input" placeholder="Filtra por recámaras, amenidades, superficies…" autocomplete="off">
                                         <button type="button" class="property-features__search-clear" data-feature-search-clear>Limpiar</button>
                                     </div>
-                                    <div class="property-features__chips" aria-label="Amenidades rápidas">
-                                        <button type="button" class="property-features__chip" data-feature-chip="roofgarden">Roof Garden</button>
-                                        <button type="button" class="property-features__chip" data-feature-chip="petfriendly">Pet Friendly</button>
-                                        <button type="button" class="property-features__chip" data-feature-chip="security">Seguridad 24/7</button>
-                                        <button type="button" class="property-features__chip" data-feature-chip="amenities">Amenidades Premium</button>
+                                    <p class="property-features__toolbar-hint" id="feature-search-hint">Selecciona un atajo o filtra por la característica que necesites documentar.</p>
+                                    <div class="property-features__chips" role="list" aria-labelledby="feature-search-hint">
+                                        <button type="button" class="property-features__chip" data-feature-chip="roofgarden" role="listitem">Roof Garden</button>
+                                        <button type="button" class="property-features__chip" data-feature-chip="petfriendly" role="listitem">Pet Friendly</button>
+                                        <button type="button" class="property-features__chip" data-feature-chip="security" role="listitem">Seguridad 24/7</button>
+                                        <button type="button" class="property-features__chip" data-feature-chip="amenities" role="listitem">Amenidades Premium</button>
                                     </div>
                                 </div>
 
                                 <div class="property-features__groups" data-feature-groups>
                                     <article class="property-features__group feature-card" data-feature-category="casa">
-                            <header class="property-features__group-header feature-card__header">
-                                <span class="property-features__group-icon feature-card__icon" aria-hidden="true">
-                                    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                                        <path d="M6 14 16 6l10 8v12a2 2 0 0 1-2 2h-6v-8h-4v8H8a2 2 0 0 1-2-2Z" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <div class="feature-card__titles">
-                                    <h4>Distribución residencial</h4>
-                                    <p>Describe la configuración general de la casa.</p>
-                                </div>
-                                <button type="button" class="feature-card__toggle" data-feature-toggle aria-expanded="true" aria-controls="feature-group-casa">
-                                    <span class="feature-card__toggle-text">Contraer</span>
-                                    <span class="feature-card__toggle-icon" aria-hidden="true">▾</span>
-                                </button>
-                            </header>
+                                        <header class="property-features__group-header feature-card__header">
+                                            <span class="property-features__group-icon feature-card__icon" aria-hidden="true">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                                    <path d="M6 14 16 6l10 8v12a2 2 0 0 1-2 2h-6v-8h-4v8H8a2 2 0 0 1-2-2Z" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6" stroke-linejoin="round"/>
+                                                </svg>
+                                            </span>
+                                            <div class="feature-card__titles">
+                                                <h4>Distribución residencial</h4>
+                                                <p>Describe la configuración general de la casa.</p>
+                                            </div>
+                                            <button type="button" class="feature-card__toggle" data-feature-toggle aria-expanded="true" aria-controls="feature-group-casa">
+                                                <span class="feature-card__toggle-text">Contraer</span>
+                                                <span class="feature-card__toggle-icon" aria-hidden="true">▾</span>
+                                            </button>
+                                        </header>
                             <div class="feature-card__body" id="feature-group-casa">
                                 <div class="property-features__grid">
                                     <div class="property-features__field">
