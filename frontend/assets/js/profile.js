@@ -50,10 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const detailsSteps = detailsForm ? Array.from(detailsForm.querySelectorAll('[data-details-step]')) : [];
             const detailsPrevButton = modalElement.querySelector('[data-details-prev]');
             const featuresContent = modalElement.querySelector('[data-features-content]');
-            const featuresEmptyState = modalElement.querySelector('[data-features-empty]');
             const featureGroups = Array.from(modalElement.querySelectorAll('[data-feature-category]'));
             const featureTypeLabel = modalElement.querySelector('[data-feature-type-label]');
             const featureSummary = modalElement.querySelector('[data-feature-summary]');
+            const modalDialog = modalElement.querySelector('.modal__dialog');
             let currentDetailsStep = 'basic';
             let selectedPropertyType = null;
             let selectedPropertyTypeLabel = '';
@@ -90,9 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (featuresContent) {
                     featuresContent.hidden = !hasType;
                 }
-                if (featuresEmptyState) {
-                    featuresEmptyState.hidden = hasType;
-                }
                 updateFeatureSummary();
             };
 
@@ -115,6 +112,9 @@ document.addEventListener('DOMContentLoaded', () => {
                         section.setAttribute('hidden', '');
                     }
                 });
+                if (modalDialog) {
+                    modalDialog.scrollTop = 0;
+                }
                 const activeSection = detailsSteps.find(section => section.dataset.detailsStep === step);
                 if (activeSection) {
                     const focusable = activeSection.querySelector('input, textarea, select, button:not([type="hidden"])');
