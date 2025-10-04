@@ -24,12 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const backButton = modal.querySelector('[data-publish-back]');
         const finishButton = modal.querySelector('[data-publish-finish]');
         const detailsModal = panel.querySelector('[data-modal="publish-details"]');
+        const pricingModal = panel.querySelector('[data-modal="publish-pricing"]');
 
-        const createModalController = (modalElement) => {
+        const createModalController = (modalElement, options = {}) => {
             if (!modalElement) {
                 return null;
             }
 
+            const { onComplete } = options;
             const closers = Array.from(modalElement.querySelectorAll('[data-modal-close]'));
             const firstField = modalElement.querySelector('input, textarea, select, button');
             const fileInput = modalElement.querySelector('.publish-details__file-input');
@@ -57,6 +59,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentDetailsStep = 'basic';
             let selectedPropertyType = null;
             let selectedPropertyTypeLabel = '';
+            let selectedPropertyPurpose = null;
+            let selectedPropertyPurposeLabel = '';
             const propertyTypeNames = {
                 casa: 'Casa',
                 departamento: 'Departamento',
@@ -152,6 +156,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 selectedPropertyType = null;
                 selectedPropertyTypeLabel = '';
+                selectedPropertyPurpose = null;
+                selectedPropertyPurposeLabel = '';
                 currentDetailsStep = 'basic';
                 if (detailsForm) {
                     detailsForm.dataset.currentStep = 'basic';
@@ -161,13 +167,21 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const open = (context = {}) => {
-                const { type = null, typeLabel = '' } = context;
+                const {
+                    type = null,
+                    typeLabel = '',
+                    purpose = null,
+                    purposeLabel = '',
+                    initialStep = 'basic'
+                } = context;
                 selectedPropertyType = type;
                 selectedPropertyTypeLabel = typeLabel;
-                currentDetailsStep = 'basic';
+                selectedPropertyPurpose = purpose;
+                selectedPropertyPurposeLabel = purposeLabel;
+                currentDetailsStep = initialStep;
                 updateFeatureSummary();
                 updateFeatureGroups();
-                showDetailsStep('basic');
+                showDetailsStep(initialStep);
                 modalElement.classList.add('modal--visible');
                 updateAriaState(true);
                 document.addEventListener('keydown', handleKeyDown);
@@ -455,13 +469,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (detailsForm) {
                 detailsForm.addEventListener('submit', event => {
+                    event.preventDefault();
                     if (currentDetailsStep === 'basic') {
-                        event.preventDefault();
                         showDetailsStep('features');
                         return;
                     }
-                    event.preventDefault();
+                    const completionContext = {
+                        type: selectedPropertyType,
+                        typeLabel: selectedPropertyTypeLabel,
+                        purpose: selectedPropertyPurpose,
+                        purposeLabel: selectedPropertyPurposeLabel
+                    };
                     close();
+                    if (typeof onComplete === 'function') {
+                        onComplete(completionContext);
+                    }
                 });
             }
 
@@ -469,13 +491,265 @@ document.addEventListener('DOMContentLoaded', () => {
             showDetailsStep('basic');
             updateFeatureGroups();
 
+            return { open, close, showStep: showDetailsStep };
+        };
+
+        const createPricingModal = (modalElement, options = {}) => {
+            if (!modalElement) {
+                return null;
+            }
+
+            const { onBack, onSubmit } = options;
+            const closers = Array.from(modalElement.querySelectorAll('[data-modal-close]'));
+            const form = modalElement.querySelector('[data-pricing-form]');
+            const backButton = modalElement.querySelector('[data-pricing-back]');
+            const priceInput = modalElement.querySelector('[data-pricing-input]');
+            const inputGroup = modalElement.querySelector('.publish-pricing__input-group');
+            const helper = modalElement.querySelector('[data-pricing-helper]');
+            const errorMessage = modalElement.querySelector('[data-pricing-error]');
+            const priceLabel = modalElement.querySelector('[data-pricing-label]');
+            const currencySymbol = modalElement.querySelector('[data-pricing-currency-symbol]');
+            const currencyCode = modalElement.querySelector('[data-pricing-currency-code]');
+            const summaryPurpose = modalElement.querySelector('[data-pricing-purpose]');
+            const summaryType = modalElement.querySelector('[data-pricing-type]');
+            const modalDialog = modalElement.querySelector('.modal__dialog');
+            const currencyButtons = Array.from(modalElement.querySelectorAll('[data-currency-option]'));
+
+            let selectedCurrency = 'MXN';
+            let selectedCurrencyLabel = 'Peso mexicano';
+            let selectedCurrencySymbol = '$';
+            let selectedCurrencyCode = 'MXN';
+            let currentContext = {
+                purpose: null,
+                purposeLabel: '',
+                type: null,
+                typeLabel: ''
+            };
+
+            const updateAriaState = (isOpen) => {
+                modalElement.setAttribute('aria-hidden', String(!isOpen));
+                if (isOpen) {
+                    modalElement.setAttribute('aria-modal', 'true');
+                } else {
+                    modalElement.removeAttribute('aria-modal');
+                }
+            };
+
+            const handleKeyDown = (event) => {
+                if (event.key === 'Escape') {
+                    close();
+                }
+            };
+
+            const resetErrorState = () => {
+                if (errorMessage) {
+                    errorMessage.hidden = true;
+                }
+                if (inputGroup) {
+                    inputGroup.classList.remove('has-error');
+                }
+                if (priceInput) {
+                    priceInput.removeAttribute('aria-invalid');
+                }
+            };
+
+            const updateCurrencyState = (button) => {
+                currencyButtons.forEach(option => {
+                    const isActive = option === button;
+                    option.classList.toggle('is-selected', isActive);
+                    option.setAttribute('aria-pressed', String(isActive));
+                });
+
+                if (!button) {
+                    return;
+                }
+
+                selectedCurrency = (button.dataset.currencyOption || 'MXN').toUpperCase();
+                selectedCurrencyLabel = button.dataset.currencyLabel || selectedCurrency;
+                selectedCurrencySymbol = button.dataset.currencySymbol || '$';
+                selectedCurrencyCode = (button.dataset.currencyCode || selectedCurrency).toUpperCase();
+
+                if (currencySymbol) {
+                    currencySymbol.textContent = selectedCurrencySymbol;
+                }
+                if (currencyCode) {
+                    currencyCode.textContent = selectedCurrencyCode;
+                }
+            };
+
+            const close = () => {
+                modalElement.classList.remove('modal--visible');
+                updateAriaState(false);
+                document.removeEventListener('keydown', handleKeyDown);
+            };
+
+            const open = (context = {}) => {
+                currentContext = {
+                    purpose: context.purpose || null,
+                    purposeLabel: context.purposeLabel || '',
+                    type: context.type || null,
+                    typeLabel: context.typeLabel || ''
+                };
+
+                const isRent = currentContext.purpose === 'rentar';
+
+                if (priceLabel) {
+                    priceLabel.textContent = isRent ? 'Precio mensual' : 'Precio de venta';
+                }
+
+                if (helper) {
+                    helper.textContent = isRent
+                        ? 'Este será el monto mensual mostrado en tu anuncio de renta.'
+                        : 'Este será el precio total mostrado en tu anuncio de venta.';
+                }
+
+                if (summaryPurpose) {
+                    summaryPurpose.textContent = currentContext.purposeLabel || 'Por definir';
+                }
+
+                if (summaryType) {
+                    summaryType.textContent = currentContext.typeLabel || 'Por definir';
+                }
+
+                if (form) {
+                    form.reset();
+                }
+
+                resetErrorState();
+
+                if (priceInput) {
+                    priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
+                    priceInput.value = '';
+                }
+
+                const defaultButton = currencyButtons.find(button => {
+                    const option = button.dataset.currencyOption || '';
+                    return option.toUpperCase() === selectedCurrency;
+                }) || currencyButtons[0];
+                updateCurrencyState(defaultButton);
+
+                modalElement.classList.add('modal--visible');
+                updateAriaState(true);
+                document.addEventListener('keydown', handleKeyDown);
+
+                if (modalDialog) {
+                    modalDialog.scrollTop = 0;
+                }
+
+                if (priceInput) {
+                    setTimeout(() => priceInput.focus(), 80);
+                }
+            };
+
+            currencyButtons.forEach(button => {
+                button.addEventListener('click', event => {
+                    event.preventDefault();
+                    updateCurrencyState(button);
+                });
+            });
+
+            closers.forEach(closer => {
+                closer.addEventListener('click', event => {
+                    event.preventDefault();
+                    close();
+                });
+            });
+
+            if (backButton) {
+                backButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    close();
+                    if (typeof onBack === 'function') {
+                        onBack(currentContext);
+                    }
+                });
+            }
+
+            if (priceInput) {
+                priceInput.addEventListener('input', () => {
+                    resetErrorState();
+                });
+            }
+
+            if (form) {
+                form.addEventListener('submit', event => {
+                    event.preventDefault();
+
+                    if (!priceInput) {
+                        close();
+                        return;
+                    }
+
+                    const value = priceInput.value ? priceInput.value.trim() : '';
+                    const numeric = Number(value);
+
+                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                        if (errorMessage) {
+                            errorMessage.hidden = false;
+                        }
+                        if (inputGroup) {
+                            inputGroup.classList.add('has-error');
+                        }
+                        priceInput.setAttribute('aria-invalid', 'true');
+                        priceInput.focus();
+                        return;
+                    }
+
+                    resetErrorState();
+
+                    const submission = {
+                        ...currentContext,
+                        price: value,
+                        priceValue: numeric,
+                        currency: selectedCurrency,
+                        currencyCode: selectedCurrencyCode,
+                        currencyLabel: selectedCurrencyLabel,
+                        billing: currentContext.purpose === 'rentar' ? 'monthly' : 'total'
+                    };
+
+                    close();
+
+                    if (typeof onSubmit === 'function') {
+                        onSubmit(submission);
+                    }
+                });
+            }
+
             return { open, close };
         };
 
-        const detailsModalController = createModalController(detailsModal);
+        let lastDetailsContext = null;
+        let pricingModalController = null;
+
+        const detailsModalController = createModalController(detailsModal, {
+            onComplete: (context) => {
+                lastDetailsContext = {
+                    type: context.type || null,
+                    typeLabel: context.typeLabel || '',
+                    purpose: context.purpose || null,
+                    purposeLabel: context.purposeLabel || ''
+                };
+
+                if (pricingModalController) {
+                    pricingModalController.open({ ...lastDetailsContext });
+                }
+            }
+        });
+
+        pricingModalController = createPricingModal(pricingModal, {
+            onBack: () => {
+                if (detailsModalController && lastDetailsContext) {
+                    detailsModalController.open({
+                        ...lastDetailsContext,
+                        initialStep: 'features'
+                    });
+                }
+            }
+        });
 
         let publishState = {
             purpose: null,
+            purposeLabel: null,
             type: null,
             typeLabel: null
         };
@@ -511,7 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const resetPublishState = () => {
-            publishState = { purpose: null, type: null, typeLabel: null };
+            publishState = { purpose: null, purposeLabel: null, type: null, typeLabel: null };
             toggleOptionSelection(purposeOptions, null);
             toggleOptionSelection(typeOptions, null);
             setBadge(summaryBadges.purpose, '');
@@ -567,6 +841,7 @@ document.addEventListener('DOMContentLoaded', () => {
         purposeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 publishState.purpose = option.dataset.purpose || null;
+                publishState.purposeLabel = option.dataset.label || null;
                 toggleOptionSelection(purposeOptions, option);
                 setBadge(summaryBadges.purpose, option.dataset.label || '');
                 publishState.type = null;
@@ -609,11 +884,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 closeModal();
+                const detailsContext = {
+                    type: publishState.type,
+                    typeLabel: publishState.typeLabel,
+                    purpose: publishState.purpose,
+                    purposeLabel: publishState.purposeLabel
+                };
+                lastDetailsContext = { ...detailsContext };
                 if (detailsModalController) {
-                    detailsModalController.open({
-                        type: publishState.type,
-                        typeLabel: publishState.typeLabel
-                    });
+                    detailsModalController.open(detailsContext);
                 }
             });
         }
