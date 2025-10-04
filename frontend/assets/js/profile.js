@@ -509,12 +509,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const errorMessage = modalElement.querySelector('[data-pricing-error]');
             const priceLabel = modalElement.querySelector('[data-pricing-label]');
             const currencySymbol = modalElement.querySelector('[data-pricing-currency-symbol]');
-            const currencyCode = modalElement.querySelector('[data-pricing-currency-code]');
+            const currencySelect = modalElement.querySelector('[data-pricing-currency-select]');
             const summaryPurpose = modalElement.querySelector('[data-pricing-purpose]');
             const summaryType = modalElement.querySelector('[data-pricing-type]');
             const modalDialog = modalElement.querySelector('.modal__dialog');
-            const currencyButtons = Array.from(modalElement.querySelectorAll('[data-currency-option]'));
-
             let selectedCurrency = 'MXN';
             let selectedCurrencyLabel = 'Peso mexicano';
             let selectedCurrencySymbol = '$';
@@ -553,27 +551,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
 
-            const updateCurrencyState = (button) => {
-                currencyButtons.forEach(option => {
-                    const isActive = option === button;
-                    option.classList.toggle('is-selected', isActive);
-                    option.setAttribute('aria-pressed', String(isActive));
-                });
-
-                if (!button) {
+            const updateCurrencyState = (option) => {
+                if (!option) {
                     return;
                 }
 
-                selectedCurrency = (button.dataset.currencyOption || 'MXN').toUpperCase();
-                selectedCurrencyLabel = button.dataset.currencyLabel || selectedCurrency;
-                selectedCurrencySymbol = button.dataset.currencySymbol || '$';
-                selectedCurrencyCode = (button.dataset.currencyCode || selectedCurrency).toUpperCase();
+                selectedCurrency = (option.value || 'MXN').toUpperCase();
+                selectedCurrencyLabel = option.dataset.currencyLabel || selectedCurrency;
+                selectedCurrencySymbol = option.dataset.currencySymbol || '$';
+                selectedCurrencyCode = selectedCurrency;
 
                 if (currencySymbol) {
                     currencySymbol.textContent = selectedCurrencySymbol;
                 }
-                if (currencyCode) {
-                    currencyCode.textContent = selectedCurrencyCode;
+                if (currencySelect) {
+                    currencySelect.value = selectedCurrency;
                 }
             };
 
@@ -622,11 +614,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     priceInput.value = '';
                 }
 
-                const defaultButton = currencyButtons.find(button => {
-                    const option = button.dataset.currencyOption || '';
-                    return option.toUpperCase() === selectedCurrency;
-                }) || currencyButtons[0];
-                updateCurrencyState(defaultButton);
+                if (currencySelect && currencySelect.options.length) {
+                    const options = Array.from(currencySelect.options);
+                    const defaultOption = options.find(option => {
+                        const value = option.value || '';
+                        return value.toUpperCase() === selectedCurrency;
+                    }) || options[0];
+                    updateCurrencyState(defaultOption);
+                }
 
                 modalElement.classList.add('modal--visible');
                 updateAriaState(true);
@@ -641,12 +636,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
 
-            currencyButtons.forEach(button => {
-                button.addEventListener('click', event => {
-                    event.preventDefault();
-                    updateCurrencyState(button);
+            if (currencySelect) {
+                currencySelect.addEventListener('change', () => {
+                    const selectedOption = currencySelect.options[currencySelect.selectedIndex];
+                    updateCurrencyState(selectedOption);
                 });
-            });
+            }
 
             closers.forEach(closer => {
                 closer.addEventListener('click', event => {
