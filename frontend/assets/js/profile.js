@@ -24,8 +24,168 @@ document.addEventListener('DOMContentLoaded', () => {
         const backButton = modal.querySelector('[data-publish-back]');
         const finishButton = modal.querySelector('[data-publish-finish]');
         const detailsModal = panel.querySelector('[data-modal="publish-details"]');
+        const pricingModal = panel.querySelector('[data-modal="publish-pricing"]');
 
-        const createModalController = (modalElement) => {
+        const createPricingModalController = (modalElement) => {
+            if (!modalElement) {
+                return null;
+            }
+
+            const modalDialog = modalElement.querySelector('.modal__dialog');
+            const closers = Array.from(modalElement.querySelectorAll('[data-modal-close]'));
+            const form = modalElement.querySelector('[data-pricing-form]');
+            const firstField = modalElement.querySelector('input, select, textarea');
+            const typeLabelElement = modalElement.querySelector('[data-pricing-type]');
+            const purposeLabelElement = modalElement.querySelector('[data-pricing-purpose]');
+            const suggestionElement = modalElement.querySelector('[data-pricing-suggestion]');
+            const rangeElement = modalElement.querySelector('[data-pricing-range]');
+            const priceInput = modalElement.querySelector('[data-pricing-amount]');
+            const currencyToggle = modalElement.querySelector('[data-pricing-currency]');
+            const currencySymbol = modalElement.querySelector('[data-pricing-currency-symbol]');
+            const purposeInsights = {
+                vender: {
+                    summary: 'En venta · Ajusta tu estrategia de salida y plazos de negociación.',
+                    suggestion: 'Analiza comparables recientes en la zona y considera el potencial de plusvalía.',
+                    ranges: {
+                        mxn: 'Rango sugerido: $2,500,000 – $3,400,000 MXN',
+                        usd: 'Rango sugerido: US$145,000 – US$195,000'
+                    }
+                },
+                rentar: {
+                    summary: 'En renta · Define condiciones mensuales competitivas y beneficios incluidos.',
+                    suggestion: 'Evalúa inmuebles similares y detalla servicios, mobiliario o mantenimiento integrado.',
+                    ranges: {
+                        mxn: 'Rango sugerido: $18,000 – $24,000 MXN / mes',
+                        usd: 'Rango sugerido: US$950 – US$1,250 / mes'
+                    }
+                }
+            };
+
+            let currentContext = {
+                type: null,
+                typeLabel: '',
+                purpose: null,
+                purposeLabel: ''
+            };
+            let updateCurrencyDisplay = () => {};
+            let currentCurrency = 'mxn';
+
+            const updateSummary = () => {
+                if (typeLabelElement) {
+                    typeLabelElement.textContent = currentContext.typeLabel || 'Tipo de propiedad no definido';
+                }
+
+                if (purposeLabelElement) {
+                    if (currentContext.purposeLabel) {
+                        const insight = purposeInsights[currentContext.purpose] || null;
+                        const detail = insight ? insight.summary : 'Define el objetivo comercial para personalizar la estrategia.';
+                        purposeLabelElement.textContent = `${currentContext.purposeLabel} · ${detail}`;
+                    } else {
+                        purposeLabelElement.textContent = 'Selecciona un propósito comercial para recibir recomendaciones personalizadas.';
+                    }
+                }
+
+                if (suggestionElement) {
+                    const insight = purposeInsights[currentContext.purpose] || null;
+                    suggestionElement.textContent = insight
+                        ? insight.suggestion
+                        : 'Añade metraje, amenidades y ubicación para estimar un rango competitivo.';
+                }
+
+                if (rangeElement) {
+                    const insight = purposeInsights[currentContext.purpose] || null;
+                    if (insight) {
+                        const ranges = insight.ranges || {};
+                        rangeElement.textContent = ranges[currentCurrency] || ranges.mxn || 'Comparte detalles clave para generar un rango estimado.';
+                    } else {
+                        rangeElement.textContent = 'Comparte detalles clave para generar un rango estimado.';
+                    }
+                }
+            };
+
+            const updateAriaState = (isOpen) => {
+                modalElement.setAttribute('aria-hidden', String(!isOpen));
+                if (isOpen) {
+                    modalElement.setAttribute('aria-modal', 'true');
+                } else {
+                    modalElement.removeAttribute('aria-modal');
+                }
+            };
+
+            const close = () => {
+                modalElement.classList.remove('modal--visible');
+                updateAriaState(false);
+                document.removeEventListener('keydown', handleKeyDown);
+            };
+
+            const handleKeyDown = (event) => {
+                if (event.key === 'Escape') {
+                    close();
+                }
+            };
+
+            const open = (context = {}) => {
+                currentContext = {
+                    type: context.type || null,
+                    typeLabel: context.typeLabel || '',
+                    purpose: context.purpose || null,
+                    purposeLabel: context.purposeLabel || ''
+                };
+
+                if (currencyToggle) {
+                    updateCurrencyDisplay();
+                } else {
+                    updateSummary();
+                }
+                modalElement.classList.add('modal--visible');
+                updateAriaState(true);
+                document.addEventListener('keydown', handleKeyDown);
+
+                if (modalDialog) {
+                    modalDialog.scrollTop = 0;
+                }
+
+                if (firstField) {
+                    setTimeout(() => firstField.focus(), 60);
+                }
+            };
+
+            closers.forEach(closer => {
+                closer.addEventListener('click', event => {
+                    event.preventDefault();
+                    close();
+                });
+            });
+
+            if (currencyToggle && priceInput) {
+                updateCurrencyDisplay = () => {
+                    const currencyValue = currencyToggle.value === 'usd' ? 'usd' : 'mxn';
+                    currentCurrency = currencyValue;
+                    priceInput.placeholder = currencyValue === 'usd' ? 'Ej. 185,000' : 'Ej. 3,250,000';
+                    if (currencySymbol) {
+                        currencySymbol.textContent = currencyValue === 'usd' ? 'US$' : '$';
+                    }
+                    updateSummary();
+                };
+
+                updateCurrencyDisplay();
+
+                currencyToggle.addEventListener('change', () => {
+                    updateCurrencyDisplay();
+                });
+            }
+
+            if (form) {
+                form.addEventListener('submit', event => {
+                    event.preventDefault();
+                    close();
+                });
+            }
+
+            return { open, close };
+        };
+
+        const createModalController = (modalElement, pricingController = null) => {
             if (!modalElement) {
                 return null;
             }
@@ -57,6 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let currentDetailsStep = 'basic';
             let selectedPropertyType = null;
             let selectedPropertyTypeLabel = '';
+            let selectedPropertyPurpose = null;
+            let selectedPropertyPurposeLabel = '';
             const propertyTypeNames = {
                 casa: 'Casa',
                 departamento: 'Departamento',
@@ -152,6 +314,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 selectedPropertyType = null;
                 selectedPropertyTypeLabel = '';
+                selectedPropertyPurpose = null;
+                selectedPropertyPurposeLabel = '';
                 currentDetailsStep = 'basic';
                 if (detailsForm) {
                     detailsForm.dataset.currentStep = 'basic';
@@ -161,9 +325,11 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             const open = (context = {}) => {
-                const { type = null, typeLabel = '' } = context;
+                const { type = null, typeLabel = '', purpose = null, purposeLabel = '' } = context;
                 selectedPropertyType = type;
                 selectedPropertyTypeLabel = typeLabel;
+                selectedPropertyPurpose = purpose;
+                selectedPropertyPurposeLabel = purposeLabel;
                 currentDetailsStep = 'basic';
                 updateFeatureSummary();
                 updateFeatureGroups();
@@ -461,7 +627,16 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     event.preventDefault();
+                    const pricingContext = {
+                        type: selectedPropertyType,
+                        typeLabel: selectedPropertyTypeLabel,
+                        purpose: selectedPropertyPurpose,
+                        purposeLabel: selectedPropertyPurposeLabel
+                    };
                     close();
+                    if (pricingController) {
+                        pricingController.open(pricingContext);
+                    }
                 });
             }
 
@@ -472,10 +647,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return { open, close };
         };
 
-        const detailsModalController = createModalController(detailsModal);
+        const pricingModalController = createPricingModalController(pricingModal);
+        const detailsModalController = createModalController(detailsModal, pricingModalController);
 
         let publishState = {
             purpose: null,
+            purposeLabel: null,
             type: null,
             typeLabel: null
         };
@@ -511,7 +688,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const resetPublishState = () => {
-            publishState = { purpose: null, type: null, typeLabel: null };
+            publishState = { purpose: null, purposeLabel: null, type: null, typeLabel: null };
             toggleOptionSelection(purposeOptions, null);
             toggleOptionSelection(typeOptions, null);
             setBadge(summaryBadges.purpose, '');
@@ -567,6 +744,7 @@ document.addEventListener('DOMContentLoaded', () => {
         purposeOptions.forEach(option => {
             option.addEventListener('click', () => {
                 publishState.purpose = option.dataset.purpose || null;
+                publishState.purposeLabel = option.dataset.label || null;
                 toggleOptionSelection(purposeOptions, option);
                 setBadge(summaryBadges.purpose, option.dataset.label || '');
                 publishState.type = null;
@@ -611,6 +789,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 closeModal();
                 if (detailsModalController) {
                     detailsModalController.open({
+                        purpose: publishState.purpose,
+                        purposeLabel: publishState.purposeLabel,
                         type: publishState.type,
                         typeLabel: publishState.typeLabel
                     });

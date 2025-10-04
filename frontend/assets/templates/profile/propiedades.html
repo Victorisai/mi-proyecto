@@ -785,3 +785,112 @@
 
     </div>
 </div>
+
+<div class="modal" data-modal="publish-pricing" aria-hidden="true" role="dialog">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog modal-pricing" role="document">
+        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+        <header class="modal-pricing__header">
+            <span class="modal-pricing__badge">Estrategia comercial</span>
+            <h2 class="modal-pricing__title">Define el precio de lanzamiento</h2>
+            <p class="modal-pricing__subtitle">Establece un valor competitivo alineado al mercado y al objetivo de la propiedad.</p>
+        </header>
+
+        <section class="modal-pricing__summary" aria-live="polite">
+            <div class="modal-pricing__summary-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <rect x="6" y="10" width="52" height="44" rx="12" fill="rgba(59,130,246,0.08)" />
+                    <path d="M20 36h24" stroke="#2563eb" stroke-width="3" stroke-linecap="round" />
+                    <path d="M26 26h12" stroke="#2563eb" stroke-width="3" stroke-linecap="round" />
+                    <circle cx="32" cy="22" r="4" fill="#2563eb" />
+                </svg>
+            </div>
+            <div class="modal-pricing__summary-details">
+                <span class="modal-pricing__summary-label">Propiedad</span>
+                <p class="modal-pricing__summary-title" data-pricing-type>Tipo de propiedad no definido</p>
+                <p class="modal-pricing__summary-purpose" data-pricing-purpose>Selecciona un propósito comercial para recibir recomendaciones personalizadas.</p>
+            </div>
+            <div class="modal-pricing__insight">
+                <span class="modal-pricing__insight-title">Recomendación</span>
+                <p class="modal-pricing__insight-text" data-pricing-suggestion>Añade metraje, amenidades y ubicación para estimar un rango competitivo.</p>
+                <p class="modal-pricing__insight-range" data-pricing-range>Comparte detalles clave para generar un rango estimado.</p>
+            </div>
+        </section>
+
+        <form class="publish-pricing" data-pricing-form>
+            <div class="modal-pricing__grid">
+                <div class="modal-pricing__field">
+                    <label for="pricing-currency">Moneda de referencia</label>
+                    <div class="modal-pricing__input-group">
+                        <select id="pricing-currency" name="currency" class="modal-pricing__select" data-pricing-currency>
+                            <option value="mxn" selected>MXN - Peso mexicano</option>
+                            <option value="usd">USD - Dólar estadounidense</option>
+                        </select>
+                    </div>
+                    <p class="modal-pricing__hint">Selecciona la divisa que usarás para publicar el precio.</p>
+                </div>
+
+                <div class="modal-pricing__field">
+                    <label for="pricing-amount">Precio de lista</label>
+                    <div class="modal-pricing__input-group">
+                        <span class="modal-pricing__currency" data-pricing-currency-symbol>$</span>
+                        <input type="number" id="pricing-amount" name="price" min="0" step="1000" placeholder="Ej. 3,250,000" data-pricing-amount required>
+                    </div>
+                    <p class="modal-pricing__hint">Define un monto competitivo acorde a la zona, plusvalía y estado del inmueble.</p>
+                </div>
+
+                <div class="modal-pricing__field">
+                    <label for="pricing-negotiation">Estrategia de negociación</label>
+                    <div class="modal-pricing__chips" role="group" aria-label="Estrategia de negociación">
+                        <label class="modal-pricing__chip">
+                            <input type="radio" name="negotiation" value="firme" checked>
+                            <span>Precio firme</span>
+                        </label>
+                        <label class="modal-pricing__chip">
+                            <input type="radio" name="negotiation" value="negociable">
+                            <span>Negociable</span>
+                        </label>
+                        <label class="modal-pricing__chip">
+                            <input type="radio" name="negotiation" value="con-incentivos">
+                            <span>Incluye incentivos</span>
+                        </label>
+                    </div>
+                    <p class="modal-pricing__hint">Determina si considerarás contraofertas, incentivos o beneficios adicionales.</p>
+                </div>
+
+                <div class="modal-pricing__field">
+                    <label for="pricing-maintenance">Cuota de mantenimiento</label>
+                    <div class="modal-pricing__input-group">
+                        <span class="modal-pricing__currency" aria-hidden="true">$</span>
+                        <input type="number" id="pricing-maintenance" name="maintenance" min="0" step="100" placeholder="Ej. 1,800">
+                    </div>
+                    <p class="modal-pricing__hint">Incluye gastos mensuales o cuotas de administración si aplican.</p>
+                </div>
+
+                <div class="modal-pricing__field">
+                    <label for="pricing-availability">Disponibilidad estimada</label>
+                    <select id="pricing-availability" name="availability" class="modal-pricing__select">
+                        <option value="inmediata" selected>Entrega inmediata</option>
+                        <option value="30">Disponible en 30 días</option>
+                        <option value="60">Disponible en 60 días</option>
+                        <option value="90">Disponible en 90 días</option>
+                        <option value="personalizada">Fecha personalizada</option>
+                    </select>
+                    <p class="modal-pricing__hint">Comunica desde cuándo se puede ocupar la propiedad.</p>
+                </div>
+
+                <div class="modal-pricing__field modal-pricing__field--full">
+                    <label for="pricing-notes">Notas para clientes potenciales</label>
+                    <textarea id="pricing-notes" name="notes" rows="3" placeholder="Describe condiciones especiales, facilidades de pago o requisitos para visitar la propiedad."></textarea>
+                    <p class="modal-pricing__hint">Comparte información adicional que ayude a filtrar prospectos calificados.</p>
+                </div>
+            </div>
+
+            <div class="modal-pricing__actions">
+                <button type="button" class="modal__action" data-modal-close>Asignar precio más tarde</button>
+                <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary">Guardar precio</button>
+            </div>
+        </form>
+    </div>
+</div>
+
