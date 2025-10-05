@@ -785,3 +785,50 @@
 
     </div>
 </div>
+
+<div class="modal" data-modal="publish-pricing" aria-hidden="true" role="dialog">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog modal-pricing" role="document">
+        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+        <header class="modal-pricing__header">
+            <span class="modal-pricing__badge">Estrategia comercial</span>
+            <h2 class="modal__title">Define el precio ideal</h2>
+            <p class="modal__subtitle">Establece el monto y la moneda con la que publicarás tu propiedad.</p>
+        </header>
+
+        <section class="modal-pricing__summary" aria-live="polite">
+            <div class="modal-pricing__summary-item">
+                <span class="modal-pricing__summary-label">Propósito</span>
+                <span class="modal-pricing__summary-value" data-pricing-purpose>Por definir</span>
+            </div>
+            <div class="modal-pricing__summary-item">
+                <span class="modal-pricing__summary-label">Tipo de propiedad</span>
+                <span class="modal-pricing__summary-value" data-pricing-type>Por definir</span>
+            </div>
+        </section>
+
+        <form class="publish-pricing" data-pricing-form novalidate>
+            <div class="publish-pricing__field">
+                <label for="publish-price" data-pricing-label>Precio de venta</label>
+                <div class="publish-pricing__input-group">
+                    <span class="publish-pricing__currency" data-pricing-currency-symbol>$</span>
+                    <input type="number" id="publish-price" name="price" inputmode="decimal" min="0" step="0.01" placeholder="Ej. 4,500,000" data-pricing-input required>
+                    <div class="publish-pricing__currency-select">
+                        <select id="publish-currency" name="currency" data-pricing-currency-select>
+                            <option value="MXN" data-currency-symbol="$" data-currency-label="Peso mexicano">MXN</option>
+                            <option value="USD" data-currency-symbol="$" data-currency-label="Dólar estadounidense">USD</option>
+                        </select>
+                        <span class="publish-pricing__select-arrow" aria-hidden="true">▾</span>
+                    </div>
+                </div>
+                <p class="publish-pricing__hint" data-pricing-helper>Este será el precio mostrado en tu anuncio.</p>
+                <p class="publish-pricing__error" data-pricing-error hidden>Ingresa un monto válido para continuar.</p>
+            </div>
+
+            <div class="publish-pricing__actions">
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost" data-pricing-back>Volver a ficha</button>
+                <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary">Guardar precio</button>
+            </div>
+        </form>
+    </div>
+</div>
