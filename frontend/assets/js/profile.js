@@ -532,6 +532,66 @@ document.addEventListener('DOMContentLoaded', () => {
                 typeLabel: ''
             };
 
+            const parsePriceValue = (rawValue = '', options = {}) => {
+                const { allowTrailingDecimal = true } = options;
+
+                if (!rawValue) {
+                    return { formatted: '', numeric: '' };
+                }
+
+                let sanitized = String(rawValue).replace(/[^0-9.,]/g, '');
+
+                if (!sanitized) {
+                    return { formatted: '', numeric: '' };
+                }
+
+                sanitized = sanitized.replace(/,/g, '');
+
+                const hasDecimalSeparator = sanitized.includes('.');
+                const parts = sanitized.split('.');
+                const integerRaw = parts.shift() || '';
+                const decimalRaw = parts.join('');
+                const integerDigits = integerRaw.replace(/^0+(?=\d)/, '') || (integerRaw ? '0' : '');
+                const decimalDigits = decimalRaw ? decimalRaw.replace(/\D/g, '').slice(0, 2) : '';
+
+                const formattedInteger = integerDigits
+                    ? Number(integerDigits).toLocaleString('es-MX')
+                    : hasDecimalSeparator
+                        ? '0'
+                        : '';
+
+                let formattedValue = formattedInteger;
+
+                if (hasDecimalSeparator) {
+                    if (decimalDigits) {
+                        formattedValue = `${formattedInteger || '0'}.${decimalDigits}`;
+                    } else if (allowTrailingDecimal) {
+                        formattedValue = `${formattedInteger || '0'}.`;
+                    }
+                }
+
+                const numericValue = integerDigits || decimalDigits
+                    ? `${integerDigits || '0'}${decimalDigits ? `.${decimalDigits}` : ''}`
+                    : '';
+
+                return { formatted: formattedValue, numeric: numericValue };
+            };
+
+            const setPriceInputValue = (value, options) => {
+                if (!priceInput) {
+                    return;
+                }
+
+                const { formatted, numeric } = parsePriceValue(value, options);
+                priceInput.value = formatted;
+
+                if (numeric) {
+                    priceInput.dataset.numericValue = numeric;
+                } else {
+                    delete priceInput.dataset.numericValue;
+                }
+            };
+
             const closeCurrencyDropdown = () => {
                 if (!customCurrencySelect) {
                     return;
@@ -695,7 +755,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
-                    priceInput.value = '';
+                    setPriceInputValue('');
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -791,9 +851,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
+            const moveCaretToEnd = () => {
+                if (!priceInput) {
+                    return;
+                }
+
+                try {
+                    const length = priceInput.value.length;
+                    priceInput.setSelectionRange(length, length);
+                } catch (error) {
+                    // Ignore selection errors for unsupported input types
+                }
+            };
+
             if (priceInput) {
                 priceInput.addEventListener('input', () => {
+                    const currentValue = priceInput.value;
+                    setPriceInputValue(currentValue);
+                    moveCaretToEnd();
                     resetErrorState();
+                });
+
+                priceInput.addEventListener('blur', () => {
+                    setPriceInputValue(priceInput.value, { allowTrailingDecimal: false });
                 });
             }
 
@@ -806,7 +886,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    const value = priceInput.value ? priceInput.value.trim() : '';
+                    const value = priceInput.dataset.numericValue || '';
                     const numeric = Number(value);
 
                     if (!value || Number.isNaN(numeric) || numeric <= 0) {
