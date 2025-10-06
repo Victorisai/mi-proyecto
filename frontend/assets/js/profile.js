@@ -532,6 +532,48 @@ document.addEventListener('DOMContentLoaded', () => {
                 typeLabel: ''
             };
 
+            const formatPriceValue = (value) => {
+                const sanitizedInput = (value || '').replace(/[^\d.,]/g, '');
+
+                if (!sanitizedInput) {
+                    return { formatted: '', normalized: '', numericValue: Number.NaN };
+                }
+
+                const normalizedInput = sanitizedInput.replace(/,/g, '');
+                const [rawIntegerPart, ...rawDecimalParts] = normalizedInput.split('.');
+                const decimalDigits = rawDecimalParts.join('').slice(0, 2);
+                const integerDigits = rawIntegerPart.replace(/^0+(?=\d)/, '') || '0';
+                const formattedInteger = Number(integerDigits).toLocaleString('es-MX');
+                const normalizedValue = decimalDigits
+                    ? `${integerDigits}.${decimalDigits}`
+                    : integerDigits;
+                const formattedValue = decimalDigits
+                    ? `${formattedInteger}.${decimalDigits}`
+                    : formattedInteger;
+                const numericValue = Number(normalizedValue);
+
+                return { formatted: formattedValue, normalized: normalizedValue, numericValue };
+            };
+
+            const applyPriceInputFormatting = () => {
+                if (!priceInput) {
+                    return;
+                }
+
+                const { formatted, normalized, numericValue } = formatPriceValue(priceInput.value);
+
+                if (!normalized) {
+                    priceInput.value = '';
+                    delete priceInput.dataset.rawValue;
+                    delete priceInput.dataset.numericValue;
+                    return;
+                }
+
+                priceInput.value = formatted;
+                priceInput.dataset.rawValue = normalized;
+                priceInput.dataset.numericValue = Number.isNaN(numericValue) ? '' : String(numericValue);
+            };
+
             const closeCurrencyDropdown = () => {
                 if (!customCurrencySelect) {
                     return;
@@ -696,6 +738,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
+                    delete priceInput.dataset.rawValue;
+                    delete priceInput.dataset.numericValue;
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -794,6 +838,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (priceInput) {
                 priceInput.addEventListener('input', () => {
                     resetErrorState();
+                    applyPriceInputFormatting();
+                });
+
+                priceInput.addEventListener('blur', () => {
+                    applyPriceInputFormatting();
                 });
             }
 
@@ -806,10 +855,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    const value = priceInput.value ? priceInput.value.trim() : '';
-                    const numeric = Number(value);
+                    const currentValue = priceInput.value ? priceInput.value.trim() : '';
+                    const { formatted, normalized, numericValue } = formatPriceValue(currentValue);
 
-                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                    if (formatted !== priceInput.value) {
+                        priceInput.value = formatted;
+                    }
+
+                    if (normalized) {
+                        priceInput.dataset.rawValue = normalized;
+                    }
+                    if (!Number.isNaN(numericValue)) {
+                        priceInput.dataset.numericValue = String(numericValue);
+                    }
+
+                    if (!normalized || Number.isNaN(numericValue) || numericValue <= 0) {
                         if (errorMessage) {
                             errorMessage.hidden = false;
                         }
@@ -825,8 +885,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const submission = {
                         ...currentContext,
-                        price: value,
-                        priceValue: numeric,
+                        price: normalized,
+                        priceValue: numericValue,
                         currency: selectedCurrency,
                         currencyCode: selectedCurrencyCode,
                         currencyLabel: selectedCurrencyLabel,
