@@ -813,12 +813,29 @@
                 <div class="publish-pricing__input-group">
                     <span class="publish-pricing__currency" data-pricing-currency-symbol>$</span>
                     <input type="number" id="publish-price" name="price" inputmode="decimal" min="0" step="0.01" placeholder="Ej. 4,500,000" data-pricing-input required>
-                    <div class="publish-pricing__currency-select">
-                        <select id="publish-currency" name="currency" data-pricing-currency-select>
+                    <div class="publish-pricing__currency-select" data-currency-select>
+                        <button class="publish-pricing__currency-trigger" type="button" data-currency-trigger aria-haspopup="listbox" aria-expanded="false">
+                            <span class="publish-pricing__currency-trigger-label" data-currency-label>MXN · Peso mexicano</span>
+                            <span class="publish-pricing__select-arrow" aria-hidden="true">
+                                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </span>
+                        </button>
+                        <ul class="publish-pricing__currency-options" data-currency-options role="listbox">
+                            <li class="publish-pricing__currency-option is-active" role="option" data-currency-option data-value="MXN" data-symbol="$" data-label="Peso mexicano" tabindex="0" aria-selected="true">
+                                <span class="publish-pricing__currency-code">MXN</span>
+                                <span class="publish-pricing__currency-name">Peso mexicano</span>
+                            </li>
+                            <li class="publish-pricing__currency-option" role="option" data-currency-option data-value="USD" data-symbol="$" data-label="Dólar estadounidense" tabindex="0" aria-selected="false">
+                                <span class="publish-pricing__currency-code">USD</span>
+                                <span class="publish-pricing__currency-name">Dólar estadounidense</span>
+                            </li>
+                        </ul>
+                        <select id="publish-currency" name="currency" data-pricing-currency-select class="publish-pricing__currency-native" aria-hidden="true" tabindex="-1">
                             <option value="MXN" data-currency-symbol="$" data-currency-label="Peso mexicano">MXN</option>
                             <option value="USD" data-currency-symbol="$" data-currency-label="Dólar estadounidense">USD</option>
                         </select>
-                        <span class="publish-pricing__select-arrow" aria-hidden="true">▾</span>
                     </div>
                 </div>
                 <p class="publish-pricing__hint" data-pricing-helper>Este será el precio mostrado en tu anuncio.</p>
