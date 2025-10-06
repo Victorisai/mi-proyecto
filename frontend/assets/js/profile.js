@@ -510,6 +510,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const priceLabel = modalElement.querySelector('[data-pricing-label]');
             const currencySymbol = modalElement.querySelector('[data-pricing-currency-symbol]');
             const currencySelect = modalElement.querySelector('[data-pricing-currency-select]');
+            const customCurrencySelect = modalElement.querySelector('[data-currency-select]');
+            const currencyTrigger = modalElement.querySelector('[data-currency-trigger]');
+            const currencyTriggerLabel = modalElement.querySelector('[data-currency-label]');
+            const currencyOptionsList = modalElement.querySelector('[data-currency-options]');
+            const currencyOptionItems = currencyOptionsList
+                ? Array.from(currencyOptionsList.querySelectorAll('[data-currency-option]'))
+                : [];
             const summaryPurpose = modalElement.querySelector('[data-pricing-purpose]');
             const summaryType = modalElement.querySelector('[data-pricing-type]');
             const modalDialog = modalElement.querySelector('.modal__dialog');
@@ -517,11 +524,85 @@ document.addEventListener('DOMContentLoaded', () => {
             let selectedCurrencyLabel = 'Peso mexicano';
             let selectedCurrencySymbol = '$';
             let selectedCurrencyCode = 'MXN';
+            let isCurrencyDropdownOpen = false;
             let currentContext = {
                 purpose: null,
                 purposeLabel: '',
                 type: null,
                 typeLabel: ''
+            };
+
+            const closeCurrencyDropdown = () => {
+                if (!customCurrencySelect) {
+                    return;
+                }
+
+                isCurrencyDropdownOpen = false;
+                customCurrencySelect.classList.remove('is-open');
+
+                if (currencyTrigger) {
+                    currencyTrigger.setAttribute('aria-expanded', 'false');
+                }
+
+                document.removeEventListener('click', handleCurrencyOutsideClick);
+                document.removeEventListener('keydown', handleCurrencyKeyDown);
+            };
+
+            const openCurrencyDropdown = () => {
+                if (!customCurrencySelect || isCurrencyDropdownOpen) {
+                    return;
+                }
+
+                isCurrencyDropdownOpen = true;
+                customCurrencySelect.classList.add('is-open');
+
+                if (currencyTrigger) {
+                    currencyTrigger.setAttribute('aria-expanded', 'true');
+                }
+
+                document.addEventListener('click', handleCurrencyOutsideClick);
+                document.addEventListener('keydown', handleCurrencyKeyDown);
+            };
+
+            const toggleCurrencyDropdown = () => {
+                if (isCurrencyDropdownOpen) {
+                    closeCurrencyDropdown();
+                } else {
+                    openCurrencyDropdown();
+                }
+            };
+
+            const handleCurrencyOutsideClick = (event) => {
+                if (!customCurrencySelect || !isCurrencyDropdownOpen) {
+                    return;
+                }
+
+                if (customCurrencySelect.contains(event.target)) {
+                    return;
+                }
+
+                closeCurrencyDropdown();
+            };
+
+            const handleCurrencyKeyDown = (event) => {
+                if (event.key === 'Escape') {
+                    closeCurrencyDropdown();
+                    if (currencyTrigger) {
+                        currencyTrigger.focus();
+                    }
+                }
+            };
+
+            const updateCustomCurrencyUI = () => {
+                if (currencyTriggerLabel) {
+                    currencyTriggerLabel.textContent = `${selectedCurrency} · ${selectedCurrencyLabel}`;
+                }
+
+                currencyOptionItems.forEach(item => {
+                    const value = (item.dataset.value || '').toUpperCase();
+                    item.classList.toggle('is-active', value === selectedCurrency);
+                    item.setAttribute('aria-selected', value === selectedCurrency ? 'true' : 'false');
+                });
             };
 
             const updateAriaState = (isOpen) => {
@@ -567,12 +648,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currencySelect) {
                     currencySelect.value = selectedCurrency;
                 }
+
+                updateCustomCurrencyUI();
             };
 
             const close = () => {
                 modalElement.classList.remove('modal--visible');
                 updateAriaState(false);
                 document.removeEventListener('keydown', handleKeyDown);
+                closeCurrencyDropdown();
             };
 
             const open = (context = {}) => {
@@ -626,6 +710,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 modalElement.classList.add('modal--visible');
                 updateAriaState(true);
                 document.addEventListener('keydown', handleKeyDown);
+                closeCurrencyDropdown();
 
                 if (modalDialog) {
                     modalDialog.scrollTop = 0;
@@ -642,6 +727,52 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateCurrencyState(selectedOption);
                 });
             }
+
+            const handleCurrencyOptionSelection = (item) => {
+                if (!item) {
+                    return;
+                }
+
+                const value = (item.dataset.value || '').toUpperCase();
+
+                if (currencySelect) {
+                    const matchingOption = Array.from(currencySelect.options).find(option => {
+                        const optionValue = (option.value || '').toUpperCase();
+                        return optionValue === value;
+                    });
+
+                    if (matchingOption) {
+                        updateCurrencyState(matchingOption);
+                    }
+                }
+
+                closeCurrencyDropdown();
+
+                if (currencyTrigger) {
+                    currencyTrigger.focus();
+                }
+            };
+
+            if (currencyTrigger) {
+                currencyTrigger.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    toggleCurrencyDropdown();
+                });
+            }
+
+            currencyOptionItems.forEach(item => {
+                item.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    handleCurrencyOptionSelection(item);
+                });
+
+                item.addEventListener('keydown', (event) => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        handleCurrencyOptionSelection(item);
+                    }
+                });
+            });
 
             closers.forEach(closer => {
                 closer.addEventListener('click', event => {
