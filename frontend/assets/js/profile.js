@@ -532,6 +532,157 @@ document.addEventListener('DOMContentLoaded', () => {
                 typeLabel: ''
             };
 
+            const formatPriceValue = (value = '') => {
+                if (!value) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const cleanedValue = value
+                    .replace(/\s+/g, '')
+                    .replace(/[^\d.,]/g, '');
+
+                if (!cleanedValue) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const lastComma = cleanedValue.lastIndexOf(',');
+                const lastDot = cleanedValue.lastIndexOf('.');
+                const decimalIndex = Math.max(lastComma, lastDot);
+
+                let integerSection = cleanedValue;
+                let decimalSection = '';
+
+                if (decimalIndex > -1) {
+                    integerSection = cleanedValue.slice(0, decimalIndex);
+                    decimalSection = cleanedValue.slice(decimalIndex + 1);
+                }
+
+                let integerPart = integerSection.replace(/[^\d]/g, '');
+                integerPart = integerPart.replace(/^0+(?=\d)/, '');
+                let decimalPart = decimalSection.replace(/[^\d]/g, '');
+
+                if (decimalPart.length > 2) {
+                    decimalPart = decimalPart.slice(0, 2);
+                }
+
+                if (!integerPart && !decimalPart) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const formattedInteger = integerPart
+                    ? integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    : '0';
+
+                let formattedValue = formattedInteger;
+                let numericString = integerPart || '0';
+
+                if (decimalPart) {
+                    formattedValue += `.${decimalPart}`;
+                    numericString += `.${decimalPart}`;
+                }
+
+                if (!integerPart && decimalPart) {
+                    formattedValue = `0.${decimalPart}`;
+                    numericString = `0.${decimalPart}`;
+                }
+
+                if (!decimalPart && !integerPart) {
+                    formattedValue = '';
+                    numericString = '';
+                }
+
+                return { formatted: formattedValue, numericString };
+            };
+
+            const updatePriceInputFormatting = () => {
+                if (!priceInput) {
+                    return;
+                }
+
+                const previousValue = priceInput.value;
+                const selectionStart = priceInput.selectionStart || 0;
+                const digitsBeforeCaret = previousValue.slice(0, selectionStart).replace(/[^\d]/g, '').length;
+                const decimalSeparatorIndexBefore = Math.max(
+                    previousValue.lastIndexOf('.'),
+                    previousValue.lastIndexOf(',')
+                );
+                const caretAfterDecimal = decimalSeparatorIndexBefore > -1 && selectionStart > decimalSeparatorIndexBefore;
+                const digitsBeforeDecimal = decimalSeparatorIndexBefore > -1
+                    ? previousValue.slice(0, decimalSeparatorIndexBefore).replace(/[^\d]/g, '').length
+                    : digitsBeforeCaret;
+                const digitsAfterDecimalBeforeCaret = caretAfterDecimal
+                    ? previousValue.slice(decimalSeparatorIndexBefore + 1, selectionStart).replace(/[^\d]/g, '').length
+                    : 0;
+
+                const { formatted, numericString } = formatPriceValue(previousValue);
+                priceInput.value = formatted;
+                priceInput.dataset.numericValue = numericString;
+
+                if (document.activeElement === priceInput) {
+                    const findPositionByDigits = (value, digitCount) => {
+                        if (!value || digitCount <= 0) {
+                            return digitCount === 0 ? 0 : value.length;
+                        }
+
+                        let digitsSeen = 0;
+                        for (let index = 0; index < value.length; index += 1) {
+                            const char = value[index];
+                            if (/\d/.test(char)) {
+                                digitsSeen += 1;
+                                if (digitsSeen === digitCount) {
+                                    return index + 1;
+                                }
+                            }
+                        }
+
+                        return value.length;
+                    };
+
+                    let caretPosition;
+
+                    if (caretAfterDecimal && formatted.includes('.')) {
+                        const decimalIndex = formatted.indexOf('.');
+                        if (digitsAfterDecimalBeforeCaret <= 0) {
+                            caretPosition = decimalIndex + 1;
+                        } else {
+                            let digitsSeen = 0;
+                            caretPosition = formatted.length;
+                            for (let index = decimalIndex + 1; index < formatted.length; index += 1) {
+                                if (/\d/.test(formatted[index])) {
+                                    digitsSeen += 1;
+                                    if (digitsSeen === digitsAfterDecimalBeforeCaret) {
+                                        caretPosition = index + 1;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        const targetDigits = caretAfterDecimal ? digitsBeforeDecimal : digitsBeforeCaret;
+                        caretPosition = findPositionByDigits(formatted, targetDigits);
+                    }
+
+                    if (typeof caretPosition !== 'number' || Number.isNaN(caretPosition)) {
+                        caretPosition = formatted.length;
+                    }
+
+                    priceInput.setSelectionRange(caretPosition, caretPosition);
+                }
+            };
+
+            const getNumericPriceValue = () => {
+                if (!priceInput) {
+                    return '';
+                }
+
+                if (typeof priceInput.dataset.numericValue === 'string') {
+                    return priceInput.dataset.numericValue;
+                }
+
+                const { numericString } = formatPriceValue(priceInput.value);
+                return numericString;
+            };
+
             const closeCurrencyDropdown = () => {
                 if (!customCurrencySelect) {
                     return;
@@ -696,6 +847,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
+                    priceInput.dataset.numericValue = '';
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -794,6 +946,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (priceInput) {
                 priceInput.addEventListener('input', () => {
                     resetErrorState();
+                    updatePriceInputFormatting();
+                });
+
+                priceInput.addEventListener('blur', () => {
+                    updatePriceInputFormatting();
                 });
             }
 
@@ -806,10 +963,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    const value = priceInput.value ? priceInput.value.trim() : '';
-                    const numeric = Number(value);
+                    updatePriceInputFormatting();
 
-                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                    const numericString = getNumericPriceValue();
+                    const numeric = Number(numericString);
+
+                    if (!numericString || Number.isNaN(numeric) || numeric <= 0) {
                         if (errorMessage) {
                             errorMessage.hidden = false;
                         }
@@ -825,7 +984,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const submission = {
                         ...currentContext,
-                        price: value,
+                        price: numericString,
                         priceValue: numeric,
                         currency: selectedCurrency,
                         currencyCode: selectedCurrencyCode,
