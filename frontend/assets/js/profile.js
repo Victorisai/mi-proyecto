@@ -532,6 +532,183 @@ document.addEventListener('DOMContentLoaded', () => {
                 typeLabel: ''
             };
 
+            const priceIntegerFormatter = new Intl.NumberFormat('es-MX');
+
+            const sanitizePriceInputValue = (value) => {
+                const rawValue = typeof value === 'string' ? value : '';
+                const cleaned = rawValue.replace(/[^\d.,]/g, '');
+
+                if (!cleaned) {
+                    return {
+                        raw: '',
+                        integer: '',
+                        decimal: '',
+                        displayInteger: '',
+                        hasDecimalDigits: false,
+                        pendingDecimal: false
+                    };
+                }
+
+                const lastDot = cleaned.lastIndexOf('.');
+                const lastComma = cleaned.lastIndexOf(',');
+                const separatorIndex = Math.max(lastDot, lastComma);
+                let integerSection = cleaned;
+                let decimalSection = '';
+                let pendingDecimal = false;
+
+                if (separatorIndex !== -1) {
+                    pendingDecimal = separatorIndex === cleaned.length - 1;
+                    integerSection = cleaned.slice(0, separatorIndex);
+                    decimalSection = cleaned.slice(separatorIndex + 1);
+                }
+
+                const integerDigits = integerSection.replace(/\D/g, '');
+                const decimalDigits = decimalSection.replace(/\D/g, '').slice(0, 2);
+                const hasDecimalDigits = decimalDigits.length > 0;
+
+                let rawNumeric = '';
+                if (integerDigits) {
+                    rawNumeric = hasDecimalDigits ? `${integerDigits}.${decimalDigits}` : integerDigits;
+                } else if (hasDecimalDigits) {
+                    rawNumeric = `0.${decimalDigits}`;
+                }
+
+                const displayInteger = integerDigits
+                    ? integerDigits
+                    : (hasDecimalDigits || pendingDecimal ? '0' : '');
+
+                return {
+                    raw: rawNumeric,
+                    integer: integerDigits,
+                    decimal: decimalDigits,
+                    displayInteger,
+                    hasDecimalDigits,
+                    pendingDecimal
+                };
+            };
+
+            const findPositionForDigits = (text, digitCount) => {
+                if (!text) {
+                    return 0;
+                }
+
+                if (!digitCount || digitCount <= 0) {
+                    return 0;
+                }
+
+                let digitsFound = 0;
+
+                for (let index = 0; index < text.length; index += 1) {
+                    if (/\d/.test(text[index])) {
+                        digitsFound += 1;
+
+                        if (digitsFound === digitCount) {
+                            return index + 1;
+                        }
+                    }
+                }
+
+                return text.length;
+            };
+
+            const formatPriceInputValue = (input, maintainCursor = true) => {
+                if (!input) {
+                    return;
+                }
+
+                const originalValue = input.value || '';
+                const selectionStart = maintainCursor ? input.selectionStart : null;
+                const substringBeforeCursor = maintainCursor && typeof selectionStart === 'number'
+                    ? originalValue.slice(0, selectionStart)
+                    : '';
+
+                const beforeParts = sanitizePriceInputValue(substringBeforeCursor);
+                const parts = sanitizePriceInputValue(originalValue);
+
+                let formattedInteger = '';
+
+                if (parts.displayInteger) {
+                    formattedInteger = priceIntegerFormatter.format(Number(parts.displayInteger));
+                }
+
+                let formattedValue = formattedInteger;
+
+                if (parts.hasDecimalDigits || parts.pendingDecimal) {
+                    const integerPortion = formattedInteger || '0';
+                    formattedValue = `${integerPortion}.`;
+
+                    if (parts.hasDecimalDigits) {
+                        formattedValue += parts.decimal;
+                    }
+                }
+
+                input.value = formattedValue;
+                input.dataset.rawValue = parts.raw;
+
+                if (!maintainCursor || typeof selectionStart !== 'number') {
+                    return;
+                }
+
+                if (!formattedValue) {
+                    input.setSelectionRange(0, 0);
+                    return;
+                }
+
+                const formattedIntegerPart = formattedValue.includes('.')
+                    ? formattedValue.split('.')[0]
+                    : formattedValue;
+                const digitsInFormattedInteger = (formattedIntegerPart.match(/\d/g) || []).length;
+                const targetIntegerDigits = Math.min(beforeParts.integer.length, digitsInFormattedInteger);
+                const hasDecimalBeforeCursor = beforeParts.hasDecimalDigits || beforeParts.pendingDecimal;
+
+                let newCursorPosition = findPositionForDigits(formattedIntegerPart, targetIntegerDigits);
+
+                if (hasDecimalBeforeCursor && formattedValue.includes('.')) {
+                    const decimalPointIndex = formattedIntegerPart.length;
+                    const decimalsBefore = beforeParts.hasDecimalDigits ? beforeParts.decimal.length : 0;
+                    const decimalsToPosition = Math.min(decimalsBefore, parts.decimal.length);
+                    newCursorPosition = decimalPointIndex + 1 + decimalsToPosition;
+
+                    if (parts.pendingDecimal && beforeParts.pendingDecimal && decimalsToPosition === parts.decimal.length) {
+                        newCursorPosition = decimalPointIndex + 1 + parts.decimal.length;
+                    }
+                }
+
+                requestAnimationFrame(() => {
+                    input.setSelectionRange(newCursorPosition, newCursorPosition);
+                });
+            };
+
+            const finalizePriceInputValue = (input) => {
+                if (!input) {
+                    return;
+                }
+
+                const parts = sanitizePriceInputValue(input.value || '');
+
+                if (!parts.raw) {
+                    input.value = '';
+                    input.dataset.rawValue = '';
+                    return;
+                }
+
+                let formattedInteger = '';
+
+                if (parts.displayInteger) {
+                    formattedInteger = priceIntegerFormatter.format(Number(parts.displayInteger));
+                }
+
+                let formattedValue = formattedInteger;
+
+                if (parts.hasDecimalDigits) {
+                    const integerPortion = formattedInteger || '0';
+                    formattedValue = `${integerPortion}.${parts.decimal}`;
+                }
+
+                input.value = formattedValue;
+                input.dataset.rawValue = parts.raw;
+            };
+
             const closeCurrencyDropdown = () => {
                 if (!customCurrencySelect) {
                     return;
@@ -696,6 +873,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
+                    priceInput.dataset.rawValue = '';
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -793,7 +971,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (priceInput) {
                 priceInput.addEventListener('input', () => {
+                    formatPriceInputValue(priceInput);
                     resetErrorState();
+                });
+
+                priceInput.addEventListener('blur', () => {
+                    finalizePriceInputValue(priceInput);
                 });
             }
 
@@ -806,10 +989,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    const value = priceInput.value ? priceInput.value.trim() : '';
-                    const numeric = Number(value);
+                    const sanitizedPrice = sanitizePriceInputValue(priceInput.value);
+                    const rawValue = sanitizedPrice.raw;
+                    priceInput.dataset.rawValue = rawValue;
 
-                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                    const numeric = rawValue ? Number(rawValue) : Number.NaN;
+
+                    if (!rawValue || Number.isNaN(numeric) || numeric <= 0) {
                         if (errorMessage) {
                             errorMessage.hidden = false;
                         }
@@ -825,7 +1011,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const submission = {
                         ...currentContext,
-                        price: value,
+                        price: rawValue,
                         priceValue: numeric,
                         currency: selectedCurrency,
                         currencyCode: selectedCurrencyCode,
