@@ -610,73 +610,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                const previousValue = priceInput.value;
-                const selectionStart = priceInput.selectionStart || 0;
-                const digitsBeforeCaret = previousValue.slice(0, selectionStart).replace(/[^\d]/g, '').length;
-                const decimalSeparatorIndexBefore = Math.max(
-                    previousValue.lastIndexOf('.'),
-                    previousValue.lastIndexOf(',')
-                );
-                const caretAfterDecimal = decimalSeparatorIndexBefore > -1 && selectionStart > decimalSeparatorIndexBefore;
-                const digitsBeforeDecimal = decimalSeparatorIndexBefore > -1
-                    ? previousValue.slice(0, decimalSeparatorIndexBefore).replace(/[^\d]/g, '').length
-                    : digitsBeforeCaret;
-                const digitsAfterDecimalBeforeCaret = caretAfterDecimal
-                    ? previousValue.slice(decimalSeparatorIndexBefore + 1, selectionStart).replace(/[^\d]/g, '').length
-                    : 0;
-
-                const { formatted, numericString } = formatPriceValue(previousValue);
+                const { formatted, numericString } = formatPriceValue(priceInput.value);
                 priceInput.value = formatted;
                 priceInput.dataset.numericValue = numericString;
 
                 if (document.activeElement === priceInput) {
-                    const findPositionByDigits = (value, digitCount) => {
-                        if (!value || digitCount <= 0) {
-                            return digitCount === 0 ? 0 : value.length;
-                        }
-
-                        let digitsSeen = 0;
-                        for (let index = 0; index < value.length; index += 1) {
-                            const char = value[index];
-                            if (/\d/.test(char)) {
-                                digitsSeen += 1;
-                                if (digitsSeen === digitCount) {
-                                    return index + 1;
-                                }
-                            }
-                        }
-
-                        return value.length;
-                    };
-
-                    let caretPosition;
-
-                    if (caretAfterDecimal && formatted.includes('.')) {
-                        const decimalIndex = formatted.indexOf('.');
-                        if (digitsAfterDecimalBeforeCaret <= 0) {
-                            caretPosition = decimalIndex + 1;
-                        } else {
-                            let digitsSeen = 0;
-                            caretPosition = formatted.length;
-                            for (let index = decimalIndex + 1; index < formatted.length; index += 1) {
-                                if (/\d/.test(formatted[index])) {
-                                    digitsSeen += 1;
-                                    if (digitsSeen === digitsAfterDecimalBeforeCaret) {
-                                        caretPosition = index + 1;
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        const targetDigits = caretAfterDecimal ? digitsBeforeDecimal : digitsBeforeCaret;
-                        caretPosition = findPositionByDigits(formatted, targetDigits);
-                    }
-
-                    if (typeof caretPosition !== 'number' || Number.isNaN(caretPosition)) {
-                        caretPosition = formatted.length;
-                    }
-
+                    const caretPosition = priceInput.value.length;
                     priceInput.setSelectionRange(caretPosition, caretPosition);
                 }
             };
