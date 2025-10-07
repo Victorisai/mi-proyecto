@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const backButton = modal.querySelector('[data-publish-back]');
         const finishButton = modal.querySelector('[data-publish-finish]');
         const detailsModal = panel.querySelector('[data-modal="publish-details"]');
-        const pricingModal = panel.querySelector('[data-modal="publish-pricing"]');
 
         const createModalController = (modalElement, options = {}) => {
             if (!modalElement) {
@@ -55,12 +54,37 @@ document.addEventListener('DOMContentLoaded', () => {
             const featureGroups = Array.from(modalElement.querySelectorAll('[data-feature-category]'));
             const featureTypeLabel = modalElement.querySelector('[data-feature-type-label]');
             const featureSummary = modalElement.querySelector('[data-feature-summary]');
+            const pricingSection = modalElement.querySelector('[data-details-step="pricing"]');
+            const pricingSummary = {
+                purpose: modalElement.querySelector('[data-pricing-purpose]'),
+                type: modalElement.querySelector('[data-pricing-type]')
+            };
+            const pricingLabel = modalElement.querySelector('[data-pricing-label]');
+            const pricingHelper = modalElement.querySelector('[data-pricing-helper]');
+            const pricingError = modalElement.querySelector('[data-pricing-error]');
+            const priceInput = modalElement.querySelector('[data-pricing-input]');
+            const currencySymbol = modalElement.querySelector('[data-pricing-currency-symbol]');
+            const pricingInputGroup = modalElement.querySelector('.publish-pricing__input-group');
+            const pricingPrevButton = modalElement.querySelector('[data-pricing-prev]');
+            const currencySelect = modalElement.querySelector('[data-pricing-currency-select]');
+            const customCurrencySelect = modalElement.querySelector('[data-currency-select]');
+            const currencyTrigger = modalElement.querySelector('[data-currency-trigger]');
+            const currencyTriggerLabel = modalElement.querySelector('[data-currency-label]');
+            const currencyOptionsList = modalElement.querySelector('[data-currency-options]');
+            const currencyOptionItems = currencyOptionsList
+                ? Array.from(currencyOptionsList.querySelectorAll('[data-currency-option]'))
+                : [];
             const modalDialog = modalElement.querySelector('.modal__dialog');
             let currentDetailsStep = 'basic';
             let selectedPropertyType = null;
             let selectedPropertyTypeLabel = '';
             let selectedPropertyPurpose = null;
             let selectedPropertyPurposeLabel = '';
+            let selectedCurrency = 'MXN';
+            let selectedCurrencyLabel = 'Peso mexicano';
+            let selectedCurrencySymbol = '$';
+            let selectedCurrencyCode = 'MXN';
+            let isCurrencyDropdownOpen = false;
             const propertyTypeNames = {
                 casa: 'Casa',
                 departamento: 'Departamento',
@@ -97,6 +121,288 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateFeatureSummary();
             };
 
+            const updatePricingSummary = () => {
+                const isRent = selectedPropertyPurpose === 'rentar';
+                if (pricingLabel) {
+                    pricingLabel.textContent = isRent ? 'Precio mensual' : 'Precio de venta';
+                }
+                if (pricingHelper) {
+                    pricingHelper.textContent = isRent
+                        ? 'Este será el monto mensual mostrado en tu anuncio de renta.'
+                        : 'Este será el precio total mostrado en tu anuncio de venta.';
+                }
+                if (pricingSummary.purpose) {
+                    pricingSummary.purpose.textContent = selectedPropertyPurposeLabel || 'Por definir';
+                }
+                if (pricingSummary.type) {
+                    pricingSummary.type.textContent = selectedPropertyTypeLabel || 'Por definir';
+                }
+                if (priceInput) {
+                    priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
+                }
+                if (currencySymbol) {
+                    currencySymbol.textContent = selectedCurrencySymbol;
+                }
+            };
+
+            const resetPricingErrorState = () => {
+                if (pricingError) {
+                    pricingError.hidden = true;
+                }
+                if (pricingInputGroup) {
+                    pricingInputGroup.classList.remove('has-error');
+                }
+                if (priceInput) {
+                    priceInput.removeAttribute('aria-invalid');
+                }
+            };
+
+            const handleCurrencyOutsideClick = (event) => {
+                if (!customCurrencySelect || !isCurrencyDropdownOpen) {
+                    return;
+                }
+                if (customCurrencySelect.contains(event.target)) {
+                    return;
+                }
+                if (currencyTrigger) {
+                    currencyTrigger.setAttribute('aria-expanded', 'false');
+                }
+                isCurrencyDropdownOpen = false;
+                customCurrencySelect.classList.remove('is-open');
+                document.removeEventListener('click', handleCurrencyOutsideClick);
+                document.removeEventListener('keydown', handleCurrencyKeyDown);
+            };
+
+            const closeCurrencyDropdown = () => {
+                if (!customCurrencySelect) {
+                    return;
+                }
+                if (currencyTrigger) {
+                    currencyTrigger.setAttribute('aria-expanded', 'false');
+                }
+                isCurrencyDropdownOpen = false;
+                customCurrencySelect.classList.remove('is-open');
+                document.removeEventListener('click', handleCurrencyOutsideClick);
+                document.removeEventListener('keydown', handleCurrencyKeyDown);
+            };
+
+            const openCurrencyDropdown = () => {
+                if (!customCurrencySelect || isCurrencyDropdownOpen) {
+                    return;
+                }
+                isCurrencyDropdownOpen = true;
+                customCurrencySelect.classList.add('is-open');
+                if (currencyTrigger) {
+                    currencyTrigger.setAttribute('aria-expanded', 'true');
+                }
+                document.addEventListener('click', handleCurrencyOutsideClick);
+                document.addEventListener('keydown', handleCurrencyKeyDown);
+            };
+
+            const toggleCurrencyDropdown = () => {
+                if (isCurrencyDropdownOpen) {
+                    closeCurrencyDropdown();
+                } else {
+                    openCurrencyDropdown();
+                }
+            };
+
+            const updateCustomCurrencyUI = () => {
+                if (currencyTriggerLabel) {
+                    currencyTriggerLabel.textContent = `${selectedCurrency} · ${selectedCurrencyLabel}`;
+                }
+                currencyOptionItems.forEach(item => {
+                    const value = (item.dataset.value || '').toUpperCase();
+                    const isActive = value === selectedCurrency;
+                    item.classList.toggle('is-active', isActive);
+                    item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+            };
+
+            const updateCurrencyState = (option) => {
+                if (!option) {
+                    return;
+                }
+                selectedCurrency = (option.value || 'MXN').toUpperCase();
+                selectedCurrencyLabel = option.dataset.currencyLabel || selectedCurrency;
+                selectedCurrencySymbol = option.dataset.currencySymbol || '$';
+                selectedCurrencyCode = selectedCurrency;
+                if (currencySymbol) {
+                    currencySymbol.textContent = selectedCurrencySymbol;
+                }
+                if (currencySelect) {
+                    currencySelect.value = option.value || selectedCurrency;
+                }
+                updateCustomCurrencyUI();
+            };
+
+            const handleCurrencyOptionSelection = (item) => {
+                if (!item) {
+                    return;
+                }
+
+                const value = (item.dataset.value || '').toUpperCase();
+
+                if (currencySelect) {
+                    const matchingOption = Array.from(currencySelect.options).find(option => {
+                        const optionValue = (option.value || '').toUpperCase();
+                        return optionValue === value;
+                    });
+
+                    if (matchingOption) {
+                        updateCurrencyState(matchingOption);
+                    }
+                } else {
+                    selectedCurrency = value || selectedCurrency;
+                    selectedCurrencyLabel = item.dataset.label || selectedCurrencyLabel;
+                    selectedCurrencySymbol = item.dataset.symbol || selectedCurrencySymbol;
+                    selectedCurrencyCode = selectedCurrency;
+                    if (currencySymbol) {
+                        currencySymbol.textContent = selectedCurrencySymbol;
+                    }
+                    updateCustomCurrencyUI();
+                }
+
+                closeCurrencyDropdown();
+
+                if (currencyTrigger) {
+                    currencyTrigger.focus();
+                }
+            };
+
+            const handleCurrencyKeyDown = (event) => {
+                if (event.key === 'Escape') {
+                    closeCurrencyDropdown();
+                    if (currencyTrigger) {
+                        currencyTrigger.focus();
+                    }
+                }
+            };
+
+            const formatPriceValue = (value = '') => {
+                if (!value) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const cleanedValue = value
+                    .replace(/\s+/g, '')
+                    .replace(/[^\d.,]/g, '');
+
+                if (!cleanedValue) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const lastComma = cleanedValue.lastIndexOf(',');
+                const lastDot = cleanedValue.lastIndexOf('.');
+                let decimalIndex = Math.max(lastComma, lastDot);
+
+                if (decimalIndex > -1) {
+                    const decimalCandidate = cleanedValue.slice(decimalIndex + 1);
+                    const decimalDigits = decimalCandidate.replace(/[^\d]/g, '');
+                    const hasGroupingSeparators = /[.,]/.test(decimalCandidate);
+                    const isValidDecimal = decimalDigits.length <= 2 && !hasGroupingSeparators;
+
+                    if (!isValidDecimal) {
+                        decimalIndex = -1;
+                    }
+                }
+
+                let integerSection = cleanedValue;
+                let decimalSection = '';
+
+                if (decimalIndex > -1) {
+                    integerSection = cleanedValue.slice(0, decimalIndex);
+                    decimalSection = cleanedValue.slice(decimalIndex + 1);
+                }
+
+                let integerPart = integerSection.replace(/[^\d]/g, '');
+                integerPart = integerPart.replace(/^0+(?=\d)/, '');
+                let decimalPart = decimalSection.replace(/[^\d]/g, '');
+
+                if (decimalPart.length > 2) {
+                    decimalPart = decimalPart.slice(0, 2);
+                }
+
+                if (!integerPart && !decimalPart) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const formattedInteger = integerPart
+                    ? integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    : '0';
+
+                let formattedValue = formattedInteger;
+                let numericString = integerPart || '0';
+
+                if (decimalPart) {
+                    formattedValue += `.${decimalPart}`;
+                    numericString += `.${decimalPart}`;
+                }
+
+                if (!integerPart && decimalPart) {
+                    formattedValue = `0.${decimalPart}`;
+                    numericString = `0.${decimalPart}`;
+                }
+
+                if (!decimalPart && !integerPart) {
+                    formattedValue = '';
+                    numericString = '';
+                }
+
+                return { formatted: formattedValue, numericString };
+            };
+
+            const updatePriceInputFormatting = () => {
+                if (!priceInput) {
+                    return;
+                }
+
+                const { formatted, numericString } = formatPriceValue(priceInput.value);
+                priceInput.value = formatted;
+                priceInput.dataset.numericValue = numericString;
+
+                if (document.activeElement === priceInput) {
+                    const caretPosition = priceInput.value.length;
+                    priceInput.setSelectionRange(caretPosition, caretPosition);
+                }
+            };
+
+            const getNumericPriceValue = () => {
+                if (!priceInput) {
+                    return '';
+                }
+
+                if (typeof priceInput.dataset.numericValue === 'string') {
+                    return priceInput.dataset.numericValue;
+                }
+
+                const { numericString } = formatPriceValue(priceInput.value);
+                return numericString;
+            };
+
+            const resetPricingState = () => {
+                selectedCurrency = 'MXN';
+                selectedCurrencyLabel = 'Peso mexicano';
+                selectedCurrencySymbol = '$';
+                selectedCurrencyCode = 'MXN';
+                isCurrencyDropdownOpen = false;
+                resetPricingErrorState();
+                if (priceInput) {
+                    priceInput.value = '';
+                    priceInput.dataset.numericValue = '';
+                }
+                if (currencySelect && currencySelect.options.length) {
+                    const options = Array.from(currencySelect.options);
+                    const defaultOption = options.find(option => (option.value || '').toUpperCase() === selectedCurrency) || options[0];
+                    if (defaultOption) {
+                        updateCurrencyState(defaultOption);
+                    }
+                } else {
+                    updateCustomCurrencyUI();
+                }
+                closeCurrencyDropdown();
+            };
+
             const showDetailsStep = (step) => {
                 currentDetailsStep = step;
                 if (!detailsSteps.length) {
@@ -128,6 +434,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 if (step === 'features') {
                     updateFeatureGroups();
+                } else if (step === 'pricing') {
+                    updatePricingSummary();
+                    resetPricingErrorState();
+                    closeCurrencyDropdown();
                 }
             };
 
@@ -154,6 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (uploadArea) {
                     uploadArea.classList.remove('is-dragover');
                 }
+                resetPricingState();
                 selectedPropertyType = null;
                 selectedPropertyTypeLabel = '';
                 selectedPropertyPurpose = null;
@@ -179,8 +490,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 selectedPropertyPurpose = purpose;
                 selectedPropertyPurposeLabel = purposeLabel;
                 currentDetailsStep = initialStep;
+                resetPricingState();
                 updateFeatureSummary();
                 updateFeatureGroups();
+                updatePricingSummary();
                 showDetailsStep(initialStep);
                 modalElement.classList.add('modal--visible');
                 updateAriaState(true);
@@ -460,10 +773,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
             renderGallery();
 
+            if (currencySelect) {
+                currencySelect.addEventListener('change', () => {
+                    const selectedOption = currencySelect.options[currencySelect.selectedIndex];
+                    updateCurrencyState(selectedOption);
+                });
+            }
+
+            if (currencyTrigger) {
+                currencyTrigger.addEventListener('click', event => {
+                    event.preventDefault();
+                    toggleCurrencyDropdown();
+                });
+            }
+
+            currencyOptionItems.forEach(item => {
+                item.addEventListener('click', event => {
+                    event.preventDefault();
+                    handleCurrencyOptionSelection(item);
+                });
+
+                item.addEventListener('keydown', event => {
+                    if (event.key === 'Enter' || event.key === ' ') {
+                        event.preventDefault();
+                        handleCurrencyOptionSelection(item);
+                    }
+                });
+            });
+
+            if (priceInput) {
+                priceInput.addEventListener('input', () => {
+                    resetPricingErrorState();
+                    updatePriceInputFormatting();
+                });
+
+                priceInput.addEventListener('blur', () => {
+                    updatePriceInputFormatting();
+                });
+            }
+
             if (detailsPrevButton) {
                 detailsPrevButton.addEventListener('click', event => {
                     event.preventDefault();
                     showDetailsStep('basic');
+                });
+            }
+
+            if (pricingPrevButton) {
+                pricingPrevButton.addEventListener('click', event => {
+                    event.preventDefault();
+                    showDetailsStep('features');
                 });
             }
 
@@ -474,15 +833,51 @@ document.addEventListener('DOMContentLoaded', () => {
                         showDetailsStep('features');
                         return;
                     }
-                    const completionContext = {
-                        type: selectedPropertyType,
-                        typeLabel: selectedPropertyTypeLabel,
-                        purpose: selectedPropertyPurpose,
-                        purposeLabel: selectedPropertyPurposeLabel
-                    };
-                    close();
-                    if (typeof onComplete === 'function') {
-                        onComplete(completionContext);
+                    if (currentDetailsStep === 'features') {
+                        showDetailsStep('pricing');
+                        return;
+                    }
+
+                    if (currentDetailsStep === 'pricing') {
+                        updatePriceInputFormatting();
+
+                        const numericString = getNumericPriceValue();
+                        const numeric = Number(numericString);
+
+                        if (!numericString || Number.isNaN(numeric) || numeric <= 0) {
+                            if (pricingError) {
+                                pricingError.hidden = false;
+                            }
+                            if (pricingInputGroup) {
+                                pricingInputGroup.classList.add('has-error');
+                            }
+                            if (priceInput) {
+                                priceInput.setAttribute('aria-invalid', 'true');
+                                priceInput.focus();
+                            }
+                            return;
+                        }
+
+                        resetPricingErrorState();
+
+                        const completionContext = {
+                            type: selectedPropertyType,
+                            typeLabel: selectedPropertyTypeLabel,
+                            purpose: selectedPropertyPurpose,
+                            purposeLabel: selectedPropertyPurposeLabel,
+                            price: numericString,
+                            priceValue: numeric,
+                            currency: selectedCurrency,
+                            currencyCode: selectedCurrencyCode,
+                            currencyLabel: selectedCurrencyLabel,
+                            billing: selectedPropertyPurpose === 'rentar' ? 'monthly' : 'total'
+                        };
+
+                        close();
+
+                        if (typeof onComplete === 'function') {
+                            onComplete(completionContext);
+                        }
                     }
                 });
             }
@@ -494,491 +889,21 @@ document.addEventListener('DOMContentLoaded', () => {
             return { open, close, showStep: showDetailsStep };
         };
 
-        const createPricingModal = (modalElement, options = {}) => {
-            if (!modalElement) {
-                return null;
-            }
-
-            const { onBack, onSubmit } = options;
-            const closers = Array.from(modalElement.querySelectorAll('[data-modal-close]'));
-            const form = modalElement.querySelector('[data-pricing-form]');
-            const backButton = modalElement.querySelector('[data-pricing-back]');
-            const priceInput = modalElement.querySelector('[data-pricing-input]');
-            const inputGroup = modalElement.querySelector('.publish-pricing__input-group');
-            const helper = modalElement.querySelector('[data-pricing-helper]');
-            const errorMessage = modalElement.querySelector('[data-pricing-error]');
-            const priceLabel = modalElement.querySelector('[data-pricing-label]');
-            const currencySymbol = modalElement.querySelector('[data-pricing-currency-symbol]');
-            const currencySelect = modalElement.querySelector('[data-pricing-currency-select]');
-            const customCurrencySelect = modalElement.querySelector('[data-currency-select]');
-            const currencyTrigger = modalElement.querySelector('[data-currency-trigger]');
-            const currencyTriggerLabel = modalElement.querySelector('[data-currency-label]');
-            const currencyOptionsList = modalElement.querySelector('[data-currency-options]');
-            const currencyOptionItems = currencyOptionsList
-                ? Array.from(currencyOptionsList.querySelectorAll('[data-currency-option]'))
-                : [];
-            const summaryPurpose = modalElement.querySelector('[data-pricing-purpose]');
-            const summaryType = modalElement.querySelector('[data-pricing-type]');
-            const modalDialog = modalElement.querySelector('.modal__dialog');
-            let selectedCurrency = 'MXN';
-            let selectedCurrencyLabel = 'Peso mexicano';
-            let selectedCurrencySymbol = '$';
-            let selectedCurrencyCode = 'MXN';
-            let isCurrencyDropdownOpen = false;
-            let currentContext = {
-                purpose: null,
-                purposeLabel: '',
-                type: null,
-                typeLabel: ''
-            };
-
-            const formatPriceValue = (value = '') => {
-                if (!value) {
-                    return { formatted: '', numericString: '' };
-                }
-
-                const cleanedValue = value
-                    .replace(/\s+/g, '')
-                    .replace(/[^\d.,]/g, '');
-
-                if (!cleanedValue) {
-                    return { formatted: '', numericString: '' };
-                }
-
-                const lastComma = cleanedValue.lastIndexOf(',');
-                const lastDot = cleanedValue.lastIndexOf('.');
-                let decimalIndex = Math.max(lastComma, lastDot);
-
-                if (decimalIndex > -1) {
-                    const decimalCandidate = cleanedValue.slice(decimalIndex + 1);
-                    const decimalDigits = decimalCandidate.replace(/[^\d]/g, '');
-                    const hasGroupingSeparators = /[.,]/.test(decimalCandidate);
-                    const isValidDecimal = decimalDigits.length <= 2 && !hasGroupingSeparators;
-
-                    if (!isValidDecimal) {
-                        decimalIndex = -1;
-                    }
-                }
-
-                let integerSection = cleanedValue;
-                let decimalSection = '';
-
-                if (decimalIndex > -1) {
-                    integerSection = cleanedValue.slice(0, decimalIndex);
-                    decimalSection = cleanedValue.slice(decimalIndex + 1);
-                }
-
-                let integerPart = integerSection.replace(/[^\d]/g, '');
-                integerPart = integerPart.replace(/^0+(?=\d)/, '');
-                let decimalPart = decimalSection.replace(/[^\d]/g, '');
-
-                if (decimalPart.length > 2) {
-                    decimalPart = decimalPart.slice(0, 2);
-                }
-
-                if (!integerPart && !decimalPart) {
-                    return { formatted: '', numericString: '' };
-                }
-
-                const formattedInteger = integerPart
-                    ? integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-                    : '0';
-
-                let formattedValue = formattedInteger;
-                let numericString = integerPart || '0';
-
-                if (decimalPart) {
-                    formattedValue += `.${decimalPart}`;
-                    numericString += `.${decimalPart}`;
-                }
-
-                if (!integerPart && decimalPart) {
-                    formattedValue = `0.${decimalPart}`;
-                    numericString = `0.${decimalPart}`;
-                }
-
-                if (!decimalPart && !integerPart) {
-                    formattedValue = '';
-                    numericString = '';
-                }
-
-                return { formatted: formattedValue, numericString };
-            };
-
-            const updatePriceInputFormatting = () => {
-                if (!priceInput) {
-                    return;
-                }
-
-                const { formatted, numericString } = formatPriceValue(priceInput.value);
-                priceInput.value = formatted;
-                priceInput.dataset.numericValue = numericString;
-
-                if (document.activeElement === priceInput) {
-                    const caretPosition = priceInput.value.length;
-                    priceInput.setSelectionRange(caretPosition, caretPosition);
-                }
-            };
-
-            const getNumericPriceValue = () => {
-                if (!priceInput) {
-                    return '';
-                }
-
-                if (typeof priceInput.dataset.numericValue === 'string') {
-                    return priceInput.dataset.numericValue;
-                }
-
-                const { numericString } = formatPriceValue(priceInput.value);
-                return numericString;
-            };
-
-            const closeCurrencyDropdown = () => {
-                if (!customCurrencySelect) {
-                    return;
-                }
-
-                isCurrencyDropdownOpen = false;
-                customCurrencySelect.classList.remove('is-open');
-
-                if (currencyTrigger) {
-                    currencyTrigger.setAttribute('aria-expanded', 'false');
-                }
-
-                document.removeEventListener('click', handleCurrencyOutsideClick);
-                document.removeEventListener('keydown', handleCurrencyKeyDown);
-            };
-
-            const openCurrencyDropdown = () => {
-                if (!customCurrencySelect || isCurrencyDropdownOpen) {
-                    return;
-                }
-
-                isCurrencyDropdownOpen = true;
-                customCurrencySelect.classList.add('is-open');
-
-                if (currencyTrigger) {
-                    currencyTrigger.setAttribute('aria-expanded', 'true');
-                }
-
-                document.addEventListener('click', handleCurrencyOutsideClick);
-                document.addEventListener('keydown', handleCurrencyKeyDown);
-            };
-
-            const toggleCurrencyDropdown = () => {
-                if (isCurrencyDropdownOpen) {
-                    closeCurrencyDropdown();
-                } else {
-                    openCurrencyDropdown();
-                }
-            };
-
-            const handleCurrencyOutsideClick = (event) => {
-                if (!customCurrencySelect || !isCurrencyDropdownOpen) {
-                    return;
-                }
-
-                if (customCurrencySelect.contains(event.target)) {
-                    return;
-                }
-
-                closeCurrencyDropdown();
-            };
-
-            const handleCurrencyKeyDown = (event) => {
-                if (event.key === 'Escape') {
-                    closeCurrencyDropdown();
-                    if (currencyTrigger) {
-                        currencyTrigger.focus();
-                    }
-                }
-            };
-
-            const updateCustomCurrencyUI = () => {
-                if (currencyTriggerLabel) {
-                    currencyTriggerLabel.textContent = `${selectedCurrency} · ${selectedCurrencyLabel}`;
-                }
-
-                currencyOptionItems.forEach(item => {
-                    const value = (item.dataset.value || '').toUpperCase();
-                    item.classList.toggle('is-active', value === selectedCurrency);
-                    item.setAttribute('aria-selected', value === selectedCurrency ? 'true' : 'false');
-                });
-            };
-
-            const updateAriaState = (isOpen) => {
-                modalElement.setAttribute('aria-hidden', String(!isOpen));
-                if (isOpen) {
-                    modalElement.setAttribute('aria-modal', 'true');
-                } else {
-                    modalElement.removeAttribute('aria-modal');
-                }
-            };
-
-            const handleKeyDown = (event) => {
-                if (event.key === 'Escape') {
-                    close();
-                }
-            };
-
-            const resetErrorState = () => {
-                if (errorMessage) {
-                    errorMessage.hidden = true;
-                }
-                if (inputGroup) {
-                    inputGroup.classList.remove('has-error');
-                }
-                if (priceInput) {
-                    priceInput.removeAttribute('aria-invalid');
-                }
-            };
-
-            const updateCurrencyState = (option) => {
-                if (!option) {
-                    return;
-                }
-
-                selectedCurrency = (option.value || 'MXN').toUpperCase();
-                selectedCurrencyLabel = option.dataset.currencyLabel || selectedCurrency;
-                selectedCurrencySymbol = option.dataset.currencySymbol || '$';
-                selectedCurrencyCode = selectedCurrency;
-
-                if (currencySymbol) {
-                    currencySymbol.textContent = selectedCurrencySymbol;
-                }
-                if (currencySelect) {
-                    currencySelect.value = selectedCurrency;
-                }
-
-                updateCustomCurrencyUI();
-            };
-
-            const close = () => {
-                modalElement.classList.remove('modal--visible');
-                updateAriaState(false);
-                document.removeEventListener('keydown', handleKeyDown);
-                closeCurrencyDropdown();
-            };
-
-            const open = (context = {}) => {
-                currentContext = {
-                    purpose: context.purpose || null,
-                    purposeLabel: context.purposeLabel || '',
-                    type: context.type || null,
-                    typeLabel: context.typeLabel || ''
-                };
-
-                const isRent = currentContext.purpose === 'rentar';
-
-                if (priceLabel) {
-                    priceLabel.textContent = isRent ? 'Precio mensual' : 'Precio de venta';
-                }
-
-                if (helper) {
-                    helper.textContent = isRent
-                        ? 'Este será el monto mensual mostrado en tu anuncio de renta.'
-                        : 'Este será el precio total mostrado en tu anuncio de venta.';
-                }
-
-                if (summaryPurpose) {
-                    summaryPurpose.textContent = currentContext.purposeLabel || 'Por definir';
-                }
-
-                if (summaryType) {
-                    summaryType.textContent = currentContext.typeLabel || 'Por definir';
-                }
-
-                if (form) {
-                    form.reset();
-                }
-
-                resetErrorState();
-
-                if (priceInput) {
-                    priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
-                    priceInput.value = '';
-                    priceInput.dataset.numericValue = '';
-                }
-
-                if (currencySelect && currencySelect.options.length) {
-                    const options = Array.from(currencySelect.options);
-                    const defaultOption = options.find(option => {
-                        const value = option.value || '';
-                        return value.toUpperCase() === selectedCurrency;
-                    }) || options[0];
-                    updateCurrencyState(defaultOption);
-                }
-
-                modalElement.classList.add('modal--visible');
-                updateAriaState(true);
-                document.addEventListener('keydown', handleKeyDown);
-                closeCurrencyDropdown();
-
-                if (modalDialog) {
-                    modalDialog.scrollTop = 0;
-                }
-
-                if (priceInput) {
-                    setTimeout(() => priceInput.focus(), 80);
-                }
-            };
-
-            if (currencySelect) {
-                currencySelect.addEventListener('change', () => {
-                    const selectedOption = currencySelect.options[currencySelect.selectedIndex];
-                    updateCurrencyState(selectedOption);
-                });
-            }
-
-            const handleCurrencyOptionSelection = (item) => {
-                if (!item) {
-                    return;
-                }
-
-                const value = (item.dataset.value || '').toUpperCase();
-
-                if (currencySelect) {
-                    const matchingOption = Array.from(currencySelect.options).find(option => {
-                        const optionValue = (option.value || '').toUpperCase();
-                        return optionValue === value;
-                    });
-
-                    if (matchingOption) {
-                        updateCurrencyState(matchingOption);
-                    }
-                }
-
-                closeCurrencyDropdown();
-
-                if (currencyTrigger) {
-                    currencyTrigger.focus();
-                }
-            };
-
-            if (currencyTrigger) {
-                currencyTrigger.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    toggleCurrencyDropdown();
-                });
-            }
-
-            currencyOptionItems.forEach(item => {
-                item.addEventListener('click', (event) => {
-                    event.preventDefault();
-                    handleCurrencyOptionSelection(item);
-                });
-
-                item.addEventListener('keydown', (event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        event.preventDefault();
-                        handleCurrencyOptionSelection(item);
-                    }
-                });
-            });
-
-            closers.forEach(closer => {
-                closer.addEventListener('click', event => {
-                    event.preventDefault();
-                    close();
-                });
-            });
-
-            if (backButton) {
-                backButton.addEventListener('click', event => {
-                    event.preventDefault();
-                    close();
-                    if (typeof onBack === 'function') {
-                        onBack(currentContext);
-                    }
-                });
-            }
-
-            if (priceInput) {
-                priceInput.addEventListener('input', () => {
-                    resetErrorState();
-                    updatePriceInputFormatting();
-                });
-
-                priceInput.addEventListener('blur', () => {
-                    updatePriceInputFormatting();
-                });
-            }
-
-            if (form) {
-                form.addEventListener('submit', event => {
-                    event.preventDefault();
-
-                    if (!priceInput) {
-                        close();
-                        return;
-                    }
-
-                    updatePriceInputFormatting();
-
-                    const numericString = getNumericPriceValue();
-                    const numeric = Number(numericString);
-
-                    if (!numericString || Number.isNaN(numeric) || numeric <= 0) {
-                        if (errorMessage) {
-                            errorMessage.hidden = false;
-                        }
-                        if (inputGroup) {
-                            inputGroup.classList.add('has-error');
-                        }
-                        priceInput.setAttribute('aria-invalid', 'true');
-                        priceInput.focus();
-                        return;
-                    }
-
-                    resetErrorState();
-
-                    const submission = {
-                        ...currentContext,
-                        price: numericString,
-                        priceValue: numeric,
-                        currency: selectedCurrency,
-                        currencyCode: selectedCurrencyCode,
-                        currencyLabel: selectedCurrencyLabel,
-                        billing: currentContext.purpose === 'rentar' ? 'monthly' : 'total'
-                    };
-
-                    close();
-
-                    if (typeof onSubmit === 'function') {
-                        onSubmit(submission);
-                    }
-                });
-            }
-
-            return { open, close };
-        };
-
-        let lastDetailsContext = null;
-        let pricingModalController = null;
-
         const detailsModalController = createModalController(detailsModal, {
-            onComplete: (context) => {
-                lastDetailsContext = {
-                    type: context.type || null,
-                    typeLabel: context.typeLabel || '',
-                    purpose: context.purpose || null,
-                    purposeLabel: context.purposeLabel || ''
+            onComplete: (context = {}) => {
+                publishState = {
+                    ...publishState,
+                    purpose: context.purpose ?? publishState.purpose,
+                    purposeLabel: context.purposeLabel ?? publishState.purposeLabel,
+                    type: context.type ?? publishState.type,
+                    typeLabel: context.typeLabel ?? publishState.typeLabel,
+                    price: context.price ?? null,
+                    priceValue: context.priceValue ?? null,
+                    currency: context.currency ?? null,
+                    currencyCode: context.currencyCode ?? null,
+                    currencyLabel: context.currencyLabel ?? null,
+                    billing: context.billing ?? null
                 };
-
-                if (pricingModalController) {
-                    pricingModalController.open({ ...lastDetailsContext });
-                }
-            }
-        });
-
-        pricingModalController = createPricingModal(pricingModal, {
-            onBack: () => {
-                if (detailsModalController && lastDetailsContext) {
-                    detailsModalController.open({
-                        ...lastDetailsContext,
-                        initialStep: 'features'
-                    });
-                }
             }
         });
 
@@ -986,7 +911,13 @@ document.addEventListener('DOMContentLoaded', () => {
             purpose: null,
             purposeLabel: null,
             type: null,
-            typeLabel: null
+            typeLabel: null,
+            price: null,
+            priceValue: null,
+            currency: null,
+            currencyCode: null,
+            currencyLabel: null,
+            billing: null
         };
 
         const setBadge = (badge, label) => {
@@ -1020,7 +951,18 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const resetPublishState = () => {
-            publishState = { purpose: null, purposeLabel: null, type: null, typeLabel: null };
+            publishState = {
+                purpose: null,
+                purposeLabel: null,
+                type: null,
+                typeLabel: null,
+                price: null,
+                priceValue: null,
+                currency: null,
+                currencyCode: null,
+                currencyLabel: null,
+                billing: null
+            };
             toggleOptionSelection(purposeOptions, null);
             toggleOptionSelection(typeOptions, null);
             setBadge(summaryBadges.purpose, '');
@@ -1125,7 +1067,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     purpose: publishState.purpose,
                     purposeLabel: publishState.purposeLabel
                 };
-                lastDetailsContext = { ...detailsContext };
                 if (detailsModalController) {
                     detailsModalController.open(detailsContext);
                 }
