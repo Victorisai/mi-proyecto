@@ -662,12 +662,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 integerPart = integerPart.replace(/[^\d]/g, '');
                 decimalPart = decimalPart.replace(/[^\d]/g, '');
 
+                let treatAsThousands = false;
+
                 if (separatorChar) {
                     const separatorsInValue = cleaned.match(/[.,]/g) || [];
                     const separatorsUsed = new Set(separatorsInValue);
                     const sameSeparatorCount = separatorsInValue.filter(char => char === separatorChar).length;
                     const integerNumeric = integerPart ? Number(integerPart) : 0;
-                    const treatAsThousands = separatorsUsed.size === 1 && (
+                    treatAsThousands = separatorsUsed.size === 1 && (
                         sameSeparatorCount > 1
                         || (decimalPart.length > 2 && integerNumeric > 0 && integerPart.length <= 3)
                     );
@@ -679,6 +681,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 const limitedDecimals = decimalPart.slice(0, 2);
+
+                const decimalSeparator = (!treatAsThousands && separatorChar)
+                    ? (separatorChar === '.' ? '.' : ',')
+                    : ',';
 
                 let formattedInteger = '';
 
@@ -694,9 +700,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 let formatted = formattedInteger;
 
                 if (limitedDecimals) {
-                    formatted += `.${limitedDecimals}`;
+                    formatted += `${decimalSeparator}${limitedDecimals}`;
                 } else if (hasTrailingSeparator && formattedInteger) {
-                    formatted += '.';
+                    formatted += decimalSeparator;
                 }
 
                 const normalizedValue = (integerPart || limitedDecimals)
