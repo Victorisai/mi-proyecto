@@ -7408,6 +7408,16 @@ body.profile-page {
     gap: 32px;
 }
 
+.publish-details__step[data-details-step="pricing"] {
+    --pricing-currency-dropdown-space: 0px;
+    padding-bottom: var(--pricing-currency-dropdown-space);
+    transition: padding-bottom 0.2s ease;
+}
+
+.publish-details__step[data-details-step="pricing"].is-currency-dropdown-open {
+    --pricing-currency-dropdown-space: 200px;
+}
+
 .publish-details__step--active,
 .publish-details__step.is-active {
     display: flex;

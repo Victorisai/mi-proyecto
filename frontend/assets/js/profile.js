@@ -92,6 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 desarrollo: 'Desarrollo'
             };
 
+            const setCurrencyDropdownSpacing = (isOpen) => {
+                if (!pricingSection) {
+                    return;
+                }
+                pricingSection.classList.toggle('is-currency-dropdown-open', Boolean(isOpen));
+            };
+
             const updateFeatureSummary = () => {
                 const displayName = selectedPropertyTypeLabel || propertyTypeNames[selectedPropertyType] || '';
                 if (featureTypeLabel) {
@@ -182,6 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 isCurrencyDropdownOpen = false;
                 customCurrencySelect.classList.remove('is-open');
+                setCurrencyDropdownSpacing(false);
                 document.removeEventListener('click', handleCurrencyOutsideClick);
                 document.removeEventListener('keydown', handleCurrencyKeyDown);
             };
@@ -195,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (currencyTrigger) {
                     currencyTrigger.setAttribute('aria-expanded', 'true');
                 }
+                setCurrencyDropdownSpacing(true);
                 document.addEventListener('click', handleCurrencyOutsideClick);
                 document.addEventListener('keydown', handleCurrencyKeyDown);
             };
@@ -401,6 +410,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateCustomCurrencyUI();
                 }
                 closeCurrencyDropdown();
+                setCurrencyDropdownSpacing(false);
             };
 
             const showDetailsStep = (step) => {
