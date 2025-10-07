@@ -7037,6 +7037,23 @@ body.profile-page {
     min-height: 140px;
 }
 
+.publish-details__field input[data-pricing-input] {
+    caret-color: #2563eb;
+    font-variant-numeric: tabular-nums;
+    -moz-appearance: textfield;
+}
+
+.publish-details__field input[data-pricing-input]::selection {
+    background-color: rgba(37, 99, 235, 0.18);
+    color: #0f172a;
+}
+
+.publish-details__field input[data-pricing-input]::-webkit-inner-spin-button,
+.publish-details__field input[data-pricing-input]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .publish-details__hint {
     font-size: 13px;
     color: #64748b;
