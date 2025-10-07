@@ -6725,7 +6725,7 @@ body.profile-page {
     color: #2563eb;
 }
 
-.publish-pricing__input-group input[type="number"] {
+.publish-pricing__input-group input[data-pricing-input] {
     border: 0;
     outline: none;
     width: 100%;
@@ -6733,16 +6733,6 @@ body.profile-page {
     font-weight: 600;
     color: #0f172a;
     background: transparent;
-}
-
-.publish-pricing__input-group input[type="number"]::-webkit-outer-spin-button,
-.publish-pricing__input-group input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.publish-pricing__input-group input[type="number"] {
-    -moz-appearance: textfield;
 }
 
 .publish-pricing__hint {
