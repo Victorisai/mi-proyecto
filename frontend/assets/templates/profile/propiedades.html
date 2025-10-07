@@ -780,72 +780,85 @@
                         <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-details-submit>Guardar y continuar</button>
                     </div>
                 </section>
-            </div>
-        </form>
 
-    </div>
-</div>
+                <section class="publish-details__step" data-details-step="pricing">
+                    <header class="modal-pricing__header">
+                        <span class="modal-pricing__badge">Estrategia comercial</span>
+                        <h2 class="modal__title">Define el precio ideal</h2>
+                        <p class="modal__subtitle">Establece el monto y la moneda con la que publicarás tu propiedad.</p>
+                    </header>
 
-<div class="modal" data-modal="publish-pricing" aria-hidden="true" role="dialog">
-    <div class="modal__overlay" data-modal-close></div>
-    <div class="modal__dialog modal-pricing" role="document">
-        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
-        <header class="modal-pricing__header">
-            <span class="modal-pricing__badge">Estrategia comercial</span>
-            <h2 class="modal__title">Define el precio ideal</h2>
-            <p class="modal__subtitle">Establece el monto y la moneda con la que publicarás tu propiedad.</p>
-        </header>
+                    <section class="modal-pricing__summary" aria-live="polite">
+                        <div class="modal-pricing__summary-item">
+                            <span class="modal-pricing__summary-label">Propósito</span>
+                            <span class="modal-pricing__summary-value" data-pricing-purpose>Por definir</span>
+                        </div>
+                        <div class="modal-pricing__summary-item">
+                            <span class="modal-pricing__summary-label">Tipo de propiedad</span>
+                            <span class="modal-pricing__summary-value" data-pricing-type>Por definir</span>
+                        </div>
+                    </section>
 
-        <section class="modal-pricing__summary" aria-live="polite">
-            <div class="modal-pricing__summary-item">
-                <span class="modal-pricing__summary-label">Propósito</span>
-                <span class="modal-pricing__summary-value" data-pricing-purpose>Por definir</span>
-            </div>
-            <div class="modal-pricing__summary-item">
-                <span class="modal-pricing__summary-label">Tipo de propiedad</span>
-                <span class="modal-pricing__summary-value" data-pricing-type>Por definir</span>
-            </div>
-        </section>
-
-        <form class="publish-pricing" data-pricing-form novalidate>
-            <div class="publish-pricing__field">
-                <label for="publish-price" data-pricing-label>Precio de venta</label>
-                <div class="publish-pricing__input-group">
-                    <span class="publish-pricing__currency" data-pricing-currency-symbol>$</span>
-                    <input type="text" id="publish-price" name="price" inputmode="decimal" placeholder="Ej. 4,500,000" data-pricing-input required>
-                    <div class="publish-pricing__currency-select" data-currency-select>
-                        <button class="publish-pricing__currency-trigger" type="button" data-currency-trigger aria-haspopup="listbox" aria-expanded="false">
-                            <span class="publish-pricing__currency-trigger-label" data-currency-label>MXN · Peso mexicano</span>
-                            <span class="publish-pricing__select-arrow" aria-hidden="true">
-                                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                                    <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                            </span>
-                        </button>
-                        <ul class="publish-pricing__currency-options" data-currency-options role="listbox">
-                            <li class="publish-pricing__currency-option is-active" role="option" data-currency-option data-value="MXN" data-symbol="$" data-label="Peso mexicano" tabindex="0" aria-selected="true">
-                                <span class="publish-pricing__currency-code">MXN</span>
-                                <span class="publish-pricing__currency-name">Peso mexicano</span>
-                            </li>
-                            <li class="publish-pricing__currency-option" role="option" data-currency-option data-value="USD" data-symbol="$" data-label="Dólar estadounidense" tabindex="0" aria-selected="false">
-                                <span class="publish-pricing__currency-code">USD</span>
-                                <span class="publish-pricing__currency-name">Dólar estadounidense</span>
-                            </li>
-                        </ul>
-                        <select id="publish-currency" name="currency" data-pricing-currency-select class="publish-pricing__currency-native" aria-hidden="true" tabindex="-1">
-                            <option value="MXN" data-currency-symbol="$" data-currency-label="Peso mexicano">MXN</option>
-                            <option value="USD" data-currency-symbol="$" data-currency-label="Dólar estadounidense">USD</option>
-                        </select>
+                    <div class="publish-pricing" data-pricing-form>
+                        <div class="publish-pricing__field">
+                            <label for="publish-price" data-pricing-label>Precio de venta</label>
+                            <div class="publish-pricing__input-group">
+                                <span class="publish-pricing__currency" data-pricing-currency-symbol>$</span>
+                                <input type="text" id="publish-price" name="price" inputmode="decimal" placeholder="Ej. 4,500,000" data-pricing-input required>
+                                <div class="publish-pricing__currency-select" data-currency-select>
+                                    <button class="publish-pricing__currency-trigger" type="button" data-currency-trigger aria-haspopup="listbox" aria-expanded="false">
+                                        <span class="publish-pricing__currency-trigger-label" data-currency-label>MXN · Peso mexicano</span>
+                                        <span class="publish-pricing__select-arrow" aria-hidden="true">
+                                            <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                                                <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                    </button>
+                                    <ul class="publish-pricing__currency-options" data-currency-options role="listbox">
+                                        <li class="publish-pricing__currency-option is-active" role="option" data-currency-option data-value="MXN" data-symbol="$" data-label="Peso mexicano" tabindex="0" aria-selected="true">
+                                            <span class="publish-pricing__currency-code">MXN</span>
+                                            <span class="publish-pricing__currency-name">Peso mexicano</span>
+                                        </li>
+                                        <li class="publish-pricing__currency-option" role="option" data-currency-option data-value="USD" data-symbol="$" data-label="Dólar estadounidense" tabindex="0" aria-selected="false">
+                                            <span class="publish-pricing__currency-code">USD</span>
+                                            <span class="publish-pricing__currency-name">Dólar estadounidense</span>
+                                        </li>
+                                        <li class="publish-pricing__currency-option" role="option" data-currency-option data-value="EUR" data-symbol="€" data-label="Euro" tabindex="0" aria-selected="false">
+                                            <span class="publish-pricing__currency-code">EUR</span>
+                                            <span class="publish-pricing__currency-name">Euro</span>
+                                        </li>
+                                        <li class="publish-pricing__currency-option" role="option" data-currency-option data-value="CAD" data-symbol="$" data-label="Dólar canadiense" tabindex="0" aria-selected="false">
+                                            <span class="publish-pricing__currency-code">CAD</span>
+                                            <span class="publish-pricing__currency-name">Dólar canadiense</span>
+                                        </li>
+                                        <li class="publish-pricing__currency-option" role="option" data-currency-option data-value="GBP" data-symbol="£" data-label="Libra esterlina" tabindex="0" aria-selected="false">
+                                            <span class="publish-pricing__currency-code">GBP</span>
+                                            <span class="publish-pricing__currency-name">Libra esterlina</span>
+                                        </li>
+                                    </ul>
+                                    <select id="publish-currency" name="currency" data-pricing-currency-select class="publish-pricing__currency-native" aria-hidden="true" tabindex="-1">
+                                        <option value="MXN" data-currency-label="Peso mexicano" data-currency-symbol="$" selected>MXN</option>
+                                        <option value="USD" data-currency-label="Dólar estadounidense" data-currency-symbol="$">USD</option>
+                                        <option value="EUR" data-currency-label="Euro" data-currency-symbol="€">EUR</option>
+                                        <option value="CAD" data-currency-label="Dólar canadiense" data-currency-symbol="$">CAD</option>
+                                        <option value="GBP" data-currency-label="Libra esterlina" data-currency-symbol="£">GBP</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <p class="publish-pricing__hint" data-pricing-helper>Este será el precio mostrado en tu anuncio.</p>
+                            <p class="publish-pricing__error" data-pricing-error hidden>Ingresa un monto válido para continuar.</p>
+                        </div>
                     </div>
-                </div>
-                <p class="publish-pricing__hint" data-pricing-helper>Este será el precio mostrado en tu anuncio.</p>
-                <p class="publish-pricing__error" data-pricing-error hidden>Ingresa un monto válido para continuar.</p>
-            </div>
 
-            <div class="publish-pricing__actions">
-                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost" data-pricing-back>Volver a ficha</button>
-                <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary">PUBLICAR</button>
+                    <div class="publish-details__actions publish-details__actions--between">
+                        <button type="button" class="modal__action" data-pricing-prev>Volver a características</button>
+                        <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-pricing-submit>Guardar precio</button>
+                    </div>
+                </section>
             </div>
         </form>
+
     </div>
 </div>
+
+
