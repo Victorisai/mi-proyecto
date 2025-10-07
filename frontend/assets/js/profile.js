@@ -632,6 +632,86 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
 
+            const parsePriceInputValue = (rawValue = '') => {
+                const value = typeof rawValue === 'string' ? rawValue : String(rawValue || '');
+                const cleaned = value.replace(/[^\d.,]/g, '');
+
+                if (!cleaned) {
+                    return {
+                        formatted: '',
+                        normalizedValue: '',
+                        numericValue: Number.NaN
+                    };
+                }
+
+                const hasTrailingSeparator = /[.,]$/.test(cleaned);
+                const separatorIndex = Math.max(cleaned.lastIndexOf('.'), cleaned.lastIndexOf(','));
+
+                let integerPart = cleaned;
+                let decimalPart = '';
+                let rawIntegerPart = cleaned;
+                let separatorChar = null;
+
+                if (separatorIndex !== -1) {
+                    rawIntegerPart = cleaned.slice(0, separatorIndex);
+                    integerPart = rawIntegerPart;
+                    decimalPart = cleaned.slice(separatorIndex + 1);
+                    separatorChar = cleaned.charAt(separatorIndex);
+                }
+
+                integerPart = integerPart.replace(/[^\d]/g, '');
+                decimalPart = decimalPart.replace(/[^\d]/g, '');
+
+                if (separatorChar) {
+                    const separatorsInValue = cleaned.match(/[.,]/g) || [];
+                    const separatorsUsed = new Set(separatorsInValue);
+                    const sameSeparatorCount = separatorsInValue.filter(char => char === separatorChar).length;
+                    const integerNumeric = integerPart ? Number(integerPart) : 0;
+                    const treatAsThousands = separatorsUsed.size === 1 && (
+                        sameSeparatorCount > 1
+                        || (decimalPart.length > 2 && integerNumeric > 0 && integerPart.length <= 3)
+                    );
+
+                    if (treatAsThousands) {
+                        integerPart += decimalPart;
+                        decimalPart = '';
+                    }
+                }
+
+                const limitedDecimals = decimalPart.slice(0, 2);
+
+                let formattedInteger = '';
+
+                if (integerPart) {
+                    const integerNumber = Number(integerPart);
+                    formattedInteger = Number.isFinite(integerNumber)
+                        ? integerNumber.toLocaleString('es-MX')
+                        : '';
+                } else if (limitedDecimals || hasTrailingSeparator) {
+                    formattedInteger = '0';
+                }
+
+                let formatted = formattedInteger;
+
+                if (limitedDecimals) {
+                    formatted += `.${limitedDecimals}`;
+                } else if (hasTrailingSeparator && formattedInteger) {
+                    formatted += '.';
+                }
+
+                const normalizedValue = (integerPart || limitedDecimals)
+                    ? `${integerPart || '0'}${limitedDecimals ? `.${limitedDecimals}` : ''}`
+                    : '';
+
+                const numericValue = normalizedValue ? Number(normalizedValue) : Number.NaN;
+
+                return {
+                    formatted,
+                    normalizedValue,
+                    numericValue
+                };
+            };
+
             const updateCurrencyState = (option) => {
                 if (!option) {
                     return;
@@ -696,6 +776,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
+                    delete priceInput.dataset.normalizedValue;
+                    delete priceInput.dataset.numericValue;
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -793,6 +875,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (priceInput) {
                 priceInput.addEventListener('input', () => {
+                    const { formatted, normalizedValue, numericValue } = parsePriceInputValue(priceInput.value);
+                    priceInput.value = formatted;
+
+                    if (normalizedValue) {
+                        priceInput.dataset.normalizedValue = normalizedValue;
+                        priceInput.dataset.numericValue = Number.isNaN(numericValue)
+                            ? ''
+                            : String(numericValue);
+                    } else {
+                        delete priceInput.dataset.normalizedValue;
+                        delete priceInput.dataset.numericValue;
+                    }
+
                     resetErrorState();
                 });
             }
@@ -807,9 +902,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     const value = priceInput.value ? priceInput.value.trim() : '';
-                    const numeric = Number(value);
+                    const { normalizedValue, numericValue } = parsePriceInputValue(value);
+                    const numeric = Number.isNaN(numericValue) ? Number.NaN : numericValue;
 
-                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                    if (!normalizedValue || Number.isNaN(numeric) || numeric <= 0) {
                         if (errorMessage) {
                             errorMessage.hidden = false;
                         }
@@ -825,8 +921,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const submission = {
                         ...currentContext,
-                        price: value,
+                        price: normalizedValue,
                         priceValue: numeric,
+                        priceDisplay: value,
                         currency: selectedCurrency,
                         currencyCode: selectedCurrencyCode,
                         currencyLabel: selectedCurrencyLabel,
