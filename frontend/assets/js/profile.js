@@ -547,7 +547,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const lastComma = cleanedValue.lastIndexOf(',');
                 const lastDot = cleanedValue.lastIndexOf('.');
-                const decimalIndex = Math.max(lastComma, lastDot);
+                let decimalIndex = Math.max(lastComma, lastDot);
+
+                if (decimalIndex > -1) {
+                    const decimalCandidate = cleanedValue.slice(decimalIndex + 1);
+                    const decimalDigits = decimalCandidate.replace(/[^\d]/g, '');
+                    const hasGroupingSeparators = /[.,]/.test(decimalCandidate);
+                    const isValidDecimal = decimalDigits.length <= 2 && !hasGroupingSeparators;
+
+                    if (!isValidDecimal) {
+                        decimalIndex = -1;
+                    }
+                }
 
                 let integerSection = cleanedValue;
                 let decimalSection = '';
