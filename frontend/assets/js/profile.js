@@ -532,6 +532,107 @@ document.addEventListener('DOMContentLoaded', () => {
                 typeLabel: ''
             };
 
+            const formatPriceValue = (value = '') => {
+                if (!value) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const cleanedValue = value
+                    .replace(/\s+/g, '')
+                    .replace(/[^\d.,]/g, '');
+
+                if (!cleanedValue) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const lastComma = cleanedValue.lastIndexOf(',');
+                const lastDot = cleanedValue.lastIndexOf('.');
+                let decimalIndex = Math.max(lastComma, lastDot);
+
+                if (decimalIndex > -1) {
+                    const decimalCandidate = cleanedValue.slice(decimalIndex + 1);
+                    const decimalDigits = decimalCandidate.replace(/[^\d]/g, '');
+                    const hasGroupingSeparators = /[.,]/.test(decimalCandidate);
+                    const isValidDecimal = decimalDigits.length <= 2 && !hasGroupingSeparators;
+
+                    if (!isValidDecimal) {
+                        decimalIndex = -1;
+                    }
+                }
+
+                let integerSection = cleanedValue;
+                let decimalSection = '';
+
+                if (decimalIndex > -1) {
+                    integerSection = cleanedValue.slice(0, decimalIndex);
+                    decimalSection = cleanedValue.slice(decimalIndex + 1);
+                }
+
+                let integerPart = integerSection.replace(/[^\d]/g, '');
+                integerPart = integerPart.replace(/^0+(?=\d)/, '');
+                let decimalPart = decimalSection.replace(/[^\d]/g, '');
+
+                if (decimalPart.length > 2) {
+                    decimalPart = decimalPart.slice(0, 2);
+                }
+
+                if (!integerPart && !decimalPart) {
+                    return { formatted: '', numericString: '' };
+                }
+
+                const formattedInteger = integerPart
+                    ? integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+                    : '0';
+
+                let formattedValue = formattedInteger;
+                let numericString = integerPart || '0';
+
+                if (decimalPart) {
+                    formattedValue += `.${decimalPart}`;
+                    numericString += `.${decimalPart}`;
+                }
+
+                if (!integerPart && decimalPart) {
+                    formattedValue = `0.${decimalPart}`;
+                    numericString = `0.${decimalPart}`;
+                }
+
+                if (!decimalPart && !integerPart) {
+                    formattedValue = '';
+                    numericString = '';
+                }
+
+                return { formatted: formattedValue, numericString };
+            };
+
+            const updatePriceInputFormatting = () => {
+                if (!priceInput) {
+                    return;
+                }
+
+                const { formatted, numericString } = formatPriceValue(priceInput.value);
+                priceInput.value = formatted;
+                priceInput.dataset.numericValue = numericString;
+
+                if (document.activeElement === priceInput) {
+                    const caretPosition = priceInput.value.length;
+                    priceInput.setSelectionRange(caretPosition, caretPosition);
+                }
+            };
+
+            const getNumericPriceValue = () => {
+                if (!priceInput) {
+                    return '';
+                }
+
+                if (typeof priceInput.dataset.numericValue === 'string') {
+                    return priceInput.dataset.numericValue;
+                }
+
+                const { numericString } = formatPriceValue(priceInput.value);
+                return numericString;
+            };
+
             const closeCurrencyDropdown = () => {
                 if (!customCurrencySelect) {
                     return;
@@ -696,6 +797,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
+                    priceInput.dataset.numericValue = '';
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -794,6 +896,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (priceInput) {
                 priceInput.addEventListener('input', () => {
                     resetErrorState();
+                    updatePriceInputFormatting();
+                });
+
+                priceInput.addEventListener('blur', () => {
+                    updatePriceInputFormatting();
                 });
             }
 
@@ -806,10 +913,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    const value = priceInput.value ? priceInput.value.trim() : '';
-                    const numeric = Number(value);
+                    updatePriceInputFormatting();
 
-                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                    const numericString = getNumericPriceValue();
+                    const numeric = Number(numericString);
+
+                    if (!numericString || Number.isNaN(numeric) || numeric <= 0) {
                         if (errorMessage) {
                             errorMessage.hidden = false;
                         }
@@ -825,7 +934,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const submission = {
                         ...currentContext,
-                        price: value,
+                        price: numericString,
                         priceValue: numeric,
                         currency: selectedCurrency,
                         currencyCode: selectedCurrencyCode,
