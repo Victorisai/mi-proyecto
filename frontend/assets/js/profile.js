@@ -532,6 +532,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 typeLabel: ''
             };
 
+            const getFormattedPrice = (value) => {
+                if (!value) {
+                    return { formatted: '', numeric: '' };
+                }
+
+                const cleaned = value.replace(/[^\d.,]/g, '');
+
+                if (!cleaned) {
+                    return { formatted: '', numeric: '' };
+                }
+
+                const lastDotIndex = cleaned.lastIndexOf('.');
+                const lastCommaIndex = cleaned.lastIndexOf(',');
+                const decimalSeparatorIndex = Math.max(lastDotIndex, lastCommaIndex);
+
+                let integerPart = decimalSeparatorIndex >= 0
+                    ? cleaned.slice(0, decimalSeparatorIndex)
+                    : cleaned;
+                let decimalPart = decimalSeparatorIndex >= 0
+                    ? cleaned.slice(decimalSeparatorIndex + 1)
+                    : '';
+
+                integerPart = integerPart.replace(/\D/g, '');
+                decimalPart = decimalPart.replace(/\D/g, '').slice(0, 2);
+
+                if (!integerPart && decimalSeparatorIndex >= 0) {
+                    integerPart = '0';
+                }
+
+                if (!integerPart) {
+                    return { formatted: '', numeric: '' };
+                }
+
+                const formattedInteger = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                const formatted = decimalPart
+                    ? `${formattedInteger}.${decimalPart}`
+                    : formattedInteger;
+                const numeric = decimalPart
+                    ? `${integerPart}.${decimalPart}`
+                    : integerPart;
+
+                return { formatted, numeric };
+            };
+
+            const applyPriceFormatting = () => {
+                if (!priceInput) {
+                    return;
+                }
+
+                const rawValue = priceInput.value;
+                const selectionStart = priceInput.selectionStart ?? rawValue.length;
+                const digitsBeforeCursor = rawValue.slice(0, selectionStart).replace(/\D/g, '').length;
+                const { formatted, numeric } = getFormattedPrice(rawValue);
+
+                priceInput.value = formatted;
+                priceInput.dataset.numericValue = numeric;
+
+                const totalDigits = formatted.replace(/\D/g, '').length;
+                let newCursorPosition = formatted.length;
+
+                if (digitsBeforeCursor === 0) {
+                    newCursorPosition = 0;
+                } else if (digitsBeforeCursor >= totalDigits) {
+                    newCursorPosition = formatted.length;
+                } else {
+                    let digitsCount = 0;
+                    for (let index = 0; index < formatted.length; index += 1) {
+                        if (/\d/.test(formatted[index])) {
+                            digitsCount += 1;
+                        }
+
+                        if (digitsCount >= digitsBeforeCursor) {
+                            newCursorPosition = index + 1;
+                            break;
+                        }
+                    }
+                }
+
+                if (document.activeElement === priceInput) {
+                    priceInput.setSelectionRange(newCursorPosition, newCursorPosition);
+                }
+            };
+
             const closeCurrencyDropdown = () => {
                 if (!customCurrencySelect) {
                     return;
@@ -696,6 +779,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
+                    priceInput.dataset.numericValue = '';
+                    applyPriceFormatting();
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -792,8 +877,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (priceInput) {
+                applyPriceFormatting();
+
                 priceInput.addEventListener('input', () => {
+                    applyPriceFormatting();
                     resetErrorState();
+                });
+
+                priceInput.addEventListener('blur', () => {
+                    applyPriceFormatting();
                 });
             }
 
@@ -806,10 +898,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    const value = priceInput.value ? priceInput.value.trim() : '';
-                    const numeric = Number(value);
+                    applyPriceFormatting();
 
-                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                    const rawValue = priceInput.value ? priceInput.value.trim() : '';
+                    const normalizedValue = priceInput.dataset.numericValue
+                        ? priceInput.dataset.numericValue.trim()
+                        : getFormattedPrice(rawValue).numeric;
+                    const numeric = Number(normalizedValue);
+
+                    if (!normalizedValue || Number.isNaN(numeric) || numeric <= 0) {
                         if (errorMessage) {
                             errorMessage.hidden = false;
                         }
@@ -825,7 +922,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const submission = {
                         ...currentContext,
-                        price: value,
+                        price: normalizedValue,
                         priceValue: numeric,
                         currency: selectedCurrency,
                         currencyCode: selectedCurrencyCode,
