@@ -812,7 +812,10 @@
                 <label for="publish-price" data-pricing-label>Precio de venta</label>
                 <div class="publish-pricing__input-group">
                     <span class="publish-pricing__currency" data-pricing-currency-symbol>$</span>
-                    <input type="number" id="publish-price" name="price" inputmode="decimal" min="0" step="0.01" placeholder="Ej. 4,500,000" data-pricing-input required>
+                    <div class="publish-pricing__input-wrapper" data-pricing-input-wrapper>
+                        <input type="number" id="publish-price" name="price" inputmode="decimal" min="0" step="0.01" placeholder="Ej. 4,500,000" data-pricing-input required>
+                        <span class="publish-pricing__input-format" aria-hidden="true" data-pricing-format></span>
+                    </div>
                     <div class="publish-pricing__currency-select" data-currency-select>
                         <button class="publish-pricing__currency-trigger" type="button" data-currency-trigger aria-haspopup="listbox" aria-expanded="false">
                             <span class="publish-pricing__currency-trigger-label" data-currency-label>MXN · Peso mexicano</span>
@@ -849,3 +852,89 @@
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const pricingInput = document.querySelector('[data-pricing-input]');
+    const inputWrapper = document.querySelector('[data-pricing-input-wrapper]');
+    const formattedDisplay = document.querySelector('[data-pricing-format]');
+
+    if (!pricingInput || !inputWrapper || !formattedDisplay) {
+        return;
+    }
+
+    const numberFormatter = new Intl.NumberFormat('es-MX');
+
+    const updateFormattedValue = () => {
+        const rawValue = pricingInput.value.trim();
+
+        if (!rawValue) {
+            inputWrapper.classList.remove('is-filled');
+            formattedDisplay.textContent = '';
+            return;
+        }
+
+        const [integerPart = '', decimalPart] = rawValue.split('.');
+        const normalizedInteger = integerPart.replace(/^0+(?=\d)/, '') || '0';
+        const integerNumber = Number(normalizedInteger);
+
+        if (Number.isNaN(integerNumber)) {
+            inputWrapper.classList.remove('is-filled');
+            formattedDisplay.textContent = '';
+            return;
+        }
+
+        const formattedInteger = numberFormatter.format(integerNumber);
+        let formattedValue;
+
+        if (decimalPart !== undefined) {
+            formattedValue = decimalPart !== ''
+                ? `${formattedInteger}.${decimalPart}`
+                : `${formattedInteger}.`;
+        } else {
+            formattedValue = formattedInteger;
+        }
+
+        inputWrapper.classList.add('is-filled');
+        formattedDisplay.textContent = formattedValue;
+    };
+
+    pricingInput.addEventListener('input', () => {
+        let sanitizedValue = pricingInput.value.replace(/[^0-9.]/g, '');
+
+        if (sanitizedValue.startsWith('.')) {
+            sanitizedValue = `0${sanitizedValue}`;
+        }
+
+        let decimalIndex = sanitizedValue.indexOf('.');
+
+        if (decimalIndex !== -1) {
+            const integerSection = sanitizedValue.slice(0, decimalIndex);
+            const decimalSection = sanitizedValue
+                .slice(decimalIndex + 1)
+                .replace(/\./g, '');
+            sanitizedValue = `${integerSection}.${decimalSection}`;
+        }
+
+        if (sanitizedValue !== pricingInput.value) {
+            pricingInput.value = sanitizedValue;
+        }
+
+        updateFormattedValue();
+    });
+    pricingInput.addEventListener('blur', updateFormattedValue);
+    pricingInput.addEventListener('focus', updateFormattedValue);
+
+    const pricingForm = pricingInput.closest('form');
+    if (pricingForm) {
+        pricingForm.addEventListener('reset', () => {
+            window.requestAnimationFrame(() => {
+                inputWrapper.classList.remove('is-filled');
+                formattedDisplay.textContent = '';
+            });
+        });
+    }
+
+    updateFormattedValue();
+});
+</script>

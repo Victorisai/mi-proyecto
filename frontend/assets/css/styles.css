@@ -6709,6 +6709,13 @@ body.profile-page {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.publish-pricing__input-wrapper {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+}
+
 .publish-pricing__input-group:focus-within {
     border-color: #2563eb;
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
@@ -6733,6 +6740,38 @@ body.profile-page {
     font-weight: 600;
     color: #0f172a;
     background: transparent;
+}
+
+.publish-pricing__input-wrapper input[type="number"] {
+    position: relative;
+    z-index: 2;
+    background: transparent;
+    caret-color: #0f172a;
+}
+
+.publish-pricing__input-wrapper.is-filled input[type="number"] {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+}
+
+.publish-pricing__input-wrapper.is-filled input[type="number"]::placeholder {
+    color: transparent;
+}
+
+.publish-pricing__input-format {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    line-height: 1.4;
 }
 
 .publish-pricing__input-group input[type="number"]::-webkit-outer-spin-button,
