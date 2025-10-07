@@ -6596,10 +6596,10 @@ body.profile-page {
     box-shadow: none;
 }
 
-.modal-publish-details { 
+.modal-publish-details {
     max-width: 720px;
     max-height: calc(100vh - 96px);
-    padding: 48px 56px;
+    padding: 48px 56px 36px;
     text-align: left;
     display: flex;
     flex-direction: column;
@@ -6609,6 +6609,10 @@ body.profile-page {
     scrollbar-width: thin;
     scrollbar-color: #60a5fa rgba(148, 163, 184, 0.18);
     scrollbar-gutter: stable both-edges;
+}
+
+.publish-details__step[data-details-step="pricing"] {
+    gap: 24px;
 }
 
 .modal-pricing {
@@ -7731,7 +7735,7 @@ body.profile-page {
 
 @media (max-width: 900px) {
     .modal-publish-details {
-        padding: 40px 28px;
+        padding: 40px 28px 24px;
         max-width: 90vw;
     }
 
