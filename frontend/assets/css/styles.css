@@ -6707,6 +6707,7 @@ body.profile-page {
     padding: 14px 18px;
     background-color: #ffffff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
 }
 
 .publish-pricing__input-group:focus-within {
@@ -6725,6 +6726,56 @@ body.profile-page {
     color: #2563eb;
 }
 
+.publish-pricing__input-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+}
+
+.publish-pricing__input-display {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+    pointer-events: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: opacity 0.2s ease;
+}
+
+.publish-pricing__input-wrapper[data-has-value="false"] .publish-pricing__input-display {
+    opacity: 0;
+}
+
+.publish-pricing__input-wrapper[data-has-value="true"] .publish-pricing__input-display {
+    opacity: 1;
+}
+
+.publish-pricing__input-wrapper input[type="number"] {
+    border: 0;
+    outline: none;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #0f172a;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    caret-color: #0f172a;
+}
+
+.publish-pricing__input-wrapper[data-has-value="true"] input[type="number"] {
+    color: transparent;
+}
+
+.publish-pricing__input-wrapper[data-has-value="true"] input[type="number"]::placeholder {
+    color: transparent;
+}
+
 .publish-pricing__input-group input[type="number"] {
     border: 0;
     outline: none;
@@ -6733,6 +6784,11 @@ body.profile-page {
     font-weight: 600;
     color: #0f172a;
     background: transparent;
+}
+
+.publish-pricing__input-group input[type="number"]::placeholder {
+    color: #94a3b8;
+    opacity: 1;
 }
 
 .publish-pricing__input-group input[type="number"]::-webkit-outer-spin-button,

@@ -504,6 +504,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const form = modalElement.querySelector('[data-pricing-form]');
             const backButton = modalElement.querySelector('[data-pricing-back]');
             const priceInput = modalElement.querySelector('[data-pricing-input]');
+            const priceInputWrapper = modalElement.querySelector('[data-pricing-input-wrapper]');
+            const priceDisplay = modalElement.querySelector('[data-pricing-display]');
             const inputGroup = modalElement.querySelector('.publish-pricing__input-group');
             const helper = modalElement.querySelector('[data-pricing-helper]');
             const errorMessage = modalElement.querySelector('[data-pricing-error]');
@@ -632,6 +634,57 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             };
 
+            const formatPriceForDisplay = (value) => {
+                if (typeof value !== 'string') {
+                    return '';
+                }
+
+                const sanitizedValue = value.replace(/[^0-9.]/g, '');
+                if (!sanitizedValue) {
+                    return '';
+                }
+
+                const parts = sanitizedValue.split('.');
+                const integerPart = parts[0] || '';
+                if (!integerPart) {
+                    return '';
+                }
+
+                const numericInteger = Number(integerPart);
+                if (!Number.isFinite(numericInteger)) {
+                    return '';
+                }
+
+                const formattedInteger = numericInteger.toLocaleString('es-MX');
+                if (parts.length === 1) {
+                    return formattedInteger;
+                }
+
+                const decimalPart = parts[1] || '';
+                if (decimalPart.length === 0) {
+                    return `${formattedInteger}.`;
+                }
+
+                return `${formattedInteger}.${decimalPart.slice(0, 2)}`;
+            };
+
+            const updatePriceDisplay = () => {
+                if (!priceInput || !priceInputWrapper || !priceDisplay) {
+                    return;
+                }
+
+                const rawValue = priceInput.value ? priceInput.value.trim() : '';
+                const formattedValue = formatPriceForDisplay(rawValue);
+
+                if (formattedValue) {
+                    priceDisplay.textContent = formattedValue;
+                    priceInputWrapper.dataset.hasValue = 'true';
+                } else {
+                    priceDisplay.textContent = '';
+                    priceInputWrapper.dataset.hasValue = 'false';
+                }
+            };
+
             const updateCurrencyState = (option) => {
                 if (!option) {
                     return;
@@ -697,6 +750,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
                 }
+
+                updatePriceDisplay();
 
                 if (currencySelect && currencySelect.options.length) {
                     const options = Array.from(currencySelect.options);
@@ -794,6 +849,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (priceInput) {
                 priceInput.addEventListener('input', () => {
                     resetErrorState();
+                    updatePriceDisplay();
+                });
+
+                priceInput.addEventListener('change', () => {
+                    updatePriceDisplay();
                 });
             }
 
