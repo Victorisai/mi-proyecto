@@ -532,6 +532,151 @@ document.addEventListener('DOMContentLoaded', () => {
                 typeLabel: ''
             };
 
+            const countDigits = (value = '') => {
+                if (!value) {
+                    return 0;
+                }
+                const matches = value.match(/\d/g);
+                return matches ? matches.length : 0;
+            };
+
+            const normalizePriceValue = (value = '') => {
+                if (!value) {
+                    return '';
+                }
+                return value.replace(/,/g, '').trim();
+            };
+
+            const formatPriceValue = (rawValue = '') => {
+                if (!rawValue) {
+                    return '';
+                }
+
+                const cleaned = rawValue.replace(/[^\d.,]/g, '');
+
+                if (!cleaned) {
+                    return '';
+                }
+
+                const lastDotIndex = cleaned.lastIndexOf('.');
+                const lastCommaIndex = cleaned.lastIndexOf(',');
+                let decimalIndex = -1;
+                let decimalCharacter = '';
+
+                if (lastDotIndex !== -1 || lastCommaIndex !== -1) {
+                    if (lastDotIndex > lastCommaIndex) {
+                        decimalIndex = lastDotIndex;
+                        decimalCharacter = '.';
+                    } else if (lastCommaIndex !== -1) {
+                        decimalIndex = lastCommaIndex;
+                        decimalCharacter = ',';
+                    } else {
+                        decimalIndex = lastDotIndex;
+                        decimalCharacter = '.';
+                    }
+                }
+
+                if (decimalCharacter === ',') {
+                    const commaCount = (cleaned.match(/,/g) || []).length;
+                    const digitsAfterComma = cleaned.slice(decimalIndex + 1).replace(/\D/g, '');
+                    const hasTrailingComma = decimalIndex === cleaned.length - 1;
+                    const shouldUseCommaAsDecimal = commaCount === 1
+                        && (hasTrailingComma || (digitsAfterComma.length > 0 && digitsAfterComma.length <= 2));
+
+                    if (!shouldUseCommaAsDecimal) {
+                        decimalIndex = -1;
+                        decimalCharacter = '';
+                    }
+                }
+
+                if (decimalCharacter === '.' && decimalIndex !== -1) {
+                    const dotCount = (cleaned.match(/\./g) || []).length;
+                    const digitsAfterDot = cleaned.slice(decimalIndex + 1).replace(/\D/g, '');
+                    const hasTrailingDot = decimalIndex === cleaned.length - 1;
+                    const shouldUseDotAsDecimal = dotCount === 1 && (hasTrailingDot || digitsAfterDot.length > 0);
+
+                    if (!shouldUseDotAsDecimal) {
+                        decimalIndex = -1;
+                        decimalCharacter = '';
+                    }
+                }
+
+                const hasDecimalSeparator = decimalIndex >= 0;
+                const hasTrailingSeparator = hasDecimalSeparator && decimalIndex === cleaned.length - 1;
+
+                let integerPart = hasDecimalSeparator ? cleaned.slice(0, decimalIndex) : cleaned;
+                let decimalPart = hasDecimalSeparator ? cleaned.slice(decimalIndex + 1) : '';
+
+                integerPart = integerPart.replace(/\D/g, '');
+                decimalPart = decimalPart.replace(/\D/g, '').slice(0, 2);
+
+                const normalizedInteger = integerPart.replace(/^0+(?=\d)/, '');
+                let formattedInteger = normalizedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+                if (!formattedInteger) {
+                    if (integerPart) {
+                        formattedInteger = integerPart;
+                    } else if (hasDecimalSeparator) {
+                        formattedInteger = '0';
+                    }
+                }
+
+                if (!formattedInteger) {
+                    return '';
+                }
+
+                if (decimalPart) {
+                    return `${formattedInteger}.${decimalPart}`;
+                }
+
+                if (hasDecimalSeparator && hasTrailingSeparator) {
+                    return `${formattedInteger}.`;
+                }
+
+                return formattedInteger;
+            };
+
+            const getCaretPositionForDigits = (value, digitCount) => {
+                if (!value || digitCount <= 0) {
+                    return digitCount > 0 ? value.length : 0;
+                }
+
+                let digitsSeen = 0;
+
+                for (let index = 0; index < value.length; index += 1) {
+                    if (/\d/.test(value[index])) {
+                        digitsSeen += 1;
+                        if (digitsSeen === digitCount) {
+                            return index + 1;
+                        }
+                    }
+                }
+
+                return value.length;
+            };
+
+            const applyFormattedPrice = () => {
+                if (!priceInput) {
+                    return;
+                }
+
+                const currentValue = priceInput.value;
+                const selectionStart = typeof priceInput.selectionStart === 'number'
+                    ? priceInput.selectionStart
+                    : currentValue.length;
+                const digitsBeforeCaret = countDigits(currentValue.slice(0, selectionStart));
+                const formattedValue = formatPriceValue(currentValue);
+
+                priceInput.value = formattedValue;
+
+                if (document.activeElement === priceInput) {
+                    const nextCaretPosition = getCaretPositionForDigits(formattedValue, digitsBeforeCaret);
+                    window.requestAnimationFrame(() => {
+                        priceInput.setSelectionRange(nextCaretPosition, nextCaretPosition);
+                    });
+                }
+            };
+
             const closeCurrencyDropdown = () => {
                 if (!customCurrencySelect) {
                     return;
@@ -792,8 +937,13 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (priceInput) {
+                priceInput.value = formatPriceValue(priceInput.value);
                 priceInput.addEventListener('input', () => {
+                    applyFormattedPrice();
                     resetErrorState();
+                });
+                priceInput.addEventListener('blur', () => {
+                    priceInput.value = formatPriceValue(priceInput.value);
                 });
             }
 
@@ -806,10 +956,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    const value = priceInput.value ? priceInput.value.trim() : '';
-                    const numeric = Number(value);
+                    const rawValue = priceInput.value ? priceInput.value.trim() : '';
+                    const normalizedValue = normalizePriceValue(rawValue);
+                    const numeric = Number(normalizedValue);
 
-                    if (!value || Number.isNaN(numeric) || numeric <= 0) {
+                    if (!normalizedValue || Number.isNaN(numeric) || numeric <= 0) {
                         if (errorMessage) {
                             errorMessage.hidden = false;
                         }
@@ -825,7 +976,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const submission = {
                         ...currentContext,
-                        price: value,
+                        price: normalizedValue,
                         priceValue: numeric,
                         currency: selectedCurrency,
                         currencyCode: selectedCurrencyCode,
