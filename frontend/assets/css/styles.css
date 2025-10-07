@@ -6709,6 +6709,33 @@ body.profile-page {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
+.publish-pricing__input-wrapper {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+}
+
+.publish-pricing__formatted-value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    color: #0f172a;
+    font-size: 1.1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.publish-pricing__formatted-value.is-placeholder {
+    color: #94a3b8;
+    font-weight: 500;
+}
+
 .publish-pricing__input-group:focus-within {
     border-color: #2563eb;
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
@@ -6733,6 +6760,15 @@ body.profile-page {
     font-weight: 600;
     color: #0f172a;
     background: transparent;
+}
+
+.publish-pricing__input-wrapper input[type="number"] {
+    color: transparent;
+    caret-color: #0f172a;
+}
+
+.publish-pricing__input-wrapper input[type="number"]::placeholder {
+    color: transparent;
 }
 
 .publish-pricing__input-group input[type="number"]::-webkit-outer-spin-button,

@@ -505,6 +505,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const backButton = modalElement.querySelector('[data-pricing-back]');
             const priceInput = modalElement.querySelector('[data-pricing-input]');
             const inputGroup = modalElement.querySelector('.publish-pricing__input-group');
+            const formattedPriceValue = modalElement.querySelector('[data-pricing-formatted]');
             const helper = modalElement.querySelector('[data-pricing-helper]');
             const errorMessage = modalElement.querySelector('[data-pricing-error]');
             const priceLabel = modalElement.querySelector('[data-pricing-label]');
@@ -530,6 +531,54 @@ document.addEventListener('DOMContentLoaded', () => {
                 purposeLabel: '',
                 type: null,
                 typeLabel: ''
+            };
+
+            const formatPriceDisplay = (rawValue = '') => {
+                if (!rawValue) {
+                    return '';
+                }
+
+                const stringValue = String(rawValue);
+                const parts = stringValue.split('.');
+                const rawIntegerPart = parts[0] || '';
+                const rawFractionalPart = parts[1] || '';
+                const digitsOnly = rawIntegerPart.replace(/\D/g, '');
+
+                if (!digitsOnly && !rawFractionalPart) {
+                    return '';
+                }
+
+                const normalizedInteger = (digitsOnly.replace(/^0+(?=\d)/, '') || '0');
+                const groupedInteger = normalizedInteger.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+                if (stringValue.endsWith('.') && !rawFractionalPart) {
+                    return `${groupedInteger}.`;
+                }
+
+                if (rawFractionalPart) {
+                    return `${groupedInteger}.${rawFractionalPart}`;
+                }
+
+                return groupedInteger;
+            };
+
+            const updateFormattedPriceDisplay = () => {
+                if (!priceInput || !formattedPriceValue) {
+                    return;
+                }
+
+                const { value } = priceInput;
+
+                if (!value) {
+                    formattedPriceValue.textContent = priceInput.placeholder || '';
+                    formattedPriceValue.classList.add('is-placeholder');
+                    return;
+                }
+
+                const formattedValue = formatPriceDisplay(value);
+
+                formattedPriceValue.textContent = formattedValue;
+                formattedPriceValue.classList.remove('is-placeholder');
             };
 
             const closeCurrencyDropdown = () => {
@@ -696,6 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (priceInput) {
                     priceInput.placeholder = isRent ? 'Ej. 25,000' : 'Ej. 4,500,000';
                     priceInput.value = '';
+                    updateFormattedPriceDisplay();
                 }
 
                 if (currencySelect && currencySelect.options.length) {
@@ -726,6 +776,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const selectedOption = currencySelect.options[currencySelect.selectedIndex];
                     updateCurrencyState(selectedOption);
                 });
+            }
+
+            if (priceInput && formattedPriceValue) {
+                ['input', 'change'].forEach(eventName => {
+                    priceInput.addEventListener(eventName, updateFormattedPriceDisplay);
+                });
+                priceInput.addEventListener('focus', updateFormattedPriceDisplay);
+                priceInput.addEventListener('blur', updateFormattedPriceDisplay);
+                updateFormattedPriceDisplay();
             }
 
             const handleCurrencyOptionSelection = (item) => {
