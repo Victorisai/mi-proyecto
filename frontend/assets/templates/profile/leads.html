@@ -1,0 +1,313 @@
+<div class="dashboard__breadcrumb">
+    <span class="breadcrumb__label">Panel</span>
+    <span class="breadcrumb__divider">/</span>
+    <span class="breadcrumb__current">Leads</span>
+</div>
+
+<section class="dashboard__section leads-overview">
+    <div class="dashboard__section-heading">
+        <div class="leads-overview__copy">
+            <h2 class="dashboard__section-title">Seguimiento de leads</h2>
+            <p class="leads-overview__subtitle">Controla el flujo de prospectos y prioriza tus respuestas.</p>
+        </div>
+        <a href="#" class="dashboard__action-btn dashboard__action-btn--ghost leads-overview__export">
+            Descargar reporte
+        </a>
+    </div>
+
+    <div class="summary-grid leads-summary-grid">
+        <article class="card summary-card">
+            <div class="summary-card__icon summary-card__icon--primary" aria-hidden="true">
+                <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <circle cx="20" cy="20" r="20" fill="rgba(59,130,246,0.18)" />
+                    <path d="M13 17a7 7 0 1 1 14 0c0 5-7 10-7 10s-7-5-7-10Zm7-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z" fill="#2563eb" />
+                </svg>
+            </div>
+            <div class="summary-card__content">
+                <p class="summary-card__title">Total de leads</p>
+                <p class="summary-card__value" data-leads-total>6</p>
+                <p class="summary-card__trend">Actualizado en tiempo real</p>
+            </div>
+        </article>
+        <article class="card summary-card">
+            <div class="summary-card__icon summary-card__icon--info" aria-hidden="true">
+                <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <circle cx="20" cy="20" r="20" fill="rgba(59,130,246,0.12)" />
+                    <path d="M26.5 24.5 21 17.5l-3 3.8-2-2.3-4.5 5.5h15Z" fill="#1d4ed8" />
+                    <path d="M26.5 24.5h-15" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <div class="summary-card__content">
+                <p class="summary-card__title">Nuevos esta semana</p>
+                <p class="summary-card__value">2</p>
+                <p class="summary-card__trend summary-card__trend--up">+18% vs semana anterior</p>
+            </div>
+        </article>
+        <article class="card summary-card">
+            <div class="summary-card__icon summary-card__icon--warning" aria-hidden="true">
+                <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                    <circle cx="20" cy="20" r="20" fill="rgba(245,158,11,0.12)" />
+                    <path d="M20 12c-3.9 0-7 3.4-7 7.5s3.1 7.5 7 7.5 7-3.4 7-7.5S23.9 12 20 12Zm0 4c.7 0 1.2.5 1.2 1.2v4.6c0 .7-.5 1.2-1.2 1.2s-1.2-.5-1.2-1.2v-4.6c0-.7.5-1.2 1.2-1.2Zm0 8.8a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4Z" fill="#d97706" />
+                </svg>
+            </div>
+            <div class="summary-card__content">
+                <p class="summary-card__title">Seguimiento pendiente</p>
+                <p class="summary-card__value">3</p>
+                <p class="summary-card__trend summary-card__trend--neutral">Coordina respuestas en menos de 24 h</p>
+            </div>
+        </article>
+    </div>
+</section>
+
+<section class="dashboard__section">
+    <div class="leads-toolbar card">
+        <div class="leads-toolbar__summary">
+            <h3 class="leads-toolbar__title">Panel de prospectos</h3>
+            <p class="leads-toolbar__description">
+                Visualizando <span data-leads-count>6</span> de <span data-leads-total>6</span> leads registrados en la plataforma.
+            </p>
+        </div>
+        <form class="leads-toolbar__filters" data-leads-filters>
+            <div class="leads-toolbar__field leads-toolbar__field--search">
+                <label for="leads-search">Buscar lead</label>
+                <input type="search" id="leads-search" name="leads-search" placeholder="Nombre, correo o teléfono" data-leads-search>
+            </div>
+            <div class="leads-toolbar__field leads-toolbar__field--dates">
+                <label for="leads-date-start">Rango de fechas</label>
+                <div class="leads-toolbar__date-range">
+                    <input type="date" id="leads-date-start" name="leads-date-start" data-leads-date-start>
+                    <span aria-hidden="true">—</span>
+                    <input type="date" id="leads-date-end" name="leads-date-end" data-leads-date-end>
+                </div>
+            </div>
+            <button type="reset" class="leads-toolbar__reset">Limpiar filtros</button>
+        </form>
+    </div>
+</section>
+
+<section class="dashboard__section leads-list-section">
+    <div class="card leads-list" data-leads-list>
+        <article class="lead-card" data-lead-item data-lead-name="María López" data-lead-email="maria.lopez@email.com" data-lead-phone="+52 55 2801 2234" data-lead-property="Departamento panorámico en Puerto Cancún" data-lead-date="2024-06-01">
+            <header class="lead-card__header">
+                <div class="lead-card__identity">
+                    <div class="lead-card__name-wrapper">
+                        <span class="lead-card__name">María López</span>
+                        <span class="lead-card__badge lead-card__badge--new">Nuevo</span>
+                    </div>
+                    <div class="lead-card__contact">
+                        <span>maria.lopez@email.com</span>
+                        <span>+52 55 2801 2234</span>
+                    </div>
+                </div>
+                <div class="lead-card__meta">
+                    <span class="lead-card__date" aria-label="Recibido el 1 de junio de 2024">01 Jun 2024</span>
+                    <span class="lead-card__channel">Formulario web</span>
+                </div>
+            </header>
+            <div class="lead-card__details">
+                <div class="lead-card__item">
+                    <span class="lead-card__label">Propiedad de interés</span>
+                    <p class="lead-card__value">Departamento panorámico en Puerto Cancún · Venta</p>
+                </div>
+                <div class="lead-card__item lead-card__item--message">
+                    <span class="lead-card__label">Mensaje</span>
+                    <p>Estamos interesados en visitar el departamento este fin de semana. ¿Tienen horarios disponibles el sábado?</p>
+                </div>
+            </div>
+            <footer class="lead-card__footer">
+                <div class="lead-card__tags">
+                    <span class="lead-card__tag">Requiere respuesta</span>
+                </div>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost lead-card__button">Ver lead completo</button>
+            </footer>
+        </article>
+
+        <article class="lead-card" data-lead-item data-lead-name="Javier Hernández" data-lead-email="javier.hdz@email.com" data-lead-phone="+52 81 4492 1100" data-lead-property="Residencial Aria - Villa con alberca" data-lead-date="2024-05-28">
+            <header class="lead-card__header">
+                <div class="lead-card__identity">
+                    <div class="lead-card__name-wrapper">
+                        <span class="lead-card__name">Javier Hernández</span>
+                        <span class="lead-card__badge lead-card__badge--hot">Calificado</span>
+                    </div>
+                    <div class="lead-card__contact">
+                        <span>javier.hdz@email.com</span>
+                        <span>+52 81 4492 1100</span>
+                    </div>
+                </div>
+                <div class="lead-card__meta">
+                    <span class="lead-card__date" aria-label="Recibido el 28 de mayo de 2024">28 May 2024</span>
+                    <span class="lead-card__channel">Campaña Ads</span>
+                </div>
+            </header>
+            <div class="lead-card__details">
+                <div class="lead-card__item">
+                    <span class="lead-card__label">Propiedad de interés</span>
+                    <p class="lead-card__value">Residencial Aria - Villa con alberca privada · Venta</p>
+                </div>
+                <div class="lead-card__item lead-card__item--message">
+                    <span class="lead-card__label">Mensaje</span>
+                    <p>Solicito ficha técnica y plan de pagos. Podemos programar una llamada el miércoles por la tarde.</p>
+                </div>
+            </div>
+            <footer class="lead-card__footer">
+                <div class="lead-card__tags">
+                    <span class="lead-card__tag lead-card__tag--success">Respuesta enviada</span>
+                </div>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost lead-card__button">Ver lead completo</button>
+            </footer>
+        </article>
+
+        <article class="lead-card" data-lead-item data-lead-name="Sofía Ramírez" data-lead-email="sofia.ramirez@email.com" data-lead-phone="+52 55 9123 0045" data-lead-property="Loft en Distrito Icon" data-lead-date="2024-05-22">
+            <header class="lead-card__header">
+                <div class="lead-card__identity">
+                    <div class="lead-card__name-wrapper">
+                        <span class="lead-card__name">Sofía Ramírez</span>
+                        <span class="lead-card__badge">En seguimiento</span>
+                    </div>
+                    <div class="lead-card__contact">
+                        <span>sofia.ramirez@email.com</span>
+                        <span>+52 55 9123 0045</span>
+                    </div>
+                </div>
+                <div class="lead-card__meta">
+                    <span class="lead-card__date" aria-label="Recibido el 22 de mayo de 2024">22 May 2024</span>
+                    <span class="lead-card__channel">Referencia</span>
+                </div>
+            </header>
+            <div class="lead-card__details">
+                <div class="lead-card__item">
+                    <span class="lead-card__label">Propiedad de interés</span>
+                    <p class="lead-card__value">Loft en Distrito Icon · Renta</p>
+                </div>
+                <div class="lead-card__item lead-card__item--message">
+                    <span class="lead-card__label">Mensaje</span>
+                    <p>Busco rentar a partir de julio. Quedo atenta para confirmar visita y requisitos.</p>
+                </div>
+            </div>
+            <footer class="lead-card__footer">
+                <div class="lead-card__tags">
+                    <span class="lead-card__tag lead-card__tag--warning">Esperando confirmación</span>
+                </div>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost lead-card__button">Ver lead completo</button>
+            </footer>
+        </article>
+
+        <article class="lead-card" data-lead-item data-lead-name="Carla Medina" data-lead-email="carla.medina@email.com" data-lead-phone="+52 33 7845 8890" data-lead-property="Casa boutique en Lago Esmeralda" data-lead-date="2024-05-18">
+            <header class="lead-card__header">
+                <div class="lead-card__identity">
+                    <div class="lead-card__name-wrapper">
+                        <span class="lead-card__name">Carla Medina</span>
+                        <span class="lead-card__badge lead-card__badge--new">Nuevo</span>
+                    </div>
+                    <div class="lead-card__contact">
+                        <span>carla.medina@email.com</span>
+                        <span>+52 33 7845 8890</span>
+                    </div>
+                </div>
+                <div class="lead-card__meta">
+                    <span class="lead-card__date" aria-label="Recibido el 18 de mayo de 2024">18 May 2024</span>
+                    <span class="lead-card__channel">Landing campaña</span>
+                </div>
+            </header>
+            <div class="lead-card__details">
+                <div class="lead-card__item">
+                    <span class="lead-card__label">Propiedad de interés</span>
+                    <p class="lead-card__value">Casa boutique en Lago Esmeralda · Venta</p>
+                </div>
+                <div class="lead-card__item lead-card__item--message">
+                    <span class="lead-card__label">Mensaje</span>
+                    <p>Me interesa conocer los acabados y opciones de financiamiento. Favor de contactar después de las 5 pm.</p>
+                </div>
+            </div>
+            <footer class="lead-card__footer">
+                <div class="lead-card__tags">
+                    <span class="lead-card__tag">Priorizar seguimiento</span>
+                </div>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost lead-card__button">Ver lead completo</button>
+            </footer>
+        </article>
+
+        <article class="lead-card" data-lead-item data-lead-name="Luis Ortega" data-lead-email="l.ortega@email.com" data-lead-phone="+52 55 3678 5521" data-lead-property="Torre Marina - Sky suite" data-lead-date="2024-05-10">
+            <header class="lead-card__header">
+                <div class="lead-card__identity">
+                    <div class="lead-card__name-wrapper">
+                        <span class="lead-card__name">Luis Ortega</span>
+                        <span class="lead-card__badge">En seguimiento</span>
+                    </div>
+                    <div class="lead-card__contact">
+                        <span>l.ortega@email.com</span>
+                        <span>+52 55 3678 5521</span>
+                    </div>
+                </div>
+                <div class="lead-card__meta">
+                    <span class="lead-card__date" aria-label="Recibido el 10 de mayo de 2024">10 May 2024</span>
+                    <span class="lead-card__channel">Portales aliados</span>
+                </div>
+            </header>
+            <div class="lead-card__details">
+                <div class="lead-card__item">
+                    <span class="lead-card__label">Propiedad de interés</span>
+                    <p class="lead-card__value">Torre Marina - Sky suite · Venta</p>
+                </div>
+                <div class="lead-card__item lead-card__item--message">
+                    <span class="lead-card__label">Mensaje</span>
+                    <p>Me gustaría recibir un tour virtual antes de agendar visita presencial. Gracias.</p>
+                </div>
+            </div>
+            <footer class="lead-card__footer">
+                <div class="lead-card__tags">
+                    <span class="lead-card__tag lead-card__tag--success">Contacto respondido</span>
+                </div>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost lead-card__button">Ver lead completo</button>
+            </footer>
+        </article>
+
+        <article class="lead-card" data-lead-item data-lead-name="Andrea Pineda" data-lead-email="andrea.pineda@email.com" data-lead-phone="+52 81 1102 7744" data-lead-property="Garden Houses - Modelo Aura" data-lead-date="2024-04-30">
+            <header class="lead-card__header">
+                <div class="lead-card__identity">
+                    <div class="lead-card__name-wrapper">
+                        <span class="lead-card__name">Andrea Pineda</span>
+                        <span class="lead-card__badge lead-card__badge--cold">Seguimiento largo plazo</span>
+                    </div>
+                    <div class="lead-card__contact">
+                        <span>andrea.pineda@email.com</span>
+                        <span>+52 81 1102 7744</span>
+                    </div>
+                </div>
+                <div class="lead-card__meta">
+                    <span class="lead-card__date" aria-label="Recibido el 30 de abril de 2024">30 Abr 2024</span>
+                    <span class="lead-card__channel">Campaña email</span>
+                </div>
+            </header>
+            <div class="lead-card__details">
+                <div class="lead-card__item">
+                    <span class="lead-card__label">Propiedad de interés</span>
+                    <p class="lead-card__value">Garden Houses - Modelo Aura · Preventa</p>
+                </div>
+                <div class="lead-card__item lead-card__item--message">
+                    <span class="lead-card__label">Mensaje</span>
+                    <p>Necesito información sobre planes de pago y fecha estimada de entrega.</p>
+                </div>
+            </div>
+            <footer class="lead-card__footer">
+                <div class="lead-card__tags">
+                    <span class="lead-card__tag lead-card__tag--muted">Programar seguimiento</span>
+                </div>
+                <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost lead-card__button">Ver lead completo</button>
+            </footer>
+        </article>
+    </div>
+
+    <div class="leads-empty card" data-leads-empty hidden>
+        <div class="leads-empty__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                <rect x="8" y="14" width="48" height="36" rx="12" fill="rgba(59,130,246,0.08)" />
+                <path d="M20 28h24M20 36h18" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" />
+            </svg>
+        </div>
+        <div class="leads-empty__content">
+            <h3>Sin coincidencias por ahora</h3>
+            <p>Ajusta tus filtros de búsqueda o amplia el rango de fechas para visualizar otros leads disponibles.</p>
+        </div>
+    </div>
+</section>

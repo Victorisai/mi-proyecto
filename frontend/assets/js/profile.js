@@ -1074,9 +1074,144 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const setupLeadsPanel = (panel) => {
+        const list = panel.querySelector('[data-leads-list]');
+        if (!list) {
+            return;
+        }
+
+        const leadItems = Array.from(list.querySelectorAll('[data-lead-item]'));
+        if (!leadItems.length) {
+            return;
+        }
+
+        const searchInput = panel.querySelector('[data-leads-search]');
+        const startInput = panel.querySelector('[data-leads-date-start]');
+        const endInput = panel.querySelector('[data-leads-date-end]');
+        const filtersForm = panel.querySelector('[data-leads-filters]');
+        const countTargets = panel.querySelectorAll('[data-leads-count]');
+        const totalTargets = panel.querySelectorAll('[data-leads-total]');
+        const emptyState = panel.querySelector('[data-leads-empty]');
+        const totalCount = leadItems.length;
+
+        totalTargets.forEach(target => {
+            target.textContent = totalCount;
+        });
+
+        const parseDateValue = (value) => {
+            if (!value) {
+                return null;
+            }
+            const parsed = new Date(`${value}T00:00:00`);
+            return Number.isNaN(parsed.getTime()) ? null : parsed;
+        };
+
+        const updateCount = (visibleCount) => {
+            countTargets.forEach(target => {
+                target.textContent = visibleCount;
+            });
+        };
+
+        const syncDateConstraints = () => {
+            if (!startInput || !endInput) {
+                return;
+            }
+
+            if (startInput.value) {
+                endInput.min = startInput.value;
+            } else {
+                endInput.removeAttribute('min');
+            }
+
+            if (endInput.value) {
+                startInput.max = endInput.value;
+            } else {
+                startInput.removeAttribute('max');
+            }
+        };
+
+        const applyFilters = () => {
+            const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+            const startDate = parseDateValue(startInput ? startInput.value : '');
+            const endDate = parseDateValue(endInput ? endInput.value : '');
+            let visibleCount = 0;
+
+            leadItems.forEach(item => {
+                const { leadName = '', leadEmail = '', leadPhone = '', leadProperty = '', leadDate = '' } = item.dataset;
+                const haystack = `${leadName} ${leadEmail} ${leadPhone} ${leadProperty}`.toLowerCase();
+                const matchesQuery = !query || haystack.includes(query);
+
+                let matchesDate = true;
+                if (startDate || endDate) {
+                    const itemDate = parseDateValue(leadDate);
+                    if (startDate && (!itemDate || itemDate < startDate)) {
+                        matchesDate = false;
+                    }
+                    if (endDate && (!itemDate || itemDate > endDate)) {
+                        matchesDate = false;
+                    }
+                }
+
+                const isVisible = matchesQuery && matchesDate;
+                item.toggleAttribute('hidden', !isVisible);
+
+                if (isVisible) {
+                    visibleCount += 1;
+                }
+            });
+
+            updateCount(visibleCount);
+
+            if (emptyState) {
+                emptyState.hidden = visibleCount !== 0;
+            }
+        };
+
+        const watchInput = (input, handler) => {
+            if (!input) {
+                return;
+            }
+            const eventName = input.type === 'date' ? 'change' : 'input';
+            input.addEventListener(eventName, handler);
+        };
+
+        watchInput(searchInput, () => {
+            applyFilters();
+        });
+
+        watchInput(startInput, () => {
+            syncDateConstraints();
+            applyFilters();
+        });
+
+        watchInput(endInput, () => {
+            syncDateConstraints();
+            applyFilters();
+        });
+
+        if (filtersForm) {
+            filtersForm.addEventListener('submit', event => {
+                event.preventDefault();
+            });
+
+            filtersForm.addEventListener('reset', () => {
+                window.requestAnimationFrame(() => {
+                    syncDateConstraints();
+                    applyFilters();
+                });
+            });
+        }
+
+        syncDateConstraints();
+        applyFilters();
+    };
+
     const initializePanelFeatures = (panel) => {
         if (panel.dataset.section === 'propiedades') {
             setupPublishModal(panel);
+        }
+        if (panel.dataset.section === 'leads') {
+            setupLeadsPanel(panel);
         }
     };
 
