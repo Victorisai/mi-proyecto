@@ -5,9 +5,28 @@
         <span class="breadcrumb__current">Leads</span>
     </div>
 
-    <div class="leads__workspace">
-        <div class="card leads__placeholder">
-            <p class="leads__placeholder-message">Pronto podrás gestionar tus leads desde aquí.</p>
+    <div class="leads__header">
+        <div class="leads__summary">
+            <h1 class="leads__title">Leads</h1>
+            <span class="leads__badge" aria-label="Total de leads">12</span>
         </div>
+
+        <form class="leads__filters" action="#" method="get">
+            <div class="leads__search">
+                <label class="leads__label" for="leads-search">Buscar</label>
+                <input id="leads-search" name="query" type="search" placeholder="Buscar lead" class="leads__search-input">
+                <button class="leads__search-button" type="submit" aria-label="Buscar leads">
+                    <span aria-hidden="true">🔍</span>
+                </button>
+            </div>
+
+            <div class="leads__date">
+                <span class="leads__label">Fecha</span>
+                <button id="leads-date" class="leads__date-button" type="button" aria-haspopup="true" aria-expanded="false">
+                    <span>Fecha</span>
+                    <span class="leads__date-icon" aria-hidden="true">▼</span>
+                </button>
+            </div>
+        </form>
     </div>
 </section>
