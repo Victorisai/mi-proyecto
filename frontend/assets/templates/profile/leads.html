@@ -7,26 +7,54 @@
 
     <div class="leads__header">
         <div class="leads__summary">
-            <h1 class="leads__title">Leads</h1>
-            <span class="leads__badge" aria-label="Total de leads">12</span>
+            <div class="leads__summary-main">
+                <div class="leads__icon" aria-hidden="true">
+                    <span class="leads__icon-symbol">👥</span>
+                </div>
+
+                <div class="leads__summary-text">
+                    <span class="leads__eyebrow">Panel de rendimiento</span>
+                    <h1 class="leads__title">Gestión de Leads</h1>
+                    <p class="leads__description">Visualiza y organiza tus oportunidades comerciales en tiempo real para priorizar tus acciones.</p>
+                </div>
+            </div>
+
+            <div class="leads__metrics" role="list">
+                <div class="leads__metric" role="listitem">
+                    <span class="leads__metric-label">Leads activos</span>
+                    <span class="leads__metric-value">12</span>
+                </div>
+                <div class="leads__metric" role="listitem">
+                    <span class="leads__metric-label">Nuevos</span>
+                    <span class="leads__metric-value leads__metric-value--positive">04</span>
+                </div>
+                <div class="leads__metric" role="listitem">
+                    <span class="leads__metric-label">En seguimiento</span>
+                    <span class="leads__metric-value leads__metric-value--neutral">06</span>
+                </div>
+            </div>
         </div>
 
-        <form class="leads__filters" action="#" method="get">
-            <div class="leads__search">
-                <label class="leads__label" for="leads-search">Buscar</label>
-                <input id="leads-search" name="query" type="search" placeholder="Buscar lead" class="leads__search-input">
-                <button class="leads__search-button" type="submit" aria-label="Buscar leads">
-                    <span aria-hidden="true">🔍</span>
-                </button>
-            </div>
+        <div class="leads__controls">
+            <form class="leads__filters" action="#" method="get">
+                <div class="leads__search">
+                    <label class="leads__label" for="leads-search">Buscar</label>
+                    <input id="leads-search" name="query" type="search" placeholder="Buscar lead" class="leads__search-input">
+                    <button class="leads__search-button" type="submit" aria-label="Buscar leads">
+                        <span aria-hidden="true">🔍</span>
+                    </button>
+                </div>
 
-            <div class="leads__date">
-                <span class="leads__label">Fecha</span>
-                <button id="leads-date" class="leads__date-button" type="button" aria-haspopup="true" aria-expanded="false">
-                    <span>Fecha</span>
-                    <span class="leads__date-icon" aria-hidden="true">▼</span>
-                </button>
-            </div>
-        </form>
+                <div class="leads__date">
+                    <span class="leads__label">Fecha</span>
+                    <button id="leads-date" class="leads__date-button" type="button" aria-haspopup="true" aria-expanded="false">
+                        <span>Rango personalizado</span>
+                        <span class="leads__date-icon" aria-hidden="true">▼</span>
+                    </button>
+                </div>
+            </form>
+
+            <button class="leads__cta" type="button">Nuevo lead</button>
+        </div>
     </div>
 </section>
