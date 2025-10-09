@@ -5,9 +5,369 @@
         <span class="breadcrumb__current">Leads</span>
     </div>
 
-    <div class="leads__workspace">
-        <div class="card leads__placeholder">
-            <p class="leads__placeholder-message">Pronto podrás gestionar tus leads desde aquí.</p>
+    <div class="leads__content">
+        <div class="leads__toolbar">
+            <div class="leads__toolbar-row">
+                <div class="leads__title-group">
+                    <h1 class="leads__heading">Leads</h1>
+                    <span class="leads__chip" id="leadsCount" aria-live="polite">Total: 12</span>
+                </div>
+                <div class="leads__actions">
+                    <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" title="Notificaciones">
+                        <span aria-hidden="true">🔔</span>
+                        <span class="sr-only">Notificaciones</span>
+                    </button>
+                    <button class="leads-btn leads-btn--primary" type="button" id="exportBtn">Exportar CSV</button>
+                </div>
+            </div>
+            <div class="card leads__filters" role="region" aria-label="Filtros de búsqueda">
+                <div class="leads__filters-grid">
+                    <label class="sr-only" for="leadSearch">Buscar</label>
+                    <input class="leads-input" id="leadSearch" type="search" placeholder="Buscar por nombre, email, teléfono o mensaje…" />
+
+                    <label class="sr-only" for="leadDateRange">Rango de fecha</label>
+                    <select class="leads-select" id="leadDateRange" title="Rango de fecha">
+                        <option value="all">Todas las fechas</option>
+                        <option value="today">Hoy</option>
+                        <option value="week">Esta semana</option>
+                        <option value="month">Este mes</option>
+                    </select>
+
+                    <label class="sr-only" for="leadStateFilter">Estado</label>
+                    <select class="leads-select" id="leadStateFilter" title="Estado">
+                        <option value="all">Todos los estados</option>
+                        <option value="new">Nuevo</option>
+                        <option value="progress">En seguimiento</option>
+                        <option value="done">Cerrado</option>
+                    </select>
+
+                    <label class="sr-only" for="leadPropertyFilter">Propiedad</label>
+                    <select class="leads-select" id="leadPropertyFilter" title="Propiedad">
+                        <option value="all">Todas las propiedades</option>
+                        <option value="Casa Cancún · ID #A102">Casa Cancún · ID #A102</option>
+                        <option value="Lote Holbox · ID #L25">Lote Holbox · ID #L25</option>
+                        <option value="Depto Centro · ID #D9">Depto Centro · ID #D9</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="leads__metrics">
+            <article class="card leads-metric">
+                <div class="leads-metric__info">
+                    <span class="leads-metric__label">Total</span>
+                    <span class="leads-metric__value" id="leadsTotal">12</span>
+                </div>
+                <span class="leads-metric__badge">100%</span>
+            </article>
+            <article class="card leads-metric">
+                <div class="leads-metric__info">
+                    <span class="leads-metric__label">Nuevos</span>
+                    <span class="leads-metric__value" id="leadsNew">5</span>
+                </div>
+                <span class="leads-metric__badge leads-metric__badge--new">🟡</span>
+            </article>
+            <article class="card leads-metric">
+                <div class="leads-metric__info">
+                    <span class="leads-metric__label">En seguimiento</span>
+                    <span class="leads-metric__value" id="leadsProgress">4</span>
+                </div>
+                <span class="leads-metric__badge leads-metric__badge--progress">🟠</span>
+            </article>
+            <article class="card leads-metric">
+                <div class="leads-metric__info">
+                    <span class="leads-metric__label">Cerrados</span>
+                    <span class="leads-metric__value" id="leadsDone">3</span>
+                </div>
+                <span class="leads-metric__badge leads-metric__badge--done">🟢</span>
+            </article>
+        </div>
+
+        <div class="card leads__table">
+            <div class="leads-table__wrapper">
+                <table class="leads-table" aria-describedby="leadsCount">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Teléfono</th>
+                            <th>Email</th>
+                            <th>Propiedad</th>
+                            <th>Mensaje</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leadRows"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="leads__pagination">
+            <button class="leads-btn leads-btn--ghost" type="button" id="leadsPrev">◀</button>
+            <span class="leads__pagination-range" id="leadsRange">Mostrando 1–10 de 12</span>
+            <button class="leads-btn leads-btn--ghost" type="button" id="leadsNext">▶</button>
         </div>
     </div>
 </section>
+
+<div class="leads-drawer" id="leadDrawer" role="dialog" aria-modal="true" aria-label="Detalles del lead" aria-hidden="true">
+    <div class="leads-drawer__backdrop" data-close></div>
+    <aside class="leads-drawer__panel">
+        <div class="leads-drawer__header">
+            <h3 class="leads-drawer__title" id="drawerName">Nombre Lead</h3>
+            <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" data-close title="Cerrar">✕</button>
+        </div>
+        <div class="leads-drawer__section">
+            <dl class="leads-drawer__details">
+                <div class="leads-drawer__detail">
+                    <dt>Email</dt>
+                    <dd id="drawerEmail"></dd>
+                </div>
+                <div class="leads-drawer__detail">
+                    <dt>Teléfono</dt>
+                    <dd id="drawerPhone"></dd>
+                </div>
+                <div class="leads-drawer__detail">
+                    <dt>Propiedad</dt>
+                    <dd id="drawerProperty"></dd>
+                </div>
+                <div class="leads-drawer__detail">
+                    <dt>Fecha</dt>
+                    <dd id="drawerDate"></dd>
+                </div>
+                <div class="leads-drawer__detail">
+                    <dt>Estado</dt>
+                    <dd id="drawerState"></dd>
+                </div>
+            </dl>
+        </div>
+        <div class="leads-drawer__section">
+            <h4 class="leads-drawer__subtitle">Mensaje</h4>
+            <p id="drawerMessage"></p>
+        </div>
+        <div class="leads-drawer__section">
+            <div class="leads-drawer__actions">
+                <a class="leads-btn" id="drawerMailto" target="_blank" rel="noopener">Enviar correo</a>
+                <a class="leads-btn" id="drawerWhats" target="_blank" rel="noopener">Abrir WhatsApp</a>
+                <button class="leads-btn leads-btn--primary" type="button" id="drawerMarkProgress">Marcar "En seguimiento"</button>
+                <button class="leads-btn" type="button" id="drawerMarkDone">Marcar "Cerrado"</button>
+            </div>
+        </div>
+        <div class="leads-drawer__section">
+            <h4 class="leads-drawer__subtitle">Notas internas</h4>
+            <textarea class="leads-textarea" id="drawerNotes" rows="4" placeholder="Ej: Llamé y agendamos visita el sábado"></textarea>
+            <div class="leads-drawer__footer">
+                <button class="leads-btn leads-btn--ghost" type="button">Guardar nota</button>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<script>
+    const leadsData = [
+        { id: 1, name: "Juan Pérez", phone: "+52 999 123 4567", email: "juan@mail.com", property: "Lote Holbox · ID #L25", message: "Estoy interesado en el lote cerca de la playa.", date: "2025-10-08", state: "new" },
+        { id: 2, name: "Ana López", phone: "+52 998 111 2233", email: "ana@correo.com", property: "Casa Cancún · ID #A102", message: "¿Se puede visitar el sábado?", date: "2025-10-07", state: "progress" },
+        { id: 3, name: "Carlos Ruiz", phone: "+52 984 321 7788", email: "carlos@mx.com", property: "Depto Centro · ID #D9", message: "Busco financiamiento, ¿tienen opciones?", date: "2025-10-06", state: "done" },
+        { id: 4, name: "María Gómez", phone: "+52 55 222 3344", email: "maria@gm.com", property: "Casa Cancún · ID #A102", message: "Quiero más fotos y planos.", date: "2025-10-06", state: "new" },
+        { id: 5, name: "Pedro Lara", phone: "+52 81 888 3344", email: "pedro@ej.com", property: "Lote Holbox · ID #L25", message: "¿Cuál es el precio final?", date: "2025-10-05", state: "progress" },
+        { id: 6, name: "Laura Méndez", phone: "+52 442 555 8899", email: "laura@me.com", property: "Depto Centro · ID #D9", message: "¿Aceptan crédito bancario?", date: "2025-10-05", state: "new" },
+        { id: 7, name: "Iván Soto", phone: "+52 33 777 9090", email: "ivan@so.com", property: "Casa Cancún · ID #A102", message: "Estoy listo para ofertar.", date: "2025-10-04", state: "progress" },
+        { id: 8, name: "Paula Ríos", phone: "+52 222 444 6666", email: "paula@ri.com", property: "Lote Holbox · ID #L25", message: "Me interesa para inversión.", date: "2025-10-04", state: "new" },
+        { id: 9, name: "Diego León", phone: "+52 55 444 8899", email: "diego@le.com", property: "Depto Centro · ID #D9", message: "¿Cuota de mantenimiento?", date: "2025-10-03", state: "done" },
+        { id: 10, name: "Sofía Cruz", phone: "+52 81 333 1122", email: "sofia@cr.com", property: "Casa Cancún · ID #A102", message: "Agendemos llamada mañana.", date: "2025-10-02", state: "new" },
+        { id: 11, name: "Raúl Peña", phone: "+52 618 777 6655", email: "raul@pe.com", property: "Lote Holbox · ID #L25", message: "¿Se puede escriturar pronto?", date: "2025-10-02", state: "progress" },
+        { id: 12, name: "Nadia Vega", phone: "+52 662 909 1122", email: "nadia@ve.com", property: "Depto Centro · ID #D9", message: "Estoy comparando opciones.", date: "2025-10-01", state: "new" }
+    ];
+
+    const pagination = { index: 0, size: 10 };
+
+    const $ = (selector) => document.querySelector(selector);
+
+    const formatDate = (isoDate) => {
+        const date = new Date(`${isoDate}T00:00:00`);
+        return date.toLocaleDateString('es-MX', { day: '2-digit', month: '2-digit' });
+    };
+
+    const buildStateBadge = (state) => {
+        if (state === 'new') return '<span class="leads-state leads-state--new">🟡 Nuevo</span>';
+        if (state === 'progress') return '<span class="leads-state leads-state--progress">🟠 En seguimiento</span>';
+        return '<span class="leads-state leads-state--done">🟢 Cerrado</span>';
+    };
+
+    function renderTable() {
+        const query = $('#leadSearch').value.trim().toLowerCase();
+        const stateFilter = $('#leadStateFilter').value;
+        const propertyFilter = $('#leadPropertyFilter').value;
+        const dateRange = $('#leadDateRange').value;
+
+        let filtered = leadsData.filter((lead) => {
+            const searchable = `${lead.name}${lead.email}${lead.phone}${lead.message}${lead.property}`.toLowerCase();
+            const matchesQuery = query === '' || searchable.includes(query);
+            const matchesState = stateFilter === 'all' || lead.state === stateFilter;
+            const matchesProperty = propertyFilter === 'all' || lead.property === propertyFilter;
+
+            let matchesDate = true;
+            const today = new Date();
+            const leadDate = new Date(`${lead.date}T00:00:00`);
+
+            if (dateRange === 'today') {
+                const start = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                matchesDate = leadDate >= start;
+            } else if (dateRange === 'week') {
+                const start = new Date(today);
+                start.setDate(start.getDate() - 7);
+                matchesDate = leadDate >= start;
+            } else if (dateRange === 'month') {
+                const start = new Date(today);
+                start.setMonth(start.getMonth() - 1);
+                matchesDate = leadDate >= start;
+            }
+
+            return matchesQuery && matchesState && matchesProperty && matchesDate;
+        });
+
+        const start = pagination.index * pagination.size;
+        const end = start + pagination.size;
+        const pageRows = filtered.slice(start, end);
+
+        const tbody = $('#leadRows');
+        tbody.innerHTML = pageRows.map((lead) => `
+            <tr>
+                <td>${lead.name}</td>
+                <td><a href="tel:${lead.phone}" class="leads-link">${lead.phone}</a></td>
+                <td><a href="mailto:${lead.email}" class="leads-link">${lead.email}</a></td>
+                <td>${lead.property}</td>
+                <td title="${lead.message}">${lead.message.length > 48 ? `${lead.message.slice(0, 48)}…` : lead.message}</td>
+                <td>${formatDate(lead.date)}</td>
+                <td>${buildStateBadge(lead.state)}</td>
+                <td>
+                    <div class="leads-row-actions">
+                        <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Ver detalles" data-view="${lead.id}">👁</button>
+                        <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Abrir WhatsApp" data-whats="${lead.id}">💬</button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+
+        $('#leadsCount').textContent = `Total: ${filtered.length}`;
+        $('#leadsTotal').textContent = filtered.length;
+        $('#leadsNew').textContent = filtered.filter((lead) => lead.state === 'new').length;
+        $('#leadsProgress').textContent = filtered.filter((lead) => lead.state === 'progress').length;
+        $('#leadsDone').textContent = filtered.filter((lead) => lead.state === 'done').length;
+
+        const rangeStart = filtered.length === 0 ? 0 : Math.min(start + 1, filtered.length);
+        const rangeEnd = Math.min(end, filtered.length);
+        $('#leadsRange').textContent = `Mostrando ${rangeStart}–${rangeEnd} de ${filtered.length}`;
+
+        $('#leadsPrev').disabled = pagination.index === 0;
+        $('#leadsNext').disabled = end >= filtered.length;
+
+        tbody.querySelectorAll('[data-view]').forEach((button) => {
+            button.addEventListener('click', () => openDrawer(Number(button.dataset.view)));
+        });
+
+        tbody.querySelectorAll('[data-whats]').forEach((button) => {
+            button.addEventListener('click', () => openWhatsApp(Number(button.dataset.whats)));
+        });
+
+        renderTable.lastFiltered = filtered;
+    }
+
+    function openDrawer(id) {
+        const lead = leadsData.find((item) => item.id === id);
+        if (!lead) return;
+
+        $('#drawerName').textContent = lead.name;
+        $('#drawerEmail').innerHTML = `<a class="leads-link" href="mailto:${lead.email}">${lead.email}</a>`;
+        $('#drawerPhone').innerHTML = `<a class="leads-link" href="tel:${lead.phone}">${lead.phone}</a>`;
+        $('#drawerProperty').textContent = lead.property;
+        $('#drawerDate').textContent = new Date(`${lead.date}T00:00:00`).toLocaleDateString('es-MX');
+        $('#drawerState').innerHTML = buildStateBadge(lead.state);
+        $('#drawerMessage').textContent = lead.message;
+        $('#drawerMailto').href = `mailto:${lead.email}?subject=Interés%20en%20${encodeURIComponent(lead.property)}`;
+        const whatsappNumber = lead.phone.replace(/\D/g, '');
+        $('#drawerWhats').href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola ${lead.name}, vi tu interés en ${lead.property}`)}`;
+
+        $('#drawerMarkProgress').onclick = () => {
+            lead.state = 'progress';
+            closeDrawer();
+            renderTable();
+        };
+
+        $('#drawerMarkDone').onclick = () => {
+            lead.state = 'done';
+            closeDrawer();
+            renderTable();
+        };
+
+        const drawer = $('#leadDrawer');
+        drawer.classList.add('is-active');
+        drawer.setAttribute('aria-hidden', 'false');
+    }
+
+    function closeDrawer() {
+        const drawer = $('#leadDrawer');
+        drawer.classList.remove('is-active');
+        drawer.setAttribute('aria-hidden', 'true');
+    }
+
+    function openWhatsApp(id) {
+        const lead = leadsData.find((item) => item.id === id);
+        if (!lead) return;
+        const whatsappNumber = lead.phone.replace(/\D/g, '');
+        window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola ${lead.name}, vi tu interés en ${lead.property}`)}`, '_blank');
+    }
+
+    ['#leadSearch', '#leadStateFilter', '#leadPropertyFilter', '#leadDateRange'].forEach((selector) => {
+        const element = $(selector);
+        element.addEventListener('input', () => {
+            pagination.index = 0;
+            renderTable();
+        });
+        element.addEventListener('change', () => {
+            pagination.index = 0;
+            renderTable();
+        });
+    });
+
+    $('#leadsPrev').addEventListener('click', () => {
+        if (pagination.index > 0) {
+            pagination.index -= 1;
+            renderTable();
+        }
+    });
+
+    $('#leadsNext').addEventListener('click', () => {
+        pagination.index += 1;
+        renderTable();
+    });
+
+    document.querySelectorAll('[data-close]').forEach((element) => {
+        element.addEventListener('click', closeDrawer);
+    });
+
+    $('#exportBtn').addEventListener('click', () => {
+        const rows = (renderTable.lastFiltered || leadsData).map((lead) => [
+            lead.name,
+            lead.phone,
+            lead.email,
+            lead.property,
+            lead.message,
+            lead.date,
+            lead.state
+        ]);
+        const header = ['Nombre', 'Teléfono', 'Email', 'Propiedad', 'Mensaje', 'Fecha', 'Estado'];
+        const csv = [header, ...rows]
+            .map((row) => row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(','))
+            .join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'leads.csv';
+        link.click();
+        URL.revokeObjectURL(link.href);
+    });
+
+    renderTable();
+</script>
