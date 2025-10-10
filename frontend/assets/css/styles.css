@@ -8602,6 +8602,10 @@ DASHBOARD DEL PERFIL
     border-color: rgb(255 135 120 / 35%);
 }
 
+span.leads-state__label {
+    color: #000;
+}
+
 .leads__pagination {
     display: flex;
     align-items: center;
