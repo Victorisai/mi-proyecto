@@ -8416,6 +8416,13 @@ DASHBOARD DEL PERFIL
     height: 44px;
 }
 
+.leads-icon {
+    width: 20px;
+    height: 20px;
+    display: block;
+    stroke: currentColor;
+}
+
 .leads__filters {
     padding: 24px;
     box-shadow: none;

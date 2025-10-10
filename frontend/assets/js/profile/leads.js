@@ -143,6 +143,21 @@
             window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(`Hola ${lead.name}, vi tu interés en ${lead.property}`)}`, '_blank');
         };
 
+        const eyeIcon = `
+            <svg class="leads-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1.5 12s3.6-6.5 10.5-6.5S22.5 12 22.5 12s-3.6 6.5-10.5 6.5S1.5 12 1.5 12Z"></path>
+                <circle cx="12" cy="12" r="3.5"></circle>
+            </svg>
+        `.trim();
+
+        const chatIcon = `
+            <svg class="leads-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4.5 4.5h15a1.5 1.5 0 0 1 1.5 1.5v9a1.5 1.5 0 0 1-1.5 1.5H9.9L5.7 19.5v-3H4.5A1.5 1.5 0 0 1 3 15V6a1.5 1.5 0 0 1 1.5-1.5Z"></path>
+                <path d="M8.25 9.75h7.5"></path>
+                <path d="M8.25 12.75h4.5"></path>
+            </svg>
+        `.trim();
+
         const renderTable = () => {
             const query = (elements.search.value || '').trim().toLowerCase();
             const stateFilter = elements.stateFilter.value;
@@ -198,8 +213,8 @@
                         <td>${buildStateBadge(lead.state)}</td>
                         <td>
                             <div class="leads-row-actions">
-                                <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Ver detalles" data-view="${lead.id}">👁</button>
-                                <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Abrir WhatsApp" data-whats="${lead.id}">💬</button>
+                                <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Ver detalles" data-view="${lead.id}">${eyeIcon}</button>
+                                <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Abrir WhatsApp" data-whats="${lead.id}">${chatIcon}</button>
                             </div>
                         </td>
                     </tr>
