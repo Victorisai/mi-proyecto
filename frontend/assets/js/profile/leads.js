@@ -61,14 +61,30 @@
             return date.toLocaleDateString('es-MX', { day: '2-digit', month: '2-digit' });
         };
 
+        const stateIconMarkup = `
+            <svg class="leads-state__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+                <circle cx="8" cy="8" r="6"></circle>
+            </svg>
+        `.trim();
+
+        const stateLabels = {
+            new: 'Nuevo',
+            progress: 'En seguimiento',
+            done: 'Cerrado'
+        };
+
+        const stateClasses = {
+            new: 'leads-state leads-state--new',
+            progress: 'leads-state leads-state--progress',
+            done: 'leads-state leads-state--done'
+        };
+
         const buildStateBadge = (state) => {
-            if (state === 'new') {
-                return '<span class="leads-state leads-state--new">🟡 Nuevo</span>';
-            }
-            if (state === 'progress') {
-                return '<span class="leads-state leads-state--progress">🟠 En seguimiento</span>';
-            }
-            return '<span class="leads-state leads-state--done">🟢 Cerrado</span>';
+            const safeState = stateClasses[state] ? state : 'new';
+            const badgeLabel = stateLabels[safeState];
+            const badgeClass = stateClasses[safeState];
+
+            return `<span class="${badgeClass}">${stateIconMarkup}<span class="leads-state__label">${badgeLabel}</span></span>`;
         };
 
         let lastFiltered = leadsData.slice();
