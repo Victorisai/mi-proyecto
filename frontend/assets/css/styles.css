@@ -8846,6 +8846,9 @@ span.leads-state__label {
     display: grid;
     grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) minmax(280px, 360px);
     gap: 20px;
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(56, 189, 248, 0.08));
+    border-radius: 24px;
+    padding: 12px;
 }
 
 .messages__panel {
@@ -8855,6 +8858,11 @@ span.leads-state__label {
 .messages__panel.card {
     padding: 0;
     box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    border-radius: 22px;
+    overflow: hidden;
+    backdrop-filter: blur(6px);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(148, 163, 184, 0.22);
 }
 
 .messages__panel.card:hover {
@@ -8868,8 +8876,7 @@ span.leads-state__label {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    background: linear-gradient(180deg, rgba(241, 245, 249, 0.65), rgba(241, 245, 249, 0));
-    border-radius: 18px 18px 0 0;
+    background: linear-gradient(180deg, rgba(224, 242, 254, 0.88), rgba(240, 253, 244, 0.6));
 }
 
 .messages__tabs {
@@ -8963,7 +8970,7 @@ span.leads-state__label {
 .messages__list {
     max-height: 640px;
     overflow: auto;
-    border-radius: 0 0 18px 18px;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.92), rgba(241, 245, 249, 0.92));
 }
 
 .messages__list::-webkit-scrollbar,
@@ -8983,30 +8990,33 @@ span.leads-state__label {
     gap: 12px;
     align-items: center;
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.6);
     cursor: pointer;
-    transition: background 0.2s ease;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .messages__conversation-item:hover {
-    background: rgba(248, 250, 252, 0.75);
+    background: rgba(224, 242, 254, 0.7);
+    box-shadow: inset 3px 0 0 rgba(16, 185, 129, 0.65);
 }
 
 .messages__conversation-item.is-active {
-    background: rgba(56, 189, 248, 0.12);
-    border-left: 3px solid #38bdf8;
+    background: rgba(16, 185, 129, 0.12);
+    border-left: 3px solid #10b981;
+    box-shadow: inset 3px 0 0 rgba(16, 185, 129, 0.65);
 }
 
 .messages__conversation-avatar {
     width: 48px;
     height: 48px;
     border-radius: 16px;
-    background: linear-gradient(135deg, #1f2937, #0f172a);
+    background: linear-gradient(135deg, #0f172a, #0ea5e9);
     color: #fff;
     font-weight: 700;
     font-size: 18px;
     display: grid;
     place-items: center;
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.35);
 }
 
 .messages__conversation-info {
@@ -9071,14 +9081,14 @@ span.leads-state__label {
     align-items: center;
     justify-content: space-between;
     padding: 20px;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    background: linear-gradient(180deg, rgba(241, 245, 249, 0.9), rgba(255, 255, 255, 0.8));
-    border-radius: 18px 18px 0 0;
+    border-bottom: 1px solid rgba(14, 116, 144, 0.28);
+    background: linear-gradient(135deg, #0f172a, #0f766e 65%, #0891b2);
+    color: #f8fafc;
 }
 
 .messages__breadcrumbs {
     font-size: 12px;
-    color: #64748b;
+    color: rgba(226, 232, 240, 0.9);
 }
 
 .messages__chat-actions {
@@ -9087,8 +9097,8 @@ span.leads-state__label {
 }
 
 .messages__button {
-    border: 1px solid rgba(148, 163, 184, 0.45);
-    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    background: rgba(255, 255, 255, 0.85);
     border-radius: 12px;
     padding: 10px 16px;
     font-size: 14px;
@@ -9096,6 +9106,7 @@ span.leads-state__label {
     color: #0f172a;
     font-weight: 500;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
 }
 
 .messages__button:hover,
@@ -9106,9 +9117,10 @@ span.leads-state__label {
 }
 
 .messages__button--primary {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(56, 189, 248, 0.65));
+    background: linear-gradient(135deg, #10b981, #22d3ee);
     border-color: transparent;
-    color: #0f172a;
+    color: #f8fafc;
+    box-shadow: 0 10px 24px rgba(16, 185, 129, 0.3);
 }
 
 .messages__button--ghost {
@@ -9123,7 +9135,9 @@ span.leads-state__label {
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
-    border-radius: 50px;
+    border-radius: 0 0 22px 22px;
+    padding: 32px 24px 20px;
+    background: linear-gradient(180deg, rgba(15, 118, 110, 0.12), rgba(14, 165, 233, 0.08));
 }
 
 .messages__conversation-meta {
@@ -9136,12 +9150,13 @@ span.leads-state__label {
     width: 52px;
     height: 52px;
     border-radius: 18px;
-    background: linear-gradient(135deg, #1f2937, #0f172a);
+    background: linear-gradient(135deg, #0f172a, #0f766e);
     color: #fff;
     display: grid;
     place-items: center;
     font-weight: 700;
     font-size: 20px;
+    box-shadow: 0 8px 18px rgba(15, 118, 110, 0.25);
 }
 
 .messages__conversation-title {
@@ -9170,8 +9185,32 @@ span.leads-state__label {
     display: flex;
 }
 
+.messages__panel--chat {
+    position: relative;
+    overflow: hidden;
+}
+
+.messages__panel--chat::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 12% 18%, rgba(45, 212, 191, 0.08) 0, rgba(14, 165, 233, 0) 45%),
+        radial-gradient(circle at 88% 12%, rgba(56, 189, 248, 0.08) 0, rgba(45, 212, 191, 0) 46%),
+        radial-gradient(circle at 45% 85%, rgba(20, 184, 166, 0.12) 0, rgba(20, 184, 166, 0) 55%),
+        #f8fafc;
+    opacity: 0.85;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.messages__panel--chat > * {
+    position: relative;
+    z-index: 1;
+}
+
 .messages__chat-body {
-    padding: 20px;
+    position: relative;
+    padding: 28px 24px 24px;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -9189,37 +9228,40 @@ span.leads-state__label {
     align-self: center;
     padding: 6px 14px;
     border-radius: 999px;
-    border: 1px solid rgba(148, 163, 184, 0.45);
-    background: rgba(226, 232, 240, 0.6);
+    border: 1px solid rgba(16, 185, 129, 0.35);
+    background: rgba(240, 253, 244, 0.85);
     font-size: 12px;
-    color: #64748b;
+    color: #047857;
 }
 
 .messages__bubble {
     max-width: 70%;
     padding: 12px 14px;
-    border-radius: 16px;
-    border: 1px solid rgba(148, 163, 184, 0.45);
-    background: rgba(248, 250, 252, 0.8);
+    border-radius: 18px;
+    border: none;
+    background: rgba(248, 250, 252, 0.92);
     line-height: 1.5;
     position: relative;
     color: #0f172a;
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
 }
 
 .messages__bubble--mine {
     align-self: flex-end;
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.35), rgba(56, 189, 248, 0.12));
+    background: linear-gradient(135deg, rgba(187, 247, 208, 0.95), rgba(16, 185, 129, 0.35));
+    color: #064e3b;
 }
 
 .messages__bubble--theirs {
     align-self: flex-start;
+    background: rgba(255, 255, 255, 0.92);
 }
 
 .messages__bubble-meta {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    color: #64748b;
+    color: #0f766e;
     font-size: 11px;
     margin-top: 8px;
 }
@@ -9379,6 +9421,7 @@ span.leads-state__label {
 @media (max-width: 1280px) {
     .messages__layout {
         grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+        padding: 10px;
     }
 
     .messages__panel--context {
@@ -9389,6 +9432,8 @@ span.leads-state__label {
 @media (max-width: 992px) {
     .messages__layout {
         grid-template-columns: minmax(0, 1fr);
+        padding: 8px;
+        background: rgba(248, 250, 252, 0.7);
     }
 
     .messages__panel.card {
