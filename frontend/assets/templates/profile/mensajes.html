@@ -5,11 +5,275 @@
         <span class="breadcrumb__current">Mensajes</span>
     </div>
 
-    <div class="messages__content">
-        <div class="card messages__placeholder">
-            <h1 class="messages__heading">Mensajes</h1>
-            <p class="messages__description">Aquí podrás revisar y responder los mensajes de tus clientes.</p>
-            <p class="messages__helper">Pronto agregaremos más funciones para administrar tus conversaciones.</p>
+    <div class="card messages__summary">
+        <div class="messages__summary-intro">
+            <h1 class="messages__heading">Centro de mensajes</h1>
+            <p class="messages__subtitle">Coordina y da seguimiento a las conversaciones con tus clientes desde un entorno organizado y agradable.</p>
+            <ul class="messages__tips">
+                <li>Prioriza los hilos sin respuesta y asigna recordatorios rápidos.</li>
+                <li>Conserva un historial claro con notas internas para tu equipo.</li>
+            </ul>
+        </div>
+        <dl class="messages__summary-stats" aria-label="Resumen de actividad">
+            <div class="messages__summary-stat">
+                <dt>Conversaciones activas</dt>
+                <dd>8</dd>
+                <small>Últimos 7 días</small>
+            </div>
+            <div class="messages__summary-stat">
+                <dt>Respuestas pendientes</dt>
+                <dd>3</dd>
+                <small>Esperando seguimiento</small>
+            </div>
+            <div class="messages__summary-stat">
+                <dt>Tiempo promedio</dt>
+                <dd>1 h</dd>
+                <small>Para la primera respuesta</small>
+            </div>
+        </dl>
+    </div>
+
+    <div class="card messages__toolbar" role="region" aria-label="Herramientas de mensajes">
+        <form class="messages__search" role="search">
+            <label for="messages-search" class="sr-only">Buscar conversaciones</label>
+            <div class="messages__search-field">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M15.5 14h-.79l-.28-.27a6 6 0 1 0-.71.71l.27.28v.79l5 5 1.5-1.5-5-5Zm-6 0a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z" fill="currentColor"/>
+                </svg>
+                <input id="messages-search" type="search" name="query" placeholder="Buscar por nombre, email, teléfono, propiedad o texto" autocomplete="off">
+            </div>
+        </form>
+        <div class="messages__toolbar-actions">
+            <button type="button" class="messages__action-btn messages__action-btn--ghost">Filtros avanzados</button>
+            <button type="button" class="messages__action-btn messages__action-btn--primary">Nueva conversación</button>
+        </div>
+        <div class="messages__chips" role="tablist" aria-label="Filtros de conversaciones">
+            <button type="button" class="messages-chip is-active" role="tab" aria-selected="true">Todos</button>
+            <button type="button" class="messages-chip" role="tab" aria-selected="false">Sin leer</button>
+            <button type="button" class="messages-chip" role="tab" aria-selected="false">Asignados</button>
+            <button type="button" class="messages-chip" role="tab" aria-selected="false">Archivados</button>
+            <button type="button" class="messages-chip" role="tab" aria-selected="false">Spam</button>
         </div>
     </div>
+
+    <div class="messages__mobile-actions" aria-label="Navegación móvil">
+        <button type="button" class="messages__mobile-btn" data-messages-pane="list">Bandeja</button>
+        <button type="button" class="messages__mobile-btn" data-messages-pane="chat">Chat</button>
+        <button type="button" class="messages__mobile-btn" data-messages-pane="details">Detalles</button>
+    </div>
+
+    <div class="messages__workspace" data-active-pane="list">
+        <aside class="messages-pane messages-pane--sidebar is-active" data-pane="list" id="messages-pane-list" aria-label="Lista de conversaciones">
+            <header class="messages-pane__header">
+                <div>
+                    <h2 class="messages-pane__title">Conversaciones</h2>
+                    <p class="messages-pane__subtitle">2 de 8 activas • Ordenadas por actividad reciente</p>
+                </div>
+                <button type="button" class="messages__action-btn messages__action-btn--ghost messages-pane__refresh" aria-label="Actualizar conversaciones">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M17.65 6.35A7.95 7.95 0 0 0 12 4a8 8 0 0 0-7.75 6.01l1.94.5A6 6 0 0 1 12 6c1.66 0 3.14.69 4.22 1.78L14 10h6V4l-2.35 2.35Z" fill="currentColor"/>
+                        <path d="M18.81 13.49a6 6 0 0 1-10.83 1.73L10 14H4v6l2.35-2.35A7.95 7.95 0 0 0 12 20a8 8 0 0 0 7.75-6.01l-1.94-.5Z" fill="currentColor"/>
+                    </svg>
+                    Actualizar
+                </button>
+            </header>
+            <div class="messages-sidebar__list">
+                <button type="button" class="messages-thread messages-thread--active" data-open-pane="chat" aria-pressed="true">
+                    <span class="messages-thread__avatar" aria-hidden="true">AR</span>
+                    <div class="messages-thread__body">
+                        <div class="messages-thread__top">
+                            <span class="messages-thread__name">Alex Ramírez</span>
+                            <span class="messages-badge messages-badge--verified">Verificado</span>
+                            <span class="messages-badge messages-badge--channel">Directo</span>
+                            <span class="messages-badge">#P-123</span>
+                        </div>
+                        <p class="messages-thread__preview">Hola, me interesa agendar visita para el depa de la Nápoles. ¿Se puede visitar esta semana?</p>
+                        <div class="messages-thread__meta">
+                            <span class="messages-thread__status messages-thread__status--open">Seguimiento agendado</span>
+                            <span class="messages-thread__tags">Visita • Cliente calificado</span>
+                        </div>
+                    </div>
+                    <span class="messages-thread__time" aria-label="Último mensaje a las 12:40">12:40</span>
+                </button>
+
+                <button type="button" class="messages-thread" data-open-pane="chat" aria-pressed="false">
+                    <span class="messages-thread__avatar" aria-hidden="true">MC</span>
+                    <div class="messages-thread__body">
+                        <div class="messages-thread__top">
+                            <span class="messages-thread__name">María Cruz</span>
+                            <span class="messages-badge">Correo</span>
+                            <span class="messages-badge">#P-097</span>
+                        </div>
+                        <p class="messages-thread__preview">¿Aceptan crédito? ¿Cuáles son los requisitos? Me gustaría recibir información para evaluar la compra.</p>
+                        <div class="messages-thread__meta">
+                            <span class="messages-thread__status">Sin responder</span>
+                            <span class="messages-thread__tags">Consulta financiera</span>
+                        </div>
+                    </div>
+                    <span class="messages-thread__time">Ayer</span>
+                </button>
+            </div>
+        </aside>
+
+        <section class="messages-pane messages-pane--chat" data-pane="chat" id="messages-pane-chat" aria-label="Chat de conversación">
+            <header class="messages-pane__header messages-pane__header--chat">
+                <div class="messages-chat__heading">
+                    <span class="messages-thread__avatar" aria-hidden="true">AR</span>
+                    <div>
+                        <h2 class="messages-pane__title">Alex Ramírez</h2>
+                        <p class="messages-pane__subtitle">Interesado en #P-123 · Visto hace 5 minutos</p>
+                    </div>
+                </div>
+                <div class="messages-chat__actions">
+                    <button type="button" class="messages__action-btn messages__action-btn--ghost">Etiquetas</button>
+                    <button type="button" class="messages__action-btn messages__action-btn--ghost">Posponer</button>
+                    <button type="button" class="messages__action-btn messages__action-btn--ghost">Archivar</button>
+                </div>
+            </header>
+
+            <div class="messages-chat__history" id="messages-chat-history">
+                <div class="messages-chat__day" aria-label="Hoy">Hoy</div>
+                <div class="messages-chat__message">
+                    <div class="messages-chat__bubble">
+                        Hola, me interesa el depa de la Nápoles. ¿Se puede visitar esta semana?
+                        <div class="messages-chat__meta">Alex · 12:38 · Entregado</div>
+                    </div>
+                </div>
+                <div class="messages-chat__message messages-chat__message--me">
+                    <div class="messages-chat__bubble messages-chat__bubble--me">
+                        ¡Hola Alex! Sí, tengo disponibilidad jueves o viernes por la tarde. ¿Cuál prefieres?
+                        <div class="messages-chat__meta">Tú · 12:39 · Visto</div>
+                    </div>
+                </div>
+                <div class="messages-chat__message">
+                    <div class="messages-chat__bubble">
+                        Perfecto, me queda mejor el viernes alrededor de las 5 pm.
+                        <div class="messages-chat__meta">Alex · 12:41 · Escribiendo...</div>
+                    </div>
+                </div>
+            </div>
+
+            <form class="messages-chat__composer" aria-label="Redactar mensaje">
+                <button type="button" class="messages-chat__icon-btn" aria-label="Adjuntar archivo">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <path d="M16.5 6.5 9 14a3 3 0 1 0 4.24 4.24l6.26-6.25a4.5 4.5 0 1 0-6.37-6.36L6.34 12.4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <label for="messages-composer" class="sr-only">Escribe un mensaje</label>
+                <textarea id="messages-composer" class="messages-chat__input" rows="1" placeholder="Escribe un mensaje… (Plantillas: /saludo, /visita, /requisitos)"></textarea>
+                <button type="submit" class="messages__action-btn messages__action-btn--primary">Enviar</button>
+            </form>
+        </section>
+
+        <aside class="messages-pane messages-pane--details" data-pane="details" id="messages-pane-details" aria-label="Detalles del contacto y propiedad">
+            <header class="messages-pane__header">
+                <div>
+                    <h2 class="messages-pane__title">Detalles del comprador</h2>
+                    <p class="messages-pane__subtitle">Información validada para un seguimiento oportuno</p>
+                </div>
+            </header>
+
+            <div class="messages-details__section">
+                <h3 class="messages-details__title">Perfil</h3>
+                <ul class="messages-details__list">
+                    <li><span>Nombre</span><strong>Alex Ramírez</strong></li>
+                    <li><span>Email</span><strong>alex@example.com</strong><span class="messages-badge messages-badge--success">Verificado</span></li>
+                    <li><span>Teléfono</span><strong>+52 •••• 1234</strong><span class="messages-badge messages-badge--success">Confirmado</span></li>
+                    <li><span>Idioma</span><strong>Español</strong></li>
+                </ul>
+            </div>
+
+            <div class="messages-details__section">
+                <h3 class="messages-details__title">Propiedad de interés</h3>
+                <article class="messages-property">
+                    <div class="messages-property__media" aria-hidden="true"></div>
+                    <div class="messages-property__content">
+                        <h4 class="messages-property__title">Depto Nápoles · 2R / 2B</h4>
+                        <p class="messages-property__meta">$3,950,000 · Activa</p>
+                        <span class="messages-badge">#P-123</span>
+                    </div>
+                </article>
+                <button type="button" class="messages__action-btn messages__action-btn--secondary">Ver publicación</button>
+            </div>
+
+            <div class="messages-details__section">
+                <h3 class="messages-details__title">Próximos pasos</h3>
+                <div class="messages-tasks">
+                    <label class="messages-task">
+                        <input type="checkbox" checked>
+                        <span>Confirmar visita para el viernes a las 17:00 h</span>
+                    </label>
+                    <label class="messages-task">
+                        <input type="checkbox">
+                        <span>Enviar requisitos de compra y esquema de pago</span>
+                    </label>
+                    <label class="messages-task">
+                        <input type="checkbox">
+                        <span>Registrar retroalimentación posterior a la visita</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="messages-details__section">
+                <h3 class="messages-details__title">Notas internas</h3>
+                <div class="messages-note" contenteditable="true" role="textbox" aria-multiline="true">Es inversionista, busca 2 recámaras con amenidades. Prefiere recorrer la zona los viernes por la tarde.</div>
+            </div>
+        </aside>
+    </div>
 </section>
+
+<script>
+    (function () {
+        const workspace = document.querySelector('.messages__workspace');
+        if (!workspace) return;
+
+        const panes = Array.from(workspace.querySelectorAll('.messages-pane'));
+        const mobileButtons = document.querySelectorAll('[data-messages-pane]');
+        const threadButtons = workspace.querySelectorAll('[data-open-pane="chat"]');
+        const history = document.getElementById('messages-chat-history');
+
+        const setActivePane = (target) => {
+            workspace.dataset.activePane = target;
+            panes.forEach((pane) => {
+                pane.classList.toggle('is-active', pane.dataset.pane === target);
+            });
+            if (target === 'chat' && history) {
+                history.scrollTop = history.scrollHeight;
+            }
+        };
+
+        mobileButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                setActivePane(button.dataset.messagesPane);
+            });
+        });
+
+        threadButtons.forEach((thread) => {
+            thread.addEventListener('click', () => {
+                threadButtons.forEach((btn) => {
+                    btn.classList.remove('messages-thread--active');
+                    btn.setAttribute('aria-pressed', 'false');
+                });
+                thread.classList.add('messages-thread--active');
+                thread.setAttribute('aria-pressed', 'true');
+                setActivePane(window.matchMedia('(max-width: 900px)').matches ? 'chat' : 'chat');
+            });
+        });
+
+        const handleResize = () => {
+            if (window.matchMedia('(max-width: 900px)').matches) {
+                const activePane = workspace.dataset.activePane || 'list';
+                setActivePane(activePane);
+            } else {
+                panes.forEach((pane) => pane.classList.add('is-active'));
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        if (history) {
+            history.scrollTop = history.scrollHeight;
+        }
+    })();
+</script>
