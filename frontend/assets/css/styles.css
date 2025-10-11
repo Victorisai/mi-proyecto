@@ -8844,7 +8844,10 @@ span.leads-state__label {
 
 .messages__layout {
     display: grid;
-    grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) minmax(280px, 360px);
+    grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+    grid-template-areas:
+        "inbox chat"
+        "context context";
     gap: 20px;
     background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(56, 189, 248, 0.08));
     border-radius: 24px;
@@ -8853,6 +8856,11 @@ span.leads-state__label {
 
 .messages__panel {
     position: relative;
+    min-width: 0;
+}
+
+.messages__panel--inbox {
+    grid-area: inbox;
 }
 
 .messages__panel.card {
@@ -9190,6 +9198,10 @@ span.leads-state__label {
     overflow: hidden;
 }
 
+.messages__panel--chat {
+    grid-area: chat;
+}
+
 .messages__panel--chat::before {
     content: "";
     position: absolute;
@@ -9306,6 +9318,31 @@ span.leads-state__label {
     display: flex;
     flex-direction: column;
     gap: 18px;
+    grid-area: context;
+}
+
+.messages__context-intro {
+    gap: 10px;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.14), rgba(16, 185, 129, 0.14));
+}
+
+.messages__context-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0;
+}
+
+.messages__context-subtitle {
+    margin: 0;
+    font-size: 14px;
+    color: #475569;
+}
+
+.messages__context-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
 }
 
 .messages__section {
@@ -9418,22 +9455,32 @@ span.leads-state__label {
     border: 0;
 }
 
-@media (max-width: 1280px) {
+@media (min-width: 1440px) {
     .messages__layout {
-        grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
-        padding: 10px;
+        grid-template-columns: minmax(280px, 320px) minmax(0, 1.1fr) minmax(280px, 340px);
+        grid-template-areas: "inbox chat context";
+        align-items: stretch;
+        padding: 16px;
     }
 
     .messages__panel--context {
-        grid-column: 1 / -1;
+        align-self: stretch;
     }
 }
 
 @media (max-width: 992px) {
     .messages__layout {
         grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "inbox"
+            "chat"
+            "context";
         padding: 8px;
         background: rgba(248, 250, 252, 0.7);
+    }
+
+    .messages__context-cards {
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .messages__panel.card {
