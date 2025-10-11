@@ -1,15 +1,184 @@
-<section class="messages">
+<section class="messages" data-messages-root>
     <div class="dashboard__breadcrumb">
         <span class="breadcrumb__label">Panel</span>
         <span class="breadcrumb__divider">/</span>
         <span class="breadcrumb__current">Mensajes</span>
     </div>
 
-    <div class="messages__content">
-        <div class="card messages__placeholder">
-            <h1 class="messages__heading">Mensajes</h1>
-            <p class="messages__description">Aquí podrás revisar y responder los mensajes de tus clientes.</p>
-            <p class="messages__helper">Pronto agregaremos más funciones para administrar tus conversaciones.</p>
+    <header class="messages__header">
+        <div class="messages__header-intro">
+            <h2 class="messages__title">Mensajes</h2>
+            <p class="messages__subtitle">Inbox en tiempo real · Comprador ↔ Vendedor</p>
         </div>
+        <div class="messages__kpis" aria-label="Indicadores de la bandeja">
+            <article class="messages-kpi" aria-live="polite">
+                <span class="messages-kpi__icon" aria-hidden="true">📥</span>
+                <div class="messages-kpi__content">
+                    <span class="messages-kpi__label">Abiertas</span>
+                    <strong class="messages-kpi__value" id="kOpen">0</strong>
+                </div>
+            </article>
+            <article class="messages-kpi" aria-live="polite">
+                <span class="messages-kpi__icon" aria-hidden="true">🔔</span>
+                <div class="messages-kpi__content">
+                    <span class="messages-kpi__label">No leídos</span>
+                    <strong class="messages-kpi__value" id="kUnread">0</strong>
+                </div>
+            </article>
+            <article class="messages-kpi" aria-live="polite">
+                <span class="messages-kpi__icon" aria-hidden="true">🟢</span>
+                <div class="messages-kpi__content">
+                    <span class="messages-kpi__label">Estado</span>
+                    <strong class="messages-kpi__value" id="kConn">—</strong>
+                </div>
+            </article>
+        </div>
+    </header>
+
+    <div class="messages__workspace">
+        <aside class="messages__panel messages__panel--inbox card" aria-label="Conversaciones">
+            <div class="messages-toolbar">
+                <div class="messages-tabs" role="tablist" aria-label="Filtros de conversación">
+                    <button type="button" class="messages-tab is-active" role="tab" aria-selected="true">Inbox</button>
+                    <button type="button" class="messages-tab" role="tab" aria-selected="false">Abiertas</button>
+                    <button type="button" class="messages-tab" role="tab" aria-selected="false">Silenciadas</button>
+                    <button type="button" class="messages-tab" role="tab" aria-selected="false">Cerradas</button>
+                </div>
+                <div class="messages-filters">
+                    <label class="messages-field">
+                        <span class="sr-only">Buscar en conversaciones</span>
+                        <input type="search" id="q" class="messages-input" placeholder="Buscar comprador, propiedad, texto… (Ctrl+/)" />
+                    </label>
+                    <label class="messages-field">
+                        <span class="sr-only">Filtrar por propiedad</span>
+                        <select id="propFilter" class="messages-input">
+                            <option value="all">Todas las propiedades</option>
+                            <option value="Casa Cancún · #A102">Casa Cancún · #A102</option>
+                            <option value="Lote Holbox · #L25">Lote Holbox · #L25</option>
+                            <option value="Depto Centro · #D9">Depto Centro · #D9</option>
+                        </select>
+                    </label>
+                </div>
+                <div class="messages-chips">
+                    <label class="messages-chip">
+                        <input type="checkbox" id="onlyUnread" />
+                        <span>Solo no leídos</span>
+                    </label>
+                    <label class="messages-chip">
+                        <input type="checkbox" id="pinnedFirst" checked />
+                        <span>Fijadas primero</span>
+                    </label>
+                    <label class="messages-chip">
+                        <input type="checkbox" id="onlineOnly" />
+                        <span>Solo en línea</span>
+                    </label>
+                </div>
+            </div>
+            <div class="messages-list" id="list" role="listbox" aria-live="polite"></div>
+        </aside>
+
+        <section class="messages__panel messages__panel--chat card" aria-live="polite">
+            <div class="messages-chat__header">
+                <div class="messages-chat__breadcrumbs" id="crumbs">Mensajes / —</div>
+                <div class="messages-chat__actions">
+                    <button type="button" class="messages-btn">Exportar</button>
+                    <button type="button" class="messages-btn">Fijar</button>
+                </div>
+            </div>
+            <header class="messages-chat__summary">
+                <div class="messages-chat__subject">
+                    <div class="messages-avatar" id="hA" aria-hidden="true">—</div>
+                    <div class="messages-chat__title">
+                        <strong id="hName">Selecciona una conversación</strong>
+                        <small id="hSub">—</small>
+                    </div>
+                </div>
+                <div class="messages-chat__summary-actions" aria-hidden="true"></div>
+            </header>
+            <div class="messages-chat__banner" id="offlineBanner" role="status" aria-live="assertive">
+                Estás sin conexión. Los mensajes se enviarán cuando reconectes.
+            </div>
+            <div class="messages-chat__body" id="chatBody">
+                <div class="messages-empty">Elige una conversación de la lista para comenzar</div>
+            </div>
+            <div class="messages-chat__hint">Enter = enviar · Shift+Enter = salto de línea</div>
+            <footer class="messages-chat__composer">
+                <button type="button" class="messages-btn messages-btn--icon" id="attach" title="Adjuntar">📎</button>
+                <label class="sr-only" for="msg">Escribe un mensaje</label>
+                <textarea id="msg" class="messages-input messages-textarea" placeholder="Escribe un mensaje…" rows="2" disabled></textarea>
+                <button type="button" class="messages-btn" id="emoji" title="Insertar emoji">😊</button>
+                <button type="button" class="messages-btn messages-btn--primary" id="send" disabled>Enviar</button>
+            </footer>
+        </section>
+
+        <aside class="messages__panel messages__panel--context">
+            <section class="messages-context card">
+                <header class="messages-context__header">
+                    <strong>Perfil del comprador</strong>
+                    <span class="messages-tag">Miembro desde · 2025</span>
+                </header>
+                <dl class="messages-context__grid">
+                    <div>
+                        <dt>Nombre</dt>
+                        <dd id="cName">—</dd>
+                    </div>
+                    <div>
+                        <dt>Email</dt>
+                        <dd id="cMail">—</dd>
+                    </div>
+                    <div>
+                        <dt>Teléfono</dt>
+                        <dd id="cPhone">—</dd>
+                    </div>
+                    <div>
+                        <dt>Conversaciones</dt>
+                        <dd id="cConvCount">—</dd>
+                    </div>
+                </dl>
+            </section>
+
+            <section class="messages-context card">
+                <strong>Hilo / Publicación</strong>
+                <div class="messages-post">
+                    <div class="messages-post__thumbnail" aria-hidden="true"></div>
+                    <div class="messages-post__content">
+                        <div id="pTitle">—</div>
+                        <div class="messages-post__meta" id="pMeta">—</div>
+                    </div>
+                    <button type="button" class="messages-btn messages-btn--ghost">Abrir publicación</button>
+                </div>
+                <div class="messages-tags">
+                    <span class="messages-tag">Chat directo</span>
+                    <span class="messages-tag">Tiempo real</span>
+                </div>
+            </section>
+
+            <section class="messages-context card">
+                <strong>Actividad del chat</strong>
+                <p class="messages-context__hint">Eventos recientes</p>
+                <ul class="messages-timeline" id="timeline">
+                    <li>10:32 · Mensaje recibido</li>
+                    <li>10:35 · Leído por vendedor</li>
+                    <li>10:40 · Enviado archivo</li>
+                </ul>
+            </section>
+
+            <section class="messages-context card">
+                <strong>Archivos compartidos</strong>
+                <div class="messages-tags" id="filesGallery">
+                    <span class="messages-tag">brochure.pdf</span>
+                    <span class="messages-tag">plano.png</span>
+                </div>
+            </section>
+
+            <section class="messages-context card">
+                <strong>Notas internas</strong>
+                <label class="sr-only" for="messagesNotes">Agregar nota interna</label>
+                <textarea id="messagesNotes" class="messages-input" rows="4" placeholder="Ej: Prefiere comunicarse por la tarde"></textarea>
+                <div class="messages-context__footer">
+                    <button type="button" class="messages-btn">Guardar nota</button>
+                </div>
+            </section>
+        </aside>
     </div>
 </section>
