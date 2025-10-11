@@ -100,70 +100,77 @@
         </section>
 
         <aside class="messages__panel messages__panel--context">
-            <div class="messages__section card">
-                <div class="messages__section-head">
-                    <strong>Perfil del comprador</strong>
-                    <span class="messages__tag">Miembro desde · 2025</span>
-                </div>
-                <dl class="messages__context-grid">
-                    <div>
-                        <dt>Nombre</dt>
-                        <dd data-messages-context-name>—</dd>
-                    </div>
-                    <div>
-                        <dt>Email</dt>
-                        <dd data-messages-context-email>—</dd>
-                    </div>
-                    <div>
-                        <dt>Teléfono</dt>
-                        <dd data-messages-context-phone>—</dd>
-                    </div>
-                    <div>
-                        <dt>Conversaciones</dt>
-                        <dd data-messages-context-count>—</dd>
-                    </div>
-                </dl>
+            <div class="messages__section card messages__context-intro">
+                <h2 class="messages__context-title">Información adicional</h2>
+                <p class="messages__context-subtitle">Accede al perfil del comprador, la publicación y la actividad reciente sin desplazarte lateralmente.</p>
             </div>
 
-            <div class="messages__section card">
-                <strong>Hilo / Publicación</strong>
-                <div class="messages__listing">
-                    <div class="messages__listing-thumb" aria-hidden="true"></div>
-                    <div class="messages__listing-body">
-                        <div class="messages__listing-title" data-messages-property-title>—</div>
-                        <div class="messages__listing-meta" data-messages-property-meta>—</div>
+            <div class="messages__context-cards">
+                <div class="messages__section card">
+                    <div class="messages__section-head">
+                        <strong>Perfil del comprador</strong>
+                        <span class="messages__tag">Miembro desde · 2025</span>
                     </div>
-                    <button type="button" class="messages__button messages__button--ghost">Abrir publicación</button>
+                    <dl class="messages__context-grid">
+                        <div>
+                            <dt>Nombre</dt>
+                            <dd data-messages-context-name>—</dd>
+                        </div>
+                        <div>
+                            <dt>Email</dt>
+                            <dd data-messages-context-email>—</dd>
+                        </div>
+                        <div>
+                            <dt>Teléfono</dt>
+                            <dd data-messages-context-phone>—</dd>
+                        </div>
+                        <div>
+                            <dt>Conversaciones</dt>
+                            <dd data-messages-context-count>—</dd>
+                        </div>
+                    </dl>
                 </div>
-                <div class="messages__tags">
-                    <span class="messages__tag">Chat directo</span>
-                    <span class="messages__tag">Tiempo real</span>
+
+                <div class="messages__section card">
+                    <strong>Hilo / Publicación</strong>
+                    <div class="messages__listing">
+                        <div class="messages__listing-thumb" aria-hidden="true"></div>
+                        <div class="messages__listing-body">
+                            <div class="messages__listing-title" data-messages-property-title>—</div>
+                            <div class="messages__listing-meta" data-messages-property-meta>—</div>
+                        </div>
+                        <button type="button" class="messages__button messages__button--ghost">Abrir publicación</button>
+                    </div>
+                    <div class="messages__tags">
+                        <span class="messages__tag">Chat directo</span>
+                        <span class="messages__tag">Tiempo real</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="messages__section card">
-                <strong>Actividad del chat</strong>
-                <p class="messages__section-helper">Eventos recientes</p>
-                <ul class="messages__timeline" data-messages-timeline>
-                    <li>10:32 · Mensaje recibido</li>
-                    <li>10:35 · Leído por vendedor</li>
-                    <li>10:40 · Enviado archivo</li>
-                </ul>
-            </div>
-
-            <div class="messages__section card">
-                <strong>Archivos compartidos</strong>
-                <div class="messages__tags" data-messages-files>
-                    <span class="messages__tag">brochure.pdf</span>
-                    <span class="messages__tag">plano.png</span>
+                <div class="messages__section card">
+                    <strong>Actividad del chat</strong>
+                    <p class="messages__section-helper">Eventos recientes</p>
+                    <ul class="messages__timeline" data-messages-timeline>
+                        <li>10:32 · Mensaje recibido</li>
+                        <li>10:35 · Leído por vendedor</li>
+                        <li>10:40 · Enviado archivo</li>
+                    </ul>
                 </div>
-            </div>
 
-            <div class="messages__section card">
-                <strong>Notas internas</strong>
-                <textarea class="messages__input messages__input--textarea" rows="4" placeholder="Ej: Prefiere comunicarse por la tarde"></textarea>
-                <div class="messages__section-actions">
-                    <button type="button" class="messages__button messages__button--primary">Guardar nota</button>
+                <div class="messages__section card">
+                    <strong>Archivos compartidos</strong>
+                    <div class="messages__tags" data-messages-files>
+                        <span class="messages__tag">brochure.pdf</span>
+                        <span class="messages__tag">plano.png</span>
+                    </div>
+                </div>
+
+                <div class="messages__section card">
+                    <strong>Notas internas</strong>
+                    <textarea class="messages__input messages__input--textarea" rows="4" placeholder="Ej: Prefiere comunicarse por la tarde"></textarea>
+                    <div class="messages__section-actions">
+                        <button type="button" class="messages__button messages__button--primary">Guardar nota</button>
+                    </div>
                 </div>
             </div>
         </aside>
