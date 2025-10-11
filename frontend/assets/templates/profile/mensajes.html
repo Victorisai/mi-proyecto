@@ -1,15 +1,640 @@
-<section class="messages">
-    <div class="dashboard__breadcrumb">
-        <span class="breadcrumb__label">Panel</span>
-        <span class="breadcrumb__divider">/</span>
-        <span class="breadcrumb__current">Mensajes</span>
-    </div>
+<section class="profile-messages">
+    <style>
+        .profile-messages {
+            --pm-bg: #0b1117;
+            --pm-surface: #0f1620;
+            --pm-surface-alt: #0a1016;
+            --pm-text: #eaf1f8;
+            --pm-muted: #9bb0c6;
+            --pm-border: #1b2a3a;
+            --pm-primary: #22d3ee;
+            --pm-accent: #60a5fa;
+            --pm-success: #22c55e;
+            --pm-warn: #f59e0b;
+            --pm-danger: #ef4444;
+            --pm-badge: #122131;
+            --pm-radius: 18px;
+            --pm-shadow: 0 14px 36px rgba(0, 0, 0, 0.35);
+            font: 500 15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, "Helvetica Neue", Arial;
+            color: var(--pm-text);
+        }
 
-    <div class="messages__content">
-        <div class="card messages__placeholder">
-            <h1 class="messages__heading">Mensajes</h1>
-            <p class="messages__description">Aquí podrás revisar y responder los mensajes de tus clientes.</p>
-            <p class="messages__helper">Pronto agregaremos más funciones para administrar tus conversaciones.</p>
+        @media (prefers-color-scheme: light) {
+            .profile-messages {
+                --pm-bg: #f5f7fb;
+                --pm-surface: #ffffff;
+                --pm-surface-alt: #f0f4f9;
+                --pm-text: #0b1220;
+                --pm-muted: #5a6a7c;
+                --pm-border: #e4e9f1;
+                --pm-badge: #eaf0f7;
+                --pm-shadow: 0 14px 30px rgba(10, 14, 20, 0.08);
+            }
+        }
+
+        .profile-messages__wrapper {
+            background: linear-gradient(180deg, var(--pm-bg), var(--pm-surface-alt));
+            border-radius: calc(var(--pm-radius) + 6px);
+            padding: 24px;
+            box-shadow: var(--pm-shadow);
+        }
+
+        .profile-messages__container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .profile-messages__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .profile-messages__title {
+            margin: 0;
+            font-size: 32px;
+        }
+
+        .profile-messages__subtitle {
+            color: var(--pm-muted);
+            margin-top: 4px;
+        }
+
+        .profile-messages__kpis {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .profile-messages__kpi {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border: 1px solid var(--pm-border);
+            border-radius: 12px;
+            background: linear-gradient(180deg, var(--pm-surface), rgba(255, 255, 255, 0.02));
+        }
+
+        .profile-messages__kpi strong {
+            font-size: 18px;
+        }
+
+        .profile-messages__app {
+            display: grid;
+            grid-template-columns: 320px 1fr 360px;
+            gap: 16px;
+            min-height: 70vh;
+        }
+
+        @media (max-width: 1200px) {
+            .profile-messages__app {
+                grid-template-columns: 280px 1fr;
+            }
+
+            .profile-messages__context {
+                display: none;
+            }
+        }
+
+        @media (max-width: 980px) {
+            .profile-messages__app {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-messages__card {
+            background: var(--pm-surface);
+            border: 1px solid var(--pm-border);
+            border-radius: var(--pm-radius);
+            box-shadow: var(--pm-shadow);
+            overflow: hidden;
+        }
+
+        .profile-messages__btn {
+            display: inline-flex;
+            gap: 8px;
+            align-items: center;
+            border: 1px solid var(--pm-border);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.04));
+            color: inherit;
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+
+        .profile-messages__btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .profile-messages__btn--primary {
+            border-color: transparent;
+            background: linear-gradient(180deg, rgba(34, 211, 238, 0.35), rgba(34, 211, 238, 0.08));
+        }
+
+        .profile-messages__btn--ghost {
+            background: transparent;
+        }
+
+        .profile-messages__btn--icon {
+            padding: 10px;
+            border-radius: 12px;
+        }
+
+        .profile-messages__input,
+        .profile-messages select,
+        .profile-messages textarea {
+            width: 100%;
+            background: var(--pm-surface-alt);
+            border: 1px solid var(--pm-border);
+            color: inherit;
+            padding: 10px 12px;
+            border-radius: 12px;
+            outline: none;
+            font: inherit;
+        }
+
+        .profile-messages__input:focus,
+        .profile-messages select:focus,
+        .profile-messages textarea:focus {
+            border-color: var(--pm-primary);
+        }
+
+        .profile-messages__muted {
+            color: var(--pm-muted);
+        }
+
+        /* Inbox */
+        .profile-messages__inbox {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-messages__toolbar {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .profile-messages__tabs {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .profile-messages__tab {
+            padding: 8px 12px;
+            border: 1px solid var(--pm-border);
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .profile-messages__tab--active {
+            background: linear-gradient(180deg, rgba(96, 165, 250, 0.25), rgba(96, 165, 250, 0.06));
+            border-color: transparent;
+        }
+
+        .profile-messages__searchbar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        @media (max-width: 480px) {
+            .profile-messages__searchbar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .profile-messages__chips {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .profile-messages__chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--pm-badge);
+            border: 1px solid var(--pm-border);
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        .profile-messages__chip input {
+            accent-color: var(--pm-primary);
+        }
+
+        .profile-messages__list {
+            margin: 10px;
+            overflow: auto;
+            border: 1px solid var(--pm-border);
+            border-radius: 14px;
+            max-height: 60vh;
+        }
+
+        .profile-messages__conv {
+            display: grid;
+            grid-template-columns: 46px 1fr auto;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--pm-border);
+            cursor: pointer;
+            background: linear-gradient(180deg, var(--pm-surface), rgba(255, 255, 255, 0.015));
+        }
+
+        .profile-messages__conv:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .profile-messages__conv--active {
+            outline: 2px solid var(--pm-accent);
+        }
+
+        .profile-messages__avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: linear-gradient(45deg, #1f2937, #111827);
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+        }
+
+        .profile-messages__meta {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 6px;
+        }
+
+        .profile-messages__name {
+            font-weight: 800;
+        }
+
+        .profile-messages__sub {
+            color: var(--pm-muted);
+            font-size: 12px;
+        }
+
+        .profile-messages__badge {
+            min-width: 22px;
+            height: 22px;
+            padding: 0 6px;
+            border-radius: 999px;
+            background: var(--pm-primary);
+            color: #001b1f;
+            display: inline-grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .profile-messages__status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 999px;
+            background: var(--pm-success);
+            margin-left: 8px;
+        }
+
+        .profile-messages__pin {
+            opacity: 0.7;
+            margin-left: 6px;
+        }
+
+        .profile-messages__empty {
+            padding: 40px;
+            text-align: center;
+            color: var(--pm-muted);
+        }
+
+        /* Chat */
+        .profile-messages__chat {
+            display: grid;
+            grid-template-rows: auto auto 1fr auto;
+            min-height: 70vh;
+        }
+
+        .profile-messages__chat-title,
+        .profile-messages__chat-head,
+        .profile-messages__chat-input {
+            padding: 10px 14px;
+            border-bottom: 1px solid var(--pm-border);
+            background: linear-gradient(180deg, var(--pm-surface-alt), var(--pm-surface));
+        }
+
+        .profile-messages__chat-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom-style: dashed;
+        }
+
+        .profile-messages__head-left {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .profile-messages__breadcrumbs {
+            color: var(--pm-muted);
+            font-size: 12px;
+        }
+
+        .profile-messages__banner {
+            display: none;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            background: linear-gradient(180deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+            border-bottom: 1px dashed var(--pm-border);
+        }
+
+        .profile-messages__chat-body {
+            padding: 12px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: linear-gradient(180deg, var(--pm-surface), rgba(255, 255, 255, 0.01));
+        }
+
+        .profile-messages__day-sep {
+            display: inline-block;
+            margin: 10px auto;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--pm-border);
+            background: var(--pm-badge);
+            font-size: 12px;
+            color: var(--pm-muted);
+        }
+
+        .profile-messages__system {
+            align-self: center;
+            font-size: 12px;
+            color: var(--pm-muted);
+        }
+
+        .profile-messages__bubble {
+            max-width: 72%;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--pm-border);
+            line-height: 1.45;
+            position: relative;
+        }
+
+        .profile-messages__bubble--mine {
+            align-self: flex-end;
+            background: linear-gradient(180deg, rgba(34, 211, 238, 0.16), rgba(34, 211, 238, 0.06));
+        }
+
+        .profile-messages__bubble--theirs {
+            align-self: flex-start;
+            background: linear-gradient(180deg, var(--pm-surface), rgba(255, 255, 255, 0.02));
+        }
+
+        .profile-messages__bubble-meta {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            color: var(--pm-muted);
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        .profile-messages__bubble-actions {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            display: none;
+            gap: 6px;
+        }
+
+        .profile-messages__bubble:hover .profile-messages__bubble-actions {
+            display: flex;
+        }
+
+        .profile-messages__typing {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            color: var(--pm-muted);
+            font-size: 13px;
+        }
+
+        .profile-messages__hint {
+            color: var(--pm-muted);
+            font-size: 12px;
+            text-align: right;
+            padding: 0 10px 8px;
+        }
+
+        .profile-messages__chat-input {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .profile-messages__textarea {
+            resize: none;
+            max-height: 30vh;
+        }
+
+        /* Context */
+        .profile-messages__context {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .profile-messages__section {
+            padding: 12px;
+            border: 1px solid var(--pm-border);
+            border-radius: 14px;
+            background: linear-gradient(180deg, var(--pm-surface), rgba(255, 255, 255, 0.02));
+        }
+
+        .profile-messages__row {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 6px;
+            font-size: 14px;
+        }
+
+        .profile-messages__tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .profile-messages__tag {
+            background: var(--pm-badge);
+            border: 1px solid var(--pm-border);
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        .profile-messages__mini {
+            display: grid;
+            grid-template-columns: 56px 1fr auto;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .profile-messages__media {
+            width: 56px;
+            height: 56px;
+            border-radius: 10px;
+            background: linear-gradient(45deg, #1f2937, #111827);
+        }
+
+        .profile-messages__context textarea {
+            min-height: 120px;
+        }
+    </style>
+
+    <div class="profile-messages__wrapper" data-profile-messages>
+        <div class="profile-messages__container">
+            <div class="profile-messages__header">
+                <div>
+                    <h1 class="profile-messages__title">Mensajes</h1>
+                    <p class="profile-messages__subtitle">Inbox en tiempo real · Comprador ↔ Vendedor</p>
+                </div>
+                <div class="profile-messages__kpis">
+                    <div class="profile-messages__kpi"><span>📥 Abiertas</span><strong data-profile-messages-element="k-open">8</strong></div>
+                    <div class="profile-messages__kpi"><span>🔔 No leídos</span><strong data-profile-messages-element="k-unread">3</strong></div>
+                    <div class="profile-messages__kpi"><span>🟢 Estado</span><strong data-profile-messages-element="k-conn">Conectado</strong></div>
+                </div>
+            </div>
+
+            <div class="profile-messages__app">
+                <aside class="profile-messages__inbox profile-messages__card">
+                    <div class="profile-messages__toolbar">
+                        <div class="profile-messages__tabs" role="tablist">
+                            <button class="profile-messages__tab profile-messages__tab--active" type="button" role="tab" aria-selected="true">Inbox</button>
+                            <button class="profile-messages__tab" type="button" role="tab">Abiertas</button>
+                            <button class="profile-messages__tab" type="button" role="tab">Silenciadas</button>
+                            <button class="profile-messages__tab" type="button" role="tab">Cerradas</button>
+                        </div>
+                        <div class="profile-messages__searchbar">
+                            <input class="profile-messages__input" data-profile-messages-element="search" placeholder="Buscar comprador, propiedad, texto… (Ctrl+/)" />
+                            <select data-profile-messages-element="filter">
+                                <option value="all">Todas las propiedades</option>
+                                <option>Casa Cancún · #A102</option>
+                                <option>Lote Holbox · #L25</option>
+                                <option>Depto Centro · #D9</option>
+                            </select>
+                        </div>
+                        <div class="profile-messages__chips">
+                            <label class="profile-messages__chip"><input type="checkbox" data-profile-messages-element="only-unread" /> Solo no leídos</label>
+                            <label class="profile-messages__chip"><input type="checkbox" data-profile-messages-element="pinned-first" checked /> Fijadas primero</label>
+                            <label class="profile-messages__chip"><input type="checkbox" data-profile-messages-element="online-only" /> Solo en línea</label>
+                        </div>
+                    </div>
+                    <div class="profile-messages__list" data-profile-messages-element="list" role="listbox" aria-label="Conversaciones"></div>
+                </aside>
+
+                <section class="profile-messages__chat profile-messages__card" aria-live="polite">
+                    <div class="profile-messages__chat-title">
+                        <div class="profile-messages__breadcrumbs" data-profile-messages-element="breadcrumbs">Mensajes / —</div>
+                        <div>
+                            <button class="profile-messages__btn" type="button">Exportar</button>
+                            <button class="profile-messages__btn" type="button">Fijar</button>
+                        </div>
+                    </div>
+                    <header class="profile-messages__chat-head">
+                        <div class="profile-messages__head-left">
+                            <div class="profile-messages__avatar" data-profile-messages-element="head-avatar">A</div>
+                            <div>
+                                <strong data-profile-messages-element="head-name">Selecciona una conversación</strong>
+                                <div class="profile-messages__muted" data-profile-messages-element="head-sub">—</div>
+                            </div>
+                        </div>
+                        <div></div>
+                    </header>
+                    <div class="profile-messages__banner" data-profile-messages-element="offline-banner">Estás sin conexión. Los mensajes se enviarán cuando reconectes.</div>
+                    <div class="profile-messages__chat-body" data-profile-messages-element="chat-body">
+                        <div class="profile-messages__empty">Elige una conversación de la lista para comenzar</div>
+                    </div>
+                    <div class="profile-messages__hint">Enter = enviar · Shift+Enter = salto de línea</div>
+                    <footer class="profile-messages__chat-input">
+                        <button class="profile-messages__btn profile-messages__btn--icon" type="button" title="Adjuntar" data-profile-messages-element="attach">📎</button>
+                        <textarea class="profile-messages__input profile-messages__textarea" rows="2" placeholder="Escribe un mensaje…" data-profile-messages-element="message" disabled></textarea>
+                        <button class="profile-messages__btn" type="button" data-profile-messages-element="emoji">😊</button>
+                        <button class="profile-messages__btn profile-messages__btn--primary" type="button" data-profile-messages-element="send" disabled>Enviar</button>
+                    </footer>
+                </section>
+
+                <aside class="profile-messages__context">
+                    <div class="profile-messages__section">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+                            <strong>Perfil del comprador</strong>
+                            <span class="profile-messages__tag">Miembro desde · 2025</span>
+                        </div>
+                        <div class="profile-messages__row">
+                            <div class="profile-messages__muted">Nombre</div><div data-profile-messages-element="context-name">—</div>
+                            <div class="profile-messages__muted">Email</div><div data-profile-messages-element="context-email">—</div>
+                            <div class="profile-messages__muted">Teléfono</div><div data-profile-messages-element="context-phone">—</div>
+                            <div class="profile-messages__muted">Conversaciones</div><div data-profile-messages-element="context-count">—</div>
+                        </div>
+                    </div>
+
+                    <div class="profile-messages__section">
+                        <strong>Hilo / Publicación</strong>
+                        <div class="profile-messages__mini" style="margin-top:8px">
+                            <div class="profile-messages__media"></div>
+                            <div>
+                                <div data-profile-messages-element="property-title">—</div>
+                                <div class="profile-messages__muted" data-profile-messages-element="property-meta">—</div>
+                            </div>
+                            <button class="profile-messages__btn profile-messages__btn--ghost" type="button">Abrir publicación</button>
+                        </div>
+                        <div class="profile-messages__tags" style="margin-top:8px">
+                            <span class="profile-messages__tag">Chat directo</span>
+                            <span class="profile-messages__tag">Tiempo real</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-messages__section">
+                        <strong>Actividad del chat</strong>
+                        <div class="profile-messages__muted" style="font-size:13px;margin-top:6px">Eventos recientes</div>
+                        <ul data-profile-messages-element="timeline" style="padding-left:18px;line-height:1.6">
+                            <li>10:32 · Mensaje recibido</li>
+                            <li>10:35 · Leído por vendedor</li>
+                            <li>10:40 · Enviado archivo</li>
+                        </ul>
+                    </div>
+
+                    <div class="profile-messages__section">
+                        <strong>Archivos compartidos</strong>
+                        <div class="profile-messages__tags" data-profile-messages-element="files">
+                            <span class="profile-messages__tag">brochure.pdf</span>
+                            <span class="profile-messages__tag">plano.png</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-messages__section">
+                        <strong>Notas internas</strong>
+                        <textarea class="profile-messages__input" rows="4" placeholder="Ej: Prefiere comunicarse por la tarde"></textarea>
+                        <div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="profile-messages__btn" type="button">Guardar nota</button></div>
+                    </div>
+                </aside>
+            </div>
         </div>
     </div>
 </section>

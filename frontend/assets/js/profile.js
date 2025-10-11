@@ -23,6 +23,10 @@
         if (section === 'leads' && window.ProfileLeads && typeof window.ProfileLeads.init === 'function') {
             window.ProfileLeads.init(panel);
         }
+
+        if (section === 'mensajes' && window.ProfileMessages && typeof window.ProfileMessages.init === 'function') {
+            window.ProfileMessages.init(panel);
+        }
     };
 
     const renderPanelError = (panel) => {
