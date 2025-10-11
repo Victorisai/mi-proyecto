@@ -9196,6 +9196,8 @@ span.leads-state__label {
 .messages__panel--chat {
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .messages__panel--chat {
@@ -9225,8 +9227,8 @@ span.leads-state__label {
     padding: 28px 24px 24px;
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
     gap: 16px;
-    max-height: 520px;
     overflow: auto;
 }
 
@@ -9507,10 +9509,6 @@ span.leads-state__label {
 
     .messages__composer {
         grid-template-columns: auto 1fr auto;
-    }
-
-    .messages__composer .messages__button:nth-last-child(2) {
-        display: none;
     }
 }
 .messages__bubble-text {
