@@ -6,10 +6,100 @@
     </div>
 
     <div class="messages__content">
-        <div class="card messages__placeholder">
-            <h1 class="messages__heading">Mensajes</h1>
-            <p class="messages__description">Aquí podrás revisar y responder los mensajes de tus clientes.</p>
-            <p class="messages__helper">Pronto agregaremos más funciones para administrar tus conversaciones.</p>
+        <header class="messages__header">
+            <div class="messages__title-group">
+                <h1 class="messages__heading">Mensajes</h1>
+                <p class="messages__subtitle">Centraliza la comunicación con tus compradores y responde más rápido.</p>
+            </div>
+            <div class="messages__summary">
+                <span class="messages-chip" aria-live="polite">No leídos <strong class="messages-chip__value" id="messagesUnreadTotal">0</strong></span>
+                <button class="messages-btn messages-btn--ghost" type="button" id="messagesExport">Exportar historial</button>
+            </div>
+        </header>
+
+        <div class="messages__layout">
+            <aside class="messages-sidebar" aria-label="Lista de conversaciones">
+                <div class="card messages-sidebar__panel" role="region" aria-label="Filtros y acciones">
+                    <div class="messages-toolbar">
+                        <div class="messages-toolbar__search">
+                            <label class="sr-only" for="messagesSearch">Buscar conversaciones</label>
+                            <input class="messages-input" id="messagesSearch" type="search" placeholder="Buscar por comprador o propiedad" autocomplete="off" />
+                            <span class="messages-toolbar__icon" aria-hidden="true">🔍</span>
+                        </div>
+                        <button class="messages-btn messages-btn--icon" type="button" id="messagesReload" title="Recargar conversaciones">
+                            <span aria-hidden="true">⟳</span>
+                            <span class="sr-only">Recargar conversaciones</span>
+                        </button>
+                    </div>
+                    <div class="messages-filters">
+                        <div class="messages-field">
+                            <label class="messages-field__label" for="messagesPropertyFilter">Propiedad</label>
+                            <select class="messages-select" id="messagesPropertyFilter">
+                                <option value="all">Todas las propiedades</option>
+                                <option value="Casa Cancún · ID #A102">Casa Cancún · ID #A102</option>
+                                <option value="Lote Holbox · ID #L25">Lote Holbox · ID #L25</option>
+                                <option value="Depto Centro · ID #D9">Depto Centro · ID #D9</option>
+                            </select>
+                        </div>
+                        <div class="messages-field">
+                            <label class="messages-field__label" for="messagesStatusFilter">Estado</label>
+                            <select class="messages-select" id="messagesStatusFilter">
+                                <option value="open">Abiertas</option>
+                                <option value="muted">Silenciadas</option>
+                                <option value="closed">Cerradas</option>
+                                <option value="all">Todas</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="messages-chips">
+                        <label class="messages-chip messages-chip--toggle" for="messagesOnlyUnread">
+                            <input class="messages-chip__check" id="messagesOnlyUnread" type="checkbox" />
+                            <span>Solo no leídos</span>
+                        </label>
+                        <label class="messages-chip messages-chip--toggle" for="messagesPinnedFirst">
+                            <input class="messages-chip__check" id="messagesPinnedFirst" type="checkbox" checked />
+                            <span>Fijadas primero</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="card messages-list" id="messagesChatList" role="listbox" aria-label="Conversaciones">
+                    <div class="messages-list__empty">Carga inicial de conversaciones…</div>
+                </div>
+            </aside>
+
+            <section class="messages-thread card" aria-live="polite">
+                <header class="messages-thread__header" id="messagesThreadHeader">
+                    <div class="messages-thread__who">
+                        <div class="messages-avatar" id="messagesHeaderAvatar" aria-hidden="true">—</div>
+                        <div class="messages-thread__title">
+                            <strong id="messagesHeaderName">Selecciona una conversación</strong>
+                            <small id="messagesHeaderMeta">Elige un chat de la lista para comenzar</small>
+                        </div>
+                    </div>
+                    <div class="messages-thread__actions">
+                        <button class="messages-btn" type="button" id="messagesOpenLead" disabled>Ver lead</button>
+                        <button class="messages-btn" type="button" id="messagesMute">Silenciar</button>
+                        <button class="messages-btn" type="button" id="messagesClose">Cerrar</button>
+                    </div>
+                </header>
+
+                <div class="messages-thread__body" id="messagesThreadBody">
+                    <div class="messages-thread__placeholder">Selecciona una conversación para ver el historial.</div>
+                </div>
+
+                <p class="messages-hint">Enter envía · Shift + Enter agrega un salto de línea</p>
+
+                <footer class="messages-thread__composer">
+                    <button class="messages-btn messages-btn--icon" type="button" id="messagesAttach" title="Adjuntar archivo" disabled>
+                        <span aria-hidden="true">📎</span>
+                        <span class="sr-only">Adjuntar archivo</span>
+                    </button>
+                    <label class="sr-only" for="messagesTextarea">Escribe un mensaje</label>
+                    <textarea class="messages-input messages-input--textarea" id="messagesTextarea" rows="2" placeholder="Escribe un mensaje…" disabled></textarea>
+                    <button class="messages-btn messages-btn--primary" type="button" id="messagesSend" disabled>Enviar</button>
+                </footer>
+            </section>
         </div>
     </div>
 </section>
