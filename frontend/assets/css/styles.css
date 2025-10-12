@@ -6277,9 +6277,22 @@ body.profile-page {
     flex-grow: 1;
     padding: 48px 56px 40px;
     margin-left: 260px;
+    width: calc(100% - 260px);
+    max-width: 100vw;
+    box-sizing: border-box;
     background: radial-gradient(circle at top, rgba(52, 152, 219, 0.08), transparent 60%),
                 radial-gradient(circle at bottom right, rgba(46, 204, 113, 0.08), transparent 45%);
     overflow-y: auto; /* Para scroll si el contenido es largo */
+    overflow-x: hidden;
+}
+
+@media (max-width: 992px) {
+    .profile__main-content {
+        margin-left: 0;
+        width: 100%;
+        max-width: 100%;
+        padding: 32px 24px 28px;
+    }
 }
 
 .profile__panel {
@@ -8852,6 +8865,8 @@ span.leads-state__label {
     background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(56, 189, 248, 0.08));
     border-radius: 24px;
     padding: 12px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .messages__panel {
