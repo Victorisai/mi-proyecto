@@ -9459,8 +9459,10 @@ span.leads-state__label {
 
 @media (min-width: 1440px) {
     .messages__layout {
-        grid-template-columns: minmax(280px, 320px) minmax(0, 1.1fr) minmax(280px, 340px);
-        grid-template-areas: "inbox chat context";
+        grid-template-columns: minmax(280px, 320px) minmax(0, 1.1fr);
+        grid-template-areas:
+            "inbox chat"
+            "context context";
         align-items: stretch;
         padding: 16px;
     }
