@@ -8861,6 +8861,9 @@ span.leads-state__label {
 
 .messages__panel--inbox {
     grid-area: inbox;
+    display: flex;
+    flex-direction: column;
+    max-height: min(75vh, 720px);
 }
 
 .messages__panel.card {
@@ -8885,6 +8888,12 @@ span.leads-state__label {
     flex-direction: column;
     gap: 16px;
     background: linear-gradient(180deg, rgba(224, 242, 254, 0.88), rgba(240, 253, 244, 0.6));
+}
+
+.messages__list {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
 }
 
 .messages__tabs {
@@ -9198,6 +9207,8 @@ span.leads-state__label {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    max-height: min(75vh, 720px);
+    min-height: 0;
 }
 
 .messages__panel--chat {
@@ -9230,6 +9241,7 @@ span.leads-state__label {
     flex: 1 1 auto;
     gap: 16px;
     overflow: auto;
+    min-height: 0;
 }
 
 .messages__empty {
