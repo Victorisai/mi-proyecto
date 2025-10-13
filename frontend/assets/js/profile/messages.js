@@ -213,7 +213,17 @@
 
             if (conversation.pinned) {
                 const pin = createElement('span', 'messages__pin');
-                pin.textContent = '📌';
+                const pinIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                pinIcon.setAttribute('viewBox', '0 0 24 24');
+                pinIcon.setAttribute('aria-hidden', 'true');
+                pinIcon.setAttribute('focusable', 'false');
+
+                const pinPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                pinPath.setAttribute('d', 'M12 2c.414 0 .79.252.938.633l2 5H18a1 1 0 010 2h-3v4.586l1.707 1.707a1 1 0 01-1.414 1.414L12 15.414l-3.293 3.293a1 1 0 01-1.414-1.414L9 13.586V9H6a1 1 0 110-2h3.062l2-5A1 1 0 0112 2z');
+                pinPath.setAttribute('fill', 'currentColor');
+
+                pinIcon.appendChild(pinPath);
+                pin.appendChild(pinIcon);
                 pin.setAttribute('title', 'Conversación fijada');
                 name.appendChild(pin);
             }
