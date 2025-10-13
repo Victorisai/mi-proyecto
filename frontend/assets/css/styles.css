@@ -8852,6 +8852,7 @@ span.leads-state__label {
     background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(56, 189, 248, 0.08));
     border-radius: 24px;
     padding: 12px;
+    height: clamp(480px, 75vh, 820px);
 }
 
 .messages__panel {
@@ -8861,6 +8862,7 @@ span.leads-state__label {
 
 .messages__panel--inbox {
     grid-area: inbox;
+    height: 100%;
 }
 
 .messages__panel.card {
@@ -8871,6 +8873,8 @@ span.leads-state__label {
     backdrop-filter: blur(6px);
     background: rgba(255, 255, 255, 0.9);
     border: 1px solid rgba(148, 163, 184, 0.22);
+    display: flex;
+    flex-direction: column;
 }
 
 .messages__panel.card:hover {
@@ -8885,6 +8889,7 @@ span.leads-state__label {
     flex-direction: column;
     gap: 16px;
     background: linear-gradient(180deg, rgba(224, 242, 254, 0.88), rgba(240, 253, 244, 0.6));
+    flex-shrink: 0;
 }
 
 .messages__tabs {
@@ -8976,7 +8981,8 @@ span.leads-state__label {
 }
 
 .messages__list {
-    max-height: 640px;
+    flex: 1 1 auto;
+    min-height: 0;
     overflow: auto;
     background: linear-gradient(180deg, rgba(248, 250, 252, 0.92), rgba(241, 245, 249, 0.92));
 }
@@ -9198,6 +9204,7 @@ span.leads-state__label {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .messages__panel--chat {
@@ -9228,6 +9235,7 @@ span.leads-state__label {
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
+    min-height: 0;
     gap: 16px;
     overflow: auto;
 }
@@ -9479,6 +9487,7 @@ span.leads-state__label {
             "context";
         padding: 8px;
         background: rgba(248, 250, 252, 0.7);
+        height: auto;
     }
 
     .messages__context-cards {
