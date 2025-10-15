@@ -8832,6 +8832,9 @@ span.leads-state__label {
 }
 
 .messages__kpi-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-size: 14px;
     color: #475569;
 }
