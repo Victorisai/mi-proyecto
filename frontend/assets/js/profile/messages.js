@@ -213,7 +213,30 @@
 
             if (conversation.pinned) {
                 const pin = createElement('span', 'messages__pin');
-                pin.textContent = '📌';
+                const pinIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                pinIcon.setAttribute('class', 'messages__pin-icon');
+                pinIcon.setAttribute('viewBox', '0 0 24 24');
+                pinIcon.setAttribute('width', '16');
+                pinIcon.setAttribute('height', '16');
+                pinIcon.setAttribute('aria-hidden', 'true');
+
+                const pinOutline = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                pinOutline.setAttribute('d', 'M12 3.25c-3.17 0-5.75 2.58-5.75 5.75 0 4.38 5.75 10.5 5.75 10.5s5.75-6.12 5.75-10.5c0-3.17-2.58-5.75-5.75-5.75z');
+                pinOutline.setAttribute('fill', 'none');
+                pinOutline.setAttribute('stroke', 'currentColor');
+                pinOutline.setAttribute('stroke-width', '1.5');
+                pinOutline.setAttribute('stroke-linejoin', 'round');
+
+                const pinCenter = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                pinCenter.setAttribute('cx', '12');
+                pinCenter.setAttribute('cy', '9');
+                pinCenter.setAttribute('r', '2.25');
+                pinCenter.setAttribute('fill', 'currentColor');
+
+                pinIcon.appendChild(pinOutline);
+                pinIcon.appendChild(pinCenter);
+
+                pin.appendChild(pinIcon);
                 pin.setAttribute('title', 'Conversación fijada');
                 name.appendChild(pin);
             }
