@@ -9091,9 +9091,19 @@ span.leads-state__label {
 }
 
 .messages__pin {
-    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
     margin-left: 6px;
     color: #f59e0b;
+}
+
+.messages__pin-icon {
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
 .messages__chat-header {
