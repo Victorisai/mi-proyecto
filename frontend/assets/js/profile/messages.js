@@ -146,16 +146,12 @@
         const propertyValue = elements.property ? elements.property.value : 'all';
         const onlyUnread = elements.filterUnread ? elements.filterUnread.checked : false;
         const pinnedFirst = elements.filterPinned ? elements.filterPinned.checked : false;
-        const onlyOnline = elements.filterOnline ? elements.filterOnline.checked : false;
 
         let filtered = conversations.filter((conversation) => {
             if (propertyValue !== 'all' && conversation.property !== propertyValue) {
                 return false;
             }
             if (onlyUnread && conversation.unread === 0) {
-                return false;
-            }
-            if (onlyOnline && !conversation.online) {
                 return false;
             }
             if (!query) {
@@ -600,9 +596,6 @@
         if (elements.filterPinned) {
             elements.filterPinned.addEventListener('change', renderInbox);
         }
-        if (elements.filterOnline) {
-            elements.filterOnline.addEventListener('change', renderInbox);
-        }
         if (elements.sendButton) {
             elements.sendButton.addEventListener('click', sendMessage);
         }
@@ -651,7 +644,6 @@
         elements.property = panel.querySelector('[data-messages-property]');
         elements.filterUnread = panel.querySelector('[data-messages-filter-unread]');
         elements.filterPinned = panel.querySelector('[data-messages-filter-pinned]');
-        elements.filterOnline = panel.querySelector('[data-messages-filter-online]');
         elements.kpiOpen = panel.querySelector('[data-messages-kpi-open]');
         elements.kpiUnread = panel.querySelector('[data-messages-kpi-unread]');
         elements.kpiStatus = panel.querySelector('[data-messages-kpi-status]');
