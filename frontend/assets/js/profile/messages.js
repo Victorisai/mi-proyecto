@@ -9,7 +9,6 @@
             unread: 2,
             status: 'open',
             pinned: true,
-            online: true,
             email: 'juan.perez@mail.com',
             phone: '+52 999 123 4567',
             conversationCount: 3,
@@ -26,7 +25,6 @@
             unread: 0,
             status: 'open',
             pinned: false,
-            online: false,
             email: 'ana.lopez@mail.com',
             phone: '+52 998 654 3210',
             conversationCount: 2,
@@ -43,7 +41,6 @@
             unread: 0,
             status: 'closed',
             pinned: false,
-            online: false,
             email: 'carlos.ruiz@mail.com',
             phone: '+52 55 3210 9876',
             conversationCount: 4,
@@ -60,7 +57,6 @@
             unread: 3,
             status: 'open',
             pinned: false,
-            online: true,
             email: 'paula.rios@mail.com',
             phone: '+52 998 111 2233',
             conversationCount: 1,
@@ -201,12 +197,6 @@
             const header = createElement('div', 'messages__conversation-header');
             const name = createElement('div', 'messages__conversation-name');
             name.textContent = conversation.buyer;
-
-            if (conversation.online) {
-                const statusDot = createElement('span', 'messages__status-dot');
-                statusDot.setAttribute('title', 'En línea');
-                name.appendChild(statusDot);
-            }
 
             if (conversation.pinned) {
                 const pin = createElement('span', 'messages__pin');
@@ -513,7 +503,7 @@
             elements.headerName.textContent = conversation.buyer;
         }
         if (elements.headerSub) {
-            const subtitle = conversation.online ? 'En línea' : `Últ. ${conversation.lastAt}`;
+            const subtitle = `Últ. ${conversation.lastAt}`;
             elements.headerSub.textContent = `${conversation.property} · ${subtitle}`;
         }
 
