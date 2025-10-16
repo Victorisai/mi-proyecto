@@ -93,7 +93,8 @@
         activeId: null,
         connected: true,
         shortcutBound: false,
-        intervalId: null
+        intervalId: null,
+        deleteListenerBound: false
     };
 
     let panelRef = null;
@@ -297,6 +298,10 @@
             return;
         }
 
+        if (elements.deleteButton) {
+            elements.deleteButton.disabled = !state.activeId;
+        }
+
         elements.chatBody.innerHTML = '';
 
         if (!state.activeId) {
@@ -382,6 +387,117 @@
         }
         renderTimeline(conversation);
         renderFiles(conversation);
+    };
+
+    const toggleDeleteModal = (isOpen) => {
+        if (!elements.deleteModal) {
+            return;
+        }
+
+        elements.deleteModal.classList.toggle('modal--visible', isOpen);
+        elements.deleteModal.setAttribute('aria-hidden', String(!isOpen));
+
+        if (isOpen) {
+            elements.deleteModal.setAttribute('aria-modal', 'true');
+            const focusTarget = elements.deleteConfirm || elements.deleteModal.querySelector('button');
+            window.setTimeout(() => {
+                if (focusTarget) {
+                    focusTarget.focus();
+                }
+            }, 0);
+            return;
+        }
+
+        elements.deleteModal.removeAttribute('aria-modal');
+        if (elements.deleteButton && !elements.deleteButton.disabled) {
+            elements.deleteButton.focus();
+        }
+    };
+
+    const handleDeleteKeydown = (event) => {
+        if (event.key !== 'Escape') {
+            return;
+        }
+        if (!elements.deleteModal || !elements.deleteModal.classList.contains('modal--visible')) {
+            return;
+        }
+        toggleDeleteModal(false);
+    };
+
+    const resetActiveConversation = () => {
+        state.activeId = null;
+
+        if (elements.crumb) {
+            elements.crumb.textContent = 'Mensajes / —';
+        }
+        if (elements.headerAvatar) {
+            elements.headerAvatar.textContent = '—';
+        }
+        if (elements.headerName) {
+            elements.headerName.textContent = 'Selecciona una conversación';
+        }
+        if (elements.headerSub) {
+            elements.headerSub.textContent = '—';
+        }
+        if (elements.messageInput) {
+            elements.messageInput.value = '';
+            elements.messageInput.disabled = true;
+        }
+        if (elements.sendButton) {
+            elements.sendButton.disabled = true;
+        }
+        if (elements.contextName) {
+            elements.contextName.textContent = '—';
+        }
+        if (elements.contextEmail) {
+            elements.contextEmail.textContent = '—';
+        }
+        if (elements.contextPhone) {
+            elements.contextPhone.textContent = '—';
+        }
+        if (elements.contextCount) {
+            elements.contextCount.textContent = '—';
+        }
+        if (elements.propertyTitle) {
+            elements.propertyTitle.textContent = '—';
+        }
+        if (elements.propertyMeta) {
+            elements.propertyMeta.textContent = '—';
+        }
+        if (elements.timeline) {
+            elements.timeline.innerHTML = '';
+            const emptyTimelineItem = createElement('li');
+            emptyTimelineItem.textContent = 'Sin actividad reciente';
+            elements.timeline.appendChild(emptyTimelineItem);
+        }
+        if (elements.files) {
+            elements.files.innerHTML = '';
+            const emptyFileTag = createElement('span', 'messages__tag');
+            emptyFileTag.textContent = 'Sin archivos recientes';
+            elements.files.appendChild(emptyFileTag);
+        }
+
+        renderMessages();
+        renderInbox();
+    };
+
+    const handleDeleteConfirm = () => {
+        if (!state.activeId) {
+            toggleDeleteModal(false);
+            return;
+        }
+
+        const activeId = state.activeId;
+        const index = conversations.findIndex((conversation) => conversation.id === activeId);
+
+        if (index !== -1) {
+            conversations.splice(index, 1);
+        }
+
+        delete messagesByConversation[activeId];
+
+        toggleDeleteModal(false);
+        resetActiveConversation();
     };
 
     const openConversation = (conversationId) => {
@@ -511,6 +627,22 @@
             });
             state.shortcutBound = true;
         }
+
+        if (elements.deleteButton && elements.deleteModal) {
+            elements.deleteButton.addEventListener('click', () => toggleDeleteModal(true));
+        }
+        if (elements.deleteClosers && elements.deleteClosers.length > 0) {
+            elements.deleteClosers.forEach((closer) => {
+                closer.addEventListener('click', () => toggleDeleteModal(false));
+            });
+        }
+        if (elements.deleteConfirm) {
+            elements.deleteConfirm.addEventListener('click', handleDeleteConfirm);
+        }
+        if (!state.deleteListenerBound) {
+            document.addEventListener('keydown', handleDeleteKeydown);
+            state.deleteListenerBound = true;
+        }
     };
 
     const cacheElements = (panel) => {
@@ -539,6 +671,10 @@
         elements.propertyMeta = panel.querySelector('[data-messages-property-meta]');
         elements.timeline = panel.querySelector('[data-messages-timeline]');
         elements.files = panel.querySelector('[data-messages-files]');
+        elements.deleteButton = panel.querySelector('[data-messages-delete-trigger]');
+        elements.deleteModal = panel.querySelector('[data-messages-delete-modal]');
+        elements.deleteConfirm = panel.querySelector('[data-messages-delete-confirm]');
+        elements.deleteClosers = Array.from(panel.querySelectorAll('[data-messages-delete-close]'));
     };
 
     const handlePanelReady = () => {

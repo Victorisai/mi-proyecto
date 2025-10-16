@@ -89,7 +89,7 @@
             <div class="messages__chat-header">
                 <span class="messages__breadcrumbs" data-messages-crumb>Mensajes / —</span>
                 <div class="messages__chat-actions">
-                    <button type="button" class="messages__button">Exportar</button>
+                    <button type="button" class="messages__button" data-messages-delete-trigger disabled>Eliminar chat</button>
                     <button type="button" class="messages__button">Fijar</button>
                 </div>
             </div>
@@ -187,5 +187,20 @@
                 </div>
             </div>
         </aside>
+    </div>
+
+    <div class="modal" data-messages-delete-modal aria-hidden="true" role="dialog"
+        aria-labelledby="delete-chat-title" aria-describedby="delete-chat-description">
+        <div class="modal__overlay" data-messages-delete-close></div>
+        <div class="modal__dialog" role="document">
+            <button class="modal__close" type="button" aria-label="Cerrar" data-messages-delete-close>&times;</button>
+            <h2 class="modal__title" id="delete-chat-title">¿Deseas eliminar el chat?</h2>
+            <p class="modal__subtitle" id="delete-chat-description">Se eliminará toda la conversación del historial.</p>
+            <div class="modal__actions">
+                <button type="button" class="modal__action dashboard__action-btn dashboard__action-btn--primary"
+                    data-messages-delete-confirm>Confirmar</button>
+                <button type="button" class="modal__action" data-messages-delete-close>Cancelar</button>
+            </div>
+        </div>
     </div>
 </section>
