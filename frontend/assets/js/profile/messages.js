@@ -9,7 +9,6 @@
             unread: 2,
             status: 'open',
             pinned: true,
-            online: true,
             email: 'juan.perez@mail.com',
             phone: '+52 999 123 4567',
             conversationCount: 3,
@@ -26,7 +25,6 @@
             unread: 0,
             status: 'open',
             pinned: false,
-            online: false,
             email: 'ana.lopez@mail.com',
             phone: '+52 998 654 3210',
             conversationCount: 2,
@@ -43,7 +41,6 @@
             unread: 0,
             status: 'closed',
             pinned: false,
-            online: false,
             email: 'carlos.ruiz@mail.com',
             phone: '+52 55 3210 9876',
             conversationCount: 4,
@@ -60,7 +57,6 @@
             unread: 3,
             status: 'open',
             pinned: false,
-            online: true,
             email: 'paula.rios@mail.com',
             phone: '+52 998 111 2233',
             conversationCount: 1,
@@ -93,7 +89,8 @@
         activeId: null,
         connected: true,
         shortcutBound: false,
-        intervalId: null
+        intervalId: null,
+        deleteListenerBound: false
     };
 
     let panelRef = null;
@@ -145,16 +142,12 @@
         const propertyValue = elements.property ? elements.property.value : 'all';
         const onlyUnread = elements.filterUnread ? elements.filterUnread.checked : false;
         const pinnedFirst = elements.filterPinned ? elements.filterPinned.checked : false;
-        const onlyOnline = elements.filterOnline ? elements.filterOnline.checked : false;
 
         let filtered = conversations.filter((conversation) => {
             if (propertyValue !== 'all' && conversation.property !== propertyValue) {
                 return false;
             }
             if (onlyUnread && conversation.unread === 0) {
-                return false;
-            }
-            if (onlyOnline && !conversation.online) {
                 return false;
             }
             if (!query) {
@@ -204,12 +197,6 @@
             const header = createElement('div', 'messages__conversation-header');
             const name = createElement('div', 'messages__conversation-name');
             name.textContent = conversation.buyer;
-
-            if (conversation.online) {
-                const statusDot = createElement('span', 'messages__status-dot');
-                statusDot.setAttribute('title', 'En línea');
-                name.appendChild(statusDot);
-            }
 
             if (conversation.pinned) {
                 const pin = createElement('span', 'messages__pin');
@@ -295,6 +282,10 @@
     const renderMessages = () => {
         if (!elements.chatBody) {
             return;
+        }
+
+        if (elements.deleteButton) {
+            elements.deleteButton.disabled = !state.activeId;
         }
 
         elements.chatBody.innerHTML = '';
@@ -384,6 +375,117 @@
         renderFiles(conversation);
     };
 
+    const toggleDeleteModal = (isOpen) => {
+        if (!elements.deleteModal) {
+            return;
+        }
+
+        elements.deleteModal.classList.toggle('modal--visible', isOpen);
+        elements.deleteModal.setAttribute('aria-hidden', String(!isOpen));
+
+        if (isOpen) {
+            elements.deleteModal.setAttribute('aria-modal', 'true');
+            const focusTarget = elements.deleteConfirm || elements.deleteModal.querySelector('button');
+            window.setTimeout(() => {
+                if (focusTarget) {
+                    focusTarget.focus();
+                }
+            }, 0);
+            return;
+        }
+
+        elements.deleteModal.removeAttribute('aria-modal');
+        if (elements.deleteButton && !elements.deleteButton.disabled) {
+            elements.deleteButton.focus();
+        }
+    };
+
+    const handleDeleteKeydown = (event) => {
+        if (event.key !== 'Escape') {
+            return;
+        }
+        if (!elements.deleteModal || !elements.deleteModal.classList.contains('modal--visible')) {
+            return;
+        }
+        toggleDeleteModal(false);
+    };
+
+    const resetActiveConversation = () => {
+        state.activeId = null;
+
+        if (elements.crumb) {
+            elements.crumb.textContent = 'Mensajes / —';
+        }
+        if (elements.headerAvatar) {
+            elements.headerAvatar.textContent = '—';
+        }
+        if (elements.headerName) {
+            elements.headerName.textContent = 'Selecciona una conversación';
+        }
+        if (elements.headerSub) {
+            elements.headerSub.textContent = '—';
+        }
+        if (elements.messageInput) {
+            elements.messageInput.value = '';
+            elements.messageInput.disabled = true;
+        }
+        if (elements.sendButton) {
+            elements.sendButton.disabled = true;
+        }
+        if (elements.contextName) {
+            elements.contextName.textContent = '—';
+        }
+        if (elements.contextEmail) {
+            elements.contextEmail.textContent = '—';
+        }
+        if (elements.contextPhone) {
+            elements.contextPhone.textContent = '—';
+        }
+        if (elements.contextCount) {
+            elements.contextCount.textContent = '—';
+        }
+        if (elements.propertyTitle) {
+            elements.propertyTitle.textContent = '—';
+        }
+        if (elements.propertyMeta) {
+            elements.propertyMeta.textContent = '—';
+        }
+        if (elements.timeline) {
+            elements.timeline.innerHTML = '';
+            const emptyTimelineItem = createElement('li');
+            emptyTimelineItem.textContent = 'Sin actividad reciente';
+            elements.timeline.appendChild(emptyTimelineItem);
+        }
+        if (elements.files) {
+            elements.files.innerHTML = '';
+            const emptyFileTag = createElement('span', 'messages__tag');
+            emptyFileTag.textContent = 'Sin archivos recientes';
+            elements.files.appendChild(emptyFileTag);
+        }
+
+        renderMessages();
+        renderInbox();
+    };
+
+    const handleDeleteConfirm = () => {
+        if (!state.activeId) {
+            toggleDeleteModal(false);
+            return;
+        }
+
+        const activeId = state.activeId;
+        const index = conversations.findIndex((conversation) => conversation.id === activeId);
+
+        if (index !== -1) {
+            conversations.splice(index, 1);
+        }
+
+        delete messagesByConversation[activeId];
+
+        toggleDeleteModal(false);
+        resetActiveConversation();
+    };
+
     const openConversation = (conversationId) => {
         state.activeId = conversationId;
         const conversation = getConversation(conversationId);
@@ -401,7 +503,7 @@
             elements.headerName.textContent = conversation.buyer;
         }
         if (elements.headerSub) {
-            const subtitle = conversation.online ? 'En línea' : `Últ. ${conversation.lastAt}`;
+            const subtitle = `Últ. ${conversation.lastAt}`;
             elements.headerSub.textContent = `${conversation.property} · ${subtitle}`;
         }
 
@@ -484,9 +586,6 @@
         if (elements.filterPinned) {
             elements.filterPinned.addEventListener('change', renderInbox);
         }
-        if (elements.filterOnline) {
-            elements.filterOnline.addEventListener('change', renderInbox);
-        }
         if (elements.sendButton) {
             elements.sendButton.addEventListener('click', sendMessage);
         }
@@ -511,6 +610,22 @@
             });
             state.shortcutBound = true;
         }
+
+        if (elements.deleteButton && elements.deleteModal) {
+            elements.deleteButton.addEventListener('click', () => toggleDeleteModal(true));
+        }
+        if (elements.deleteClosers && elements.deleteClosers.length > 0) {
+            elements.deleteClosers.forEach((closer) => {
+                closer.addEventListener('click', () => toggleDeleteModal(false));
+            });
+        }
+        if (elements.deleteConfirm) {
+            elements.deleteConfirm.addEventListener('click', handleDeleteConfirm);
+        }
+        if (!state.deleteListenerBound) {
+            document.addEventListener('keydown', handleDeleteKeydown);
+            state.deleteListenerBound = true;
+        }
     };
 
     const cacheElements = (panel) => {
@@ -519,7 +634,6 @@
         elements.property = panel.querySelector('[data-messages-property]');
         elements.filterUnread = panel.querySelector('[data-messages-filter-unread]');
         elements.filterPinned = panel.querySelector('[data-messages-filter-pinned]');
-        elements.filterOnline = panel.querySelector('[data-messages-filter-online]');
         elements.kpiOpen = panel.querySelector('[data-messages-kpi-open]');
         elements.kpiUnread = panel.querySelector('[data-messages-kpi-unread]');
         elements.kpiStatus = panel.querySelector('[data-messages-kpi-status]');
@@ -539,6 +653,10 @@
         elements.propertyMeta = panel.querySelector('[data-messages-property-meta]');
         elements.timeline = panel.querySelector('[data-messages-timeline]');
         elements.files = panel.querySelector('[data-messages-files]');
+        elements.deleteButton = panel.querySelector('[data-messages-delete-trigger]');
+        elements.deleteModal = panel.querySelector('[data-messages-delete-modal]');
+        elements.deleteConfirm = panel.querySelector('[data-messages-delete-confirm]');
+        elements.deleteClosers = Array.from(panel.querySelectorAll('[data-messages-delete-close]'));
     };
 
     const handlePanelReady = () => {

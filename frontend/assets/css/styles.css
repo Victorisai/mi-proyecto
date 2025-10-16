@@ -6406,7 +6406,7 @@ body.profile-page {
 .modal__title {
     font-size: 1.75rem; /* 28px */
     font-weight: 700;
-    margin: 0 0 0.5rem;
+    margin: -22px 0 0.5rem;
     padding-top: 1.5rem; 
 }
 
@@ -6414,6 +6414,7 @@ body.profile-page {
     font-size: 1rem; /* 16px */
     color: #6b7280; /* Color de texto atenuado */
     margin: 0;
+    margin-bottom: 10px;
 }
 
 .modal__actions {
@@ -8907,8 +8908,8 @@ span.leads-state__label {
 
 .messages__tab {
     border: 1px solid rgba(148, 163, 184, 0.45);
-    background: rgba(255, 255, 255, 0.8);
-    color: #0f172a;
+    background: #000;
+    color: #f0f0f0;
     padding: 8px 14px;
     border-radius: 999px;
     font-weight: 500;
@@ -8917,16 +8918,20 @@ span.leads-state__label {
     transition: all 0.2s ease;
 }
 
+button.messages__tab.messages__tab--active {
+    width: 100%;
+}
+
 .messages__tab:hover,
 .messages__tab:focus-visible {
     border-color: #38bdf8;
-    color: #0f172a;
+    color: #eef2f7;
     outline: none;
 }
 
 .messages__tab--active,
 .messages__tab[aria-selected="true"] {
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.4), rgba(56, 189, 248, 0.15));
+    background: #000;
     border-color: transparent;
 }
 
@@ -9073,8 +9078,8 @@ span.leads-state__label {
     min-width: 24px;
     height: 24px;
     border-radius: 999px;
-    background: #22d3ee;
-    color: #0f172a;
+    background: #32970b;
+    color: #f1f1f1;
     font-weight: 700;
     font-size: 12px;
     display: inline-flex;
