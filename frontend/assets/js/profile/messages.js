@@ -106,6 +106,47 @@
         return element;
     };
 
+    const formatFileSize = (bytes) => {
+        if (!Number.isFinite(bytes) || bytes < 0) {
+            return '';
+        }
+        if (bytes === 0) {
+            return '0 B';
+        }
+
+        const units = ['B', 'KB', 'MB', 'GB'];
+        const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+        const size = bytes / Math.pow(1024, index);
+        const formatted = size >= 10 ? size.toFixed(0) : size.toFixed(1);
+        return `${formatted} ${units[index]}`;
+    };
+
+    const createAttachmentElement = (file) => {
+        const attachment = createElement('div', 'messages__attachment');
+        attachment.title = file.name;
+
+        const icon = createElement('span', 'messages__attachment-icon');
+        icon.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5 12.5 21a4.95 4.95 0 0 1-7-7l8.5-8.5a3 3 0 0 1 4.2 4.2L9.7 18.2a1.5 1.5 0 0 1-2.1-2.1l7.6-7.6" /></svg>';
+
+        const info = createElement('div', 'messages__attachment-info');
+
+        const name = createElement('span', 'messages__attachment-name');
+        name.textContent = file.name;
+        info.appendChild(name);
+
+        const sizeLabel = formatFileSize(file.size);
+        if (sizeLabel) {
+            const meta = createElement('span', 'messages__attachment-meta');
+            meta.textContent = sizeLabel;
+            info.appendChild(meta);
+        }
+
+        attachment.appendChild(icon);
+        attachment.appendChild(info);
+
+        return attachment;
+    };
+
     const renderKPIs = () => {
         if (!elements.kpiOpen || !elements.kpiUnread || !elements.kpiStatus) {
             return;
@@ -290,6 +331,10 @@
 
         elements.chatBody.innerHTML = '';
 
+        if (elements.attachButton) {
+            elements.attachButton.disabled = !state.activeId;
+        }
+
         if (!state.activeId) {
             const empty = createElement('div', 'messages__empty');
             empty.textContent = 'Elige una conversación de la lista para comenzar';
@@ -309,8 +354,18 @@
             const bubble = createElement('div', 'messages__bubble');
             bubble.classList.add(message.mine ? 'messages__bubble--mine' : 'messages__bubble--theirs');
 
-            const text = createElement('div', 'messages__bubble-text');
-            text.textContent = message.text;
+            const content = createElement('div', 'messages__bubble-text');
+            if (message.text) {
+                const textBlock = createElement('span', 'messages__bubble-text-content');
+                textBlock.textContent = message.text;
+                content.appendChild(textBlock);
+            }
+            if (message.file) {
+                content.appendChild(createAttachmentElement(message.file));
+            }
+            if (!message.text && !message.file) {
+                content.textContent = '';
+            }
 
             const meta = createElement('div', 'messages__bubble-meta');
             const time = createElement('span');
@@ -338,7 +393,7 @@
                 actions.appendChild(button);
             });
 
-            bubble.appendChild(text);
+            bubble.appendChild(content);
             bubble.appendChild(meta);
             bubble.appendChild(actions);
 
@@ -432,6 +487,9 @@
         if (elements.sendButton) {
             elements.sendButton.disabled = true;
         }
+        if (elements.attachButton) {
+            elements.attachButton.disabled = true;
+        }
         if (elements.contextName) {
             elements.contextName.textContent = '—';
         }
@@ -514,6 +572,9 @@
         if (elements.sendButton) {
             elements.sendButton.disabled = false;
         }
+        if (elements.attachButton) {
+            elements.attachButton.disabled = false;
+        }
 
         populateContext(conversation);
         renderMessages();
@@ -547,6 +608,13 @@
         messagesByConversation[state.activeId] = (messagesByConversation[state.activeId] || []).concat(message);
         renderMessages();
 
+        const conversation = getConversation(state.activeId);
+        if (conversation) {
+            conversation.lastMessage = value;
+            conversation.lastAt = formatted;
+            renderInbox();
+        }
+
         if (!elements.chatBody) {
             return;
         }
@@ -566,6 +634,70 @@
             messagesByConversation[state.activeId].push(reply);
             renderMessages();
         }, 1100);
+    };
+
+    const handleFileSelection = (event) => {
+        const input = event.target;
+        if (!input || !input.files || input.files.length === 0) {
+            return;
+        }
+
+        if (!state.activeId) {
+            input.value = '';
+            return;
+        }
+
+        const conversation = getConversation(state.activeId);
+        if (!conversation) {
+            input.value = '';
+            return;
+        }
+
+        const files = Array.from(input.files);
+        const conversationMessages = messagesByConversation[state.activeId] || [];
+        const newFileNames = [];
+        let lastTimestamp = conversationMessages.length > 0 ? conversationMessages[conversationMessages.length - 1].at : '';
+
+        files.forEach((file) => {
+            const timestamp = new Date();
+            lastTimestamp = timestamp.toLocaleTimeString('es-MX', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            conversationMessages.push({
+                mine: true,
+                at: lastTimestamp,
+                file: {
+                    name: file.name,
+                    size: file.size
+                }
+            });
+
+            newFileNames.push(file.name);
+            conversation.timeline = conversation.timeline || [];
+            conversation.timeline.push(`${lastTimestamp} · Archivo enviado (${file.name})`);
+        });
+
+        messagesByConversation[state.activeId] = conversationMessages;
+
+        if (newFileNames.length > 0) {
+            const existingFiles = conversation.files || [];
+            conversation.files = Array.from(new Set(newFileNames.concat(existingFiles)));
+            conversation.lastMessage = `Archivo enviado (${newFileNames[newFileNames.length - 1]})`;
+            conversation.lastAt = lastTimestamp || conversation.lastAt;
+        }
+
+        renderMessages();
+        renderFiles(conversation);
+        renderTimeline(conversation);
+        renderInbox();
+
+        if (elements.chatBody) {
+            elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
+        }
+
+        input.value = '';
     };
 
     const toggleConnection = () => {
@@ -588,6 +720,17 @@
         }
         if (elements.sendButton) {
             elements.sendButton.addEventListener('click', sendMessage);
+        }
+        if (elements.attachButton) {
+            elements.attachButton.addEventListener('click', () => {
+                if (!elements.fileInput || elements.attachButton.disabled) {
+                    return;
+                }
+                elements.fileInput.click();
+            });
+        }
+        if (elements.fileInput) {
+            elements.fileInput.addEventListener('change', handleFileSelection);
         }
         if (elements.messageInput) {
             elements.messageInput.addEventListener('keydown', (event) => {
@@ -645,6 +788,8 @@
         elements.chatBody = panel.querySelector('[data-messages-body]');
         elements.messageInput = panel.querySelector('[data-messages-input]');
         elements.sendButton = panel.querySelector('[data-messages-send]');
+        elements.attachButton = panel.querySelector('[data-messages-attach]');
+        elements.fileInput = panel.querySelector('[data-messages-file-input]');
         elements.contextName = panel.querySelector('[data-messages-context-name]');
         elements.contextEmail = panel.querySelector('[data-messages-context-email]');
         elements.contextPhone = panel.querySelector('[data-messages-context-phone]');
