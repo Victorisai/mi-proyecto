@@ -102,12 +102,13 @@
             </div>
             <div class="messages__hint">Enter = enviar · Shift+Enter = salto de línea</div>
             <footer class="messages__composer">
-                <button type="button" class="messages__button messages__button--icon" title="Adjuntar">
+                <button type="button" class="messages__button messages__button--icon" title="Adjuntar" data-messages-attach disabled>
                     <svg class="messages__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"
                         fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 12.5 12.5 21a4.95 4.95 0 0 1-7-7l8.5-8.5a3 3 0 0 1 4.2 4.2L9.7 18.2a1.5 1.5 0 0 1-2.1-2.1l7.6-7.6" />
                     </svg>
                 </button>
+                <input type="file" class="messages__file-input" data-messages-file-input aria-label="Adjuntar archivo" multiple hidden>
                 <textarea class="messages__input messages__input--textarea" rows="2" placeholder="Escribe un mensaje…" data-messages-input disabled></textarea>
                 <button type="button" class="messages__button messages__button--primary" data-messages-send disabled>Enviar</button>
             </footer>
