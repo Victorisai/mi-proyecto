@@ -320,10 +320,32 @@
         });
     };
 
+    const updatePinButton = () => {
+        if (!elements.pinButton) {
+            return;
+        }
+
+        const conversation = state.activeId ? getConversation(state.activeId) : null;
+
+        if (!conversation) {
+            elements.pinButton.disabled = true;
+            elements.pinButton.textContent = 'Fijar';
+            elements.pinButton.setAttribute('aria-pressed', 'false');
+            return;
+        }
+
+        elements.pinButton.disabled = false;
+        const isPinned = Boolean(conversation.pinned);
+        elements.pinButton.textContent = isPinned ? 'Desfijar' : 'Fijar';
+        elements.pinButton.setAttribute('aria-pressed', isPinned ? 'true' : 'false');
+    };
+
     const renderMessages = () => {
         if (!elements.chatBody) {
             return;
         }
+
+        updatePinButton();
 
         if (elements.deleteButton) {
             elements.deleteButton.disabled = !state.activeId;
@@ -428,6 +450,21 @@
         }
         renderTimeline(conversation);
         renderFiles(conversation);
+    };
+
+    const togglePinnedConversation = () => {
+        if (!state.activeId) {
+            return;
+        }
+
+        const conversation = getConversation(state.activeId);
+        if (!conversation) {
+            return;
+        }
+
+        conversation.pinned = !conversation.pinned;
+        updatePinButton();
+        renderInbox();
     };
 
     const toggleDeleteModal = (isOpen) => {
@@ -765,6 +802,9 @@
         if (elements.deleteConfirm) {
             elements.deleteConfirm.addEventListener('click', handleDeleteConfirm);
         }
+        if (elements.pinButton) {
+            elements.pinButton.addEventListener('click', togglePinnedConversation);
+        }
         if (!state.deleteListenerBound) {
             document.addEventListener('keydown', handleDeleteKeydown);
             state.deleteListenerBound = true;
@@ -799,6 +839,7 @@
         elements.timeline = panel.querySelector('[data-messages-timeline]');
         elements.files = panel.querySelector('[data-messages-files]');
         elements.deleteButton = panel.querySelector('[data-messages-delete-trigger]');
+        elements.pinButton = panel.querySelector('[data-messages-pin]');
         elements.deleteModal = panel.querySelector('[data-messages-delete-modal]');
         elements.deleteConfirm = panel.querySelector('[data-messages-delete-confirm]');
         elements.deleteClosers = Array.from(panel.querySelectorAll('[data-messages-delete-close]'));
