@@ -1,4 +1,6 @@
 (function () {
+    const relativeTimestamp = (minutesAgo) => Date.now() - minutesAgo * 60 * 1000;
+
     const conversations = [
         {
             id: 1,
@@ -6,6 +8,7 @@
             property: 'Lote Holbox · #L25',
             lastMessage: 'Gracias, quedo atento',
             lastAt: '10:32',
+            lastTimestamp: relativeTimestamp(15),
             unread: 2,
             status: 'open',
             pinned: true,
@@ -22,6 +25,7 @@
             property: 'Casa Cancún · #A102',
             lastMessage: 'Perfecto, el sábado',
             lastAt: 'ayer',
+            lastTimestamp: relativeTimestamp(24 * 60 + 30),
             unread: 0,
             status: 'open',
             pinned: false,
@@ -38,6 +42,7 @@
             property: 'Depto Centro · #D9',
             lastMessage: 'Listo, envío docs',
             lastAt: 'lun',
+            lastTimestamp: relativeTimestamp(4 * 24 * 60),
             unread: 0,
             status: 'closed',
             pinned: false,
@@ -54,6 +59,7 @@
             property: 'Lote Holbox · #L25',
             lastMessage: '¿Hay descuento al contado?',
             lastAt: '09:15',
+            lastTimestamp: relativeTimestamp(5),
             unread: 3,
             status: 'open',
             pinned: false,
@@ -202,9 +208,16 @@
             if (pinnedFirst && a.pinned !== b.pinned) {
                 return Number(b.pinned) - Number(a.pinned);
             }
+
+            const recentDiff = (Number(b.lastTimestamp) || 0) - (Number(a.lastTimestamp) || 0);
+            if (recentDiff !== 0) {
+                return recentDiff;
+            }
+
             if (b.unread !== a.unread) {
                 return b.unread - a.unread;
             }
+
             return a.buyer.localeCompare(b.buyer, 'es');
         });
 
@@ -624,6 +637,7 @@
         if (!elements.messageInput || !state.activeId) {
             return;
         }
+        const conversationId = state.activeId;
         const value = elements.messageInput.value.trim();
         if (!value) {
             return;
@@ -642,34 +656,59 @@
         };
 
         elements.messageInput.value = '';
-        messagesByConversation[state.activeId] = (messagesByConversation[state.activeId] || []).concat(message);
-        renderMessages();
+        messagesByConversation[conversationId] = (messagesByConversation[conversationId] || []).concat(message);
 
-        const conversation = getConversation(state.activeId);
+        if (state.activeId === conversationId) {
+            renderMessages();
+        }
+
+        const conversation = getConversation(conversationId);
         if (conversation) {
             conversation.lastMessage = value;
             conversation.lastAt = formatted;
+            conversation.lastTimestamp = now.getTime();
+            conversation.unread = 0;
             renderInbox();
         }
 
-        if (!elements.chatBody) {
-            return;
+        const typing = elements.chatBody && state.activeId === conversationId ? createElement('div', 'messages__typing') : null;
+
+        if (typing && elements.chatBody) {
+            typing.innerHTML = '<span>•••</span><span>Escribiendo…</span>';
+            elements.chatBody.appendChild(typing);
+            elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
         }
 
-        const typing = createElement('div', 'messages__typing');
-        typing.innerHTML = '<span>•••</span><span>Escribiendo…</span>';
-        elements.chatBody.appendChild(typing);
-        elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
-
         window.setTimeout(() => {
-            typing.remove();
+            if (typing) {
+                typing.remove();
+            }
             const reply = {
                 mine: false,
                 text: 'Recibido 👍',
                 at: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
             };
-            messagesByConversation[state.activeId].push(reply);
-            renderMessages();
+            const conversationMessages = messagesByConversation[conversationId] || [];
+            conversationMessages.push(reply);
+            messagesByConversation[conversationId] = conversationMessages;
+
+            const targetConversation = getConversation(conversationId);
+            if (targetConversation) {
+                targetConversation.lastMessage = reply.text;
+                targetConversation.lastAt = reply.at;
+                targetConversation.lastTimestamp = Date.now();
+                if (state.activeId !== conversationId) {
+                    targetConversation.unread = (targetConversation.unread || 0) + 1;
+                } else {
+                    targetConversation.unread = 0;
+                }
+            }
+
+            if (state.activeId === conversationId) {
+                renderMessages();
+            }
+
+            renderInbox();
         }, 1100);
     };
 
@@ -684,27 +723,31 @@
             return;
         }
 
-        const conversation = getConversation(state.activeId);
+        const conversationId = state.activeId;
+        const conversation = getConversation(conversationId);
         if (!conversation) {
             input.value = '';
             return;
         }
 
         const files = Array.from(input.files);
-        const conversationMessages = messagesByConversation[state.activeId] || [];
+        const conversationMessages = messagesByConversation[conversationId] || [];
         const newFileNames = [];
-        let lastTimestamp = conversationMessages.length > 0 ? conversationMessages[conversationMessages.length - 1].at : '';
+        let lastTimestampLabel = conversationMessages.length > 0 ? conversationMessages[conversationMessages.length - 1].at : '';
+        let lastTimestampValue = conversation.lastTimestamp || Date.now();
+        const isActiveConversation = state.activeId === conversationId;
 
         files.forEach((file) => {
             const timestamp = new Date();
-            lastTimestamp = timestamp.toLocaleTimeString('es-MX', {
+            lastTimestampLabel = timestamp.toLocaleTimeString('es-MX', {
                 hour: '2-digit',
                 minute: '2-digit'
             });
+            lastTimestampValue = timestamp.getTime();
 
             conversationMessages.push({
                 mine: true,
-                at: lastTimestamp,
+                at: lastTimestampLabel,
                 file: {
                     name: file.name,
                     size: file.size
@@ -713,24 +756,28 @@
 
             newFileNames.push(file.name);
             conversation.timeline = conversation.timeline || [];
-            conversation.timeline.push(`${lastTimestamp} · Archivo enviado (${file.name})`);
+            conversation.timeline.push(`${lastTimestampLabel} · Archivo enviado (${file.name})`);
         });
 
-        messagesByConversation[state.activeId] = conversationMessages;
+        messagesByConversation[conversationId] = conversationMessages;
 
         if (newFileNames.length > 0) {
             const existingFiles = conversation.files || [];
             conversation.files = Array.from(new Set(newFileNames.concat(existingFiles)));
             conversation.lastMessage = `Archivo enviado (${newFileNames[newFileNames.length - 1]})`;
-            conversation.lastAt = lastTimestamp || conversation.lastAt;
+            conversation.lastAt = lastTimestampLabel || conversation.lastAt;
+            conversation.lastTimestamp = lastTimestampValue;
+            conversation.unread = isActiveConversation ? 0 : (conversation.unread || 0);
         }
 
-        renderMessages();
-        renderFiles(conversation);
-        renderTimeline(conversation);
+        if (isActiveConversation) {
+            renderMessages();
+            renderFiles(conversation);
+            renderTimeline(conversation);
+        }
         renderInbox();
 
-        if (elements.chatBody) {
+        if (isActiveConversation && elements.chatBody) {
             elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
         }
 
