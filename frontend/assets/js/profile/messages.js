@@ -1,4 +1,6 @@
 (function () {
+    const relativeTimestamp = (minutesAgo) => Date.now() - minutesAgo * 60 * 1000;
+
     const conversations = [
         {
             id: 1,
@@ -6,6 +8,7 @@
             property: 'Lote Holbox · #L25',
             lastMessage: 'Gracias, quedo atento',
             lastAt: '10:32',
+            lastTimestamp: relativeTimestamp(15),
             unread: 2,
             status: 'open',
             pinned: true,
@@ -22,6 +25,7 @@
             property: 'Casa Cancún · #A102',
             lastMessage: 'Perfecto, el sábado',
             lastAt: 'ayer',
+            lastTimestamp: relativeTimestamp(24 * 60 + 30),
             unread: 0,
             status: 'open',
             pinned: false,
@@ -38,6 +42,7 @@
             property: 'Depto Centro · #D9',
             lastMessage: 'Listo, envío docs',
             lastAt: 'lun',
+            lastTimestamp: relativeTimestamp(4 * 24 * 60),
             unread: 0,
             status: 'closed',
             pinned: false,
@@ -54,6 +59,7 @@
             property: 'Lote Holbox · #L25',
             lastMessage: '¿Hay descuento al contado?',
             lastAt: '09:15',
+            lastTimestamp: relativeTimestamp(5),
             unread: 3,
             status: 'open',
             pinned: false,
@@ -104,6 +110,47 @@
             element.className = className;
         }
         return element;
+    };
+
+    const formatFileSize = (bytes) => {
+        if (!Number.isFinite(bytes) || bytes < 0) {
+            return '';
+        }
+        if (bytes === 0) {
+            return '0 B';
+        }
+
+        const units = ['B', 'KB', 'MB', 'GB'];
+        const index = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+        const size = bytes / Math.pow(1024, index);
+        const formatted = size >= 10 ? size.toFixed(0) : size.toFixed(1);
+        return `${formatted} ${units[index]}`;
+    };
+
+    const createAttachmentElement = (file) => {
+        const attachment = createElement('div', 'messages__attachment');
+        attachment.title = file.name;
+
+        const icon = createElement('span', 'messages__attachment-icon');
+        icon.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5 12.5 21a4.95 4.95 0 0 1-7-7l8.5-8.5a3 3 0 0 1 4.2 4.2L9.7 18.2a1.5 1.5 0 0 1-2.1-2.1l7.6-7.6" /></svg>';
+
+        const info = createElement('div', 'messages__attachment-info');
+
+        const name = createElement('span', 'messages__attachment-name');
+        name.textContent = file.name;
+        info.appendChild(name);
+
+        const sizeLabel = formatFileSize(file.size);
+        if (sizeLabel) {
+            const meta = createElement('span', 'messages__attachment-meta');
+            meta.textContent = sizeLabel;
+            info.appendChild(meta);
+        }
+
+        attachment.appendChild(icon);
+        attachment.appendChild(info);
+
+        return attachment;
     };
 
     const renderKPIs = () => {
@@ -161,9 +208,16 @@
             if (pinnedFirst && a.pinned !== b.pinned) {
                 return Number(b.pinned) - Number(a.pinned);
             }
+
+            const recentDiff = (Number(b.lastTimestamp) || 0) - (Number(a.lastTimestamp) || 0);
+            if (recentDiff !== 0) {
+                return recentDiff;
+            }
+
             if (b.unread !== a.unread) {
                 return b.unread - a.unread;
             }
+
             return a.buyer.localeCompare(b.buyer, 'es');
         });
 
@@ -279,16 +333,42 @@
         });
     };
 
+    const updatePinButton = () => {
+        if (!elements.pinButton) {
+            return;
+        }
+
+        const conversation = state.activeId ? getConversation(state.activeId) : null;
+
+        if (!conversation) {
+            elements.pinButton.disabled = true;
+            elements.pinButton.textContent = 'Fijar';
+            elements.pinButton.setAttribute('aria-pressed', 'false');
+            return;
+        }
+
+        elements.pinButton.disabled = false;
+        const isPinned = Boolean(conversation.pinned);
+        elements.pinButton.textContent = isPinned ? 'Desfijar' : 'Fijar';
+        elements.pinButton.setAttribute('aria-pressed', isPinned ? 'true' : 'false');
+    };
+
     const renderMessages = () => {
         if (!elements.chatBody) {
             return;
         }
+
+        updatePinButton();
 
         if (elements.deleteButton) {
             elements.deleteButton.disabled = !state.activeId;
         }
 
         elements.chatBody.innerHTML = '';
+
+        if (elements.attachButton) {
+            elements.attachButton.disabled = !state.activeId;
+        }
 
         if (!state.activeId) {
             const empty = createElement('div', 'messages__empty');
@@ -309,8 +389,18 @@
             const bubble = createElement('div', 'messages__bubble');
             bubble.classList.add(message.mine ? 'messages__bubble--mine' : 'messages__bubble--theirs');
 
-            const text = createElement('div', 'messages__bubble-text');
-            text.textContent = message.text;
+            const content = createElement('div', 'messages__bubble-text');
+            if (message.text) {
+                const textBlock = createElement('span', 'messages__bubble-text-content');
+                textBlock.textContent = message.text;
+                content.appendChild(textBlock);
+            }
+            if (message.file) {
+                content.appendChild(createAttachmentElement(message.file));
+            }
+            if (!message.text && !message.file) {
+                content.textContent = '';
+            }
 
             const meta = createElement('div', 'messages__bubble-meta');
             const time = createElement('span');
@@ -338,7 +428,7 @@
                 actions.appendChild(button);
             });
 
-            bubble.appendChild(text);
+            bubble.appendChild(content);
             bubble.appendChild(meta);
             bubble.appendChild(actions);
 
@@ -373,6 +463,21 @@
         }
         renderTimeline(conversation);
         renderFiles(conversation);
+    };
+
+    const togglePinnedConversation = () => {
+        if (!state.activeId) {
+            return;
+        }
+
+        const conversation = getConversation(state.activeId);
+        if (!conversation) {
+            return;
+        }
+
+        conversation.pinned = !conversation.pinned;
+        updatePinButton();
+        renderInbox();
     };
 
     const toggleDeleteModal = (isOpen) => {
@@ -431,6 +536,9 @@
         }
         if (elements.sendButton) {
             elements.sendButton.disabled = true;
+        }
+        if (elements.attachButton) {
+            elements.attachButton.disabled = true;
         }
         if (elements.contextName) {
             elements.contextName.textContent = '—';
@@ -514,6 +622,9 @@
         if (elements.sendButton) {
             elements.sendButton.disabled = false;
         }
+        if (elements.attachButton) {
+            elements.attachButton.disabled = false;
+        }
 
         populateContext(conversation);
         renderMessages();
@@ -526,6 +637,7 @@
         if (!elements.messageInput || !state.activeId) {
             return;
         }
+        const conversationId = state.activeId;
         const value = elements.messageInput.value.trim();
         if (!value) {
             return;
@@ -544,28 +656,132 @@
         };
 
         elements.messageInput.value = '';
-        messagesByConversation[state.activeId] = (messagesByConversation[state.activeId] || []).concat(message);
-        renderMessages();
+        messagesByConversation[conversationId] = (messagesByConversation[conversationId] || []).concat(message);
 
-        if (!elements.chatBody) {
-            return;
+        if (state.activeId === conversationId) {
+            renderMessages();
         }
 
-        const typing = createElement('div', 'messages__typing');
-        typing.innerHTML = '<span>•••</span><span>Escribiendo…</span>';
-        elements.chatBody.appendChild(typing);
-        elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
+        const conversation = getConversation(conversationId);
+        if (conversation) {
+            conversation.lastMessage = value;
+            conversation.lastAt = formatted;
+            conversation.lastTimestamp = now.getTime();
+            conversation.unread = 0;
+            renderInbox();
+        }
+
+        const typing = elements.chatBody && state.activeId === conversationId ? createElement('div', 'messages__typing') : null;
+
+        if (typing && elements.chatBody) {
+            typing.innerHTML = '<span>•••</span><span>Escribiendo…</span>';
+            elements.chatBody.appendChild(typing);
+            elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
+        }
 
         window.setTimeout(() => {
-            typing.remove();
+            if (typing) {
+                typing.remove();
+            }
             const reply = {
                 mine: false,
                 text: 'Recibido 👍',
                 at: new Date().toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' })
             };
-            messagesByConversation[state.activeId].push(reply);
-            renderMessages();
+            const conversationMessages = messagesByConversation[conversationId] || [];
+            conversationMessages.push(reply);
+            messagesByConversation[conversationId] = conversationMessages;
+
+            const targetConversation = getConversation(conversationId);
+            if (targetConversation) {
+                targetConversation.lastMessage = reply.text;
+                targetConversation.lastAt = reply.at;
+                targetConversation.lastTimestamp = Date.now();
+                if (state.activeId !== conversationId) {
+                    targetConversation.unread = (targetConversation.unread || 0) + 1;
+                } else {
+                    targetConversation.unread = 0;
+                }
+            }
+
+            if (state.activeId === conversationId) {
+                renderMessages();
+            }
+
+            renderInbox();
         }, 1100);
+    };
+
+    const handleFileSelection = (event) => {
+        const input = event.target;
+        if (!input || !input.files || input.files.length === 0) {
+            return;
+        }
+
+        if (!state.activeId) {
+            input.value = '';
+            return;
+        }
+
+        const conversationId = state.activeId;
+        const conversation = getConversation(conversationId);
+        if (!conversation) {
+            input.value = '';
+            return;
+        }
+
+        const files = Array.from(input.files);
+        const conversationMessages = messagesByConversation[conversationId] || [];
+        const newFileNames = [];
+        let lastTimestampLabel = conversationMessages.length > 0 ? conversationMessages[conversationMessages.length - 1].at : '';
+        let lastTimestampValue = conversation.lastTimestamp || Date.now();
+        const isActiveConversation = state.activeId === conversationId;
+
+        files.forEach((file) => {
+            const timestamp = new Date();
+            lastTimestampLabel = timestamp.toLocaleTimeString('es-MX', {
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            lastTimestampValue = timestamp.getTime();
+
+            conversationMessages.push({
+                mine: true,
+                at: lastTimestampLabel,
+                file: {
+                    name: file.name,
+                    size: file.size
+                }
+            });
+
+            newFileNames.push(file.name);
+            conversation.timeline = conversation.timeline || [];
+            conversation.timeline.push(`${lastTimestampLabel} · Archivo enviado (${file.name})`);
+        });
+
+        messagesByConversation[conversationId] = conversationMessages;
+
+        if (newFileNames.length > 0) {
+            const existingFiles = conversation.files || [];
+            conversation.files = Array.from(new Set(newFileNames.concat(existingFiles)));
+            conversation.lastMessage = `Archivo enviado (${newFileNames[newFileNames.length - 1]})`;
+            conversation.lastAt = lastTimestampLabel || conversation.lastAt;
+            conversation.lastTimestamp = lastTimestampValue;
+            conversation.unread = isActiveConversation ? 0 : (conversation.unread || 0);
+        }
+
+        if (isActiveConversation) {
+            renderMessages();
+            renderFiles(conversation);
+            renderTimeline(conversation);
+        }
+        renderInbox();
+
+        if (isActiveConversation && elements.chatBody) {
+            elements.chatBody.scrollTop = elements.chatBody.scrollHeight;
+        }
+
+        input.value = '';
     };
 
     const toggleConnection = () => {
@@ -588,6 +804,17 @@
         }
         if (elements.sendButton) {
             elements.sendButton.addEventListener('click', sendMessage);
+        }
+        if (elements.attachButton) {
+            elements.attachButton.addEventListener('click', () => {
+                if (!elements.fileInput || elements.attachButton.disabled) {
+                    return;
+                }
+                elements.fileInput.click();
+            });
+        }
+        if (elements.fileInput) {
+            elements.fileInput.addEventListener('change', handleFileSelection);
         }
         if (elements.messageInput) {
             elements.messageInput.addEventListener('keydown', (event) => {
@@ -622,6 +849,9 @@
         if (elements.deleteConfirm) {
             elements.deleteConfirm.addEventListener('click', handleDeleteConfirm);
         }
+        if (elements.pinButton) {
+            elements.pinButton.addEventListener('click', togglePinnedConversation);
+        }
         if (!state.deleteListenerBound) {
             document.addEventListener('keydown', handleDeleteKeydown);
             state.deleteListenerBound = true;
@@ -645,6 +875,8 @@
         elements.chatBody = panel.querySelector('[data-messages-body]');
         elements.messageInput = panel.querySelector('[data-messages-input]');
         elements.sendButton = panel.querySelector('[data-messages-send]');
+        elements.attachButton = panel.querySelector('[data-messages-attach]');
+        elements.fileInput = panel.querySelector('[data-messages-file-input]');
         elements.contextName = panel.querySelector('[data-messages-context-name]');
         elements.contextEmail = panel.querySelector('[data-messages-context-email]');
         elements.contextPhone = panel.querySelector('[data-messages-context-phone]');
@@ -654,6 +886,7 @@
         elements.timeline = panel.querySelector('[data-messages-timeline]');
         elements.files = panel.querySelector('[data-messages-files]');
         elements.deleteButton = panel.querySelector('[data-messages-delete-trigger]');
+        elements.pinButton = panel.querySelector('[data-messages-pin]');
         elements.deleteModal = panel.querySelector('[data-messages-delete-modal]');
         elements.deleteConfirm = panel.querySelector('[data-messages-delete-confirm]');
         elements.deleteClosers = Array.from(panel.querySelectorAll('[data-messages-delete-close]'));
