@@ -1,5 +1,338 @@
-<div class="dashboard__breadcrumb">
-    <span class="breadcrumb__label">Panel</span>
-    <span class="breadcrumb__divider">/</span>
-    <span class="breadcrumb__current">Mi perfil</span>
-</div>
+<section class="profile">
+    <div class="dashboard__breadcrumb">
+        <span class="breadcrumb__label">Panel</span>
+        <span class="breadcrumb__divider">/</span>
+        <span class="breadcrumb__current">Mi perfil</span>
+    </div>
+
+    <div class="profile__header">
+        <div>
+            <h1 class="profile__title">Mi perfil (Vendedor)</h1>
+            <p class="profile__subtitle">Administra tu presencia profesional, tus datos de contacto y las preferencias asociadas a tu cuenta.</p>
+        </div>
+        <button class="profile__public-btn" type="button">Ver perfil público</button>
+    </div>
+
+    <div class="profile__layout">
+        <aside class="profile__sidebar">
+            <article class="card profile-summary" aria-labelledby="profileSummaryTitle">
+                <div class="profile-summary__header">
+                    <div class="profile-summary__avatar" aria-hidden="true">
+                        <img src="https://placehold.co/160x160" alt="" loading="lazy" />
+                        <button class="profile-summary__avatar-btn" type="button">Cambiar</button>
+                    </div>
+                    <div class="profile-summary__info">
+                        <h2 class="profile-summary__name" id="profileSummaryTitle">Carla Domínguez</h2>
+                        <p class="profile-summary__role">Asesora inmobiliaria especializada en residencias premium y lotes de inversión.</p>
+                    </div>
+                </div>
+                <ul class="profile-summary__meta">
+                    <li>
+                        <div class="profile-summary__meta-icon" aria-hidden="true">📍</div>
+                        <div>
+                            <span class="profile-summary__meta-label">Ubicación</span>
+                            <span class="profile-summary__meta-value">Cancún, Quintana Roo</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="profile-summary__meta-icon" aria-hidden="true">📞</div>
+                        <div class="profile-summary__contact">
+                            <span class="profile-summary__meta-label">Teléfono</span>
+                            <a class="profile-summary__meta-value" href="tel:+529981234567">+52 998 123 4567</a>
+                            <button class="profile-summary__whatsapp" type="button">Abrir WhatsApp</button>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="profile-summary__meta-icon" aria-hidden="true">🌐</div>
+                        <div>
+                            <span class="profile-summary__meta-label">Presencia digital</span>
+                            <ul class="profile-summary__socials">
+                                <li><a href="#" aria-label="Perfil en Instagram">Instagram</a></li>
+                                <li><a href="#" aria-label="Perfil en Facebook">Facebook</a></li>
+                                <li><a href="#" aria-label="Perfil en LinkedIn">LinkedIn</a></li>
+                                <li><a href="#" aria-label="Perfil en YouTube">YouTube</a></li>
+                                <li><a href="#" aria-label="Perfil en TikTok">TikTok</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+                <div class="profile-summary__actions">
+                    <button class="profile-summary__edit" type="button">Editar perfil</button>
+                </div>
+            </article>
+
+            <article class="card profile-plan" aria-labelledby="profilePlanTitle">
+                <div class="profile-plan__heading">
+                    <h2 class="profile-plan__title" id="profilePlanTitle">Mi plan</h2>
+                    <span class="profile-plan__status">PRO · Activo</span>
+                </div>
+                <dl class="profile-plan__details">
+                    <div class="profile-plan__row">
+                        <dt>Límite de propiedades</dt>
+                        <dd>50 anuncios</dd>
+                    </div>
+                    <div class="profile-plan__row">
+                        <dt>Destacados</dt>
+                        <dd>Incluidos</dd>
+                    </div>
+                    <div class="profile-plan__row">
+                        <dt>Analytics</dt>
+                        <dd>Panel avanzado</dd>
+                    </div>
+                    <div class="profile-plan__row">
+                        <dt>Próximo cobro</dt>
+                        <dd>19 Oct 2025</dd>
+                    </div>
+                </dl>
+                <div class="profile-plan__actions">
+                    <button class="profile-plan__btn profile-plan__btn--ghost" type="button">Ver beneficios</button>
+                    <button class="profile-plan__btn profile-plan__btn--primary" type="button">Cambiar plan</button>
+                </div>
+            </article>
+        </aside>
+
+        <section class="card profile-tabs" aria-label="Configuración de perfil">
+            <div class="profile-tabs__nav" role="tablist" aria-label="Secciones del perfil">
+                <button class="profile-tabs__button is-active" type="button" role="tab" aria-selected="true" aria-controls="profileTabOverview" data-profile-tab="overview">Perfil</button>
+                <button class="profile-tabs__button" type="button" role="tab" aria-selected="false" aria-controls="profileTabEdit" data-profile-tab="edit">Editar</button>
+                <button class="profile-tabs__button" type="button" role="tab" aria-selected="false" aria-controls="profileTabNotifications" data-profile-tab="notifications">Notificaciones</button>
+                <button class="profile-tabs__button" type="button" role="tab" aria-selected="false" aria-controls="profileTabSecurity" data-profile-tab="security">Seguridad</button>
+                <button class="profile-tabs__button" type="button" role="tab" aria-selected="false" aria-controls="profileTabAccount" data-profile-tab="account">Cuenta</button>
+            </div>
+            <div class="profile-tabs__panels">
+                <section class="profile-tabs__panel" id="profileTabOverview" role="tabpanel" tabindex="0" data-profile-panel="overview">
+                    <div class="profile-overview">
+                        <article class="profile-overview__card">
+                            <h3 class="profile-overview__title">Sobre mí</h3>
+                            <p>Con más de 10 años de experiencia en el mercado inmobiliario de Quintana Roo, acompaño a compradores e inversionistas en cada etapa del proceso para lograr operaciones seguras y transparentes.</p>
+                            <a class="profile-overview__cta" href="#">Solicitar asesoría personalizada</a>
+                        </article>
+                        <article class="profile-overview__stats">
+                            <dl>
+                                <div>
+                                    <dt>Propiedades publicadas</dt>
+                                    <dd>12</dd>
+                                </div>
+                                <div>
+                                    <dt>Activas</dt>
+                                    <dd>10</dd>
+                                </div>
+                                <div>
+                                    <dt>Pausadas</dt>
+                                    <dd>2</dd>
+                                </div>
+                                <div>
+                                    <dt>Calificación promedio</dt>
+                                    <dd>4.9 / 5</dd>
+                                </div>
+                            </dl>
+                        </article>
+                    </div>
+                </section>
+                <section class="profile-tabs__panel is-hidden" id="profileTabEdit" role="tabpanel" tabindex="0" data-profile-panel="edit" aria-hidden="true">
+                    <form class="profile-form" action="#" method="post">
+                        <fieldset class="profile-form__group">
+                            <legend>Foto de perfil</legend>
+                            <div class="profile-form__avatar">
+                                <div class="profile-form__avatar-img" aria-hidden="true"></div>
+                                <div class="profile-form__avatar-actions">
+                                    <button class="profile-form__btn" type="button">Subir nueva</button>
+                                    <button class="profile-form__btn" type="button">Recortar</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="profile-form__grid">
+                            <label class="profile-form__field">
+                                <span>Nombre para mostrar</span>
+                                <input type="text" name="display_name" placeholder="Ej: Carla Domínguez" />
+                            </label>
+                            <label class="profile-form__field profile-form__field--full">
+                                <span>Bio / Descripción</span>
+                                <textarea name="bio" rows="4" maxlength="200" placeholder="Describe tu experiencia, especialidad y propuesta de valor."></textarea>
+                                <small class="profile-form__hint">Máximo 200 caracteres</small>
+                            </label>
+                            <label class="profile-form__field">
+                                <span>Correo</span>
+                                <input type="email" name="email" placeholder="tuemail@dominio.com" />
+                            </label>
+                            <div class="profile-form__field">
+                                <label>
+                                    <span>Teléfono</span>
+                                    <input type="tel" name="phone" placeholder="Ej: +52 998 123 4567" />
+                                </label>
+                                <label class="profile-form__checkbox">
+                                    <input type="checkbox" name="use_whatsapp" checked />
+                                    <span>Usar este número para WhatsApp</span>
+                                </label>
+                            </div>
+                            <div class="profile-form__social">
+                                <h4>Redes sociales</h4>
+                                <div class="profile-form__social-grid">
+                                    <input type="url" name="instagram" placeholder="Instagram" />
+                                    <input type="url" name="facebook" placeholder="Facebook" />
+                                    <input type="url" name="linkedin" placeholder="LinkedIn" />
+                                    <input type="url" name="youtube" placeholder="YouTube" />
+                                    <input type="url" name="tiktok" placeholder="TikTok" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-form__footer">
+                            <button class="profile-form__btn profile-form__btn--ghost" type="reset">Cancelar</button>
+                            <button class="profile-form__btn profile-form__btn--primary" type="submit">Guardar cambios</button>
+                        </div>
+                    </form>
+                </section>
+                <section class="profile-tabs__panel is-hidden" id="profileTabNotifications" role="tabpanel" tabindex="0" data-profile-panel="notifications" aria-hidden="true">
+                    <div class="profile-notifications">
+                        <header class="profile-notifications__header">
+                            <span>Preferencias de notificaciones</span>
+                            <div class="profile-notifications__legend" aria-hidden="true">
+                                <span>Email</span>
+                                <span>WhatsApp</span>
+                                <span>SMS</span>
+                            </div>
+                        </header>
+                        <div class="profile-notifications__row">
+                            <span>Mensajes nuevos</span>
+                            <div class="profile-notifications__toggles">
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="toggle__track"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="profile-notifications__row">
+                            <span>Nuevos leads</span>
+                            <div class="profile-notifications__toggles">
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="toggle__track"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="profile-notifications__row">
+                            <span>Preguntas en mis propiedades</span>
+                            <div class="profile-notifications__toggles">
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="toggle__track"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="profile-notifications__row">
+                            <span>Cambios de plan / facturación</span>
+                            <div class="profile-notifications__toggles">
+                                <label class="toggle">
+                                    <input type="checkbox" checked />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="toggle__track"></span>
+                                </label>
+                                <label class="toggle">
+                                    <input type="checkbox" />
+                                    <span class="toggle__track"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="profile-notifications__footer">
+                            <button class="profile-form__btn profile-form__btn--primary" type="button">Guardar preferencias</button>
+                        </div>
+                    </div>
+                </section>
+                <section class="profile-tabs__panel is-hidden" id="profileTabSecurity" role="tabpanel" tabindex="0" data-profile-panel="security" aria-hidden="true">
+                    <form class="profile-security" action="#" method="post">
+                        <div class="profile-security__grid">
+                            <label class="profile-form__field">
+                                <span>Contraseña actual</span>
+                                <input type="password" name="current_password" autocomplete="current-password" />
+                            </label>
+                            <label class="profile-form__field">
+                                <span>Nueva contraseña</span>
+                                <input type="password" name="new_password" autocomplete="new-password" />
+                                <small class="profile-form__hint">Fuerza: Alta</small>
+                            </label>
+                            <label class="profile-form__field profile-form__field--full">
+                                <span>Confirmación</span>
+                                <input type="password" name="confirm_password" autocomplete="new-password" />
+                            </label>
+                        </div>
+                        <div class="profile-security__footer">
+                            <button class="profile-form__btn profile-form__btn--primary" type="submit">Actualizar contraseña</button>
+                        </div>
+                        <div class="profile-security__sessions">
+                            <h4>Sesiones activas</h4>
+                            <p>Controla los dispositivos con acceso a tu cuenta.</p>
+                            <button class="profile-form__btn" type="button">Cerrar otras sesiones</button>
+                        </div>
+                    </form>
+                </section>
+                <section class="profile-tabs__panel is-hidden" id="profileTabAccount" role="tabpanel" tabindex="0" data-profile-panel="account" aria-hidden="true">
+                    <div class="profile-risk">
+                        <h3>Eliminar cuenta</h3>
+                        <p>Al eliminar tu cuenta, tus propiedades se despublicarán y perderás el acceso a tus datos y reportes.</p>
+                        <form class="profile-risk__actions" action="#" method="post">
+                            <label class="profile-form__field profile-form__field--full">
+                                <span>Escribe "ELIMINAR" para confirmar</span>
+                                <input type="text" name="delete_confirmation" placeholder="ELIMINAR" />
+                            </label>
+                            <button class="profile-risk__btn" type="submit">Eliminar cuenta</button>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </section>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabButtons = document.querySelectorAll('[data-profile-tab]');
+        const tabPanels = document.querySelectorAll('[data-profile-panel]');
+
+        function activateTab(target) {
+            tabButtons.forEach((button) => {
+                const isActive = button.dataset.profileTab === target;
+                button.classList.toggle('is-active', isActive);
+                button.setAttribute('aria-selected', String(isActive));
+            });
+
+            tabPanels.forEach((panel) => {
+                const isMatch = panel.dataset.profilePanel === target;
+                panel.classList.toggle('is-hidden', !isMatch);
+                panel.setAttribute('aria-hidden', String(!isMatch));
+            });
+        }
+
+        tabButtons.forEach((button) => {
+            button.addEventListener('click', () => activateTab(button.dataset.profileTab));
+        });
+
+        activateTab('overview');
+    });
+</script>
