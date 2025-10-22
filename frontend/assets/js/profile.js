@@ -27,6 +27,10 @@
         if (section === 'mensajes' && window.ProfileMessages && typeof window.ProfileMessages.init === 'function') {
             window.ProfileMessages.init(panel);
         }
+
+        if (section === 'mi-perfil' && window.ProfileMyProfile && typeof window.ProfileMyProfile.init === 'function') {
+            window.ProfileMyProfile.init(panel);
+        }
     };
 
     const renderPanelError = (panel) => {
