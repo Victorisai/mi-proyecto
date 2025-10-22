@@ -288,72 +288,234 @@
                     </form>
                 </section>
                 <section class="profile-tabs__panel is-hidden" id="profileTabNotifications" role="tabpanel" tabindex="0" data-profile-panel="notifications" aria-hidden="true">
-                    <div class="profile-notifications">
+                    <div class="profile-notifications" data-profile-section="notifications">
                         <header class="profile-notifications__header">
                             <div class="profile-notifications__intro">
                                 <h3>Preferencias de notificaciones</h3>
-                                <p>Elige los canales a través de los cuales deseas recibir actualizaciones importantes.</p>
+                                <p>Personaliza los avisos que recibirás sobre tu actividad comercial y mantén el control de la información clave.</p>
+                                <dl class="profile-notifications__status">
+                                    <div>
+                                        <dt>Última actualización</dt>
+                                        <dd>Hoy, 09:45 h</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Responsable</dt>
+                                        <dd>Tú</dd>
+                                    </div>
+                                </dl>
                             </div>
                             <div class="profile-notifications__legend" aria-hidden="true">
                                 <span>Email</span>
                                 <span>WhatsApp</span>
+                                <span>Panel</span>
                             </div>
                         </header>
-                        <div class="profile-notifications__row">
-                            <span>Mensajes nuevos</span>
-                            <div class="profile-notifications__toggles">
-                                <label class="toggle">
-                                    <input type="checkbox" checked />
-                                    <span class="toggle__track"></span>
+
+                        <div class="profile-notifications__content">
+                            <article class="profile-notifications__card">
+                                <div class="profile-notifications__card-header">
+                                    <div class="profile-notifications__card-icon" aria-hidden="true">💬</div>
+                                    <div>
+                                        <h4>Relación con clientes</h4>
+                                        <p>Recibe alertas inmediatas cuando potenciales compradores interactúan con tu portafolio.</p>
+                                    </div>
+                                </div>
+                                <ul class="profile-notifications__list">
+                                    <li class="profile-notifications__row">
+                                        <div class="profile-notifications__row-info">
+                                            <span class="profile-notifications__row-title">Mensajes nuevos</span>
+                                            <small>Cuando recibes una conversación directa en el buzón de Domably.</small>
+                                        </div>
+                                        <div class="profile-notifications__toggles">
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar correo para mensajes nuevos</span>
+                                                <input id="notification-messages-email" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar WhatsApp para mensajes nuevos</span>
+                                                <input id="notification-messages-whatsapp" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar avisos en el panel para mensajes nuevos</span>
+                                                <input id="notification-messages-panel" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="profile-notifications__row">
+                                        <div class="profile-notifications__row-info">
+                                            <span class="profile-notifications__row-title">Nuevos leads calificados</span>
+                                            <small>Alertas cuando un lead completa el formulario con intención de compra.</small>
+                                        </div>
+                                        <div class="profile-notifications__toggles">
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar correo para nuevos leads</span>
+                                                <input id="notification-leads-email" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar WhatsApp para nuevos leads</span>
+                                                <input id="notification-leads-whatsapp" type="checkbox" />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar avisos en el panel para nuevos leads</span>
+                                                <input id="notification-leads-panel" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="profile-notifications__row">
+                                        <div class="profile-notifications__row-info">
+                                            <span class="profile-notifications__row-title">Preguntas sobre propiedades</span>
+                                            <small>Notificaciones sobre consultas públicas o privadas relacionadas con tus publicaciones.</small>
+                                        </div>
+                                        <div class="profile-notifications__toggles">
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar correo para preguntas sobre propiedades</span>
+                                                <input id="notification-questions-email" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar WhatsApp para preguntas sobre propiedades</span>
+                                                <input id="notification-questions-whatsapp" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar avisos en el panel para preguntas sobre propiedades</span>
+                                                <input id="notification-questions-panel" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </article>
+
+                            <article class="profile-notifications__card">
+                                <div class="profile-notifications__card-header">
+                                    <div class="profile-notifications__card-icon" aria-hidden="true">📈</div>
+                                    <div>
+                                        <h4>Operaciones y negocio</h4>
+                                        <p>Entérate de los movimientos que afectan tu suscripción y el rendimiento de tu cartera.</p>
+                                    </div>
+                                </div>
+                                <ul class="profile-notifications__list">
+                                    <li class="profile-notifications__row">
+                                        <div class="profile-notifications__row-info">
+                                            <span class="profile-notifications__row-title">Cambios de plan y facturación</span>
+                                            <small>Recordatorios de pagos, recibos fiscales y renovaciones de plan.</small>
+                                        </div>
+                                        <div class="profile-notifications__toggles">
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar correo para cambios de plan</span>
+                                                <input id="notification-plan-email" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar WhatsApp para cambios de plan</span>
+                                                <input id="notification-plan-whatsapp" type="checkbox" />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar avisos en el panel para cambios de plan</span>
+                                                <input id="notification-plan-panel" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="profile-notifications__row">
+                                        <div class="profile-notifications__row-info">
+                                            <span class="profile-notifications__row-title">Rendimiento semanal</span>
+                                            <small>Resumen con métricas clave de tus publicaciones y los principales leads generados.</small>
+                                        </div>
+                                        <div class="profile-notifications__toggles">
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar correo para el resumen semanal</span>
+                                                <input id="notification-weekly-email" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar WhatsApp para el resumen semanal</span>
+                                                <input id="notification-weekly-whatsapp" type="checkbox" />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar avisos en el panel para el resumen semanal</span>
+                                                <input id="notification-weekly-panel" type="checkbox" />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="profile-notifications__row">
+                                        <div class="profile-notifications__row-info">
+                                            <span class="profile-notifications__row-title">Alertas de rendimiento crítico</span>
+                                            <small>Te avisamos si una propiedad pierde visibilidad o requiere acciones urgentes.</small>
+                                        </div>
+                                        <div class="profile-notifications__toggles">
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar correo para alertas críticas</span>
+                                                <input id="notification-critical-email" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar WhatsApp para alertas críticas</span>
+                                                <input id="notification-critical-whatsapp" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                            <label class="toggle">
+                                                <span class="sr-only">Activar avisos en el panel para alertas críticas</span>
+                                                <input id="notification-critical-panel" type="checkbox" checked />
+                                                <span class="toggle__track" aria-hidden="true"></span>
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </article>
+                        </div>
+
+                        <aside class="profile-notifications__preferences" aria-labelledby="notificationPreferencesHeading">
+                            <h4 id="notificationPreferencesHeading">Preferencias avanzadas</h4>
+                            <div class="profile-notifications__preferences-grid">
+                                <label class="profile-notifications__preference">
+                                    <span class="profile-notifications__preference-title">Silenciar por horarios</span>
+                                    <span class="profile-notifications__preference-desc">Define un rango para evitar alertas fuera del horario laboral.</span>
+                                    <button class="profile-form__btn profile-form__btn--ghost" type="button">Configurar franja horaria</button>
                                 </label>
-                                <label class="toggle">
-                                    <input type="checkbox" checked />
-                                    <span class="toggle__track"></span>
+                                <label class="profile-notifications__preference">
+                                    <span class="profile-notifications__preference-title">Digest diario</span>
+                                    <span class="profile-notifications__preference-desc">Recibe un resumen consolidado cada mañana con todas tus actividades.</span>
+                                    <div class="profile-notifications__toggles">
+                                        <label class="toggle">
+                                            <span class="sr-only">Activar digest diario</span>
+                                            <input id="notification-digest-email" type="checkbox" />
+                                            <span class="toggle__track" aria-hidden="true"></span>
+                                        </label>
+                                        <label class="toggle">
+                                            <span class="sr-only">Activar digest diario por WhatsApp</span>
+                                            <input id="notification-digest-whatsapp" type="checkbox" />
+                                            <span class="toggle__track" aria-hidden="true"></span>
+                                        </label>
+                                        <label class="toggle">
+                                            <span class="sr-only">Activar digest diario en el panel</span>
+                                            <input id="notification-digest-panel" type="checkbox" checked />
+                                            <span class="toggle__track" aria-hidden="true"></span>
+                                        </label>
+                                    </div>
+                                </label>
+                                <label class="profile-notifications__preference">
+                                    <span class="profile-notifications__preference-title">Alertas del equipo</span>
+                                    <span class="profile-notifications__preference-desc">Comparte notificaciones críticas con tu equipo de ventas.</span>
+                                    <button class="profile-form__btn profile-form__btn--ghost" type="button">Gestionar destinatarios</button>
                                 </label>
                             </div>
-                        </div>
-                        <div class="profile-notifications__row">
-                            <span>Nuevos leads</span>
-                            <div class="profile-notifications__toggles">
-                                <label class="toggle">
-                                    <input type="checkbox" checked />
-                                    <span class="toggle__track"></span>
-                                </label>
-                                <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="toggle__track"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="profile-notifications__row">
-                            <span>Preguntas en mis propiedades</span>
-                            <div class="profile-notifications__toggles">
-                                <label class="toggle">
-                                    <input type="checkbox" checked />
-                                    <span class="toggle__track"></span>
-                                </label>
-                                <label class="toggle">
-                                    <input type="checkbox" checked />
-                                    <span class="toggle__track"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="profile-notifications__row">
-                            <span>Cambios de plan / facturación</span>
-                            <div class="profile-notifications__toggles">
-                                <label class="toggle">
-                                    <input type="checkbox" checked />
-                                    <span class="toggle__track"></span>
-                                </label>
-                                <label class="toggle">
-                                    <input type="checkbox" />
-                                    <span class="toggle__track"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="profile-notifications__footer">
+                        </aside>
+
+                        <footer class="profile-notifications__footer">
+                            <button class="profile-form__btn profile-form__btn--ghost" type="button">Restablecer valores</button>
                             <button class="profile-form__btn profile-form__btn--primary" type="button">Guardar preferencias</button>
-                        </div>
+                        </footer>
                     </div>
                 </section>
                 <section class="profile-tabs__panel is-hidden" id="profileTabSecurity" role="tabpanel" tabindex="0" data-profile-panel="security" aria-hidden="true">
