@@ -152,37 +152,131 @@
                             </div>
                         </fieldset>
                         <div class="profile-form__grid">
-                            <label class="profile-form__field">
-                                <span>Nombre para mostrar</span>
+                            <label class="profile-form__field profile-form__field--icon">
+                                <span class="profile-form__label">
+                                    <span class="profile-form__icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" />
+                                            <path d="M12 14c-4.418 0-8 2.239-8 5v1h16v-1c0-2.761-3.582-5-8-5Z" />
+                                        </svg>
+                                    </span>
+                                    <span>Nombre para mostrar</span>
+                                </span>
                                 <input type="text" name="display_name" placeholder="Ej: Carla Domínguez" value="Carla Domínguez" data-profile-input="displayName" />
                             </label>
-                            <label class="profile-form__field profile-form__field--full">
-                                <span>Bio / Descripción</span>
+                            <label class="profile-form__field profile-form__field--full profile-form__field--icon">
+                                <span class="profile-form__label">
+                                    <span class="profile-form__icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M7 7h10M7 12h7M7 17h10" />
+                                            <rect x="3" y="4" width="18" height="16" rx="2" ry="2" />
+                                        </svg>
+                                    </span>
+                                    <span>Bio / Descripción</span>
+                                </span>
                                 <textarea name="bio" rows="4" maxlength="200" placeholder="Describe tu experiencia, especialidad y propuesta de valor." data-profile-input="bio">Asesora inmobiliaria especializada en residencias premium y lotes de inversión.</textarea>
                                 <small class="profile-form__hint">Máximo 200 caracteres</small>
                             </label>
-                            <label class="profile-form__field">
-                                <span>Correo</span>
+                            <label class="profile-form__field profile-form__field--icon">
+                                <span class="profile-form__label">
+                                    <span class="profile-form__icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M22 6.5V17.5a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 17.5V6.5A1.5 1.5 0 0 1 3.5 5h17A1.5 1.5 0 0 1 22 6.5Z" />
+                                            <path d="m3 6 9 7 9-7" />
+                                        </svg>
+                                    </span>
+                                    <span>Correo</span>
+                                </span>
                                 <input type="email" name="email" placeholder="tuemail@dominio.com" value="carla.dominguez@domably.com" data-profile-input="email" />
                             </label>
-                            <div class="profile-form__field">
-                                <label>
-                                    <span>Teléfono</span>
+                            <div class="profile-form__contact">
+                                <label class="profile-form__field profile-form__field--icon">
+                                    <span class="profile-form__label">
+                                        <span class="profile-form__icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l1.47-1.47a1 1 0 0 1 1.01-.24 11.72 11.72 0 0 0 3.68.59 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1 16 16 0 0 1-14-14 1 1 0 0 1 1-1h2.73a1 1 0 0 1 1 1c0 1.26.21 2.49.59 3.68a1 1 0 0 1-.24 1.01l-1.47 1.47Z" />
+                                            </svg>
+                                        </span>
+                                        <span>Teléfono principal</span>
+                                    </span>
                                     <input type="tel" name="phone" placeholder="Ej: +52 998 123 4567" value="+52 998 123 4567" data-profile-input="phone" />
                                 </label>
-                                <label class="profile-form__checkbox">
-                                    <input type="checkbox" name="use_whatsapp" checked data-profile-input="useWhatsapp" />
-                                    <span>Usar este número para WhatsApp</span>
+                                <label class="profile-form__field profile-form__field--icon">
+                                    <span class="profile-form__label">
+                                        <span class="profile-form__icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M20.96 4.6 18.4 2.04a1.5 1.5 0 0 0-2.12 0L4.04 14.28a1.5 1.5 0 0 0-.38.66l-1.6 5.6a.75.75 0 0 0 .93.93l5.6-1.6a1.5 1.5 0 0 0 .66-.38L21.96 6.72a1.5 1.5 0 0 0 0-2.12Z" />
+                                                <path d="m15 5 4 4" />
+                                            </svg>
+                                        </span>
+                                        <span>Número de WhatsApp</span>
+                                    </span>
+                                    <input type="tel" name="whatsapp" placeholder="Ej: +52 998 987 6543" value="+52 998 123 4567" data-profile-input="whatsapp" />
                                 </label>
                             </div>
                             <div class="profile-form__social">
-                                <h4>Redes sociales</h4>
+                                <div class="profile-form__social-header">
+                                    <span class="profile-form__icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M18 8a3 3 0 0 1 0 6" />
+                                            <path d="M6 8a3 3 0 0 0 0 6" />
+                                            <path d="M8 12h8" />
+                                            <path d="M12 6v12" />
+                                        </svg>
+                                    </span>
+                                    <div>
+                                        <h4>Redes sociales</h4>
+                                        <p class="profile-form__social-description">Mantén actualizados tus enlaces profesionales para facilitar el contacto.</p>
+                                    </div>
+                                </div>
                                 <div class="profile-form__social-grid">
-                                    <input type="url" name="instagram" placeholder="Instagram" value="https://instagram.com/carla.dominguez" data-profile-input="social-instagram" />
-                                    <input type="url" name="facebook" placeholder="Facebook" value="https://facebook.com/carla.dominguez.mx" data-profile-input="social-facebook" />
-                                    <input type="url" name="linkedin" placeholder="LinkedIn" value="https://linkedin.com/in/carladominguez" data-profile-input="social-linkedin" />
-                                    <input type="url" name="youtube" placeholder="YouTube" value="https://youtube.com/@carladominguez" data-profile-input="social-youtube" />
-                                    <input type="url" name="tiktok" placeholder="TikTok" value="https://www.tiktok.com/@carladominguez" data-profile-input="social-tiktok" />
+                                    <label class="profile-form__social-field">
+                                        <span class="profile-form__input-icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="3" width="18" height="18" rx="5" ry="5" />
+                                                <circle cx="12" cy="12" r="3.5" />
+                                                <circle cx="17" cy="7" r="1" />
+                                            </svg>
+                                        </span>
+                                        <input type="url" name="instagram" placeholder="Instagram" value="https://instagram.com/carla.dominguez" data-profile-input="social-instagram" />
+                                    </label>
+                                    <label class="profile-form__social-field">
+                                        <span class="profile-form__input-icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M15 3h3a1 1 0 0 1 1 1v3h-2.5C15.12 7 15 7.62 15 8.5V10h3.5l-.5 3H15v8h-3v-8H9v-3h3V8.25C12 5.9 13.5 3 15 3Z" />
+                                            </svg>
+                                        </span>
+                                        <input type="url" name="facebook" placeholder="Facebook" value="https://facebook.com/carla.dominguez.mx" data-profile-input="social-facebook" />
+                                    </label>
+                                    <label class="profile-form__social-field">
+                                        <span class="profile-form__input-icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <rect x="3" y="3" width="18" height="18" rx="2" />
+                                                <path d="M6.5 9h2.5v9H6.5z" />
+                                                <path d="M7.75 6.5a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z" />
+                                                <path d="M11 9h2.4v1.26h.03c.33-.62 1.15-1.26 2.37-1.26 2.53 0 3 1.66 3 3.81V18h-2.5v-4.02c0-.96-.02-2.19-1.33-2.19-1.33 0-1.53 1.04-1.53 2.12V18H11Z" />
+                                            </svg>
+                                        </span>
+                                        <input type="url" name="linkedin" placeholder="LinkedIn" value="https://linkedin.com/in/carladominguez" data-profile-input="social-linkedin" />
+                                    </label>
+                                    <label class="profile-form__social-field">
+                                        <span class="profile-form__input-icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M22 7.42v9.16c0 1.3-.96 2.42-2.23 2.57-4.8.57-9.74.57-14.54 0C3.96 18.99 3 17.88 3 16.58V7.42C3 6.12 3.96 5 5.23 4.85a81.19 81.19 0 0 1 14.54 0C21.04 5.01 22 6.12 22 7.42Z" />
+                                                <path d="m10 9 6 3-6 3V9Z" />
+                                            </svg>
+                                        </span>
+                                        <input type="url" name="youtube" placeholder="YouTube" value="https://youtube.com/@carladominguez" data-profile-input="social-youtube" />
+                                    </label>
+                                    <label class="profile-form__social-field">
+                                        <span class="profile-form__input-icon" aria-hidden="true">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <path d="M8 3.5C8.36 2.64 9.72 2 11.5 2c1.36 0 2.5.52 2.5 1.75v13.33a2.92 2.92 0 0 0 1.5-.08c.94-.3 1.69-.96 2.03-1.84a.5.5 0 0 1 .64-.29l2.1.74a.5.5 0 0 1 .31.63C19.63 20.32 17.28 22 14 22c-3.88 0-7-2.99-7-6.67V7.08a2.92 2.92 0 0 0-1.5.08c-.94.3-1.69.96-2.03 1.84a.5.5 0 0 1-.64.29l-2.1-.74a.5.5 0 0 1-.31-.63C2.37 3.68 4.72 2 8 2v1.5Z" />
+                                                <path d="M14 7.5c-.73.28-1.54.43-2.38.43-.77 0-1.51-.12-2.2-.35" />
+                                            </svg>
+                                        </span>
+                                        <input type="url" name="tiktok" placeholder="TikTok" value="https://www.tiktok.com/@carladominguez" data-profile-input="social-tiktok" />
+                                    </label>
                                 </div>
                             </div>
                         </div>

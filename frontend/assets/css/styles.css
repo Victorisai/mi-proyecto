@@ -10082,6 +10082,34 @@ button.messages__tab.messages__tab--active {
     color: #374151;
 }
 
+.profile-form__field--icon {
+    gap: 12px;
+}
+
+.profile-form__label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.profile-form__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: rgba(37, 99, 235, 0.08);
+    color: #2563eb;
+}
+
+.profile-form__icon svg {
+    width: 18px;
+    height: 18px;
+}
+
 .profile-form__field input,
 .profile-form__field textarea {
     border: 1px solid rgba(15, 23, 42, 0.08);
@@ -10122,6 +10150,12 @@ button.messages__tab.messages__tab--active {
     height: 16px;
 }
 
+.profile-form__contact {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
 .profile-form__social {
     display: flex;
     flex-direction: column;
@@ -10133,15 +10167,54 @@ button.messages__tab.messages__tab--active {
     color: #111827;
 }
 
+
+.profile-form__social-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.profile-form__social-description {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
 .profile-form__social-grid {
     display: grid;
     gap: 12px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
 .profile-form__social-grid input {
     border: 1px solid rgba(15, 23, 42, 0.08);
     border-radius: 14px;
     padding: 12px 14px;
+}
+
+.profile-form__social-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.profile-form__social-field input {
+    width: 100%;
+    padding-left: 48px;
+}
+
+.profile-form__input-icon {
+    position: absolute;
+    left: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #6b7280;
+}
+
+.profile-form__input-icon svg {
+    width: 20px;
+    height: 20px;
 }
 
 .profile-form__footer {
