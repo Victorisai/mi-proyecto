@@ -10256,11 +10256,15 @@ button.messages__tab.messages__tab--active {
 }
 
 .profile-notifications__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
     font-weight: 600;
     color: #111827;
+    padding-right: min(240px, 40%);
+    min-height: 48px;
+}
+
+.profile-notifications__header > span {
+    display: block;
 }
 
 .profile-notifications__legend {
@@ -10269,6 +10273,10 @@ button.messages__tab.messages__tab--active {
     gap: 12px;
     font-size: 12px;
     color: #6b7280;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
 }
 
 .profile-notifications__row {
@@ -10481,8 +10489,15 @@ button.messages__tab.messages__tab--active {
         align-items: stretch;
     }
 
+    .profile-notifications__header {
+        padding-right: 0;
+        min-height: unset;
+    }
+
     .profile-notifications__legend {
         display: none;
+        position: static;
+        transform: none;
     }
 
     .profile-notifications__row {
