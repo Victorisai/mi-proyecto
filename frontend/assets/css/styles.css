@@ -10259,7 +10259,7 @@ button.messages__tab.messages__tab--active {
     position: relative;
     font-weight: 600;
     color: #111827;
-    padding-right: min(240px, 40%);
+    padding-right: min(180px, 35%);
     min-height: 48px;
 }
 
@@ -10269,7 +10269,7 @@ button.messages__tab.messages__tab--active {
 
 .profile-notifications__legend {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 70px));
+    grid-template-columns: repeat(2, minmax(72px, 1fr));
     gap: 12px;
     font-size: 12px;
     color: #6b7280;
@@ -10277,6 +10277,8 @@ button.messages__tab.messages__tab--active {
     top: 50%;
     right: 0;
     transform: translateY(-50%);
+    text-align: center;
+    min-width: 156px;
 }
 
 .profile-notifications__row {
@@ -10296,8 +10298,9 @@ button.messages__tab.messages__tab--active {
 
 .profile-notifications__toggles {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, minmax(72px, auto));
     gap: 12px;
+    justify-items: center;
 }
 
 .toggle {
@@ -10505,7 +10508,7 @@ button.messages__tab.messages__tab--active {
     }
 
     .profile-notifications__toggles {
-        grid-template-columns: repeat(3, minmax(0, 44px));
+        grid-template-columns: repeat(2, minmax(0, 44px));
         justify-content: center;
     }
 }
