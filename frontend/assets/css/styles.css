@@ -10261,6 +10261,7 @@ button.messages__tab.messages__tab--active {
     color: #111827;
     padding-right: min(180px, 35%);
     min-height: 48px;
+    border-radius: 12px;
 }
 
 .profile-notifications__header > span {
