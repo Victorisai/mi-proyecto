@@ -359,13 +359,55 @@
                 <section class="profile-tabs__panel is-hidden" id="profileTabSecurity" role="tabpanel" tabindex="0" data-profile-panel="security" aria-hidden="true">
                     <form class="profile-security" action="#" method="post">
                         <div class="profile-security__grid">
-                            <label class="profile-form__field">
-                                <span>Contraseña actual</span>
-                                <input type="password" name="current_password" autocomplete="current-password" />
+                            <label class="profile-form__field profile-form__field--icon profile-security__field">
+                                <span class="profile-form__label">
+                                    <span class="profile-form__icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="11" width="18" height="10" rx="2" ry="2" />
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                        </svg>
+                                    </span>
+                                    <span>Contraseña actual</span>
+                                </span>
+                                <div class="profile-security__password">
+                                    <input id="profileCurrentPassword" type="password" name="current_password" autocomplete="current-password" data-password-input />
+                                    <button class="profile-security__toggle" type="button" aria-label="Mostrar contraseña" aria-pressed="false" data-password-toggle data-password-target="profileCurrentPassword">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-password-icon="show">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                        <svg class="is-hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-password-icon="hide">
+                                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94" />
+                                            <path d="M9.88 9.88A3 3 0 0 0 12 15a3 3 0 0 0 2.12-5.12" />
+                                            <line x1="1" y1="1" x2="23" y2="23" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </label>
-                            <label class="profile-form__field">
-                                <span>Nueva contraseña</span>
-                                <input type="password" name="new_password" autocomplete="new-password" data-profile-security="newPassword" />
+                            <label class="profile-form__field profile-form__field--icon profile-security__field">
+                                <span class="profile-form__label">
+                                    <span class="profile-form__icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="11" width="18" height="10" rx="2" ry="2" />
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                        </svg>
+                                    </span>
+                                    <span>Nueva contraseña</span>
+                                </span>
+                                <div class="profile-security__password">
+                                    <input id="profileNewPassword" type="password" name="new_password" autocomplete="new-password" data-profile-security="newPassword" data-password-input />
+                                    <button class="profile-security__toggle" type="button" aria-label="Mostrar contraseña" aria-pressed="false" data-password-toggle data-password-target="profileNewPassword">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-password-icon="show">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                        <svg class="is-hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-password-icon="hide">
+                                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94" />
+                                            <path d="M9.88 9.88A3 3 0 0 0 12 15a3 3 0 0 0 2.12-5.12" />
+                                            <line x1="1" y1="1" x2="23" y2="23" />
+                                        </svg>
+                                    </button>
+                                </div>
                                 <div class="profile-security__meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-profile-security="strengthMeter">
                                     <span class="profile-security__meter-bar" data-profile-security="strengthBar"></span>
                                 </div>
@@ -377,9 +419,30 @@
                                     <li data-profile-security-tip="symbols">Añade símbolos como ! @ #.</li>
                                 </ul>
                             </label>
-                            <label class="profile-form__field profile-form__field--full">
-                                <span>Confirmación</span>
-                                <input type="password" name="confirm_password" autocomplete="new-password" />
+                            <label class="profile-form__field profile-form__field--icon profile-form__field--full profile-security__field">
+                                <span class="profile-form__label">
+                                    <span class="profile-form__icon" aria-hidden="true">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <rect x="3" y="11" width="18" height="10" rx="2" ry="2" />
+                                            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                        </svg>
+                                    </span>
+                                    <span>Confirmación</span>
+                                </span>
+                                <div class="profile-security__password">
+                                    <input id="profileConfirmPassword" type="password" name="confirm_password" autocomplete="new-password" data-password-input />
+                                    <button class="profile-security__toggle" type="button" aria-label="Mostrar contraseña" aria-pressed="false" data-password-toggle data-password-target="profileConfirmPassword">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-password-icon="show">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z" />
+                                            <circle cx="12" cy="12" r="3" />
+                                        </svg>
+                                        <svg class="is-hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-password-icon="hide">
+                                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 19c-7 0-11-7-11-7a18.45 18.45 0 0 1 5.06-5.94" />
+                                            <path d="M9.88 9.88A3 3 0 0 0 12 15a3 3 0 0 0 2.12-5.12" />
+                                            <line x1="1" y1="1" x2="23" y2="23" />
+                                        </svg>
+                                    </button>
+                                </div>
                             </label>
                         </div>
                         <div class="profile-security__footer">
@@ -409,3 +472,47 @@
         </section>
     </div>
 </section>
+
+<script>
+    const initProfilePasswordToggles = () => {
+        const toggles = document.querySelectorAll('[data-password-toggle]');
+
+        toggles.forEach((toggle) => {
+            const targetId = toggle.getAttribute('data-password-target');
+            const input = targetId ? document.getElementById(targetId) : null;
+
+            if (!input) {
+                return;
+            }
+
+            const showIcon = toggle.querySelector('[data-password-icon="show"]');
+            const hideIcon = toggle.querySelector('[data-password-icon="hide"]');
+
+            const updateState = () => {
+                const isPassword = input.type === 'password';
+                toggle.setAttribute('aria-label', isPassword ? 'Mostrar contraseña' : 'Ocultar contraseña');
+                toggle.setAttribute('aria-pressed', isPassword ? 'false' : 'true');
+                toggle.classList.toggle('is-active', !isPassword);
+
+                if (showIcon && hideIcon) {
+                    showIcon.classList.toggle('is-hidden', !isPassword);
+                    hideIcon.classList.toggle('is-hidden', isPassword);
+                }
+            };
+
+            toggle.addEventListener('click', () => {
+                input.type = input.type === 'password' ? 'text' : 'password';
+                updateState();
+                input.focus();
+            });
+
+            updateState();
+        });
+    };
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initProfilePasswordToggles);
+    } else {
+        initProfilePasswordToggles();
+    }
+</script>
