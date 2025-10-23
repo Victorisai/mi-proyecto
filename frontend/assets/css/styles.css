@@ -10359,6 +10359,48 @@ button.messages__tab.messages__tab--active {
     gap: 20px;
 }
 
+.profile-security__meter {
+    height: 6px;
+    width: 100%;
+    background: rgba(148, 163, 184, 0.25);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.profile-security__meter-bar {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: #f87171;
+    transition: width 0.35s ease, background 0.35s ease;
+}
+
+.profile-security__strength {
+    display: block;
+    margin-top: 8px;
+    color: #475569;
+}
+
+.profile-security__tips {
+    margin: 12px 0 0;
+    padding-left: 20px;
+    color: #475569;
+    font-size: 0.9rem;
+    display: grid;
+    gap: 6px;
+}
+
+.profile-security__tips li {
+    list-style: disc;
+    transition: color 0.2s ease;
+}
+
+.profile-security__tips li.is-met {
+    color: #16a34a;
+}
+
 .profile-security__footer {
     display: flex;
     justify-content: flex-end;

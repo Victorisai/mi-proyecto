@@ -365,8 +365,17 @@
                             </label>
                             <label class="profile-form__field">
                                 <span>Nueva contraseña</span>
-                                <input type="password" name="new_password" autocomplete="new-password" />
-                                <small class="profile-form__hint">Fuerza: Alta</small>
+                                <input type="password" name="new_password" autocomplete="new-password" data-profile-security="newPassword" />
+                                <div class="profile-security__meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-profile-security="strengthMeter">
+                                    <span class="profile-security__meter-bar" data-profile-security="strengthBar"></span>
+                                </div>
+                                <small class="profile-form__hint profile-security__strength" data-profile-security="strengthText">Usa al menos 8 caracteres, combinando mayúsculas, números y símbolos.</small>
+                                <ul class="profile-security__tips">
+                                    <li data-profile-security-tip="length">Usa al menos 8 caracteres.</li>
+                                    <li data-profile-security-tip="numbers">Incluye números.</li>
+                                    <li data-profile-security-tip="uppercase">Combina mayúsculas y minúsculas.</li>
+                                    <li data-profile-security-tip="symbols">Añade símbolos como ! @ #.</li>
+                                </ul>
                             </label>
                             <label class="profile-form__field profile-form__field--full">
                                 <span>Confirmación</span>
