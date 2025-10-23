@@ -19,6 +19,43 @@
         return digits ? `https://wa.me/${digits}` : '';
     };
 
+    const initPasswordToggles = (scope) => {
+        const root = scope || document;
+        const toggles = root.querySelectorAll('[data-password-toggle]');
+
+        toggles.forEach((toggle) => {
+            const targetId = toggle.getAttribute('data-password-target');
+            const input = targetId ? document.getElementById(targetId) : null;
+
+            if (!input) {
+                return;
+            }
+
+            const showIcon = toggle.querySelector('[data-password-icon="show"]');
+            const hideIcon = toggle.querySelector('[data-password-icon="hide"]');
+
+            const updateState = () => {
+                const isPassword = input.type === 'password';
+                toggle.setAttribute('aria-label', isPassword ? 'Mostrar contraseña' : 'Ocultar contraseña');
+                toggle.setAttribute('aria-pressed', isPassword ? 'false' : 'true');
+                toggle.classList.toggle('is-active', !isPassword);
+
+                if (showIcon && hideIcon) {
+                    showIcon.classList.toggle('is-hidden', !isPassword);
+                    hideIcon.classList.toggle('is-hidden', isPassword);
+                }
+            };
+
+            toggle.addEventListener('click', () => {
+                input.type = input.type === 'password' ? 'text' : 'password';
+                updateState();
+                input.focus();
+            });
+
+            updateState();
+        });
+    };
+
     const cloneSocials = (source) => {
         const clone = {};
         if (!source) {
@@ -48,6 +85,8 @@
             const tabButtons = Array.from(panel.querySelectorAll('[data-profile-tab]'));
             const tabPanels = Array.from(panel.querySelectorAll('[data-profile-panel]'));
             const securityForm = panel.querySelector('.profile-security');
+
+            initPasswordToggles(panel);
 
             const setupSecurityStrengthMeter = () => {
                 if (!securityForm) {
