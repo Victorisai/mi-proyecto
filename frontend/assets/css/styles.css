@@ -10359,9 +10359,114 @@ button.messages__tab.messages__tab--active {
     gap: 20px;
 }
 
+.profile-security__field {
+    position: relative;
+}
+
+.profile-security__password {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.profile-security__password input {
+    width: 100%;
+    padding-right: 48px;
+}
+
+.profile-security__password input.is-valid {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.5);
+}
+
+.profile-security__password input.is-invalid {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.35);
+}
+
+.profile-security__toggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+}
+
+.profile-security__toggle svg {
+    width: 20px;
+    height: 20px;
+}
+
+.profile-security__toggle:hover,
+.profile-security__toggle:focus {
+    color: #2563eb;
+}
+
+.profile-security__toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    border-radius: 999px;
+}
+
+.profile-security__toggle.is-active {
+    color: #2563eb;
+}
+
+.profile-security__meter {
+    height: 6px;
+    width: 100%;
+    background: rgba(148, 163, 184, 0.25);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.profile-security__meter-bar {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: #f87171;
+    transition: width 0.35s ease, background 0.35s ease;
+}
+
+.profile-security__strength {
+    display: block;
+    margin-top: 8px;
+    color: #475569;
+}
+
+.profile-security__tips {
+    margin: 12px 0 0;
+    padding-left: 20px;
+    color: #475569;
+    font-size: 0.9rem;
+    display: grid;
+    gap: 6px;
+}
+
+.profile-security__tips li {
+    list-style: disc;
+    transition: color 0.2s ease;
+}
+
+.profile-security__tips li.is-met {
+    color: #16a34a;
+}
+
 .profile-security__footer {
     display: flex;
     justify-content: flex-end;
+    margin-top: 15px;
+    gap: 12px;
 }
 
 .profile-security__sessions {
