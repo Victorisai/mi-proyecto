@@ -358,29 +358,70 @@
                 </section>
                 <section class="profile-tabs__panel is-hidden" id="profileTabSecurity" role="tabpanel" tabindex="0" data-profile-panel="security" aria-hidden="true">
                     <form class="profile-security" action="#" method="post">
+                        <header class="profile-security__header">
+                            <h3>Protege tu acceso</h3>
+                            <p>Actualiza regularmente tu contraseña y mantén el control de los dispositivos conectados para garantizar la seguridad de tu cuenta.</p>
+                        </header>
                         <div class="profile-security__grid">
-                            <label class="profile-form__field">
+                            <label class="profile-form__field" for="currentPassword">
                                 <span>Contraseña actual</span>
-                                <input type="password" name="current_password" autocomplete="current-password" />
+                                <input id="currentPassword" type="password" name="current_password" autocomplete="current-password" placeholder="••••••••" />
                             </label>
-                            <label class="profile-form__field">
+                            <label class="profile-form__field" for="newPassword">
                                 <span>Nueva contraseña</span>
-                                <input type="password" name="new_password" autocomplete="new-password" />
-                                <small class="profile-form__hint">Fuerza: Alta</small>
+                                <input id="newPassword" type="password" name="new_password" autocomplete="new-password" placeholder="Mínimo 12 caracteres" />
+                                <small class="profile-form__hint">Usa una combinación de letras mayúsculas, números y símbolos especiales.</small>
                             </label>
-                            <label class="profile-form__field profile-form__field--full">
+                            <label class="profile-form__field profile-form__field--full" for="confirmPassword">
                                 <span>Confirmación</span>
-                                <input type="password" name="confirm_password" autocomplete="new-password" />
+                                <input id="confirmPassword" type="password" name="confirm_password" autocomplete="new-password" placeholder="Repite tu nueva contraseña" />
                             </label>
+                        </div>
+                        <div class="profile-security__requirements">
+                            <h4>Requisitos recomendados</h4>
+                            <ul>
+                                <li>Mínimo 12 caracteres de longitud.</li>
+                                <li>Incluir letras mayúsculas y minúsculas.</li>
+                                <li>Agregar al menos un número y un símbolo.</li>
+                                <li>No reutilizar contraseñas de otros servicios.</li>
+                            </ul>
                         </div>
                         <div class="profile-security__footer">
+                            <button class="profile-form__btn profile-form__btn--ghost" type="reset">Descartar cambios</button>
                             <button class="profile-form__btn profile-form__btn--primary" type="submit">Actualizar contraseña</button>
                         </div>
-                        <div class="profile-security__sessions">
-                            <h4>Sesiones activas</h4>
-                            <p>Controla los dispositivos con acceso a tu cuenta.</p>
-                            <button class="profile-form__btn" type="button">Cerrar otras sesiones</button>
-                        </div>
+                        <section class="profile-security__sessions" aria-labelledby="activeSessionsTitle">
+                            <div class="profile-security__sessions-header">
+                                <h4 id="activeSessionsTitle">Sesiones activas</h4>
+                                <p>Revisa los dispositivos que han iniciado sesión recientemente.</p>
+                            </div>
+                            <ul class="profile-security__sessions-list">
+                                <li>
+                                    <div>
+                                        <strong>MacBook Pro · Chrome</strong>
+                                        <span>Último acceso: Hoy a las 09:24 · Cancún, MX</span>
+                                    </div>
+                                    <button class="profile-form__btn profile-form__btn--ghost" type="button">Cerrar sesión</button>
+                                </li>
+                                <li>
+                                    <div>
+                                        <strong>iPhone 15 · App Domably</strong>
+                                        <span>Último acceso: Ayer a las 19:12 · Playa del Carmen, MX</span>
+                                    </div>
+                                    <button class="profile-form__btn profile-form__btn--ghost" type="button">Cerrar sesión</button>
+                                </li>
+                                <li>
+                                    <div>
+                                        <strong>Windows · Edge</strong>
+                                        <span>Último acceso: 14 oct 2024 · Ciudad de México, MX</span>
+                                    </div>
+                                    <button class="profile-form__btn profile-form__btn--ghost" type="button">Cerrar sesión</button>
+                                </li>
+                            </ul>
+                            <footer class="profile-security__sessions-footer">
+                                <button class="profile-form__btn" type="button">Cerrar todas las sesiones</button>
+                            </footer>
+                        </section>
                     </form>
                 </section>
                 <section class="profile-tabs__panel is-hidden" id="profileTabAccount" role="tabpanel" tabindex="0" data-profile-panel="account" aria-hidden="true">
