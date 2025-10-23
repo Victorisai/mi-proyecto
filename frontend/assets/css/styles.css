@@ -10374,6 +10374,16 @@ button.messages__tab.messages__tab--active {
     padding-right: 48px;
 }
 
+.profile-security__password input.is-valid {
+    border-color: #16a34a;
+    box-shadow: 0 0 0 1px rgba(22, 163, 74, 0.5);
+}
+
+.profile-security__password input.is-invalid {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 1px rgba(220, 38, 38, 0.35);
+}
+
 .profile-security__toggle {
     position: absolute;
     right: 12px;

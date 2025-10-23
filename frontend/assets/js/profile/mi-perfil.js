@@ -177,6 +177,65 @@
 
             setupSecurityStrengthMeter();
 
+            const setupPasswordConfirmationValidation = () => {
+                if (!securityForm) {
+                    return;
+                }
+
+                const newPasswordInput = securityForm.querySelector('[data-profile-security="newPassword"]');
+                const confirmPasswordInput = securityForm.querySelector('#profileConfirmPassword');
+
+                if (!newPasswordInput || !confirmPasswordInput) {
+                    return;
+                }
+
+                const clearValidationState = () => {
+                    [newPasswordInput, confirmPasswordInput].forEach((input) => {
+                        input.classList.remove('is-valid', 'is-invalid');
+                    });
+                };
+
+                const applyValidationState = (isMatch) => {
+                    clearValidationState();
+
+                    if (isMatch === null) {
+                        return;
+                    }
+
+                    const className = isMatch ? 'is-valid' : 'is-invalid';
+                    [newPasswordInput, confirmPasswordInput].forEach((input) => {
+                        input.classList.add(className);
+                    });
+                };
+
+                const updateValidationState = () => {
+                    const newValue = typeof newPasswordInput.value === 'string' ? newPasswordInput.value.trim() : '';
+                    const confirmValue = typeof confirmPasswordInput.value === 'string' ? confirmPasswordInput.value.trim() : '';
+
+                    if (!newValue && !confirmValue) {
+                        applyValidationState(null);
+                        return;
+                    }
+
+                    if (!confirmValue) {
+                        applyValidationState(null);
+                        return;
+                    }
+
+                    const isMatch = Boolean(newValue) && newValue === confirmValue;
+                    applyValidationState(isMatch);
+                };
+
+                newPasswordInput.addEventListener('input', updateValidationState);
+                confirmPasswordInput.addEventListener('input', updateValidationState);
+                confirmPasswordInput.addEventListener('blur', updateValidationState);
+                newPasswordInput.addEventListener('blur', updateValidationState);
+
+                updateValidationState();
+            };
+
+            setupPasswordConfirmationValidation();
+
             const activateTab = (target) => {
                 tabButtons.forEach((button) => {
                     const isActive = button.dataset.profileTab === target;
