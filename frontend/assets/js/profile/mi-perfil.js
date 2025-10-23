@@ -47,6 +47,96 @@
 
             const tabButtons = Array.from(panel.querySelectorAll('[data-profile-tab]'));
             const tabPanels = Array.from(panel.querySelectorAll('[data-profile-panel]'));
+            const securityForm = panel.querySelector('.profile-security');
+
+            const setupSecurityStrengthMeter = () => {
+                if (!securityForm) {
+                    return;
+                }
+
+                const newPasswordInput = securityForm.querySelector('[data-profile-security="newPassword"]');
+                const strengthMeter = securityForm.querySelector('[data-profile-security="strengthMeter"]');
+                const strengthBar = securityForm.querySelector('[data-profile-security="strengthBar"]');
+                const strengthText = securityForm.querySelector('[data-profile-security="strengthText"]');
+
+                if (!newPasswordInput || !strengthMeter || !strengthBar || !strengthText) {
+                    return;
+                }
+
+                const requirementChecks = {
+                    length: (value) => value.length >= 8,
+                    numbers: (value) => /\d/.test(value),
+                    uppercase: (value) => /[A-Z]/.test(value) && /[a-z]/.test(value),
+                    symbols: (value) => /[^A-Za-z0-9]/.test(value),
+                };
+
+                const tips = new Map();
+                securityForm.querySelectorAll('[data-profile-security-tip]').forEach((item) => {
+                    const key = item.dataset.profileSecurityTip;
+                    if (key) {
+                        tips.set(key, item);
+                    }
+                });
+
+                const getStrengthDescriptor = (score, value) => {
+                    if (!value) {
+                        return { label: '', color: '#f87171', percentage: 0 };
+                    }
+
+                    const total = Object.keys(requirementChecks).length;
+                    const percentage = Math.round((score / total) * 100);
+                    if (score >= total) {
+                        return { label: 'Muy segura', color: '#15803d', percentage };
+                    }
+                    if (score === total - 1) {
+                        return { label: 'Segura', color: '#34d399', percentage };
+                    }
+                    if (score === total - 2) {
+                        return { label: 'Media', color: '#fbbf24', percentage };
+                    }
+                    if (score === 1) {
+                        return { label: 'Débil', color: '#f97316', percentage };
+                    }
+                    return { label: 'Muy débil', color: '#f87171', percentage };
+                };
+
+                const updateStrength = (rawValue) => {
+                    const value = typeof rawValue === 'string' ? rawValue.trim() : '';
+                    let score = 0;
+
+                    Object.entries(requirementChecks).forEach(([key, check]) => {
+                        const passed = check(value);
+                        if (passed) {
+                            score += 1;
+                        }
+                        const tipItem = tips.get(key);
+                        if (tipItem) {
+                            tipItem.classList.toggle('is-met', passed);
+                        }
+                    });
+
+                    const { label, color, percentage } = getStrengthDescriptor(score, value);
+                    const width = value ? `${percentage}%` : '0%';
+                    strengthBar.style.width = width;
+                    strengthBar.style.background = color;
+                    strengthMeter.setAttribute('aria-valuenow', String(value ? percentage : 0));
+                    strengthMeter.setAttribute('aria-valuetext', value ? `Seguridad ${label}` : 'Sin contraseña evaluada');
+
+                    if (value) {
+                        strengthText.textContent = `Seguridad de la contraseña: ${label}`;
+                    } else {
+                        strengthText.textContent = 'Usa al menos 8 caracteres, combinando mayúsculas, números y símbolos.';
+                    }
+                };
+
+                newPasswordInput.addEventListener('input', (event) => {
+                    updateStrength(event.target.value);
+                });
+
+                updateStrength(newPasswordInput.value);
+            };
+
+            setupSecurityStrengthMeter();
 
             const activateTab = (target) => {
                 tabButtons.forEach((button) => {
