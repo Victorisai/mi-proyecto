@@ -10255,6 +10255,19 @@ button.messages__tab.messages__tab--active {
     gap: 20px;
 }
 
+.profile-notifications__intro {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+}
+
+.profile-notifications__title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: inherit;
+}
+
 .profile-notifications__header {
     position: relative;
     font-weight: 600;
