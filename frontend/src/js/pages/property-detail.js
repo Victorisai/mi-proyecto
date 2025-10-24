@@ -5,7 +5,7 @@
         }
 
         const API_BASE_URL = 'http://localhost:3000/api';
-        const PLACEHOLDER_IMAGE = 'assets/images/hero/placeholder.jpg';
+        const PLACEHOLDER_IMAGE = '../../public/images/hero/placeholder.jpg';
         const currencyFormatter = new Intl.NumberFormat('es-MX', {
             style: 'currency',
             currency: 'MXN',
@@ -374,49 +374,49 @@
         const featuresData = features ?? {};
 
         if (normalizedCategory === 'casas') {
-            addFeature(hasValue(featuresData.recamaras), 'assets/images/iconcaracteristic/icon_bed.png', 'Recámaras', `${featuresData.recamaras} Recámaras`);
-            addFeature(hasValue(featuresData.banos), 'assets/images/iconcaracteristic/icon_bath.png', 'Baños', `${featuresData.banos} Baños`);
-            addFeature(hasValue(featuresData.estacionamientos), 'assets/images/iconcaracteristic/icon_parking.png', 'Estacionamientos', `${featuresData.estacionamientos} Estacionamientos`);
-            addFeature(hasValue(featuresData.superficie_construida), 'assets/images/iconcaracteristic/icon_built_area.png', 'Construcción', `${featuresData.superficie_construida} m² Construidos`);
-            addFeature(hasValue(featuresData.superficie_total), 'assets/images/iconcaracteristic/icon_total_area.png', 'Terreno', `${featuresData.superficie_total} m² Terreno`);
-            addFeature(hasValue(featuresData.niveles), 'assets/images/iconcaracteristic/icon_floors.png', 'Niveles', `${featuresData.niveles} Niveles`);
-            addFeature(isAffirmative(featuresData.terraza), 'assets/images/iconcaracteristic/icon_terrace.png', 'Terraza', 'Terraza');
-            addFeature(isAffirmative(featuresData.alberca), 'assets/images/iconcaracteristic/icon_pool.png', 'Alberca', 'Alberca');
-            addFeature(isAffirmative(featuresData.amueblada), 'assets/images/iconcaracteristic/icon_furniture.png', 'Amueblada', 'Amueblada');
+            addFeature(hasValue(featuresData.recamaras), '../../public/images/icons/icon_bed.png', 'Recámaras', `${featuresData.recamaras} Recámaras`);
+            addFeature(hasValue(featuresData.banos), '../../public/images/icons/icon_bath.png', 'Baños', `${featuresData.banos} Baños`);
+            addFeature(hasValue(featuresData.estacionamientos), '../../public/images/icons/icon_parking.png', 'Estacionamientos', `${featuresData.estacionamientos} Estacionamientos`);
+            addFeature(hasValue(featuresData.superficie_construida), '../../public/images/icons/icon_built_area.png', 'Construcción', `${featuresData.superficie_construida} m² Construidos`);
+            addFeature(hasValue(featuresData.superficie_total), '../../public/images/icons/icon_total_area.png', 'Terreno', `${featuresData.superficie_total} m² Terreno`);
+            addFeature(hasValue(featuresData.niveles), '../../public/images/icons/icon_floors.png', 'Niveles', `${featuresData.niveles} Niveles`);
+            addFeature(isAffirmative(featuresData.terraza), '../../public/images/icons/icon_terrace.png', 'Terraza', 'Terraza');
+            addFeature(isAffirmative(featuresData.alberca), '../../public/images/icons/icon_pool.png', 'Alberca', 'Alberca');
+            addFeature(isAffirmative(featuresData.amueblada), '../../public/images/icons/icon_furniture.png', 'Amueblada', 'Amueblada');
         } else if (normalizedCategory === 'departamentos') {
-            addFeature(hasValue(featuresData.recamaras), 'assets/images/iconcaracteristic/icon_bed.png', 'Recámaras', `${featuresData.recamaras} Recámaras`);
-            addFeature(hasValue(featuresData.banos), 'assets/images/iconcaracteristic/icon_bath.png', 'Baños', `${featuresData.banos} Baños`);
-            addFeature(hasValue(featuresData.estacionamientos), 'assets/images/iconcaracteristic/icon_parking.png', 'Estacionamientos', `${featuresData.estacionamientos} Estacionamientos`);
-            addFeature(hasValue(featuresData.superficie_total), 'assets/images/iconcaracteristic/icon_built_area.png', 'Superficie total', `${featuresData.superficie_total} m² Totales`);
-            addFeature(hasValue(featuresData.piso), 'assets/images/iconcaracteristic/icon_floors.png', 'Piso', `Piso ${featuresData.piso}`);
-            addFeature(isAffirmative(featuresData.elevador), 'assets/images/iconcaracteristic/icon_elevator.png', 'Elevador', 'Elevador');
-            addFeature(isAffirmative(featuresData?.amenidades?.gimnasio), 'assets/images/iconcaracteristic/icon_gym.png', 'Gimnasio', 'Gimnasio');
-            addFeature(isAffirmative(featuresData?.amenidades?.alberca), 'assets/images/iconcaracteristic/icon_pool.png', 'Alberca', 'Alberca');
-            addFeature(isAffirmative(featuresData?.amenidades?.salon_eventos), 'assets/images/iconcaracteristic/icon_event_hall.png', 'Salón de eventos', 'Salón de Eventos');
+            addFeature(hasValue(featuresData.recamaras), '../../public/images/icons/icon_bed.png', 'Recámaras', `${featuresData.recamaras} Recámaras`);
+            addFeature(hasValue(featuresData.banos), '../../public/images/icons/icon_bath.png', 'Baños', `${featuresData.banos} Baños`);
+            addFeature(hasValue(featuresData.estacionamientos), '../../public/images/icons/icon_parking.png', 'Estacionamientos', `${featuresData.estacionamientos} Estacionamientos`);
+            addFeature(hasValue(featuresData.superficie_total), '../../public/images/icons/icon_built_area.png', 'Superficie total', `${featuresData.superficie_total} m² Totales`);
+            addFeature(hasValue(featuresData.piso), '../../public/images/icons/icon_floors.png', 'Piso', `Piso ${featuresData.piso}`);
+            addFeature(isAffirmative(featuresData.elevador), '../../public/images/icons/icon_elevator.png', 'Elevador', 'Elevador');
+            addFeature(isAffirmative(featuresData?.amenidades?.gimnasio), '../../public/images/icons/icon_gym.png', 'Gimnasio', 'Gimnasio');
+            addFeature(isAffirmative(featuresData?.amenidades?.alberca), '../../public/images/icons/icon_pool.png', 'Alberca', 'Alberca');
+            addFeature(isAffirmative(featuresData?.amenidades?.salon_eventos), '../../public/images/icons/icon_event_hall.png', 'Salón de eventos', 'Salón de Eventos');
         } else if (normalizedCategory === 'terrenos') {
-            addFeature(hasValue(featuresData.superficie_total), 'assets/images/iconcaracteristic/icon_total_area.png', 'Superficie', `${featuresData.superficie_total}`);
-            addFeature(hasValue(featuresData.frente), 'assets/images/iconcaracteristic/icon_dimensions.png', 'Frente', `${featuresData.frente}m de Frente`);
-            addFeature(hasValue(featuresData.fondo), 'assets/images/iconcaracteristic/icon_dimensions.png', 'Fondo', `${featuresData.fondo}m de Fondo`);
-            addFeature(hasValue(featuresData.tipo_suelo), 'assets/images/iconcaracteristic/icon_soil.png', 'Tipo de suelo', `Suelo: ${featuresData.tipo_suelo}`);
-            addFeature(hasValue(featuresData.tipo_propiedad), 'assets/images/iconcaracteristic/icon_property_type.png', 'Tipo de propiedad', `Propiedad ${capitalizeFirst(String(featuresData.tipo_propiedad))}`);
-            addFeature(isAffirmative(featuresData?.servicios?.luz), 'assets/images/iconcaracteristic/icon_electricity.png', 'Servicio de luz', 'Servicio de Luz');
-            addFeature(isAffirmative(featuresData?.servicios?.agua), 'assets/images/iconcaracteristic/icon_water.png', 'Servicio de agua', 'Servicio de Agua');
-            addFeature(isAffirmative(featuresData?.servicios?.drenaje), 'assets/images/iconcaracteristic/icon_drainage.png', 'Drenaje', 'Drenaje');
+            addFeature(hasValue(featuresData.superficie_total), '../../public/images/icons/icon_total_area.png', 'Superficie', `${featuresData.superficie_total}`);
+            addFeature(hasValue(featuresData.frente), '../../public/images/icons/icon_dimensions.png', 'Frente', `${featuresData.frente}m de Frente`);
+            addFeature(hasValue(featuresData.fondo), '../../public/images/icons/icon_dimensions.png', 'Fondo', `${featuresData.fondo}m de Fondo`);
+            addFeature(hasValue(featuresData.tipo_suelo), '../../public/images/icons/icon_soil.png', 'Tipo de suelo', `Suelo: ${featuresData.tipo_suelo}`);
+            addFeature(hasValue(featuresData.tipo_propiedad), '../../public/images/icons/icon_property_type.png', 'Tipo de propiedad', `Propiedad ${capitalizeFirst(String(featuresData.tipo_propiedad))}`);
+            addFeature(isAffirmative(featuresData?.servicios?.luz), '../../public/images/icons/icon_electricity.png', 'Servicio de luz', 'Servicio de Luz');
+            addFeature(isAffirmative(featuresData?.servicios?.agua), '../../public/images/icons/icon_water.png', 'Servicio de agua', 'Servicio de Agua');
+            addFeature(isAffirmative(featuresData?.servicios?.drenaje), '../../public/images/icons/icon_drainage.png', 'Drenaje', 'Drenaje');
         } else if (normalizedCategory === 'desarrollos') {
-            addFeature(hasValue(featuresData.num_unidades), 'assets/images/iconcaracteristic/icon_units.png', 'Unidades', `${featuresData.num_unidades} Unidades`);
-            addFeature(hasValue(featuresData.superficie_min), 'assets/images/iconcaracteristic/icon_total_area.png', 'Superficie mínima', `Desde ${featuresData.superficie_min} m²`);
-            addFeature(hasValue(featuresData.superficie_max), 'assets/images/iconcaracteristic/icon_total_area.png', 'Superficie máxima', `Hasta ${featuresData.superficie_max} m²`);
-            addFeature(hasValue(featuresData.rango_recamaras), 'assets/images/iconcaracteristic/icon_bed.png', 'Recámaras', `${featuresData.rango_recamaras} Recámaras`);
-            addFeature(hasValue(featuresData.rango_banos), 'assets/images/iconcaracteristic/icon_bath.png', 'Baños', `${featuresData.rango_banos} Baños`);
+            addFeature(hasValue(featuresData.num_unidades), '../../public/images/icons/icon_units.png', 'Unidades', `${featuresData.num_unidades} Unidades`);
+            addFeature(hasValue(featuresData.superficie_min), '../../public/images/icons/icon_total_area.png', 'Superficie mínima', `Desde ${featuresData.superficie_min} m²`);
+            addFeature(hasValue(featuresData.superficie_max), '../../public/images/icons/icon_total_area.png', 'Superficie máxima', `Hasta ${featuresData.superficie_max} m²`);
+            addFeature(hasValue(featuresData.rango_recamaras), '../../public/images/icons/icon_bed.png', 'Recámaras', `${featuresData.rango_recamaras} Recámaras`);
+            addFeature(hasValue(featuresData.rango_banos), '../../public/images/icons/icon_bath.png', 'Baños', `${featuresData.rango_banos} Baños`);
             if (hasValue(featuresData.etapas)) {
                 const etapa = String(featuresData.etapas).replace(/_/g, ' ');
-                addFeature(true, 'assets/images/iconcaracteristic/icon_timeline.png', 'Etapa', `Etapa: ${capitalizeFirst(etapa)}`);
+                addFeature(true, '../../public/images/icons/icon_timeline.png', 'Etapa', `Etapa: ${capitalizeFirst(etapa)}`);
             }
-            addFeature(hasValue(featuresData.entrega_estimada), 'assets/images/iconcaracteristic/icon_calendar.png', 'Entrega estimada', `Entrega: ${featuresData.entrega_estimada}`);
-            addFeature(isAffirmative(featuresData.pet_friendly), 'assets/images/iconcaracteristic/icon_pet_friendly.png', 'Pet friendly', 'Pet Friendly');
-            addFeature(isAffirmative(featuresData?.amenidades?.alberca), 'assets/images/iconcaracteristic/icon_pool.png', 'Alberca', 'Alberca');
-            addFeature(isAffirmative(featuresData?.amenidades?.areas_verdes), 'assets/images/iconcaracteristic/icon_green_areas.png', 'Áreas verdes', 'Áreas Verdes');
-            addFeature(isAffirmative(featuresData?.amenidades?.gimnasio), 'assets/images/iconcaracteristic/icon_gym.png', 'Gimnasio', 'Gimnasio');
+            addFeature(hasValue(featuresData.entrega_estimada), '../../public/images/icons/icon_calendar.png', 'Entrega estimada', `Entrega: ${featuresData.entrega_estimada}`);
+            addFeature(isAffirmative(featuresData.pet_friendly), '../../public/images/icons/icon_pet_friendly.png', 'Pet friendly', 'Pet Friendly');
+            addFeature(isAffirmative(featuresData?.amenidades?.alberca), '../../public/images/icons/icon_pool.png', 'Alberca', 'Alberca');
+            addFeature(isAffirmative(featuresData?.amenidades?.areas_verdes), '../../public/images/icons/icon_green_areas.png', 'Áreas verdes', 'Áreas Verdes');
+            addFeature(isAffirmative(featuresData?.amenidades?.gimnasio), '../../public/images/icons/icon_gym.png', 'Gimnasio', 'Gimnasio');
         }
 
         if (featureItems.length === 0) {

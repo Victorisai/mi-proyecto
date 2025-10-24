@@ -1,0 +1,129 @@
+<header>
+        <div class="container">
+            <div class="header__top">
+                <div class="header__toggle">
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                    <span class="header__toggle-line"></span>
+                </div>
+                <div class="header__logo">
+                    <a href="index.html">
+                        <img src="../../public/images/icons/logo-light.png" alt="Logo DOMABLY" class="header__logo--light">
+                        <img src="../../public/images/icons/logo-dark.png" alt="Logo DOMABLY" class="header__logo--dark">
+                        <h1 class="header__title sr-only">DOMABLY</h1>
+                    </a>
+                </div>
+                <div class="header__actions">
+                    <a href="#" id="header-login-button" class="header__action-button header__action-button--login">Iniciar Sesión</a>
+                    <a href="register.html" id="header-register-button" class="header__action-button header__action-button--register">Registrar</a>
+                    <a href="profile.html" id="header-profile-link" class="header__action-button header__action-button--profile is-hidden">
+                        <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 8px;">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Mi Perfil
+                    </a>
+                </div>
+            </div>
+            <hr class="header__divider">
+            <ul class="header__nav">
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=terrenos">Terrenos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=casas">Casas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=departamentos">Departamentos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?category=desarrollos">Desarrollos</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Benito Juárez">Cancun</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Tulum">Tulum</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Lázaro Cárdenas">Lázaro Cárdenas</a></li>
+                <li class="header__nav-item"><a class="header__nav-link" href="properties.html?location=Playa del Carmen">Playa del Carmen</a></li>
+            </ul>
+            <hr class="header__divider">
+            <nav class="mobile-nav">
+                <ul class="mobile-nav__list">
+                    <li class="mobile-nav__header">
+                        <span class="mobile-nav__title">Tu propiedad ideal</span>
+                        <span class="mobile-nav__close-button">✕</span>
+                    </li>
+                    <div class="mobile-nav__btn" id="mobile-login-button-wrapper">
+                        <a href="#" id="mobile-login-button" class="mobile-nav__auth-link" role="button">
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm-6 4c.22-.72 2.31-1.25 6-1.25s5.78.53 6 1.25z"/>
+                            </svg>
+                            <span class="mobile-nav__auth-text">Log in / Register</span>
+                        </a>
+                    </div>
+                    <div class="mobile-nav__profile-section is-hidden" id="mobile-profile-section">
+                        <a href="#" id="profile-button" class="mobile-nav__auth-link">
+                            <svg class="mobile-nav__auth-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="mobile-nav__auth-text">Mi Perfil</span>
+                            <svg id="profile-arrow" class="mobile-nav__arrow-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </a>
+                        <div id="profile-dropdown" class="mobile-nav__dropdown-menu" style="display: none;">
+                            <a href="#" class="mobile-nav__dropdown-link" data-auth-action="logout">Cerrar Sesión</a>
+                        </div>
+                    </div>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="index.html"><img src="../../public/images/icons/home-icon.png" alt="Inicio Icon" class="mobile-nav__icon">Inicio</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="properties.html"><img src="../../public/images/icons/properties-icon.png" alt="Propiedades Icon" class="mobile-nav__icon">Propiedades</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="contact.php"><img src="../../public/images/icons/contact-icon.png" alt="Contacto Icon" class="mobile-nav__icon">Contacto</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="about.php"><img src="../../public/images/icons/about-icon.png" alt="Sobre Nosotros Icon" class="mobile-nav__icon">Sobre Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="join.php"><img src="../../public/images/icons/join-icon.png" alt="Únete a Nosotros Icon" class="mobile-nav__icon">Únete a Nosotros</a></li>
+                    <li class="mobile-nav__item"><a class="mobile-nav__link" href="admin/index.php"><img src="../../public/images/icons/account-icon.png" alt="Mi Cuenta Icon" class="mobile-nav__icon">Mi Cuenta</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="mobile-nav__overlay"></div>
+        <div id="login-modal" class="auth-modal" aria-hidden="true">
+            <div class="auth-modal__overlay" id="login-modal-overlay"></div>
+            <div class="auth-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+                <button type="button" class="auth-modal__close" id="login-modal-close" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="auth-modal__header">
+                    <h2 id="login-modal-title">Bienvenido de vuelta</h2>
+                    <p>Ingresa tus credenciales para continuar explorando oportunidades inmobiliarias.</p>
+                </div>
+                <form id="login-form" class="auth-modal__form" novalidate>
+                    <div class="auth-modal__form-group">
+                        <label for="login-email">Correo electrónico</label>
+                        <input type="email" id="login-email" name="email" placeholder="nombre@dominio.com" required>
+                    </div>
+                    <div class="auth-modal__form-group">
+                        <label for="login-password">Contraseña</label>
+                        <div class="auth-modal__password-wrapper">
+                            <input type="password" id="login-password" name="password" placeholder="Ingresa tu contraseña" required minlength="6">
+                            <button type="button" class="auth-modal__toggle-password" aria-label="Mostrar u ocultar contraseña">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="auth-modal__form-row">
+                        <label class="auth-modal__checkbox">
+                            <input type="checkbox" id="remember-me" name="remember">
+                            <span>Recordarme</span>
+                        </label>
+                        <a href="forgot-password.html" class="auth-modal__link">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <p class="auth-modal__error" id="login-error" role="alert" aria-live="polite"></p>
+                    <button type="submit" class="auth-modal__submit">Iniciar sesión</button>
+                </form>
+                <div class="auth-modal__footer">
+                    <p>¿Aún no tienes cuenta? <a href="register.html" class="auth-modal__link">Crea una ahora</a></p>
+                    <div class="auth-modal__secure">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M4 9V5a4 4 0 0 1 4-4h0a4 4 0 0 1 4 4v4"></path>
+                            <rect x="2" y="9" width="20" height="13" rx="2" ry="2"></rect>
+                            <path d="M12 14v3"></path>
+                        </svg>
+                        <span>Protegemos tus datos con cifrado de grado bancario.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>

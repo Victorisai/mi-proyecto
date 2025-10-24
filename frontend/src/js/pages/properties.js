@@ -5,7 +5,7 @@
         }
 
         const API_BASE_URL = 'http://localhost:3000/api';
-        const PLACEHOLDER_IMAGE = 'assets/images/hero/placeholder.jpg';
+        const PLACEHOLDER_IMAGE = '../../public/images/hero/placeholder.jpg';
         const currencyFormatter = new Intl.NumberFormat('es-MX', {
             style: 'currency',
             currency: 'MXN',

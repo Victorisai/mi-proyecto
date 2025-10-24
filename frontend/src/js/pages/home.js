@@ -2,11 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // URL base de tu API en Node.js (cámbiala si es necesario)
     const API_URL = 'http://localhost:3000/api';
     const HERO_PLACEHOLDER_IMAGES = [
-        'assets/images/hero/placeholder.jpg',
-        'assets/images/hero/placeholder2.jpg',
-        'assets/images/hero/placeholder3.jpg'
+        '../../public/images/hero/placeholder.jpg',
+        '../../public/images/hero/placeholder2.jpg',
+        '../../public/images/hero/placeholder3.jpg'
     ];
-    const NEWS_PLACEHOLDER_IMAGE = 'assets/images/hero/placeholder.jpg';
+    const NEWS_PLACEHOLDER_IMAGE = '../../public/images/hero/placeholder.jpg';
 
     // Funciones para cargar el contenido dinámico
     fetchHeroImages();
