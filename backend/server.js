@@ -10,9 +10,15 @@ const port = 3000; // Puedes cambiar el puerto si lo necesitas
 // Middleware para entender JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/public', express.static('public'));
-app.use(express.static('../frontend'));
 app.use(cors());
+
+// Rutas estáticas para servir el frontend reorganizado
+const frontendPath = path.join(__dirname, '../frontend');
+app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use('/assets/js', express.static(path.join(frontendPath, 'src/js')));
+app.use('/assets/templates', express.static(path.join(frontendPath, 'src/partials')));
+app.use('/assets', express.static(path.join(frontendPath, 'public')));
+app.use('/', express.static(path.join(frontendPath, 'src/pages')));
 
 // --- RUTAS DE LA API ---
 const propertiesRoutes = require('./routes/propertiesRoutes');
