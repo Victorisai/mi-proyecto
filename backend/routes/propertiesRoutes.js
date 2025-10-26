@@ -74,8 +74,15 @@ router.get('/', async (req, res) => {
 
     const [properties] = await connection.query(propertiesQuery, queryParams);
 
+    const formattedProperties = Array.isArray(properties)
+      ? properties.map((property) => ({
+          ...property,
+          main_image: normalizeImagePath(property?.main_image),
+        }))
+      : [];
+
     if (limitValue !== null) {
-      return res.json(properties);
+      return res.json(formattedProperties);
     }
 
     const [priceRows] = await connection.query(
@@ -96,8 +103,8 @@ router.get('/', async (req, res) => {
     }
 
     res.json({
-      properties,
-      total: properties.length,
+      properties: formattedProperties,
+      total: formattedProperties.length,
       filters: {
         priceRange: {
           min: minPriceAvailable,
@@ -160,7 +167,13 @@ router.get('/:id', async (req, res) => {
       }
     }
 
-    const uniqueImages = [...new Set(images.filter((src) => typeof src === 'string' && src.trim().length > 0))];
+    const uniqueImages = [
+      ...new Set(
+        images
+          .filter((src) => typeof src === 'string' && src.trim().length > 0)
+          .map((src) => normalizeImagePath(src)),
+      ),
+    ];
 
     const [similarProperties] = await connection.query(
       `SELECT id, title, price, category, listing_type, location, main_image
@@ -172,14 +185,19 @@ router.get('/:id', async (req, res) => {
     );
 
     const sanitizedProperty = {
-      ...property,
+      ...normalizePropertyImages(property),
       features: parsedFeatures,
     };
 
     return res.json({
       property: sanitizedProperty,
       images: uniqueImages,
-      similarProperties: Array.isArray(similarProperties) ? similarProperties : [],
+      similarProperties: Array.isArray(similarProperties)
+        ? similarProperties.map((item) => ({
+            ...item,
+            main_image: normalizeImagePath(item?.main_image),
+          }))
+        : [],
     });
   } catch (error) {
     console.error('Error al obtener la propiedad:', error);
@@ -197,6 +215,64 @@ function parseNumericValue(value) {
   }
   const numericValue = Number(value);
   return Number.isFinite(numericValue) ? numericValue : null;
+}
+
+function normalizePropertyImages(property) {
+  if (!property || typeof property !== 'object') {
+    return property;
+  }
+
+  const formatted = { ...property };
+
+  formatted.main_image = normalizeImagePath(property?.main_image);
+
+  for (let i = 1; i <= 15; i += 1) {
+    const key = `thumbnail${i}`;
+    if (Object.prototype.hasOwnProperty.call(formatted, key)) {
+      formatted[key] = normalizeImagePath(property[key]);
+    }
+  }
+
+  return formatted;
+}
+
+function normalizeImagePath(src) {
+  if (typeof src !== 'string') {
+    return src;
+  }
+
+  const trimmedSrc = src.trim();
+  if (trimmedSrc.length === 0) {
+    return '';
+  }
+
+  const isExternalUrl = /^https?:\/\//i.test(trimmedSrc);
+  if (isExternalUrl) {
+    return trimmedSrc;
+  }
+
+  let normalized = trimmedSrc.replace(/\\/g, '/');
+
+  const FRONTEND_PUBLIC_PREFIX = 'frontend/public/';
+  const PUBLIC_PREFIX = 'public/';
+
+  if (normalized.startsWith(FRONTEND_PUBLIC_PREFIX)) {
+    normalized = normalized.slice(FRONTEND_PUBLIC_PREFIX.length);
+  }
+
+  if (normalized.startsWith(PUBLIC_PREFIX)) {
+    normalized = normalized.slice(PUBLIC_PREFIX.length);
+  }
+
+  if (!normalized.startsWith('assets/')) {
+    normalized = `assets/${normalized.replace(/^\/+/, '')}`;
+  }
+
+  if (!normalized.startsWith('/')) {
+    normalized = `/${normalized}`;
+  }
+
+  return encodeURI(normalized);
 }
 
 function parseLimit(value) {
