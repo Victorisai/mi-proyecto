@@ -33,41 +33,6 @@ CREATE TABLE `admins` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `users` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `phone` varchar(20) DEFAULT NULL,
-  `birth_date` date DEFAULT NULL,
-  `role` enum('user','admin','agent') DEFAULT 'user',
-  `profile_image` varchar(255) DEFAULT NULL,
-  `bio` text,
-  `company` varchar(255) DEFAULT NULL,
-  `website` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping data for table `admins`
 --
 
@@ -211,6 +176,42 @@ LOCK TABLES `properties` WRITE;
 INSERT INTO `properties` VALUES (7,'casa Moderna cancun','Casa En Cancun moderna xD',20000.02,'casas','venta','../assets/images/casademo.avif','../assets/images/Casa En Puerto Cancun En Venta 8.jpeg','../assets/images/diseno.de.casas.22.jpg','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Benito Juárez',21.164680,-86.820830,'{\"banos\": \"3\", \"alberca\": \"Sí\", \"niveles\": \"2\", \"terraza\": \"Sí\", \"amueblada\": \"Sí\", \"recamaras\": \"5\", \"estacionamientos\": \"2\", \"superficie_total\": \"50m\", \"superficie_construida\": \"50m\"}','disponible','2025-05-27 02:15:45'),(8,'casa en holbox','ccasa ',2000000.00,'casas','venta','../assets/images/imagen1.jpeg','../assets/images/imagn2.jpg','../assets/images/imagen3.jpg','../assets/images/imagen4.jpg',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Lázaro Cárdenas',21.525730,-87.378350,'{\"descripcion\": \"{&#34;recamaras&#34;:&#34;1&#34;,&#34;banos&#34;:&#34;1&#34;,&#34;estacionamientos&#34;:&#34;5&#34;,&#34;superficie_total&#34;:&#34;3&#34;}\"}','disponible','2025-05-28 22:40:02'),(9,'casa en sdsd','increible mansion',300000.00,'casas','venta','../assets/images/casademo.avif','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Benito Juárez',NULL,NULL,'{\"banos\": \"1\", \"alberca\": \"Sí\", \"niveles\": \"2\", \"terraza\": \"Sí\", \"amueblada\": \"Sí\", \"recamaras\": \"1\", \"estacionamientos\": \"1\", \"superficie_total\": \"123\", \"superficie_construida\": \"2\"}','disponible','2025-06-01 01:58:37'),(10,'Terreno cedral','Increible terrenno en el magnifico pueblo del cedral camino a HOLBOX',250000.00,'terrenos','venta','../assets/images/terreno ejemplo.jpg','','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Lázaro Cárdenas',20.950810,-87.550860,'{\"fondo\": \"100\", \"frente\": \"50\", \"servicios\": {\"luz\": \"Sí\", \"agua\": \"Sí\", \"drenaje\": \"No\"}, \"tipo_suelo\": \"plano\", \"tipo_propiedad\": \"ejidal\", \"superficie_total\": \"2Hectareas\"}','disponible','2025-06-03 19:16:27'),(11,'casa Moderna cancun 85','d',50000.00,'casas','venta','assets/images/property_11/Casa En Puerto Cancun En Venta 8.jpeg','assets/images/property_11/casademo.avif','','',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'Benito Juárez',NULL,NULL,'{\"banos\": \"2\", \"alberca\": \"Sí\", \"niveles\": \"2\", \"terraza\": \"Sí\", \"amueblada\": \"No\", \"recamaras\": \"2\", \"estacionamientos\": \"3\", \"superficie_total\": \"50m\", \"superficie_construida\": \"50m\"}','disponible','2025-06-04 19:27:22'),(12,'Desarrollo en HOLBOX','Increíble desarrollo para rentas Airbnb',5000000.00,'desarrollos','venta','assets/images/property_12/imagen4.jpg','assets/images/property_12/Casa En Puerto Cancun En Venta 8.jpeg','assets/images/property_12/imagn2.jpg','assets/images/property_12/casademo.avif','assets/images/property_12/imagn2.jpg','assets/images/property_12/imagen3.jpg','assets/images/property_12/diseno.de.casas.22.jpg','assets/images/property_12/imagen3.jpg','assets/images/property_12/Casa En Puerto Cancun En Venta 8.jpeg','','','','','','','','Lázaro Cárdenas',21.510170,-87.395350,'{\"etapas\": \"en_construccion\", \"amenidades\": {\"alberca\": \"Sí\", \"gimnasio\": \"Sí\", \"areas_verdes\": \"Sí\"}, \"rango_banos\": \"2\", \"num_unidades\": \"6\", \"pet_friendly\": \"Sí\", \"superficie_max\": \"50m\", \"superficie_min\": \"50m\", \"rango_recamaras\": \"4\", \"entrega_estimada\": \"Mayo 2026\"}','disponible','2025-06-05 19:12:49'),(13,'casa Moderna playa 329','depa cool ',200000.00,'departamentos','venta','assets/images/property_13/Casa En Puerto Cancun En Venta 8.jpeg','assets/images/property_13/imagn2.jpg','assets/images/property_13/imagen3.jpg','','','','','','','','','','','','','','Playa del Carmen',NULL,NULL,'{\"piso\": \"4\", \"banos\": \"1\", \"terraza\": \"Sí\", \"elevador\": \"No\", \"recamaras\": \"1\", \"amenidades\": {\"alberca\": \"Sí\", \"gimnasio\": \"Sí\", \"salon_eventos\": \"No\"}, \"estacionamientos\": \"1\", \"superficie_total\": \"25\"}','disponible','2025-06-07 19:18:35'),(14,'Casa Moderna 85 tulum','casa en el centro de tulum',28000000.00,'casas','venta','assets/images/property_14/Casa En Puerto Cancun En Venta 8.jpeg','assets/images/property_14/imagen4.jpg','assets/images/property_14/imagen3.jpg','','','','','','','','','','','','','','Tulum',NULL,NULL,'{\"banos\": \"4\", \"alberca\": \"Sí\", \"niveles\": \"2\", \"terraza\": \"Sí\", \"amueblada\": \"Sí\", \"recamaras\": \"4\", \"estacionamientos\": \"1\", \"superficie_total\": \"50\", \"superficie_construida\": \"50\"}','disponible','2025-06-08 14:12:52'),(15,'Casa en Cedral','Casa en cedral de 2 niveles cerca de una tienda',300000.00,'casas','venta','assets/images/property_15/imagn2.jpg','assets/images/property_15/diseno.de.casas.22.jpg','assets/images/property_15/709539-2953x1967-desktop-hd-cozumel-background.jpg','assets/images/property_15/casademo.avif','','','','','','','','','','','','','Lázaro Cárdenas',NULL,NULL,'{\"banos\": \"2\", \"alberca\": \"Sí\", \"niveles\": \"2\", \"terraza\": \"Sí\", \"amueblada\": \"Sí\", \"recamaras\": \"4\", \"estacionamientos\": \"1\", \"superficie_total\": \"50\", \"superficie_construida\": \"45\"}','disponible','2025-06-15 03:32:29'),(16,'Casa en renta en jardines','Increible mansion en renta precio unico',25000.00,'casas','renta','assets/images/property_16/Casa-moderna-un-piso.jpg','assets/images/property_16/pexels-falling4utah-2724749.jpg','assets/images/property_16/pexels-sebastians-731082.jpg','','','','','','','','','','','','','','Benito Juárez',NULL,NULL,'{\"banos\": \"2\", \"alberca\": \"Sí\", \"niveles\": \"2\", \"terraza\": \"Sí\", \"amueblada\": \"Sí\", \"recamaras\": \"2\", \"estacionamientos\": \"3\", \"superficie_total\": \"25\", \"superficie_construida\": \"25\"}','disponible','2025-07-02 03:23:39'),(17,'depa en renta Moderna cancun 85','Increible depa',25000.00,'departamentos','renta','assets/images/property_17/pexels-sebastians-731082.jpg','assets/images/property_17/Casa-moderna-un-piso.jpg','assets/images/property_17/pexels-itsterrymag-2635038.jpg','','','','','','','','','','','','','','Felipe Carrillo Puerto',NULL,NULL,'{\"piso\": \"4\", \"banos\": \"2\", \"terraza\": \"Sí\", \"elevador\": \"Sí\", \"recamaras\": \"2\", \"amenidades\": {\"alberca\": \"Sí\", \"gimnasio\": \"Sí\", \"salon_eventos\": \"Sí\"}, \"estacionamientos\": \"2\", \"superficie_total\": \"25\"}','disponible','2025-07-02 03:26:33'),(18,'casa grande en holbox','Casa grande de lujo de dos pisos',6000.00,'casas','renta','assets/images/property_18/pexels-falling4utah-2724749.jpg','assets/images/property_18/Casa-moderna-un-piso.jpg','assets/images/property_18/pexels-sebastians-731082.jpg','assets/images/property_18/3f58c106a8b75efcb9ec52f200e49d33.jpg','','','','','','','','','','','','','Lázaro Cárdenas',NULL,NULL,'{\"banos\": \"4\", \"alberca\": \"No\", \"niveles\": \"3\", \"terraza\": \"Sí\", \"amueblada\": \"Sí\", \"recamaras\": \"1\", \"estacionamientos\": \"3\", \"superficie_total\": \"25\", \"superficie_construida\": \"50m\"}','disponible','2025-07-02 03:27:43');
 /*!40000 ALTER TABLE `properties` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(20) DEFAULT NULL,
+  `birth_date` date DEFAULT NULL,
+  `role` enum('user','admin','agent') DEFAULT 'user',
+  `profile_image` varchar(255) DEFAULT NULL,
+  `bio` text,
+  `company` varchar(255) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Victor Isai Caceres Ramirez','isaicaceresramirez@gmail.com','$2b$10$F7r1m0yRAt4qEJfvFsejEub1pjQV6FtmHZ0Q.lLRCx.qGztlXrBXy','9997632818','2006-03-28','user',NULL,NULL,NULL,NULL,'2025-09-30 01:49:53','2025-09-30 01:49:53');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -221,4 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-09-12 14:02:31
+-- Dump completed on 2025-10-25 22:04:22
