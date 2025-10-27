@@ -1,0 +1,249 @@
+/* === MEDIA QUERIES PARA RESPONSIVIDAD === */
+/* ================================================= */
+@media (max-width: 768px) {
+    header .container {
+        justify-content: space-between; /* Espacia los elementos */
+        padding: 8px 20px; /* Padding uniforme para móviles */
+        position: relative;
+    }
+
+    body:not(.home){
+    padding-top: 60px; /* Añade espacio para el encabezado fijo */
+    }
+
+    .header__logo {
+        order: 1; /* Coloca el logo en el centro */
+        flex-grow: 1; /* Permite que ocupe el espacio central */
+        text-align: center; /* Centra el texto del logo */
+    }
+
+    .header__toggle {
+        order: 2; /* Coloca el menú hamburguesa a la derecha */
+        margin-left: 0 !important; /* Elimina el margen izquierdo de escritorio */
+        margin-right: 10px; /* Opcional: pequeño margen desde el borde derecho */
+    }
+
+    nav {
+        order: 3; /* Asegura que nav no interfiera en el flujo */
+    }
+
+    .mobile-nav__list {
+        width: 71%;
+        left: auto;
+        right: 0;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+        display: none;
+        padding-top: 10px; /* Mantiene el espacio superior en móviles */
+        z-index: 101;
+    }
+
+    .mobile-nav__list.active {
+        display: flex;
+        animation: slideInRight 0.3s ease-out; /* Nueva animación para derecha */
+    }
+
+    .mobile-nav__icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+
+    .menu-logo-img {
+        width: 150px; /* Tamaño más pequeño para móviles */
+        max-width: 100%; /* Ajusta el tamaño máximo */
+    }
+
+    .mobile-nav__close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        color: #2c3e50;
+        cursor: pointer;
+        padding: 5px;
+        text-align: right;
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .header__divider {
+        display: block; /* Mostrar en móviles */
+        width: 100vw; /* Mantener el ancho completo */
+        border-top: 1px solid #ffffff1e; /* Color inicial como en index */
+        position: absolute;
+        left: 0;
+        transition: border-color 0.3s ease;
+    }
+
+    header .header__divider:first-of-type { top: 45px; }
+    header .header__divider:last-of-type  { top: 93px; }
+
+    .header__nav {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 5px 20px; /* AÑADIMOS padding horizontal aquí */
+    width: 100%;
+    box-sizing: border-box; /* MUY IMPORTANTE: para que el padding se incluya en el ancho */
+    margin-top: 0;
+    margin-left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    }
+
+    .header__nav::-webkit-scrollbar {
+        display: none; /* Ocultar scrollbar en Chrome/Safari */
+    }
+
+    /* Ajustar el tamaño de fuente de los enlaces para que sean legibles en móviles */
+
+    .header__nav-item {
+        display: inline-flex; /* Asegurar que los elementos estén en línea */
+        align-items: center;
+    }
+
+    .header__nav-item a {
+        font-size: 14px;
+        color: #fff;
+        transition: color 0.3s ease;
+        padding: 6px 10px 4px; /* Añadir padding para mejor interacción */
+        white-space: nowrap; /* Evitar que el texto se divida */
+        position: relative;     /* ¡LA CLAVE! Le decimos que su posición puede ser ajustada */
+        top: 10px; 
+    }
+
+    /* Ajustar colores al hacer scroll en index */
+    .header--scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
+    .header--scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
+
+    .header--scrolled .header__nav-item a {
+        color: #2c3e50; /* Color negro al hacer scroll */
+    }
+
+    /* Ajustar colores para páginas que no son home */
+    body:not(.home) .header__divider { border-top-color: #2c3e501a; }
+
+    body:not(.home) .header__nav-item a {
+        color: #2c3e50; /* Color negro en otras páginas */
+    }
+
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 0;
+        position: relative;
+    }
+
+    .header__top {
+        width: 100%; /* Ocupar todo el ancho */
+        margin-bottom: 2px; /* Espacio entre header-top y header-nav */
+        padding: 0 20px; /* Le devolvemos el padding que tenía el contenedor */
+        width: 100%;
+        box-sizing: border-box; /* Buena práctica para el manejo de anchos */
+        position: relative; /* Le decimos que su posición se puede ajustar */
+        top: 0px;           /* Lo movemos 2px hacia abajo */
+    }
+
+    .thumbnail-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+
+    .thumbnail-grid img {
+        height: 80px;
+    }
+
+    .main-image {
+        max-height: 400px;
+    }
+
+    .property-info h2 {
+        font-size: 28px;
+    }
+
+    .property-info .price {
+        font-size: 24px;
+    }
+
+    .hero__progress-container {
+        bottom: 20px;
+        right: 20px;
+        gap: 1.5vw;
+    }
+
+    .hero__progress-bar {
+        height: 3px;
+        width: clamp(25px, 6vw, 40px);
+    }
+
+}
+
+@media (max-width: 480px) {
+    .thumbnail-grid {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    }
+
+    .thumbnail-grid img {
+        height: 60px;
+    }
+
+    .main-image {
+        max-height: 300px;
+    }
+
+    .property-info h2 {
+        font-size: 24px;
+    }
+
+    .property-info .price {
+        font-size: 20px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+        .progress-container {
+        bottom: 10px; /* Reducir espacio inferior */
+        right: 10px; /* Reducir espacio derecho */
+        gap: 6px; /* Menor espacio entre barras */
+    }
+
+    .progress-bar {
+        width: 30px; /* Barras más cortas en móviles */
+        height: 3px; /* Altura más delgada */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .mobile-nav__close-button {
+        right: 20px; /* Mueve la "X" más a la derecha */
+        top: 5px; /* La sube ligeramente */
+        font-size: 22px; /* Reduce un poco el tamaño para mejor proporción */
+    }
+    .menu-logo-img {
+        width: 120px; /* Reduce el tamaño del logo */
+        max-width: 80%; /* Limita el tamaño máximo */
+    }
+    .mobile-nav__list {
+        width: 20%; /* Aumenta el ancho del menú para más espacio */
+    }
+}
+
+
+
+/* ================================================= */
+/* === FORMULARIO DE CONTACTO (contact.php) === */
+/* ================================================= */
+.contact {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;

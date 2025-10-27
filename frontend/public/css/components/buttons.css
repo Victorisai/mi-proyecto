@@ -1,0 +1,51 @@
+.btn {
+    display: inline-block;
+    padding: 12px 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 700;
+    font-size: 16px;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.btn-primary {
+    background: #3498db;
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: #2980b9;
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background: #2c3e50;
+    color: #fff;
+}
+
+.btn-secondary:hover {
+    background: #34495e;
+    transform: scale(1.05);
+}
+
+.btn-danger {
+    background: #e74c3c;
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+/* Botón de WhatsApp */
+.btn-whatsapp {
+    background: #25D366;
+    color: #fff;
+    margin-left: 10px; /* Espacio entre el botón Contactar y WhatsApp */
+}
+
+.btn-whatsapp:hover {
+    background: #20b358;
+    transform: scale(1.05);
+}

@@ -1,0 +1,529 @@
+/* === ENCABEZADO === */
+/* ================================================= */
+header {
+    background: transparent; /* Fondo oscuro semitransparente en index */
+    box-shadow: none; /* Sin sombra inicialmente en index */
+    position: fixed; /* Fijo en la parte superior */
+    top: 0;
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    transition: background 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+    z-index: 100;
+}
+
+.header--scrolled {
+    background: #fff; /* Fondo blanco al deslizar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra al deslizar */
+}
+
+header .container {
+    display: flex;
+    flex-direction: column; /* Disposición vertical para header-top, divider y header-nav */
+    align-items: flex-start; /* Alinear a la izquierda */
+    padding: 10px 20px 10px 0; /* Reducir padding para un header más compacto */
+    margin: 0;
+}
+
+.header__title {
+    font-size: 28px;
+    color: #fff; /* Texto del logo blanco inicialmente */
+    font-weight: 700;
+    transition: color 0.3s ease; /* Transición suave para el color del logo */
+    margin: 0;
+}
+
+.header--scrolled .header__title {
+    color: #2c3e50; /* Texto del logo negro al deslizar */
+}
+
+.header__logo {
+    margin: 0; /* Añadido para eliminar márgenes */
+}
+
+.header__logo a {
+    text-decoration: none; /* Eliminar subrayado del enlace */
+    color: inherit; /* Heredar el color del texto del logo */
+    display: block; /* Hacer que el enlace ocupe todo el área del logo */
+}
+
+.header__logo a:hover {
+    color: transparent; /* Opcional: cambiar color al pasar el ratón para indicar interactividad */
+}
+
+/* ------------------------------------------------- */
+/* Encabezado en todas las páginas excepto index */
+/* ------------------------------------------------- */
+body:not(.home) header {
+    background: #fff; /* Fondo blanco en otras páginas */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra desde el inicio */
+}
+
+body:not(.home) .header__title {
+    color: #2c3e50; /* Logo negro en otras páginas */
+}
+
+body:not(.home){
+    padding-top: 80px; /* Añade espacio para el encabezado fijo */
+}
+
+.mobile-nav__list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 15%;
+    height: 100%;
+    background: #fff;
+    display: none; /* Oculta el menú por defecto */
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 15px; /* Mantiene el espacio superior */
+    transition: transform 0.3s ease;
+    z-index: 100;
+}
+
+.mobile-nav__list.active {
+    display: flex; /* Muestra el menú cuando tiene la clase active */
+    animation: slideInLeft 0.3s ease-out; /* Usa la nueva animación */
+}
+
+.mobile-nav__list li {
+    margin: 10px 0;
+    list-style: none;
+    border-bottom: 1px solid #e0e0e0; /* Línea divisoria debajo de cada elemento */
+    padding-bottom: 10px; /* Espacio debajo del texto para la línea */
+    width: 100%; /* Asegura que la línea ocupe todo el ancho */
+}
+
+.mobile-nav__icon {
+    width: 27px;
+    height: 27px;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.mobile-nav__list li a {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: none;
+    color: #2c3e50;
+    transition: color 0.3s ease, background 0.3s ease;
+}
+
+.mobile-nav__list li a:hover {
+    color: #3498db;
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+/* Ajustar el botón de cerrar para no interferir con los íconos */
+.mobile-nav__close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 5px;
+    text-align: right;
+    margin-bottom: 0;
+    border-bottom: none;
+}
+
+.menu-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 10px 0;
+    border-bottom: none; /* Sin línea divisoria */
+}
+
+.menu-logo-img {
+    width: 150px; /* Ajusta el tamaño según tu logo */
+    height: auto;
+    max-width: 100%; /* Evita que el logo sea demasiado grande */
+}
+
+.header__toggle {
+    font-size: 24px;
+    cursor: pointer;
+    color: #fff; /* Blanco inicialmente en index */
+    transition: color 0.3s ease; /* Transición suave para el color */
+}
+
+
+.header--scrolled .header__toggle {
+    color: #2c3e50; /* Negro al deslizar en index */
+}
+
+body:not(.home) .header__toggle {
+    color: #2c3e50; /* Negro en otras páginas */
+}
+
+.mobile-nav__close-button {
+    border-bottom: none; /* Sin línea divisoria */
+    padding-bottom: 0; /* Sin espacio adicional */
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 5px;
+    text-align: right;
+    margin-bottom: 0;
+}
+
+.mobile-nav__close-button:hover {
+    color: #3498db;
+}
+
+/* Contenedor superior para menú hamburguesa y logo */
+.header__top {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Menú hamburguesa y logo a la izquierda */
+    gap: 10px; /* Espacio entre menú hamburguesa y logo */
+    width: 100%;
+    position: relative; /* Le decimos que su posición se puede ajustar */
+    top: 8px;           /* Lo movemos 2px hacia abajo */
+}
+
+/* Línea separadora */
+.header__divider {
+    border: none;
+    border-top: 1px solid #ffffff44; /* Línea blanca inicialmente en index */
+    margin: 5px 0; /* Espacio vertical */
+    width: 100vw; /* Ocupar todo el ancho de la ventana */
+    position: absolute; /* Sacar del flujo del contenedor */
+    left: 0; /* Alinear al borde izquierdo de la ventana */
+    transition: border-color 0.3s ease; /* Transición suave para el color */
+}
+
+header .header__divider:first-of-type { top: 60px; }
+header .header__divider:last-of-type  { top: 109px; }
+
+.header--scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
+.header--scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
+
+body:not(.home) .header__divider { border-top-color: #2c3e501a; }
+
+/* Nueva lista de navegación en el header */
+.header__nav {
+    display: flex;
+    justify-content: flex-start; /* Alinear enlaces a la izquierda */
+    gap: 25px; /* Reducir espacio entre enlaces */
+    padding: 5px 0; /* Reducir padding vertical */
+    width: 100%;
+    margin-top: 15px; /* Añadir espacio para evitar superposición con header-divider */
+    margin-left: 45px;
+}
+
+.header__nav-item {
+    list-style: none;
+}
+
+.header__nav-item a {
+    text-decoration: none;
+    color: #fff; /* Color blanco inicialmente en index */
+    font-size: 14px; /* Reducir tamaño de fuente para un header más compacto */
+    font-weight: 400;
+    transition: color 0.3s ease; /* Transición suave para el color */
+    position: relative;     /* ¡LA CLAVE! Le decimos que su posición puede ser ajustada */
+    top: 18px;
+}
+
+.header--scrolled .header__nav-item a {
+    color: #2c3e50; /* Color negro al deslizar en index */
+}
+
+body:not(.home) .header__nav-item a {
+    color: #2c3e50; /* Color negro en otras páginas */
+}
+
+.header__nav-item a:hover {
+    color: #0f96da; /* Color azul al pasar el ratón */
+}
+
+@media (min-width: 769px) {
+    header .container {
+        padding: 10px 20px 25px 0; /* Mantener padding reducido */
+    }
+
+    header-top {
+        padding-left: 0;
+    }
+
+    .header__toggle, .header__logo {
+        margin-left: 0; /* Sin margen izquierdo */
+    }
+
+    .header__toggle {
+        margin-left: 50px; /* Mantener margen izquierdo */
+    }
+
+    .header__logo {
+        flex-grow: 0; /* Evitar que el logo ocupe demasiado espacio */
+    }
+
+    .header__nav {
+        width: 100%; /* Ocupar todo el ancho */
+        justify-content: flex-start; /* Alinear a la izquierda */
+    }
+
+    .header__divider {
+        width: 100%; /* Línea ocupa todo el ancho */
+    }
+}
+
+
+
+/* ================================================= */
+/* === ESTILOS LOGO HEADER === */
+.header__logo a {
+    display: flex;
+    align-items: center;
+}
+.header__logo img {
+    height: 28px;
+    width: auto;
+    display: none;
+}
+body.home header .header__logo--light {
+    display: block;
+}
+body.home .header--scrolled .header__logo--dark {
+    display: block;
+}
+body.home .header--scrolled .header__logo--light {
+    display: none;
+}
+
+body:not(.home) header .header__logo--dark {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .header__logo img {
+        height: 24px; /* Reducimos ligeramente para mantener la proporción en el header móvil. */
+    }
+}
+
+/* === FINAL ESTILOS LOGO HEADER === */
+
+/* === ESTILOS DEFINITIVOS PARA CONSTRUIR EL ÍCONO HAMBURGUESA === */
+
+/* El contenedor del ícono */
+.header__toggle {
+    width: 28px;          /* ¡ESTA ES LA CLAVE! Define el largo del ícono. Puedes poner 40px, 45px, etc. */
+    height: 18px;         /* Altura total del ícono para que las líneas no estén muy separadas */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Esto crea el espacio entre las 3 líneas */
+    cursor: pointer;
+}
+
+/* Las 3 líneas del ícono (los <span> que creamos) */
+.header__toggle-line {
+    display: block;
+    width: 100%;          /* Cada línea ocupa todo el ancho del contenedor */
+    height: 2px;          /* El grosor de cada línea */
+    background-color: #fff; /* Color inicial blanco para la página de inicio */
+    border-radius: 5px;   /* Bordes redondeados para un look más suave */
+    transition: background-color 0.3s ease;
+}
+
+/* Cambio de color de las líneas al hacer scroll */
+.header--scrolled .header__toggle-line {
+    background-color: #2c3e50; /* Cambia a color oscuro */
+}
+
+/* Cambio de color en las otras páginas */
+body:not(.home) header .header__toggle-line {
+    background-color: #2c3e50; /* También es oscuro por defecto */
+}
+
+/* FIN */
+
+/* ================================== */
+/* ESTILOS PARA MENÚ DE NAVEGACIÓN HAMBURGUESA */
+/* ================================== */
+.mobile-nav__list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: #fff;
+    display: none;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-top: 0;
+    transition: transform 0.3s ease;
+    z-index: 101;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    width: 18%;
+    min-width: 260px;
+    max-width: 320px;
+}
+
+.mobile-nav__list.active {
+    display: flex;
+    animation: slideInLeft 0.3s ease-out;
+}
+
+.mobile-nav__list li {
+    margin: 0;
+    list-style: none;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 0;
+    width: 100%;
+}
+
+.mobile-nav__list li:last-child {
+    border-bottom: none;
+}
+
+.mobile-nav__list li a {
+    padding: 15px 20px;
+}
+
+.mobile-nav__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #f8f9fa;
+}
+
+.mobile-nav__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #5d5e5f73;
+}
+.mobile-nav__close-button {
+    font-size: 26px;
+    font-weight: 300;
+    color: #555;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s ease;
+}
+
+.mobile-nav__close-button:hover {
+    color: #e74c3c;
+}
+
+/* --- AJUSTES RESPONSIVOS --- */
+@media (max-width: 768px) {
+    .mobile-nav__list {
+        width: 280px; /* Ancho fijo ideal para móviles */
+        min-width: 0; /* Reiniciamos la regla para que no aplique en móvil */
+        max-width: none; /* Reiniciamos la regla para que no aplique en móvil */
+        left: auto;
+        right: 0;
+    }
+
+    .mobile-nav__list.active {
+        animation: slideInRight 0.3s ease-out;
+    }
+    
+    .mobile-nav__title {
+        font-size: 18px; /* Un poco más grande en móvil */
+    }
+}
+
+/*  LOGIN  */
+.header__actions {
+    position: fixed; /* Lo posicionamos con respecto a la ventana */
+    top: 32px;       /* Ajuste vertical para centrarlo con el logo */
+    right: 40px;     /* Distancia desde el borde derecho de la pantalla */
+    transform: translateY(-50%);
+    z-index: 101;    /* Nos aseguramos que esté por encima de otros elementos */
+    gap: 12px;
+}
+
+.header__action-button {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid #fff;
+    color: #fff;
+    white-space: nowrap; /* Evita que el texto se parta en dos líneas */
+}
+
+.header__action-button--register {
+    background-color: #fff;
+    color: #2c3e50;
+}
+
+.header__action-button:hover {
+    opacity: 0.8;
+}
+
+/* Estilos cuando se hace scroll */
+.header--scrolled .header__action-button {
+    border-color: #2c3e50;
+    color: #2c3e50;
+}
+
+.header--scrolled .header__action-button--register {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.header--scrolled .header__action-button--profile {
+    background-color: #000000;
+    color: #fff;
+}
+
+/* Estilos para las otras páginas */
+body:not(.home) .header__action-button {
+    border-color: #2c3e50;
+    color: #2c3e50;
+}
+
+body:not(.home) .header__action-button--register {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+@media (max-width: 768px) {
+    .header__actions {
+        display: none;
+    }
+}
+
+/* BOTON LOGIN/REGISTER */
+.mobile-nav__btn {
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.mobile-nav__auth-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    background-color: #000000; /* Un color azul llamativo */
+    color: #dad8d8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.mobile-nav__auth-link:hover {
+  background-color: #2b2d30; /* Un azul más oscuro para el hover */
+}
+
+.mobile-nav__auth-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 0.5rem;

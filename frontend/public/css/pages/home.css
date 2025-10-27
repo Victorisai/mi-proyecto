@@ -1,0 +1,1082 @@
+/* === BANNER PRINCIPAL === */
+/* ================================================= */
+.hero {
+    height: 80vh;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center; /* Centrado por defecto para móvil */
+    text-align: center; /* Centrado por defecto para móvil */
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.570);
+    z-index: 1;
+}
+
+.hero__slideshow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.hero__slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+    animation: zoom-in-out 20s infinite;
+}
+
+.hero__slide--active {
+    opacity: 1;
+}
+
+@keyframes zoom-in-out {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.hero__content {
+    position: relative;
+    z-index: 2;
+    width: 90%;
+    max-width: 1200px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 0.5s forwards;
+    padding-bottom: 60px;
+}
+
+/* Estilo para el título original */
+.hero__content h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+/* Estilo para el párrafo original */
+.hero__content p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    margin: 0;
+    text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+}
+
+/* Contenedor de la barra de progreso (AHORA SIN POSICIÓN ABSOLUTA) */
+.hero__progress-container {
+    position: absolute;
+    bottom: 30px; /* Distancia desde el borde inferior */
+    left: 5%;     /* Margen a los lados */
+    right: 5%;
+    width: 90%;   /* Ocupa el 90% del ancho de la pantalla */
+    display: flex;
+    gap: 10px;    /* Espacio entre las barras */
+    z-index: 2;   /* Asegura que esté sobre las imágenes */
+}
+
+.hero__progress-bar {
+    flex-grow: 1; /* <-- ¡CAMBIO CLAVE! Hace que cada barra crezca para llenar el espacio */
+    height: 2px;
+    background: rgba(255, 255, 255, 0.4);
+    overflow: hidden;
+    border-radius: 2px; /* Opcional: suaviza los bordes */
+}
+
+.hero__progress-bar-fill {
+    height: 100%;
+    background: #ffffff;
+    width: 0;
+    transition: width 5s linear;
+}
+
+.hero__progress-bar.hero__progress-bar--active .hero__progress-bar-fill {
+    width: 100%;
+}
+
+/* Ajustes para que en móvil no esté tan pegado abajo */
+@media (max-width: 768px) {
+    .hero {
+        height: 90vh;
+    }
+    .hero__content {
+        padding-bottom: 40px;
+    }
+}
+
+    background: #20b358;
+    transform: scale(1.05);
+}
+
+/* ================================================= */
+/* === PROPIEDADES DESTACADAS === */
+/* ================================================= */
+.featured-properties {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.featured-properties h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.8s forwards;
+}
+
+.property-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.property-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    animation-delay: calc(0.2s * var(--i));
+}
+
+.property-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.property-card__image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.property-card__title {
+    font-size: 22px;
+    font-weight: 700;
+    margin: 15px;
+}
+
+.property-card__price,
+.property-card__location {
+    font-size: 18px;
+    color: #3498db;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.property-card__category {
+    display: inline-block;
+    background: #ecf0f1;
+    color: #2c3e50;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin: 0 15px 10px;
+}
+
+/* ================================================= */
+/* === HERO NAVEGACIÓN ESCRITORIO (BEM: hero-nav) === */
+/* ================================================= */
+.hero-nav {
+    display: none;
+}
+.hero-investment-text {
+    display: none;
+}
+
+@media (min-width: 1025px) {
+    .hero__progress-container {
+        display: none;
+    }
+    
+    .hero-nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: absolute;
+        bottom: 40px;
+        left: 5%;
+        z-index: 2;
+    }
+    .hero-nav__progress {
+        display: flex;
+        gap: 10px;
+    }
+    .hero-nav__bar {
+        width: 50px;
+        height: 2px;
+        background-color: rgba(255, 255, 255, 0.4);
+        overflow: hidden;
+    } 
+    .hero-nav__bar-fill {
+        width: 0;
+        height: 100%;
+        background-color: #ffffff;
+    }
+    
+    .hero-nav__bar.hero-nav__bar--active .hero-nav__bar-fill {
+        width: 100%;
+        transition: width 5s linear;
+    }
+    .hero-nav__controls {
+        display: flex;
+        gap: 10px;
+    }
+    .hero-nav__arrow {
+        background: none;
+        border: none;
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 18px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        padding: 5px;
+    }
+    .hero-nav__arrow:hover {
+        color: #ffffff;
+    }
+    .hero-investment-text {
+        display: block;
+        position: absolute;
+        bottom: 15px;      /* 1. Lo he bajado para que aparezca debajo de la navegación */
+        left: 5%;         /* 2. Lo he alineado con el inicio de la navegación */
+        color: #fff;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1rem;   /* 3. He ajustado ligeramente el tamaño para que encaje mejor */
+        font-weight: 400;
+        z-index: 2;
+        text-shadow: 0 1px 5px rgba(0,0,0,0.5);
+    }
+}
+/* FIN */
+
+/* ================================================= */
+/* === INICIO CARRUSEL DE PROPIEDADES EN INDEX === */
+/* ================================================= */
+
+.property-showcase {
+    padding: 50px 0;
+    width: 100%;
+    position: relative;
+}
+.property-showcase__header {
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto 25px auto;
+}
+
+.property-showcase__header h2 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin: 0;
+}
+
+.property-showcase__carousel-nav {
+    position: absolute;
+    top: 40px;
+    right: 2.5vw; 
+    display: flex;
+    gap: 10px;
+    z-index: 10; 
+}
+
+.property-showcase__carousel-arrow {
+    background-color: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.property-showcase__carousel-arrow:hover {
+    background-color: #f1f3f5;
+    transform: scale(1.05);
+}
+
+.property-showcase__carousel {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 10px 20px;
+    scroll-snap-type: x mandatory;
+}
+
+/* Ocultar la barra de scroll */
+.property-showcase__carousel::-webkit-scrollbar {
+    display: none;
+}
+.property-showcase__carousel {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+.property-showcase__slide-card {
+    flex: 0 0 280px;
+    scroll-snap-align: start;
+    transition: width 0.3s ease, opacity 0.3s ease; 
+}
+
+.property-showcase__slide-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.property-showcase__slide-card img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.property-showcase__slide-card:hover img {
+    transform: scale(1.03);
+}
+
+.property-showcase__slide-card:hover .property-showcase__category-badge {
+    transform: scale(1.03);
+}
+
+.property-showcase__slide-card-info .price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 0 0 5px 0;
+}
+
+.property-showcase__slide-card-info .title {
+    font-size: 15px;
+    color: #555;
+    margin: 0;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    white-space: normal;
+}
+
+@media (min-width: 992px) {
+    .property-showcase__header h2 {
+        font-size: 32px; 
+    }
+        .property-showcase__carousel {
+        max-width: 1495px;
+        margin: 0 auto;
+    }
+}
+
+/* ==================
+ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
+   ================== */
+
+.property-showcase__carousel-wrapper {
+    width: 100%;
+}
+
+.property-showcase .container {
+    max-width: 100%;
+}
+
+.property-showcase__header {
+    max-width: 1200px;
+    margin: 0 auto 25px auto;
+    padding: 0 20px;
+}
+
+.property-showcase__carousel {
+    padding: 10px 20px; 
+}
+
+/* En pantallas grandes, permitimos que el carrusel use más espacio */
+@media (min-width: 1200px) {
+    .property-showcase__carousel {
+        padding-left: calc((100% - 1200px) / 2 + 20px);
+        padding-right: calc((100% - 1200px) / 2 + 20px);
+    }
+}
+/* ==================
+ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
+   ================== */
+
+/* Hacemos que el contenedor del enlace sea el punto de referencia para la posición */
+.property-showcase__slide-card a {
+    position: relative;
+}
+
+.property-showcase__category-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: rgba(0, 0, 0, 0.842); /* Azul oscuro semitransparente */
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 5; /* Asegura que esté por encima de la imagen */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque para un look moderno */
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease; /* <-- AÑADE ESTA LÍNEA */
+}
+
+@media (min-width: 769px) {
+    .property-showcase__carousel {
+        width: 95%;
+        max-width: 1500px;
+        margin: 0 auto;
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px 2px;
+        scroll-snap-type: x mandatory;
+    }
+    .property-showcase__slide-card {
+    flex: 0 0 calc(20% - 16px);
+    scroll-snap-align: start;
+    padding-left: 4px;
+    }
+    .property-showcase__carousel::-webkit-scrollbar {
+        display: none;
+    }
+    .property-showcase__carousel {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .property-showcase__header {
+        width: 95%;
+        max-width: 1500px;
+        margin: 0 auto 25px auto; /* Centra el contenedor del título */
+        padding: 0 2px; /* Añade el mismo padding que el carrusel */
+        text-align: left;
+    }
+}
+
+/* Estilo base del enlace/botón */
+.property-showcase__view-all-link {
+    background-color: #f1f3f5;
+    border: 1px solid #dfe4ea;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+.property-showcase__view-all-link:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+.property-showcase__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+.property-showcase__carousel-nav {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .view-all-mobile {
+        display: none;
+    }
+    .property-showcase__carousel-nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: static;
+    }
+}
+
+/* ------------------------------------------------- */
+/* FIN CARRUSEL DE PROPIEDADES EN INDEX */
+/* ------------------------------------------------- */
+
+/* ================================================= */
+/* === ASIDE DE FILTROS Y CONTENEDOR FLEX === */
+/* ================================================= */
+
+.property-showcase__wrapper {
+    display: flex;
+    gap: 30px;
+    width: 95%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.property-showcase__filter-aside {
+    flex: 0 0 200px; /* No crece, no se encoge, base de 200px */
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.property-showcase__filter-aside h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 16px;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.property-showcase__filter-aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.property-showcase__filter-aside ul li a {
+    text-decoration: none;
+    color: #495057;
+    padding: 8px 12px;
+    display: block;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.property-showcase__filter-aside ul li a:hover {
+    background-color: #e9ecef;
+}
+
+.property-showcase__filter-aside ul li a.active {
+    background-color: #000000;
+    color: #fff;
+    font-weight: 500;
+}
+
+.property-showcase__carousel {
+    flex-grow: 1; /* El carrusel ocupa el resto del espacio */
+    padding: 10px 2px;
+}
+
+.property-showcase__slide-card.property-showcase__slide-card--hidden {
+    display: none;
+}
+
+/* Responsividad para el nuevo layout */
+@media (max-width: 992px) {
+    .property-showcase__wrapper {
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    margin: 0; 
+    }
+.property-showcase__filter-aside {
+    flex-basis: auto;
+    width: 100%;
+    /* Quitamos el fondo y padding del contenedor principal */
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+}
+.property-showcase__filter-aside h4 {
+    display: none; /* Mantenemos oculto el título "Categorías" en móvil */
+}
+
+.property-showcase__filter-aside ul {
+    display: flex;
+    flex-wrap: nowrap; /* Evita que los elementos salten a la siguiente línea */
+    gap: 8px;
+    overflow-x: auto; /* Permite el deslizamiento horizontal */
+    white-space: nowrap; /* Asegura que todo se mantenga en una sola línea */
+    
+    /* Estilos del contenedor tipo "píldora" */
+    padding: 6px;
+    background-color: #e9ecef;
+    border-radius: 50px;
+    -webkit-overflow-scrolling: touch; /* Deslizamiento suave en iOS */
+}
+.property-showcase__filter-aside ul::-webkit-scrollbar {
+    display: none;
+}
+.property-showcase__filter-aside ul {
+    -ms-overflow-style: none; 
+    scrollbar-width: none;  
+}
+.property-showcase__filter-aside ul li {
+    flex-grow: 0;
+    flex-shrink: 0; 
+    text-align: center;
+}
+.property-showcase__filter-aside ul li a {
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    background: transparent;
+    color: #495057;
+}
+.property-showcase__filter-aside ul li a.active {
+    background-color: #000000;
+    color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.property-showcase__filter-aside ul li a:hover {
+    background-color: transparent;
+    color: #000;
+}
+}
+
+/* Responsividad para el carrusel */
+@media (max-width: 768px) {
+    .property-showcase__carousel-nav {
+        position: static;
+        display: block;
+    }
+    .property-showcase__carousel-nav .property-showcase__carousel-arrow {
+    display: none;
+    }
+    .property-showcase .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .property-showcase__carousel {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: auto;
+    padding-left: 20px;
+    padding-right: 20px;
+    scroll-padding-left: 15px;
+    display: flex;
+    gap: 15px;  
+    }
+    .property-showcase__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+}
+
+/* ------------------------------------------------- */
+
+.mobile-nav__overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Negro con 50% de opacidad */
+    z-index: 100; /* Debe estar por debajo del menú (101) pero por encima del resto */
+    
+    /* Efecto de desvanecimiento */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.mobile-nav__overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* FIN */
+
+/* ================================================= */
+/* === ESTILOS FINALES: COLLAGE EN ESCRITORIO / CARRUSEL EN MÓVIL === */
+/* ================================================= */
+
+.experiences-section {
+    padding: 60px 0;
+    background-color: #f8f9fa;
+    text-align: center;
+}
+
+.experiences-section h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 40px;
+    color: #2c3e50;
+}
+
+.experiences-tabs-container {
+    margin-bottom: 40px;
+    padding: 0 15px;
+}
+
+.tabs {
+    display: inline-flex;
+    gap: 8px;
+    background-color: #e9ecef;
+    border-radius: 50px;
+    padding: 6px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    
+    /* Para Firefox: thumb color y track color */
+    scrollbar-color: #adb5bd #e9ecef;
+    scrollbar-width: thin;
+}
+
+/* Para WebKit (Chrome, Safari): Rediseño completo del scrollbar */
+.tabs::-webkit-scrollbar {
+    height: 8px; /* Un grosor más sutil */
+}
+
+.tabs::-webkit-scrollbar-track {
+    /* El fondo de la pista coincide con el fondo del contenedor */
+    background-color: #e9ecef;
+    border-radius: 10px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+    /* Un gris más oscuro y sólido para el deslizador */
+    background-color: #adb5bd; 
+    border-radius: 10px;
+}
+
+.tabs::-webkit-scrollbar-thumb:hover {
+    background-color: #6c757d;
+}
+
+.tab-button {
+    background: transparent;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: #495057;
+    transition: all 0.3s ease;
+}
+
+.tab-button:not(.active):hover {
+    color: #000;
+}
+
+.tab-button.active {
+    background-color: #ffffff;
+    color: #2c3e50;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12), 0 3px 1px rgba(0, 0, 0, 0.04);
+    transform: scale(1.05);
+}
+
+.location-select {
+    display: none; 
+}
+
+
+.experiences-carousel-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.experiences-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Cambio drástico: Reducimos la altura a 160px */
+    grid-auto-rows: 160px;
+    gap: 20px;
+}
+
+.experience-card-link:first-child {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.experience-card-link:nth-child(2),
+.experience-card-link:nth-child(3) {
+    grid-column: 3 / 4;
+}
+
+.experience-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.experience-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.experience-card:hover {
+    transform: scale(1.02);
+}
+
+.experience-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.experience-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 25px 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    color: #fff;
+    opacity: 1;
+    transition: background 0.3s ease;
+}
+
+.experience-card-overlay h3 {
+    font-size: 22px;
+    margin: 0 0 10px 0;
+}
+
+.experience-card-link:first-child .experience-card-overlay h3 {
+    font-size: 28px;
+}
+
+.experience-card-overlay p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.arrow {
+    display: none;
+}
+
+/* ================================================= */
+/* === VISTA MÓVIL: Se mantiene como Carrusel Deslizable === */
+/* ================================================= */
+@media (max-width: 768px) {
+    .experiences-section .container {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .experiences-section h2,
+    .experiences-tabs-container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .tabs {
+        display: none;
+    }
+
+    .location-select {
+        display: block;
+        width: 100%;
+        max-width: none;
+        box-sizing: border-box;
+        margin: 0;
+        border: 1px solid #ced4da;
+        background-color: #fff;
+        border-radius: 8px;
+        font-size: 16px;
+        padding: 12px;
+    }
+    
+    .experiences-carousel-wrapper {
+        padding: 0;
+    }
+
+    .experiences-grid {
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+        scroll-snap-type: x mandatory;
+        scroll-padding-left: 15px; 
+    }
+    
+    .experiences-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .experience-card-link {
+        width: 90%;
+        flex-shrink: 0;
+        scroll-snap-align: start;
+        border-radius: 12px;
+    }
+
+    .experience-card {
+        height: 340px;
+    }
+}
+
+/*  FIN */
+
+
+/* ================================== */
+/* === ESTILOS SECCIÓN INFORMATIVA === */
+/* ================================== */
+
+.info-section {
+    padding: 80px 20px;
+    background-color: #ffffff; /* Fondo blanco para un look limpio */
+    text-align: center;
+}
+
+.info-header {
+    margin-bottom: 50px;
+}
+
+.info-header h2 {
+    font-family: 'Sedan SC', serif; /* Usando una fuente elegante que ya tienes */
+    font-size: 38px;
+    font-weight: 400;
+    color: #2c3e50;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas en escritorio */
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.info-column {
+    padding: 20px;
+}
+
+.info-icon {
+    width: 85px;
+    height: 85px;
+    margin-bottom: 25px;
+    opacity: 0.8;
+}
+
+.info-column h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.info-column p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: #555;
+}
+
+/* --- Estilos Responsivos para la nueva sección --- */
+@media (max-width: 992px) {
+    .info-header h2 {
+        font-size: 32px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr; /* Mantenemos una columna para el grid general */
+        gap: 35px; /* Reducimos el espacio entre cada fila */
+    }
+
+    .info-column {
+        display: flex; /* ¡LA CLAVE! Usamos Flexbox para alinear los elementos */
+        align-items: center; /* Centramos verticalmente el ícono con el texto */
+        text-align: left; /* Alineamos el texto a la izquierda */
+        gap: 20px; /* Espacio entre el ícono y el bloque de texto */
+    }
+
+    .info-icon {
+        width: 60px; /* Reducimos el tamaño del ícono para este layout */
+        height: 60px;
+        flex-shrink: 0; /* Evita que el ícono se encoja */
+        margin-bottom: 0; /* Quitamos el margen inferior que tenía antes */
+    }
+}
+
+@media (max-width: 576px) {
+    .info-section {
+        padding: 60px 15px;
+    }
+    
+    .info-header h2 {
+        font-size: 28px;
+    }
+
+    .info-column h3 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 768px) {
+    .info-section {
+        background-color: #252525;
+        padding: 60px 15px;
+    }
+
+    .info-header h2 {
+        color: #ffffff;
+        font-size: 28px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr; 
+        max-width: 550px;
+        gap: 30px;
+    }
+
+    .info-column {
+        display: flex;
+        align-items: center;
+        text-align: left;
+        gap: 20px;
+        padding: 0;
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        flex-shrink: 0;
+        margin-bottom: 0;
+        filter: invert(1) brightness(2);
+    }
+
+    .info-text-content h3 {
+        color: #ffffff;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+
+    .info-text-content p {
+        color: #bdc3c7;
+        font-size: 15px;
+    }
+}
+
+/* FIN */
+

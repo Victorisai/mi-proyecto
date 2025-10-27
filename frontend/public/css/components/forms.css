@@ -1,0 +1,60 @@
+.form-group,
+.contact-form__group,
+.add-property-form__group {
+    margin-bottom: 20px;
+}
+
+.form-group label,
+.contact-form__label,
+.add-property-form__group label {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.form-group input,
+.contact-form__input,
+.add-property-form__group input,
+.form-group textarea,
+.add-property-form__group textarea,
+.contact-form__input textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.form-group input:focus,
+.contact-form__input:focus,
+.add-property-form__group input:focus,
+.form-group textarea:focus,
+.add-property-form__group textarea:focus,
+.contact-form__input textarea:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+.form-group textarea,
+.add-property-form__group textarea,
+.contact-form__input textarea {
+    resize: vertical;
+}
+
+.success, .error {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.success {
+    background: #d4edda;
+    color: #155724;
+}
+
+.error {
+    background: #f8d7da;
+    color: #721c24;
+}

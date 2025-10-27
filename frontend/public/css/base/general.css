@@ -1,0 +1,20 @@
+/* === ESTILOS GENERALES Y RESET === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f9f9f9;
+    margin: 0;
+}
+
+.container {
+    max-width: 1500px; /* <-- Aumentamos el valor de 1200px a 1500px */
+    margin: 0 auto;
+    padding: 0 10px; /* <-- Añadimos un poco de padding lateral */
+}

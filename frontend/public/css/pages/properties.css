@@ -1,0 +1,806 @@
+/* === FILTROS (properties.html) === */
+/* ================================================= */
+.filters {
+    padding: 40px 0;
+    background: #fff;
+    text-align: center;
+}
+
+.filter-form {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.filter-form select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.filter-form select:focus {
+    outline: none;
+    border-color: #3498db;
+}
+
+/* ================================================= */
+/* === DETALLE DE PROPIEDAD === */
+/* === FILTROS DE BÚSQUEDA (properties.html) === */
+/* ================================================= */
+
+.filters-section-v2 {
+    padding: 40px 20px;
+    background: #f4f7f6; /* O puedes poner una imagen de fondo */
+    /* background-image: url('../images/hero/placeholder.jpg'); */
+    /* background-size: cover; */
+    /* background-position: center; */
+}
+
+.filters-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+/* Estilos para las Pestañas */
+.filter-tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+}
+
+.tab-link {
+    text-decoration: none;
+    color: #555;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 5px;
+    border-bottom: 3px solid transparent;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.tab-link:hover {
+    color: #2c3e50;
+}
+
+.tab-link.active {
+    color: #3498db;
+    border-bottom-color: #3498db;
+}
+
+/* Estilos para el Formulario Horizontal */
+.horizontal-filter-form {
+    display: grid;
+    grid-template-columns: 2fr 5fr 1fr; /* Proporciones para los campos */
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    overflow: hidden; /* Para que los bordes redondeados se apliquen a los hijos */
+}
+
+.horizontal-filter-form__group {
+    position: relative;
+    height: 100%;
+}
+
+.horizontal-filter-form__group:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 60%;
+    background-color: #dfe4ea;
+}
+
+/* Estilos para el select y el input */
+#category-select,
+#search-input {
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 15px 20px;
+    font-size: 16px;
+    outline: none;
+    background: transparent;
+}
+
+#category-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23888%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 10px;
+    cursor: pointer;
+}
+
+/* Estilo para el botón de búsqueda */
+.btn-search-main {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: #3498db;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-search-main:hover {
+    background-color: #2980b9;
+}
+
+/* Clase para ocultar etiquetas visualmente pero mantenerlas para accesibilidad */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .filter-tabs {
+        overflow-x: auto; /* Permite desplazar las pestañas si no caben */
+        padding-bottom: 5px;
+    }
+    .horizontal-filter-form {
+        grid-template-columns: 1fr; /* Apila los campos */
+    }
+    .horizontal-filter-form__group:not(:last-child)::after {
+        display: none; /* Oculta los separadores verticales */
+    }
+    .horizontal-filter-form__group {
+        border-bottom: 1px solid #dfe4ea;
+    }
+    .horizontal-filter-form__group:last-child {
+        border-bottom: none;
+    }
+    .btn-search-main {
+        border-radius: 0 0 8px 8px;
+        padding: 15px;
+    }
+}
+
+/* FINAL DE ESTILOS DE FILTROS DE BUSQUEDA DE PROPERTIES.PHP */
+
+/* ================================================= */
+
+.header-properties__search-input {
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    font-size: 15px;
+    width: 100%;
+}
+
+.header-properties__search-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px 12px;
+    font-size: 18px; /* Controla el tamaño del ícono */
+    opacity: 0.7;    /* Mantiene la misma opacidad que tenía la imagen */
+    display: flex;   /* Ayuda a centrar el ícono verticalmente */
+    align-items: center;
+}
+
+.search-icon {
+    width: 20px;  /* Ancho del ícono */
+    height: 20px; /* Alto del ícono */
+    color: #555;  /* Color del ícono */
+    opacity: 0.8;
+}
+
+/* Línea divisoria */
+.header-properties__divider {
+    border: none;
+    border-top: 1px solid #e9ecef; /* Gris claro */
+    margin: 0;
+}
+
+/* Parte inferior del header */
+.header-properties__bottom {
+    padding: 10px 20px;
+}
+
+.header-properties__filters-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Botones Comprar / Rentar */
+.header-properties__listing-type {
+    display: flex;
+    background-color: #f1f3f5;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.header-properties__button {
+    text-decoration: none;
+    color: #495057;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 8px 15px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.header-properties__button.active {
+    background-color: #000000da;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Contenedor deslizable para filtros */
+.header-properties__filters-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    flex-grow: 1;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.header-properties__filters-scroll::-webkit-scrollbar {
+    display: none; /* Ocultar scrollbar */
+}
+
+/* Grupo de filtros */
+.header-properties__filter-group {
+    flex-shrink: 0; /* Evita que los filtros se encojan */
+}
+
+.header-properties__select {
+    padding: 10px 15px;
+    font-size: 15px;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    min-width: 180px; /* Ancho mínimo para buena apariencia */
+    padding-right: 30px;
+}
+
+/* Ajustes para el body para que el contenido no quede debajo del header */
+body.properties-page {
+    padding-top: 0; /* El header sticky maneja el espacio */
+}
+main.properties {
+    padding-top: 20px; /* Espacio inicial para las tarjetas */
+}
+.properties__no-results {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #555;
+    width: 100%;
+}
+
+
+/* === RESPONSIVIDAD DEL HEADER DE PROPIEDADES === */
+@media (max-width: 680px) {
+    .header-properties__top {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .header-properties .header__logo {
+        order: -1; /* Mueve el logo al principio */
+    }
+    .header-properties__search-container {
+        order: 3;
+        width: 100%;
+        max-width: none;
+        padding: 5px 0;
+    }
+    
+    .header-properties__filters-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .header-properties__filters-scroll {
+       padding-bottom: 10px; /* Espacio para que el scroll sea más usable */
+    }
+}
+
+/* ================================================= */
+/* === MEJORAS PARA FILTROS RESPONSIVOS (header_properties.html) === */
+/* ================================================= */
+
+.header-properties__bottom {
+    padding: 12px 20px;
+}
+
+.header-properties__filters-form {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap; /* Permite que los elementos pasen a la siguiente línea si no hay espacio */
+}
+
+.header-properties__listing-type {
+    flex-shrink: 0; /* Evita que los botones de Comprar/Rentar se encojan */
+}
+
+/* Nuevo contenedor para los filtros de tipo y ubicación */
+.header-properties__filters-wrapper {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap; /* También permite que los filtros internos se ajusten */
+    flex-grow: 1; /* Ocupa el espacio restante */
+}
+
+.header-properties__filter-group {
+    flex-grow: 1; /* Permite que los grupos de filtros crezcan */
+    min-width: 180px; /* Ancho mínimo para cada filtro */
+}
+
+/* ================================================= */
+/* === ÍCONOS DE FLECHA PARA FILTROS SELECT === */
+/* ================================================= */
+
+.header-properties__filter-group {
+    position: relative;
+}
+
+.header-properties__select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 30px;
+}
+
+.header-properties__filter-group::after {
+    content: '▲';
+    font-size: 10px;
+    color: #333;
+    opacity: 0.6;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Evita que la flecha interfiera con el clic */
+    transition: transform 0.3s ease;
+}
+
+.header-properties__filter-group:not(.header-properties__filter-group--price)::after,
+#price-filter-btn::after {
+    transition: transform 0.3s ease;
+}
+
+.header-properties__filter-group:focus-within::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+#price-filter-btn.active::after {
+    transform: rotate(180deg);
+}
+
+.header-properties__select {
+    width: 100%; /* Ocupa todo el ancho de su contenedor (filter-group) */
+}
+
+/* === RESPONSIVIDAD PARA MÓVILES === */
+@media (max-width: 768px) {
+    .header-properties__filters-form {
+        flex-direction: column; /* Apila los elementos verticalmente */
+        align-items: stretch; /* Estira los elementos para que ocupen el ancho completo */
+        gap: 12px;
+    }
+
+    .header-properties__listing-type {
+        display: flex;
+        width: 100%; /* Ocupa todo el ancho */
+    }
+
+    .header-properties__button {
+        flex-grow: 1; /* Cada botón (Comprar/Rentar) ocupa la mitad del espacio */
+        text-align: center;
+    }
+
+    .header-properties__filters-wrapper {
+        flex-direction: column; /* Apila los filtros (Tipo, Ubicación, etc.) */
+        width: 100%;
+        gap: 12px;
+    }
+
+    .header-properties__filter-group {
+        width: 100%;
+    }
+}
+
+/* ================================================= */
+/* === ESTILOS PARA FILTRO DE PRECIOS DINÁMICO === */
+/* ================================================= */
+
+.header-properties__filter-group--price {
+    position: relative; /* Necesario para posicionar el popover */
+}
+
+/* El botón que parece un select */
+#price-filter-btn {
+    text-align: left;
+    width: 100%;
+}
+
+/* El panel que se despliega */
+.price-filter__popover {
+    display: none; /* Oculto por defecto */
+    position: absolute;
+    top: calc(100% + 5px); /* Se posiciona debajo del botón */
+    right: 0;
+    width: 300px;
+    background: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    z-index: 110;
+}
+
+.price-filter__popover.active {
+    display: block; /* Se muestra con la clase 'active' */
+}
+
+/* Contenedor de los inputs min/max */
+.price-filter__inputs {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.price-filter__inputs span {
+    /* Con un pequeño margen lo subimos para que quede centrado */
+    margin-bottom: 4px;
+}
+
+.price-filter__input-group {
+    width: 45%;
+}
+
+.price-filter__input-group label {
+    font-size: 12px;
+    color: #555;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.price-filter__input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+/* Eliminar flechas en los input de tipo número */
+.price-filter__input-group input::-webkit-outer-spin-button,
+.price-filter__input-group input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.price-filter__input-group input[type=number] {
+    -moz-appearance: textfield;
+}
+
+/* Estilos de la barra deslizante */
+.price-filter__slider {
+    margin: 25px 5px 30px 5px;
+}
+
+.price-filter__apply-btn {
+    width: 100%;
+    padding: 10px;
+}
+
+.price-filter__apply-btn {
+    background: #333332; 
+}
+
+.price-filter__apply-btn:hover {
+    background: #000000; 
+}
+
+.price-filter__slider .noUi-connect {
+    background: #5b5959;
+}
+
+/* Responsividad para el popover de precios */
+@media (max-width: 768px) {
+    .price-filter__popover {
+        width: calc(100vw - 40px); /* Ocupa casi todo el ancho de la pantalla */
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+/* ================================================= */
+/* ===      AJUSTES HEADER PROPIEDADES MÓVIL     === */
+/* ================================================= */
+
+/* Botón para mostrar/ocultar filtros */
+.header-properties__filter-toggle {
+    display: none; /* Oculto en escritorio */
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 15px;
+    font-weight: 500;
+    border: 1px solid #dfe4ea;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    /* Mostramos el botón de filtros solo en móvil */
+    .header-properties__filter-toggle {
+        display: block;
+    }
+
+    /* Ocultamos el contenedor de filtros por defecto en móvil */
+    .header-properties__filters-wrapper {
+        display: none;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        margin-top: 10px; /* Espacio entre el botón y los filtros */
+    }
+
+    /* Cuando el contenedor tiene la clase 'active', lo mostramos */
+    .header-properties__filters-wrapper.active {
+        display: flex;
+    }
+
+    /* Reemplazamos el estilo anterior para que el formulario principal no se apile innecesariamente */
+    .header-properties__filters-form {
+        flex-direction: row; /* Los elementos principales (Comprar/Rentar y botón Filtros) estarán en fila */
+        flex-wrap: wrap; /* Permitimos que se envuelvan si es necesario */
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-properties__listing-type {
+        flex-grow: 1; /* Ocupa el espacio disponible */
+    }
+
+    .header-properties__filter-toggle {
+        flex-grow: 1; /* Ocupa el espacio disponible */
+    }
+}
+
+/* ========================================================== */
+/* ===   ESTILOS PARA OCULTAR HEADER EN SCROLL (MÓVIL)    === */
+/* ========================================================== */
+
+.header-properties__bottom {
+    max-height: 500px; /* Altura inicial grande */
+    overflow: hidden;
+    visibility: visible;
+    opacity: 1;
+    /* La clave es la transición suave en MÚLTIPLES propiedades */
+    transition: 
+        max-height 0.35s ease-in-out,
+        padding 0.35s ease-in-out,
+        visibility 0.35s,
+        opacity 0.2s ease;
+}
+
+.header-properties.header-properties--collapsed .header-properties__bottom {
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    /* Es crucial animar el padding a 0 para que no ocupe espacio residual */
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-top: 0; /* Aseguramos que no haya márgenes */
+}
+
+/* Fix para que el popover de precios no sea recortado */
+.header-properties__bottom.overflow-visible {
+    overflow: visible;
+}
+
+/* ============================================== */
+/* === ESTILOS PARA TARJETAS EN PROPERTIES.PHP=== */
+/* ============================================== */
+
+.property-grid {
+    display: grid;
+    /* AJUSTE CLAVE: Aumentamos el tamaño mínimo para forzar tarjetas más anchas */
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); 
+    gap: 30px;
+}
+
+/* --- BLOQUE: property-card --- */
+.property-card {
+    background-color: #ffffff;
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.property-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+/* --- ELEMENTOS del bloque property-card --- */
+.property-card__link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.property-card__image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%; /* Proporción 16:9 */
+}
+
+.property-card__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.property-card__badge {
+    position: absolute;
+    top: 15px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    border-radius: 0;
+}
+
+.property-card__content {
+    padding: 15px 20px;
+    flex-grow: 1;
+}
+
+.property-card__title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+    height: 2.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.property-card__location {
+    font-size: 15px;
+    color: #555;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.property-card__location svg {
+    flex-shrink: 0;
+}
+
+.property-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.property-card__price {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+    margin: 0;
+}
+
+.property-card__details-button {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475767;
+    transition: color 0.3s ease;
+}
+
+.property-card:hover .property-card__details-button {
+    color: #000000;
+}
+
+/* --- MODIFICADORES del bloque property-card --- */
+.property-card__badge--listing {
+    left: 15px;
+    background-color: #000000;
+}
+
+.property-card__badge--category {
+    right: 15px;
+}
+
+/* --- Responsividad --- */
+@media (max-width: 480px) {
+    .property-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================================================= */
+/* === ESTILOS PARA TÍTULO PRINCIPAL DE PROPIEDADES === */
+/* ================================================= */
+
+.properties-header {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.properties-header__main-title {
+    font-family: 'Sedan SC', serif;
+    font-size: 42px;
+    font-weight: 400;
+    color: #2c3e50;
+    text-align: left; /* Alineamos el título a la izquierda */
+    margin-bottom: 10px; /* Reducimos el espacio inferior para un look más compacto */
+}
+
+.properties-header__title {
+    text-align: left; /* Alineamos también el subtítulo a la izquierda */
+    font-size: 16px;  /* Ajustamos el tamaño para que se vea mejor como subtítulo */
+    font-weight: 400; /* Un peso más ligero para el subtítulo */
+    color: #555;
+}
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .properties-header__main-title {
+        font-size: 32px;
+        margin-bottom: 5px;
+    }
+
+    .properties-header{
+        margin-bottom: 8px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .properties .container .properties-header {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+/* ================================================= */

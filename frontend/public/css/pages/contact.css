@@ -1,0 +1,27 @@
+
+/* ================================================= */
+/* === FORMULARIO DE CONTACTO (contact.php) === */
+/* ================================================= */
+.contact {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.contact p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/* ================================================= */

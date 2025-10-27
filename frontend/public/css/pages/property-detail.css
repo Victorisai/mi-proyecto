@@ -1,0 +1,1294 @@
+/* === DETALLE DE PROPIEDAD === */
+/* ================================================= */
+.property-detail {
+    padding: 60px 0;
+}
+
+.property-detail__gallery {
+    margin-bottom: 40px;
+}
+
+.property-detail__main-image {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.property-detail__thumbnail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+}
+
+.property-detail__thumbnail-grid img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.property-detail__thumbnail-grid img:hover {
+    transform: scale(1.05);
+    opacity: 0.8;
+}
+
+.property-detail__title {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.property-detail__price {
+    font-size: 28px;
+    color: #3498db;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.property-detail__category {
+    display: inline-block;
+    background: #ecf0f1;
+    color: #2c3e50;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
+
+.property-detail__description {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.property-detail__features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.property-detail__features-grid li {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
+
+.property-detail__features-grid li img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.property-detail__map {
+    margin-top: 40px;
+}
+
+.property-detail__map iframe {
+    border-radius: 10px;
+}
+
+/* ================================================= */
+/* === MEDIA QUERIES PARA RESPONSIVIDAD === */
+/* ================================================= */
+@media (max-width: 768px) {
+    header .container {
+        justify-content: space-between; /* Espacia los elementos */
+        padding: 8px 20px; /* Padding uniforme para móviles */
+        position: relative;
+    }
+
+    body:not(.home){
+    padding-top: 60px; /* Añade espacio para el encabezado fijo */
+    }
+
+    .header__logo {
+        order: 1; /* Coloca el logo en el centro */
+        flex-grow: 1; /* Permite que ocupe el espacio central */
+        text-align: center; /* Centra el texto del logo */
+    }
+
+    .header__toggle {
+        order: 2; /* Coloca el menú hamburguesa a la derecha */
+        margin-left: 0 !important; /* Elimina el margen izquierdo de escritorio */
+        margin-right: 10px; /* Opcional: pequeño margen desde el borde derecho */
+    }
+
+    nav {
+        order: 3; /* Asegura que nav no interfiera en el flujo */
+    }
+
+    .mobile-nav__list {
+        width: 71%;
+        left: auto;
+        right: 0;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+        display: none;
+        padding-top: 10px; /* Mantiene el espacio superior en móviles */
+        z-index: 101;
+    }
+
+    .mobile-nav__list.active {
+        display: flex;
+        animation: slideInRight 0.3s ease-out; /* Nueva animación para derecha */
+    }
+
+    .mobile-nav__icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+    }
+
+    .menu-logo-img {
+        width: 150px; /* Tamaño más pequeño para móviles */
+        max-width: 100%; /* Ajusta el tamaño máximo */
+    }
+
+    .mobile-nav__close-button {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        color: #2c3e50;
+        cursor: pointer;
+        padding: 5px;
+        text-align: right;
+        margin-bottom: 0;
+        border-bottom: none;
+    }
+
+    .header__divider {
+        display: block; /* Mostrar en móviles */
+        width: 100vw; /* Mantener el ancho completo */
+        border-top: 1px solid #ffffff1e; /* Color inicial como en index */
+        position: absolute;
+        left: 0;
+        transition: border-color 0.3s ease;
+    }
+
+    header .header__divider:first-of-type { top: 45px; }
+    header .header__divider:last-of-type  { top: 93px; }
+
+    .header__nav {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+    padding: 5px 20px; /* AÑADIMOS padding horizontal aquí */
+    width: 100%;
+    box-sizing: border-box; /* MUY IMPORTANTE: para que el padding se incluya en el ancho */
+    margin-top: 0;
+    margin-left: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    }
+
+    .header__nav::-webkit-scrollbar {
+        display: none; /* Ocultar scrollbar en Chrome/Safari */
+    }
+
+    /* Ajustar el tamaño de fuente de los enlaces para que sean legibles en móviles */
+
+    .header__nav-item {
+        display: inline-flex; /* Asegurar que los elementos estén en línea */
+        align-items: center;
+    }
+
+    .header__nav-item a {
+        font-size: 14px;
+        color: #fff;
+        transition: color 0.3s ease;
+        padding: 6px 10px 4px; /* Añadir padding para mejor interacción */
+        white-space: nowrap; /* Evitar que el texto se divida */
+        position: relative;     /* ¡LA CLAVE! Le decimos que su posición puede ser ajustada */
+        top: 10px; 
+    }
+
+    /* Ajustar colores al hacer scroll en index */
+    .header--scrolled .header__divider:first-of-type { border-top-color: #2c3e501f; }
+    .header--scrolled .header__divider:last-of-type  { border-top-color: #2c3e5048; }
+
+    .header--scrolled .header__nav-item a {
+        color: #2c3e50; /* Color negro al hacer scroll */
+    }
+
+    /* Ajustar colores para páginas que no son home */
+    body:not(.home) .header__divider { border-top-color: #2c3e501a; }
+
+    body:not(.home) .header__nav-item a {
+        color: #2c3e50; /* Color negro en otras páginas */
+    }
+
+    header .container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 0;
+        position: relative;
+    }
+
+    .header__top {
+        width: 100%; /* Ocupar todo el ancho */
+        margin-bottom: 2px; /* Espacio entre header-top y header-nav */
+        padding: 0 20px; /* Le devolvemos el padding que tenía el contenedor */
+        width: 100%;
+        box-sizing: border-box; /* Buena práctica para el manejo de anchos */
+        position: relative; /* Le decimos que su posición se puede ajustar */
+        top: 0px;           /* Lo movemos 2px hacia abajo */
+    }
+
+    .thumbnail-grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    }
+
+    .thumbnail-grid img {
+        height: 80px;
+    }
+
+    .main-image {
+        max-height: 400px;
+    }
+
+    .property-info h2 {
+        font-size: 28px;
+    }
+
+    .property-info .price {
+        font-size: 24px;
+    }
+
+    .hero__progress-container {
+        bottom: 20px;
+        right: 20px;
+        gap: 1.5vw;
+    }
+
+    .hero__progress-bar {
+        height: 3px;
+        width: clamp(25px, 6vw, 40px);
+    }
+
+}
+
+@media (max-width: 480px) {
+    .thumbnail-grid {
+        grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+    }
+
+    .thumbnail-grid img {
+        height: 60px;
+    }
+
+    .main-image {
+        max-height: 300px;
+    }
+
+    .property-info h2 {
+        font-size: 24px;
+    }
+
+    .property-info .price {
+        font-size: 20px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+        .progress-container {
+        bottom: 10px; /* Reducir espacio inferior */
+        right: 10px; /* Reducir espacio derecho */
+        gap: 6px; /* Menor espacio entre barras */
+    }
+
+    .progress-bar {
+        width: 30px; /* Barras más cortas en móviles */
+        height: 3px; /* Altura más delgada */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .mobile-nav__close-button {
+        right: 20px; /* Mueve la "X" más a la derecha */
+        top: 5px; /* La sube ligeramente */
+        font-size: 22px; /* Reduce un poco el tamaño para mejor proporción */
+    }
+    .menu-logo-img {
+        width: 120px; /* Reduce el tamaño del logo */
+        max-width: 80%; /* Limita el tamaño máximo */
+    }
+    .mobile-nav__list {
+        width: 20%; /* Aumenta el ancho del menú para más espacio */
+    }
+}
+
+
+
+/* ================================================= */
+/* === FORMULARIO DE CONTACTO (contact.php) === */
+/* ================================================= */
+.contact {
+    padding: 60px 0;
+    text-align: center;
+}
+
+.contact h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 20px;
+/* === ESTILOS MEJORADOS BOTONES (PROPERTY DETAIL) === */
+/* ================================================= */
+
+.gallery__actions {
+    padding-top: 15px;
+    display: flex;
+    gap: 15px; /* Aumentamos un poco el espacio entre botones */
+}
+
+/* Nuevo estilo para los botones de la galería */
+.gallery__action-btn {
+    background-color: transparent; /* Fondo transparente */
+    color: #2c3e50; /* Color de texto oscuro */
+    border: 1px solid #dfe4ea; /* Borde gris claro sutil */
+    border-radius: 8px; /* Bordes un poco más redondeados */
+    padding: 10px 20px;
+    font-weight: 600; /* Un peso de fuente profesional */
+    display: flex; /* Necesario para alinear el ícono y el texto */
+    align-items: center;
+    gap: 8px; /* Espacio entre el ícono y el texto */
+    cursor: pointer;
+}
+
+/* Efecto elegante al pasar el cursor */
+.gallery__action-btn:hover {
+    background-color: #f8f9fa; /* Fondo gris muy claro */
+    border-color: #adb5bd; /* Borde un poco más oscuro */
+    transform: translateY(-2px); /* Efecto de "levantamiento" sutil */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Sombra suave */
+}
+
+/* ================================================= */
+/* === ESTILOS PARA LIGHTBOX V3 (MOSAICO Y SLIDER) === */
+/* ================================================= */
+
+.gallery__item {
+    cursor: pointer;
+}
+
+.gallery__open-btn {
+    margin-left: auto; /* Empuja el botón a la derecha */
+}
+
+/* --- Contenedor Principal --- */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.lightbox.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #fff; /* Fondo blanco sólido */
+}
+
+.lightbox__container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* --- Vistas: Grid y Slider --- */
+.lightbox__grid-view,
+.lightbox__slider-view {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    transition: transform 0.4s ease-in-out;
+}
+
+.lightbox__slider-view {
+    transform: translateX(100%);
+}
+.lightbox--slider-active .lightbox__grid-view {
+    transform: translateX(-100%);
+}
+.lightbox--slider-active .lightbox__slider-view {
+    transform: translateX(0);
+}
+
+/* --- Encabezado común para ambas vistas --- */
+.lightbox__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e9ecef;
+    flex-shrink: 0;
+}
+
+.lightbox__header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+.lightbox__close,
+.lightbox__back-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 500;
+}
+.lightbox__close {
+    font-size: 28px;
+    font-weight: 300;
+}
+
+/* ================================================= */
+/* ================ LIGHTBOX  ====================== */
+/* ================================================= */
+
+body.lightbox-active {
+    overflow: hidden;
+}
+
+.lightbox__grid-container {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 25vh; 
+}
+
+.lightbox__grid-item {
+    overflow: hidden;
+    cursor: pointer;
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.lightbox__grid-item:nth-child(6n + 1),
+.lightbox__grid-item:nth-child(6n + 2) {
+    grid-column: span 3;
+}
+
+.lightbox__grid-item:nth-child(6n + 3),
+.lightbox__grid-item:nth-child(6n + 4),
+.lightbox__grid-item:nth-child(6n + 5) {
+    grid-column: span 2;
+}
+
+.lightbox__grid-item:nth-child(6n + 6) {
+    grid-column: span 6;
+    grid-row: span 2;
+}
+
+.lightbox__grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 1024px) {
+    .lightbox__grid-container {
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 22vh;
+    }
+
+    .lightbox__grid-item:nth-child(6n + 1),
+    .lightbox__grid-item:nth-child(6n + 2),
+    .lightbox__grid-item:nth-child(6n + 3),
+    .lightbox__grid-item:nth-child(6n + 4),
+    .lightbox__grid-item:nth-child(6n + 5),
+    .lightbox__grid-item:nth-child(6n + 6) {
+        grid-column: span 2;
+        grid-row: span 1;
+    }
+    
+    .lightbox__grid-item:nth-child(4n + 1) {
+        grid-row: span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .lightbox__grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 30vh;
+    }
+
+    .lightbox__grid-item:nth-child(n) {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+    
+    .lightbox__grid-item:nth-child(5n + 1) {
+        grid-column: span 2;
+    }
+}
+
+.lightbox__slider-view {
+    padding: 0; 
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+.lightbox__overlay {
+    background-color: #fff;
+}
+
+.lightbox__header {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    z-index: 20;
+    background: #fff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 15px 25px;
+}
+
+.lightbox__slider-view .lightbox__header .lightbox__close,
+.lightbox__slider-view .lightbox__header .lightbox__back-button {
+    color: #333;
+    text-shadow: none;
+}
+
+.lightbox__image-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+#lightbox-main-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: fadeIn 0.4s;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.lightbox__counter {
+    position: relative; 
+    bottom: auto;
+    left: auto;
+    transform: none;
+    background-color: #ffffff;
+    color: #000000;
+    text-align: center;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    flex-shrink: 0;
+    font-size: 14px;
+    z-index: 10;
+    user-select: none;
+    text-shadow: none;
+    border-radius: 0;
+}
+
+.lightbox__nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    background: transparent;
+    border: none;
+    width: 80px; 
+    height: 100px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    font-size: 0; 
+}
+
+.lightbox__nav:hover {
+    opacity: 1;
+}
+
+.lightbox__nav--prev {
+    left: 15px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 18 9 12 15 6'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.lightbox__nav--next {
+    right: 15px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='9 18 15 12 9 6'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* ================================================= */
+/* === ESTILOS PARA EL CONTADOR DE FOTOS EN GALERÍA (V2) === */
+/* ================================================= */
+
+.gallery__item--thumb {
+    position: relative; /* Necesario para posicionar el overlay */
+    cursor: pointer;
+}
+
+.gallery__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* --- INICIO DE CAMBIOS --- */
+    background-color: transparent; /* 1. Eliminamos el fondo oscuro */
+    display: flex;
+    justify-content: flex-end;     /* 2. Alinea el contenido a la derecha */
+    align-items: flex-end;         /* 3. Alinea el contenido abajo */
+    opacity: 1;                    /* 4. Hacemos que sea siempre visible */
+    padding: 15px;                 /* 5. Añadimos espacio en los bordes */
+    /* --- FIN DE CAMBIOS --- */
+    transition: opacity 0.3s ease;
+}
+.gallery__photo-count {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    background-color: rgba(17, 17, 17, 0.75);
+    padding: 8px 16px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    
+    /* --- INICIO DE CAMBIOS --- */
+    display: flex;         /* 1. Usamos Flexbox para alinear */
+    align-items: center;   /* 2. Centramos verticalmente el ícono y el texto */
+    gap: 8px;              /* 3. Creamos un espacio entre el ícono y el texto */
+    /* --- FIN DE CAMBIOS --- */
+}
+
+/* ================================================= */
+/* === TARJETA DE CONTACTO (ASIDE) - DOS TARJETAS FLOTANTES === */
+/* ================================================= */
+
+/* El contenedor principal es transparente y solo posiciona las tarjetas */
+.contact-card {
+    position: sticky;
+    top: 100px;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0; /* Sin padding en el contenedor principal */
+}
+
+/* Tarjeta #1: El formulario */
+.contact-card__form-section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #dfe4ea;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 20px 25px;
+    margin-bottom: 15px; /* Crea el espacio visible entre las dos tarjetas */
+}
+
+/* Tarjeta #2: La información del agente */
+.contact-card__agent-section {
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #dfe4ea;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 15px 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.contact-card__title {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+}
+
+.contact-card__form {
+    margin-bottom: 12px; 
+}
+
+.contact-card__form-group {
+    margin-bottom: 12px;
+}
+
+.contact-card__input,
+.contact-card__textarea {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    outline-color: #3498db;
+}
+
+.contact-card__textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+.contact-card__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.contact-card .btn-primary {
+    background-color: #000;
+}
+
+.contact-card .btn-whatsapp {
+    margin-left: 0;
+}
+
+.contact-card__legal {
+    font-size: 12px;
+    color: #6c757d;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.contact-card__agent-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.contact-card__agent-details {
+    flex-grow: 1;
+}
+
+.contact-card__agent-name {
+    font-weight: 600;
+    margin: 0 0 5px 0;
+}
+
+.contact-card__phone-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-card__phone-number {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.contact-card__phone-reveal-btn {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 20px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.contact-card__phone-reveal-btn:hover {
+    background-color: #f1f3f5;
+}
+
+/* ================================================= */
+/* === BREADCRUMB (Property Detail) (ACTUALIZADO) === */
+/* ================================================= */
+
+.breadcrumb {
+    padding-top: 25px;    /* Espacio arriba */
+    padding-bottom: 15px; /* Espacio abajo, antes de los botones */
+}
+
+.breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap; 
+    align-items: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+
+.breadcrumb__item {
+    display: inline-block;
+}
+
+.breadcrumb__link {
+    color: #555;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb__link:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+.breadcrumb__separator {
+    margin: 0 10px;
+    color: #868e96;
+    user-select: none;
+}
+
+.breadcrumb__item:last-child .breadcrumb__link {
+    color: #2c3e50;
+    font-weight: 500;
+    pointer-events: none;
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 768px) {
+    .breadcrumb {
+        padding-top: 20px;
+        padding-bottom: 15px;
+    }
+    .breadcrumb__list {
+        font-size: 13px;
+    }
+    .breadcrumb__separator {
+        margin: 0 8px;
+    }
+}
+
+/* ==================================================================== */
+/* === ESTILOS ASIDE DE CONTACTO (STICKY EN ESCRITORIO)=== */
+/* ==================================================================== */
+@media (min-width: 993px) {
+    .property-detail__contact-wrapper {
+        position: sticky;
+        top: 120px;
+        margin-top: -140px; 
+    }
+}
+@media (max-width: 992px) {
+    .property-detail__contact-wrapper {
+        position: static;
+        margin-top: 30px;
+    }
+}
+
+/* =================================================================== */
+/* === SECCIÓN 'PASOS A SEGUIR' (DISEÑO HORIZONTAL Y RESPONSIVO) === */
+/* =================================================================== */
+
+.next-steps {
+    margin-top: 40px; /* Espacio desde la sección de características */
+    padding-top: 30px;
+    border-top: 1px solid #e9ecef; /* Línea separadora */
+}
+
+.next-steps__main-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.next-steps__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* <-- Clave para el diseño horizontal */
+    position: relative;
+    justify-content: space-between;
+}
+
+/* Línea de tiempo horizontal que conecta los pasos */
+.next-steps__list::before {
+    content: '';
+    position: absolute;
+    top: 12px; /* Alinea la línea con el centro de los iconos */
+    left: 5%;
+    right: 5%;
+    height: 2px;
+    background-color: #e9ecef;
+    z-index: 0;
+}
+
+.next-steps__item {
+    display: flex;
+    flex-direction: column; /* Icono arriba, texto abajo */
+    align-items: center;
+    text-align: center;
+    position: relative;
+    width: 23%; /* Ancho aproximado para cada paso */
+}
+
+.next-steps__icon {
+    width: 24px;
+    height: 24px;
+    background-color: #fff; /* Fondo blanco para tapar la línea horizontal */
+    padding: 4px;
+    border: 2px solid #adb5bd;
+    border-radius: 50%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.3s ease;
+}
+
+.next-steps__icon svg {
+    color: #adb5bd;
+    transition: color 0.3s ease;
+}
+
+.next-steps__content {
+    margin-top: 15px;
+}
+
+.next-steps__title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #6c757d;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+}
+
+.next-steps__text {
+    font-size: 15px;
+    color: #6c757d;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* --- Modificador para el paso completado --- */
+.next-steps__item--done .next-steps__icon {
+    border-color: #28a745;
+}
+
+.next-steps__item--done .next-steps__icon svg {
+    color: #28a745;
+}
+
+.next-steps__item--done .next-steps__title,
+.next-steps__item--done .next-steps__text {
+    color: #2c3e50;
+}
+
+/* --- RESPONSIVIDAD: Vuelve a ser vertical en pantallas pequeñas --- */
+@media (max-width: 768px) {
+    .next-steps__list {
+        flex-direction: column; /* Apila los elementos */
+        align-items: flex-start; /* Alinea a la izquierda */
+    }
+
+    /* La línea de tiempo vuelve a ser vertical */
+    .next-steps__list::before {
+        top: 12px;
+        bottom: 12px;
+        left: 14px; /* Posición para la línea vertical */
+        width: 2px;
+        height: auto;
+        right: auto;
+    }
+
+    .next-steps__item {
+        flex-direction: row; /* Icono a la izquierda, texto a la derecha */
+        text-align: left;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .next-steps__item:last-child {
+        margin-bottom: 0;
+    }
+
+    .next-steps__icon {
+        margin-right: 15px;
+        background-color: #f8f9fa; /* Color de fondo de la página */
+    }
+
+    .next-steps__content {
+        margin-top: 0;
+    }
+}
+
+/* ================================================================ */
+/* === SECCIÓN INFORMACIÓN DEL ANUNCIANTE Y REPORTAR === */
+/* ================================================================ */
+
+.advertiser-info,
+.report-listing {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e9ecef;
+}
+
+.advertiser-info__main-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+.advertiser-info__content {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.advertiser-info__header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+}
+
+.advertiser-info__logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+}
+
+.advertiser-info__name {
+    font-size: 18px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.advertiser-info__header:hover .advertiser-info__name {
+    text-decoration: underline;
+}
+
+.advertiser-info__details {
+    font-size: 14px;
+    color: #555;
+    padding-left: 25px;
+    border-left: 2px solid #e9ecef;
+}
+
+.advertiser-info__code {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* --- Report Listing Section --- */
+
+.report-listing {
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 20px 25px;
+    margin-top: 30px;
+    border-top: none; /* Quitamos el borde superior para que no se duplique */
+}
+
+.report-listing__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.report-listing__icon svg {
+    color: #6c757d;
+    flex-shrink: 0;
+}
+
+.report-listing__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.report-listing__actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap; /* Permite que los botones se ajusten en pantallas pequeñas */
+}
+
+.report-listing__button {
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 20px; /* Forma de píldora */
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.report-listing__button:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+}
+
+/* --- Ajustes Responsivos --- */
+@media (max-width: 480px) {
+    .advertiser-info__details {
+        padding-left: 0;
+        border-left: none;
+        width: 100%;
+    }
+}
+
+/* ================================================================= */
+/* === DISEÑO DE GALERÍA PARA MÓVILES (1 GRANDE + 2 PEQUEÑAS) === */
+/* ================================================================= */
+
+@media (max-width: 768px) {
+    /* 1. Definimos la nueva estructura de la galería */
+    .gallery__layout {
+        display: grid;
+        /* Dos columnas de igual tamaño */
+        grid-template-columns: repeat(2, 1fr);
+        /* Dos filas: una alta para la imagen principal y otra más corta para las de abajo */
+        grid-template-rows: 300px 150px;
+        gap: 8px; /* Un espacio más pequeño para móviles */
+        border-radius: 0; /* Sin bordes redondeados en el contenedor */
+    }
+
+    /* 2. Posicionamos la imagen principal */
+    .gallery__item--large {
+        /* Hacemos que la imagen grande ocupe las 2 columnas de la primera fila */
+        grid-column: 1 / 3;
+        grid-row: 1 / 2;
+    }
+    
+    /* 3. Ocultamos las imágenes extra que no queremos ver en móvil */
+    .gallery__item:nth-child(n + 4) {
+        display: none;
+    }
+    
+    /* 4. Nos aseguramos de que ninguna imagen tenga bordes redondeados */
+    .gallery__image {
+        border-radius: 0;
+    }
+}
+
+/* ================================================= */
+/* === CARRUSEL DE PROPIEDADES SIMILARES         === */
+/* ================================================= */
+
+.recommendations {
+    overflow: hidden; /* Previene el desbordamiento visual */
+}
+
+.recommendations__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.recommendations__nav {
+    display: flex;
+    gap: 10px;
+}
+
+.recommendations__arrow {
+    background-color: #fff;
+    border: 1px solid #dfe4ea;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #555;
+    transition: all 0.3s ease;
+}
+
+.recommendations__arrow:hover {
+    background-color: #f1f3f5;
+    transform: scale(1.05);
+}
+
+.recommendations__grid-wrapper {
+    overflow-x: auto; /* Permite el scroll horizontal */
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* Oculta scrollbar en IE y Edge */
+    scrollbar-width: none;  /* Oculta scrollbar en Firefox */
+}
+
+.recommendations__grid-wrapper::-webkit-scrollbar {
+    display: none; /* Oculta scrollbar en Chrome, Safari y Opera */
+}
+
+.recommendations__grid {
+    display: flex;
+    gap: 30px;
+    padding-bottom: 15px; /* Espacio para que las sombras de las tarjetas no se corten */
+}
+
+.recommendations__grid .property-card {
+    flex: 0 0 320px; /* Ancho fijo para cada tarjeta */
+    width: 320px;
+}
+
+/* En móvil, se ocultan las flechas y se ajusta el ancho de las tarjetas */
+@media (max-width: 768px) {
+    .recommendations__nav {
+        display: none;
+    }
+    .recommendations__grid {
+        gap: 15px;
+        scroll-snap-type: x mandatory; /* El scroll se "pega" a la tarjeta más cercana */
+    }
+    .recommendations__grid .property-card {
+        flex: 0 0 80%;
+        width: 80%;
+        scroll-snap-align: start;
+    }
+}
+@media (min-width: 1520px) {
+    .recommendations__grid {
+        padding-left: calc((100% - 1500px) / 2 + 10px);
+        padding-right: calc((100% - 1500px) / 2 + 10px);
+    }
+}
+
+
+
