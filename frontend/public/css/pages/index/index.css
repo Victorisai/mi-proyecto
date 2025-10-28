@@ -895,29 +895,16 @@ body:not(.home) .header__action-button--register {
 /* ================================================= */
 /* === CARRUSEL DE PROPIEDADES === */
 /* ================================================= */
-.property-showcase__carousel-wrapper {
-    width: 100%;
-}
-
 .property-showcase {
     padding: 50px 0;
     width: 100%;
     position: relative;
 }
 
-.property-showcase .container {
-    max-width: 100%;
-}
-
 .property-showcase__header {
     width: 95%;
     max-width: 1600px;
     margin: 0 auto 25px auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    padding: 0 20px;
 }
 
 .property-showcase__header h2 {
@@ -930,7 +917,7 @@ body:not(.home) .header__action-button--register {
     position: absolute;
     top: 40px;
     right: 2.5vw;
-    display: none;
+    display: flex;
     gap: 10px;
     z-index: 10;
 }
@@ -961,6 +948,7 @@ body:not(.home) .header__action-button--register {
     scroll-snap-type: x mandatory;
 }
 
+/* Ocultar la barra de scroll */
 .property-showcase__carousel::-webkit-scrollbar {
     display: none;
 }
@@ -977,7 +965,6 @@ body:not(.home) .header__action-button--register {
 }
 
 .property-showcase__slide-card a {
-    position: relative;
     text-decoration: none;
     color: inherit;
     display: block;
@@ -992,7 +979,10 @@ body:not(.home) .header__action-button--register {
     transition: transform 0.3s ease;
 }
 
-.property-showcase__slide-card:hover img,
+.property-showcase__slide-card:hover img {
+    transform: scale(1.03);
+}
+
 .property-showcase__slide-card:hover .property-showcase__category-badge {
     transform: scale(1.03);
 }
@@ -1018,6 +1008,55 @@ body:not(.home) .header__action-button--register {
     white-space: normal;
 }
 
+@media (min-width: 992px) {
+    .property-showcase__header h2 {
+        font-size: 32px;
+    }
+
+    .property-showcase__carousel {
+        max-width: 1495px;
+        margin: 0 auto;
+    }
+}
+
+/* ==================
+ESTILOS PARA CONTENEDOR DE ANCHO COMPLETO
+   ================== */
+
+.property-showcase__carousel-wrapper {
+    width: 100%;
+}
+
+.property-showcase .container {
+    max-width: 100%;
+}
+
+.property-showcase__header {
+    max-width: 1200px;
+    margin: 0 auto 25px auto;
+    padding: 0 20px;
+}
+
+.property-showcase__carousel {
+    padding: 10px 20px;
+}
+
+/* En pantallas grandes, permitimos que el carrusel use más espacio */
+@media (min-width: 1200px) {
+    .property-showcase__carousel {
+        padding-left: calc((100% - 1200px) / 2 + 20px);
+        padding-right: calc((100% - 1200px) / 2 + 20px);
+    }
+}
+/* ==================
+ETIQUETA DE CATEGORÍA PARA TARJETAS DE PROPIEDAD
+   ================== */
+
+/* Hacemos que el contenedor del enlace sea el punto de referencia para la posición */
+.property-showcase__slide-card a {
+    position: relative;
+}
+
 .property-showcase__category-badge {
     position: absolute;
     top: 15px;
@@ -1035,6 +1074,43 @@ body:not(.home) .header__action-button--register {
     transition: transform 0.3s ease;
 }
 
+@media (min-width: 769px) {
+    .property-showcase__carousel {
+        width: 95%;
+        max-width: 1500px;
+        margin: 0 auto;
+        display: flex;
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px 2px;
+        scroll-snap-type: x mandatory;
+    }
+
+    .property-showcase__slide-card {
+        flex: 0 0 calc(20% - 16px);
+        scroll-snap-align: start;
+        padding-left: 4px;
+    }
+
+    .property-showcase__carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+    .property-showcase__carousel {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .property-showcase__header {
+        width: 95%;
+        max-width: 1500px;
+        margin: 0 auto 25px auto;
+        padding: 0 2px;
+        text-align: left;
+    }
+}
+
+/* Estilo base del enlace/botón */
 .property-showcase__view-all-link {
     background-color: #f1f3f5;
     border: 1px solid #dfe4ea;
@@ -1052,6 +1128,38 @@ body:not(.home) .header__action-button--register {
     background-color: #e9ecef;
     border-color: #ced4da;
 }
+
+.property-showcase__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.property-showcase__carousel-nav {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .view-all-mobile {
+        display: none;
+    }
+
+    .property-showcase__carousel-nav {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        position: static;
+    }
+}
+
+/* ------------------------------------------------- */
+/* FIN CARRUSEL DE PROPIEDADES EN INDEX */
+/* ------------------------------------------------- */
+
+/* ================================================= */
+/* === ASIDE DE FILTROS Y CONTENEDOR FLEX === */
+/* ================================================= */
 
 .property-showcase__wrapper {
     display: flex;
@@ -1084,10 +1192,6 @@ body:not(.home) .header__action-button--register {
     margin: 0;
 }
 
-.property-showcase__filter-aside ul li {
-    text-align: left;
-}
-
 .property-showcase__filter-aside ul li a {
     text-decoration: none;
     color: #495057;
@@ -1117,67 +1221,7 @@ body:not(.home) .header__action-button--register {
     display: none;
 }
 
-@media (min-width: 769px) {
-    .property-showcase__header {
-        width: 95%;
-        max-width: 1500px;
-        margin: 0 auto 25px auto;
-        padding: 0 2px;
-        text-align: left;
-    }
-
-    .property-showcase__carousel {
-        width: 95%;
-        max-width: 1500px;
-        margin: 0 auto;
-        display: flex;
-        overflow-x: auto;
-        gap: 20px;
-        padding: 10px 2px;
-        scroll-snap-type: x mandatory;
-    }
-
-    .property-showcase__carousel::-webkit-scrollbar {
-        display: none;
-    }
-
-    .property-showcase__carousel {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .property-showcase__slide-card {
-        flex: 0 0 calc(20% - 16px);
-        scroll-snap-align: start;
-        padding-left: 4px;
-    }
-
-    .property-showcase__carousel-nav {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        position: static;
-    }
-}
-
-@media (min-width: 992px) {
-    .property-showcase__header h2 {
-        font-size: 32px;
-    }
-
-    .property-showcase__carousel {
-        max-width: 1495px;
-        margin: 0 auto;
-    }
-}
-
-@media (min-width: 1200px) {
-    .property-showcase__carousel {
-        padding-left: calc((100% - 1200px) / 2 + 20px);
-        padding-right: calc((100% - 1200px) / 2 + 20px);
-    }
-}
-
+/* Responsividad para el nuevo layout */
 @media (max-width: 992px) {
     .property-showcase__wrapper {
         flex-direction: column;
@@ -1204,6 +1248,7 @@ body:not(.home) .header__action-button--register {
         gap: 8px;
         overflow-x: auto;
         white-space: nowrap;
+
         padding: 6px;
         background-color: #e9ecef;
         border-radius: 50px;
@@ -1229,9 +1274,9 @@ body:not(.home) .header__action-button--register {
         padding: 10px 25px;
         border-radius: 50px;
         font-weight: 600;
+        transition: all 0.3s ease;
         background: transparent;
         color: #495057;
-        transition: all 0.3s ease;
     }
 
     .property-showcase__filter-aside ul li a.active {
@@ -1246,7 +1291,17 @@ body:not(.home) .header__action-button--register {
     }
 }
 
+/* Responsividad para el carrusel */
 @media (max-width: 768px) {
+    .property-showcase__carousel-nav {
+        position: static;
+        display: block;
+    }
+
+    .property-showcase__carousel-nav .property-showcase__carousel-arrow {
+        display: none;
+    }
+
     .property-showcase .container {
         padding-left: 0;
         padding-right: 0;
@@ -1263,13 +1318,10 @@ body:not(.home) .header__action-button--register {
         gap: 15px;
     }
 
-    .property-showcase__carousel-nav {
-        position: static;
-        display: block;
-    }
-
-    .property-showcase__carousel-nav .property-showcase__carousel-arrow {
-        display: none;
+    .property-showcase__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 }
 
