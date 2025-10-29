@@ -120,7 +120,7 @@ main.properties {
 /* ================================================= */
 .header-properties {
     background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
     z-index: 100;
@@ -131,7 +131,7 @@ main.properties {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    padding: 10px 20px;
+    padding: 10px 28px;
     gap: 20px;
 }
 
@@ -145,6 +145,7 @@ main.properties {
 
 .header-properties .header__logo img {
     display: block;
+    height: 28px;
 }
 
 .header-properties__search-container {
@@ -158,8 +159,8 @@ main.properties {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 450px;
-    border: 1px solid #dfe4ea;
+    max-width: 700px;
+    border: 1px solid #00000045;
     border-radius: 50px;
     overflow: hidden;
 }
@@ -197,7 +198,7 @@ main.properties {
 }
 
 .header-properties__bottom {
-    padding: 12px 20px;
+    padding: 10px 20px;
     max-height: 500px;
     overflow: hidden;
     visibility: visible;
@@ -229,7 +230,7 @@ main.properties {
     display: flex;
     align-items: center;
     gap: 15px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .header-properties__listing-type {
@@ -802,7 +803,7 @@ main.properties {
 /* ================================================= */
 /* === MEDIA QUERIES === */
 /* ================================================= */
-@media (max-width: 768px) {
+@media (max-width: 680px) {
     .header__logo img {
         height: 24px;
     }
@@ -810,6 +811,7 @@ main.properties {
     .header-properties__top {
         flex-wrap: wrap;
         gap: 10px;
+        justify-content: space-between;
     }
 
     .header-properties .header__logo {
@@ -829,7 +831,9 @@ main.properties {
         gap: 12px;
     }
 
-    .header-properties__listing-type {
+    .header-properties__listing-type,
+    .header-properties__filters-wrapper,
+    .header-properties__filter-group {
         width: 100%;
     }
 
@@ -840,12 +844,7 @@ main.properties {
 
     .header-properties__filters-wrapper {
         flex-direction: column;
-        width: 100%;
         gap: 12px;
-    }
-
-    .header-properties__filter-group {
-        width: 100%;
     }
 
     .header-properties__filter-toggle {
@@ -860,19 +859,8 @@ main.properties {
         display: flex;
     }
 
-    .header-properties__filters-form {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .header-properties__listing-type {
-        flex-grow: 1;
-    }
-
-    .header-properties__filter-toggle {
-        flex-grow: 1;
+    .header-properties__filters-scroll {
+        padding-bottom: 10px;
     }
 
     .price-filter__popover {
