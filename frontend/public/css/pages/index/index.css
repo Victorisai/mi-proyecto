@@ -783,7 +783,7 @@ body:not(.home) .header__action-button--register {
 
 @media (max-width: 768px) {
     .hero {
-        height: 90vh;
+        height: 80vh;
     }
 
     .hero__content {
