@@ -1,0 +1,134 @@
+/* Importaciones y estilos base */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Adamina&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Sedan+SC&display=swap');
+
+/* ================================================= */
+/* === ESTILOS BASE === */
+/* ================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: #f9f9f9;
+}
+
+body.profile-page {
+    padding-top: 0;
+}
+
+/* ================================================= */
+/* === LAYOUT GENERAL DEL PERFIL === */
+/* ================================================= */
+.profile {
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #eef2f7 0%, #f7f9fc 50%, #ffffff 100%);
+}
+
+.profile__main-content {
+    flex-grow: 1;
+    padding: 48px 56px 40px;
+    margin-left: 260px;
+    background: radial-gradient(circle at top, rgba(52, 152, 219, 0.08), transparent 60%),
+                radial-gradient(circle at bottom right, rgba(46, 204, 113, 0.08), transparent 45%);
+    overflow-y: auto;
+}
+
+/* ================================================= */
+/* === SIDEBAR DEL PERFIL === */
+/* ================================================= */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 260px;
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    padding: 32px 28px;
+    box-shadow: 18px 0 40px rgba(15, 23, 42, 0.08);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sidebar__profile {
+    display: flex;
+    align-items: center;
+    padding-bottom: 25px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.sidebar__profile-picture {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    margin-right: 15px;
+    background-color: #e0e0e0;
+    object-fit: cover;
+}
+
+.sidebar__profile-info {
+    line-height: 1.2;
+}
+
+.sidebar__profile-welcome {
+    margin: 0;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.sidebar__profile-name {
+    margin: 0;
+    font-weight: 600;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.sidebar__nav {
+    flex-grow: 1;
+}
+
+.sidebar__menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar__menu-item {
+    margin-bottom: 10px;
+}
+
+.sidebar__menu-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    display: block;
+    padding: 12px 18px;
+    border-radius: 15px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar__menu-link:hover,
+.sidebar__menu-link--active {
+    background-color: #007bff;
+}
+
+/* ================================================= */
+/* === PANEL PRINCIPAL === */
+/* ================================================= */
+.profile__panel {
+    display: none;
+    min-height: 100%;
+}
+
+.profile__panel--active {
+    display: block;
+}
