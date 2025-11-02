@@ -485,7 +485,7 @@
             return;
         }
 
-        elements.deleteModal.classList.toggle('modal--visible', isOpen);
+        elements.deleteModal.classList.toggle('deletechat--visible', isOpen);
         elements.deleteModal.setAttribute('aria-hidden', String(!isOpen));
 
         if (isOpen) {
@@ -509,7 +509,7 @@
         if (event.key !== 'Escape') {
             return;
         }
-        if (!elements.deleteModal || !elements.deleteModal.classList.contains('modal--visible')) {
+        if (!elements.deleteModal || !elements.deleteModal.classList.contains('deletechat--visible')) {
             return;
         }
         toggleDeleteModal(false);
