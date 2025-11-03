@@ -18,6 +18,48 @@
 </head>
 <body class="profile-page">
 
+    <header class="profile__mobile-header">
+        <div class="profile__mobile-header-content">
+            <div class="profile__mobile-user">
+                <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__mobile-user-picture">
+                <div class="profile__mobile-user-info">
+                    <p class="profile__mobile-user-welcome">¡Bienvenido!</p>
+                    <p class="profile__mobile-user-name">(Nombre de usuario)</p>
+                </div>
+            </div>
+            <button class="profile__mobile-menu-toggle" type="button" aria-label="Abrir menú" aria-controls="profileMobileMenu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="profile__mobile-menu" id="profileMobileMenu" role="dialog" aria-modal="true" aria-hidden="true">
+        <nav class="profile__mobile-nav">
+            <ul class="profile__mobile-menu-list">
+                <li class="profile__mobile-menu-item">
+                    <a href="#" class="sidebar__menu-link sidebar__menu-link--active" data-section="inicio">Inicio</a>
+                </li>
+                <li class="profile__mobile-menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="propiedades">Mis propiedades</a>
+                </li>
+                <li class="profile__mobile-menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="leads">Leads</a>
+                </li>
+                <li class="profile__mobile-menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="mensajes">Mensajes</a>
+                </li>
+                <li class="profile__mobile-menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="mi-perfil">Mi perfil</a>
+                </li>
+                <li class="profile__mobile-menu-item">
+                    <a href="#" class="sidebar__menu-link">Mi plan</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
     <div class="profile">
         <aside class="sidebar">
             <div class="sidebar__profile">
