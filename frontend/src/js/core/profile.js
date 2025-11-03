@@ -88,6 +88,69 @@
     document.addEventListener('DOMContentLoaded', () => {
         const menuLinks = document.querySelectorAll('.sidebar__menu-link[data-section]');
         const panels = document.querySelectorAll('.profile__panel');
+        const profileLayout = document.querySelector('.profile');
+        const menuToggle = document.querySelector('.profile__menu-toggle');
+        const menuOverlay = document.querySelector('[data-menu-overlay]');
+
+        const closeMobileMenu = () => {
+            document.body.classList.remove('profile-menu-open');
+
+            if (!profileLayout) {
+                return;
+            }
+
+            profileLayout.classList.remove('profile--menu-open');
+
+            if (menuToggle) {
+                menuToggle.setAttribute('aria-expanded', 'false');
+            }
+        };
+
+        const openMobileMenu = () => {
+            if (!profileLayout) {
+                return;
+            }
+
+            profileLayout.classList.add('profile--menu-open');
+            document.body.classList.add('profile-menu-open');
+
+            if (menuToggle) {
+                menuToggle.setAttribute('aria-expanded', 'true');
+            }
+        };
+
+        const toggleMobileMenu = () => {
+            if (!profileLayout) {
+                return;
+            }
+
+            if (profileLayout.classList.contains('profile--menu-open')) {
+                closeMobileMenu();
+                return;
+            }
+
+            openMobileMenu();
+        };
+
+        if (menuToggle) {
+            menuToggle.addEventListener('click', toggleMobileMenu);
+        }
+
+        if (menuOverlay) {
+            menuOverlay.addEventListener('click', closeMobileMenu);
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1024) {
+                closeMobileMenu();
+            }
+        });
 
         panels.forEach((panel) => loadPanelContent(panel));
 
@@ -132,6 +195,8 @@
                     initializePanelFeatures(panel);
                     onPanelReady(panel);
                 });
+
+                closeMobileMenu();
             });
         });
     });

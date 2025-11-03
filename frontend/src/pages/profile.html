@@ -19,7 +19,24 @@
 <body class="profile-page">
 
     <div class="profile">
-        <aside class="sidebar">
+        <header class="profile__mobile-header">
+            <button type="button" class="profile__menu-toggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="profile-menu">
+                <span class="profile__menu-line"></span>
+                <span class="profile__menu-line"></span>
+                <span class="profile__menu-line"></span>
+            </button>
+            <div class="profile__mobile-user">
+                <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__mobile-avatar">
+                <div class="profile__mobile-info">
+                    <p class="profile__mobile-welcome">¡Bienvenido!</p>
+                    <p class="profile__mobile-name">(Nombre de usuario)</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="profile__menu-overlay" data-menu-overlay></div>
+
+        <aside class="sidebar" id="profile-menu" data-menu>
             <div class="sidebar__profile">
                 <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="sidebar__profile-picture">
                 <div class="sidebar__profile-info">
