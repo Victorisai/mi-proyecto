@@ -86,8 +86,56 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
+        const body = document.body;
         const menuLinks = document.querySelectorAll('.sidebar__menu-link[data-section]');
         const panels = document.querySelectorAll('.profile__panel');
+        const mobileToggle = document.querySelector('.profile__mobile-menu-toggle');
+        const mobileMenu = document.querySelector('.profile__mobile-menu');
+
+        const setMenuVisibility = (isOpen) => {
+            if (!body) {
+                return;
+            }
+
+            body.classList.toggle('profile-page--menu-open', isOpen);
+
+            if (mobileToggle) {
+                mobileToggle.setAttribute('aria-expanded', String(isOpen));
+            }
+
+            if (mobileMenu) {
+                mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+            }
+        };
+
+        const toggleMobileMenu = () => {
+            const isOpen = body.classList.contains('profile-page--menu-open');
+            setMenuVisibility(!isOpen);
+        };
+
+        const closeMobileMenu = () => setMenuVisibility(false);
+
+        setMenuVisibility(false);
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', toggleMobileMenu);
+        }
+
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (event) => {
+                if (event.target === mobileMenu) {
+                    closeMobileMenu();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', closeMobileMenu);
 
         panels.forEach((panel) => loadPanelContent(panel));
 
@@ -100,8 +148,12 @@
 
                 event.preventDefault();
 
-                menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
-                link.classList.add('sidebar__menu-link--active');
+                menuLinks.forEach((menuLink) => {
+                    const isTarget = menuLink.dataset.section === targetSection;
+                    menuLink.classList.toggle('sidebar__menu-link--active', isTarget);
+                });
+
+                closeMobileMenu();
 
                 panels.forEach((panel) => {
                     const isActive = panel.dataset.section === targetSection;

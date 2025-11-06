@@ -19,6 +19,23 @@
 <body class="profile-page">
 
     <div class="profile">
+        <header class="profile__mobile-header">
+            <div class="profile__mobile-header-content">
+                <div class="profile__mobile-user">
+                    <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__mobile-avatar">
+                    <div class="profile__mobile-user-info">
+                        <p class="profile__mobile-welcome">¡Bienvenido!</p>
+                        <p class="profile__mobile-name">(Nombre de usuario)</p>
+                    </div>
+                </div>
+                <button class="profile__mobile-menu-toggle" aria-expanded="false" aria-controls="profile-mobile-menu" aria-label="Abrir menú">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </header>
+
         <aside class="sidebar">
             <div class="sidebar__profile">
                 <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="sidebar__profile-picture">
@@ -50,6 +67,33 @@
                 </ul>
             </nav>
         </aside>
+
+        <div class="profile__mobile-menu" id="profile-mobile-menu" aria-hidden="true">
+            <div class="profile__mobile-menu-panel">
+                <nav class="sidebar__nav sidebar__nav--mobile">
+                    <ul class="sidebar__menu">
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link sidebar__menu-link--active" data-section="inicio">Inicio</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="propiedades">Mis propiedades</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="leads">Leads</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="mensajes">Mensajes</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="mi-perfil">Mi perfil</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link">Mi plan</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
 
         <main class="profile__main-content">
             <div class="profile__panel profile__panel--active" data-section="inicio" data-src="assets/templates/profile/inicio.html"></div>
