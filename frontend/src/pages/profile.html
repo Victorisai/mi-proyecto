@@ -14,11 +14,62 @@
     <script src="assets/js/pages/profile/leads.js" defer></script>
     <script src="assets/js/pages/profile/messages.js" defer></script>
     <script src="assets/js/pages/profile/mi-perfil.js" defer></script>
+    <script src="assets/js/pages/profile/mobile-menu.js" defer></script>
     <script src="assets/js/core/profile.js" defer></script>
 </head>
 <body class="profile-page">
 
     <div class="profile">
+        <header class="profile__mobile-header" aria-label="Menú de perfil">
+            <div class="profile__mobile-header-content">
+                <div class="profile__mobile-profile">
+                    <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__mobile-avatar">
+                    <div class="profile__mobile-info">
+                        <p class="profile__mobile-welcome">¡Bienvenido!</p>
+                        <p class="profile__mobile-name">(Nombre de usuario)</p>
+                    </div>
+                </div>
+                <button class="profile__mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="profileMobileMenu">
+                    <span class="profile__mobile-menu-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Abrir menú</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="profile__mobile-menu" id="profileMobileMenu" hidden>
+            <div class="profile__mobile-menu-panel" role="dialog" aria-modal="true">
+                <div class="profile__mobile-menu-profile">
+                    <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__mobile-menu-avatar">
+                    <div class="profile__mobile-menu-info">
+                        <p class="profile__mobile-menu-welcome">¡Bienvenido!</p>
+                        <p class="profile__mobile-menu-name">(Nombre de usuario)</p>
+                    </div>
+                </div>
+                <nav class="sidebar__nav" aria-label="Secciones del perfil">
+                    <ul class="sidebar__menu">
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link sidebar__menu-link--active" data-section="inicio">Inicio</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="propiedades">Mis propiedades</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="leads">Leads</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="mensajes">Mensajes</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link" data-section="mi-perfil">Mi perfil</a>
+                        </li>
+                        <li class="sidebar__menu-item">
+                            <a href="#" class="sidebar__menu-link">Mi plan</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
         <aside class="sidebar">
             <div class="sidebar__profile">
                 <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="sidebar__profile-picture">
