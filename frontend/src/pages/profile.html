@@ -51,6 +51,36 @@
             </nav>
         </aside>
 
+        <header class="profile__header">
+            <div class="profile__header-info">
+                <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__header-avatar">
+                <div class="profile__header-text">
+                    <p class="profile__header-welcome">¡Bienvenido!</p>
+                    <p class="profile__header-name">(Nombre de usuario)</p>
+                </div>
+            </div>
+            <button class="profile__menu-toggle" type="button" aria-expanded="false" aria-controls="profile-mobile-menu">
+                <span class="profile__menu-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Abrir menú de navegación</span>
+            </button>
+        </header>
+
+        <div class="profile__mobile-panel" id="profile-mobile-menu" role="dialog" aria-modal="true" aria-hidden="true">
+            <div class="profile__mobile-panel-content" tabindex="-1">
+                <button class="profile__mobile-close" type="button" aria-label="Cerrar menú">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="profile__mobile-user">
+                    <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__mobile-avatar">
+                    <div class="profile__mobile-text">
+                        <p class="profile__mobile-welcome">¡Bienvenido!</p>
+                        <p class="profile__mobile-name">(Nombre de usuario)</p>
+                    </div>
+                </div>
+                <nav class="profile__mobile-nav" aria-label="Menú de perfil"></nav>
+            </div>
+        </div>
+
         <main class="profile__main-content">
             <div class="profile__panel profile__panel--active" data-section="inicio" data-src="assets/templates/profile/inicio.html"></div>
 
