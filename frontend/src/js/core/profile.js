@@ -88,6 +88,55 @@
     document.addEventListener('DOMContentLoaded', () => {
         const menuLinks = document.querySelectorAll('.sidebar__menu-link[data-section]');
         const panels = document.querySelectorAll('.profile__panel');
+        const mobileMenu = document.querySelector('.profile__mobile-menu');
+        const menuToggle = document.querySelector('.profile__mobile-menu-toggle');
+
+        const setMobileMenuState = (isOpen) => {
+            if (!mobileMenu || !menuToggle) {
+                return;
+            }
+
+            mobileMenu.classList.toggle('profile__mobile-menu--open', isOpen);
+            menuToggle.classList.toggle('is-active', isOpen);
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+            mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+            document.body.classList.toggle('profile-menu-open', isOpen);
+        };
+
+        const closeMobileMenu = () => setMobileMenuState(false);
+        const toggleMobileMenu = () => {
+            if (!menuToggle) {
+                return;
+            }
+
+            const isActive = menuToggle.classList.contains('is-active');
+            setMobileMenuState(!isActive);
+        };
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', (event) => {
+                event.stopPropagation();
+                toggleMobileMenu();
+            });
+
+            mobileMenu.addEventListener('click', (event) => {
+                if (event.target === mobileMenu) {
+                    closeMobileMenu();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1024) {
+                closeMobileMenu();
+            }
+        });
 
         panels.forEach((panel) => loadPanelContent(panel));
 
@@ -132,6 +181,8 @@
                     initializePanelFeatures(panel);
                     onPanelReady(panel);
                 });
+
+                closeMobileMenu();
             });
         });
     });

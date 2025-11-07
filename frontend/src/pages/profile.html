@@ -18,6 +18,44 @@
 </head>
 <body class="profile-page">
 
+    <header class="profile__mobile-header">
+        <div class="profile__mobile-brand">
+            <img src="assets/images/iconcaracteristic/account-icon.png" alt="Foto de perfil" class="profile__mobile-avatar">
+            <div class="profile__mobile-info">
+                <p class="profile__mobile-welcome">¡Bienvenido!</p>
+                <p class="profile__mobile-name">(Nombre de usuario)</p>
+            </div>
+        </div>
+        <button class="profile__mobile-menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="profile-mobile-menu">
+            <span class="profile__mobile-menu-icon" aria-hidden="true"></span>
+        </button>
+    </header>
+
+    <div class="profile__mobile-menu" id="profile-mobile-menu" aria-hidden="true">
+        <nav class="profile__mobile-nav" aria-label="Menú principal móvil">
+            <ul class="sidebar__menu">
+                <li class="sidebar__menu-item">
+                    <a href="#" class="sidebar__menu-link sidebar__menu-link--active" data-section="inicio">Inicio</a>
+                </li>
+                <li class="sidebar__menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="propiedades">Mis propiedades</a>
+                </li>
+                <li class="sidebar__menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="leads">Leads</a>
+                </li>
+                <li class="sidebar__menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="mensajes">Mensajes</a>
+                </li>
+                <li class="sidebar__menu-item">
+                    <a href="#" class="sidebar__menu-link" data-section="mi-perfil">Mi perfil</a>
+                </li>
+                <li class="sidebar__menu-item">
+                    <a href="#" class="sidebar__menu-link">Mi plan</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
     <div class="profile">
         <aside class="sidebar">
             <div class="sidebar__profile">
