@@ -22,6 +22,172 @@ body.profile-page {
 }
 
 /* ================================================= */
+/* === CABECERA Y MENÚ MÓVIL === */
+/* ================================================= */
+.profile__mobile-header {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: linear-gradient(180deg, #1f2937 0%, #111827 100%);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+    position: sticky;
+    top: 0;
+    z-index: 110;
+}
+
+.profile__mobile-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.profile__mobile-avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    object-fit: cover;
+}
+
+.profile__mobile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    line-height: 1.2;
+}
+
+.profile__mobile-welcome {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.profile__mobile-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.profile__mobile-menu-toggle {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.04);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.profile__mobile-menu-toggle:hover,
+.profile__mobile-menu-toggle:focus-visible {
+    outline: none;
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.profile__mobile-menu-icon,
+.profile__mobile-menu-icon::before,
+.profile__mobile-menu-icon::after {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 2px;
+    border-radius: 999px;
+    background: #ffffff;
+    transition: transform 0.3s ease, opacity 0.2s ease;
+}
+
+.profile__mobile-menu-icon {
+    position: relative;
+}
+
+.profile__mobile-menu-icon::before {
+    position: absolute;
+    top: -7px;
+    left: 0;
+}
+
+.profile__mobile-menu-icon::after {
+    position: absolute;
+    bottom: -7px;
+    left: 0;
+}
+
+.profile__mobile-menu-toggle.is-active .profile__mobile-menu-icon {
+    background: transparent;
+}
+
+.profile__mobile-menu-toggle.is-active .profile__mobile-menu-icon::before {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.profile__mobile-menu-toggle.is-active .profile__mobile-menu-icon::after {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.profile__mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at top, rgba(59, 130, 246, 0.16), transparent 60%),
+                rgba(15, 23, 42, 0.92);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 200;
+}
+
+.profile__mobile-menu--open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.profile__mobile-nav {
+    width: min(320px, 90vw);
+    padding: 32px 24px;
+    background: rgba(17, 24, 39, 0.88);
+    border-radius: 24px;
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.profile__mobile-nav .sidebar__menu {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+}
+
+.profile__mobile-menu .sidebar__menu-link {
+    text-align: center;
+    font-size: 18px;
+    padding: 14px 20px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid transparent;
+}
+
+.profile__mobile-menu .sidebar__menu-link:hover,
+.profile__mobile-menu .sidebar__menu-link.sidebar__menu-link--active {
+    background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+body.profile-menu-open {
+    overflow: hidden;
+}
+
+/* ================================================= */
 /* === LAYOUT GENERAL DEL PERFIL === */
 /* ================================================= */
 .profile {
@@ -131,4 +297,44 @@ body.profile-page {
 
 .profile__panel--active {
     display: block;
+}
+
+/* ================================================= */
+/* === RESPONSIVE === */
+/* ================================================= */
+@media (max-width: 1024px) {
+    .profile {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .profile__mobile-header {
+        display: flex;
+    }
+
+    .profile__main-content {
+        margin-left: 0;
+        padding: 32px 24px 40px;
+    }
+}
+
+@media (max-width: 640px) {
+    .profile__mobile-header {
+        padding: 16px 20px;
+    }
+
+    .profile__mobile-name {
+        font-size: 15px;
+    }
+
+    .profile__mobile-menu .sidebar__menu-link {
+        font-size: 17px;
+    }
+
+    .profile__main-content {
+        padding: 28px 18px 32px;
+    }
 }
