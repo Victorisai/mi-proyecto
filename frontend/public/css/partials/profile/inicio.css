@@ -48,6 +48,15 @@ body.profile-page {
 /* ================================================= */
 /* === ENCABEZADO DEL PANEL === */
 /* ================================================= */
+.dashboard__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+}
+
 .dashboard__breadcrumb {
     display: flex;
     align-items: center;
@@ -57,6 +66,10 @@ body.profile-page {
     letter-spacing: 0.02em;
     text-transform: uppercase;
     margin-bottom: 32px;
+}
+
+.dashboard__header .dashboard__breadcrumb {
+    margin-bottom: 0;
 }
 
 .breadcrumb__label {
@@ -77,15 +90,22 @@ body.profile-page {
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     margin-bottom: 10px;
 }
 
 .dashboard__action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     border: none;
     border-radius: 12px;
     padding: 12px 22px;
     font-size: 14px;
     font-weight: 600;
+    text-align: center;
     cursor: pointer;
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
@@ -258,20 +278,30 @@ body.profile-page {
 /* ================================================= */
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
 }
 
 .summary-card {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "icon content trend";
     align-items: center;
-    justify-content: space-between;
     gap: 18px;
     text-align: left;
     position: relative;
 }
 
+.summary-card__content {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
 .summary-card__icon {
+    grid-area: icon;
     flex-shrink: 0;
     width: 52px;
     height: 52px;
@@ -322,15 +352,21 @@ body.profile-page {
     font-weight: 700;
     color: #2c3e50;
     margin: 0;
+    line-height: 1;
 }
 
 .summary-card__trend {
+    grid-area: trend;
     font-size: 13px;
     font-weight: 600;
     border-radius: 999px;
     padding: 6px 12px;
     background: rgba(47, 128, 237, 0.12);
     color: #2f80ed;
+    justify-self: end;
+    white-space: nowrap;
+    position: relative;
+    top: 30px;
 }
 
 .summary-card__trend--up {
@@ -612,4 +648,250 @@ body.profile-page {
 .profile-page .btn--rounded:hover {
     transform: translateY(-2px);
     box-shadow: 0 16px 32px rgba(93, 109, 126, 0.32);
+}
+
+/* ================================================= */
+/* === MEDIA QUERIES Y RESPONSIVE === */
+/* ================================================= */
+
+@media (min-width: 1200px) {
+    .summary-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 1200px) {
+    .card {
+        padding: 22px;
+    }
+
+    .dashboard__hero {
+        grid-template-columns: minmax(0, 1fr) 240px;
+        gap: 24px;
+    }
+
+    .dashboard__hero-title {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .dashboard__hero {
+        grid-template-columns: 1fr;
+        text-align: left;
+    }
+
+    .dashboard__hero::after {
+        right: -60px;
+        top: -40px;
+    }
+
+    .dashboard__hero-stats {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .hero-stat {
+        align-items: flex-start;
+    }
+
+    .dashboard__section--split {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard__header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .dashboard__actions {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dashboard__action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .dashboard__hero {
+        padding: 24px;
+    }
+
+    .dashboard__hero-title {
+        font-size: 28px;
+    }
+
+    .dashboard__hero-description {
+        font-size: 15px;
+    }
+
+    .dashboard__section-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
+    .quick-actions,
+    .analytics-grid,
+    .alerts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-pill {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .metric-pill__number {
+        font-size: 26px;
+    }
+
+    .chart-placeholder {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .card {
+        padding: 18px;
+    }
+
+    .dashboard__hero {
+        padding: 22px;
+    }
+
+    .dashboard__hero::after {
+        display: none;
+    }
+
+    .dashboard__hero-info {
+        gap: 12px;
+    }
+
+    .dashboard__hero-subtitle {
+        font-size: 13px;
+    }
+
+    .dashboard__hero-title {
+        font-size: 24px;
+        line-height: 1.25;
+    }
+
+    .dashboard__hero-description {
+        font-size: 14px;
+    }
+
+    .dashboard__hero-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-stat {
+        padding: 16px;
+    }
+
+    .hero-stat__value {
+        font-size: 18px;
+    }
+
+    .dashboard__section-title {
+        font-size: 20px;
+    }
+
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        gap: 20px;
+    }
+
+    .summary-card {
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "icon trend"
+            "content content";
+        align-items: start;
+        gap: 12px;
+    }
+
+    .summary-card__trend {
+        align-self: center;
+        justify-self: end;
+        position: relative;
+        top: 95px;
+    }
+
+    .summary-card__icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .summary-card__number {
+        font-size: 30px;
+    }
+
+    .quick-action {
+        flex-direction: column;
+    }
+
+    .quick-action__icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .activity-feed {
+        padding: 18px;
+    }
+
+    .alerts-grid {
+        gap: 20px;
+    }
+
+    .alert-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .profile-page .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 420px) {
+    .dashboard__actions {
+        gap: 10px;
+    }
+
+    .dashboard__action-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+
+    .summary-card__title {
+        font-size: 13px;
+    }
+
+    .metric-pill__title {
+        font-size: 15px;
+    }
+
+    .metric-pill__number {
+        font-size: 24px;
+    }
+
+    .alert-card__title {
+        font-size: 16px;
+    }
 }
