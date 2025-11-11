@@ -278,20 +278,36 @@ body.profile-page {
 /* ================================================= */
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 28px;
 }
 
+@media (min-width: 1200px) {
+    .summary-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
 .summary-card {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "icon content trend";
     align-items: center;
-    justify-content: space-between;
     gap: 18px;
     text-align: left;
     position: relative;
 }
 
+.summary-card__content {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
 .summary-card__icon {
+    grid-area: icon;
     flex-shrink: 0;
     width: 52px;
     height: 52px;
@@ -342,15 +358,19 @@ body.profile-page {
     font-weight: 700;
     color: #2c3e50;
     margin: 0;
+    line-height: 1;
 }
 
 .summary-card__trend {
+    grid-area: trend;
     font-size: 13px;
     font-weight: 600;
     border-radius: 999px;
     padding: 6px 12px;
     background: rgba(47, 128, 237, 0.12);
     color: #2f80ed;
+    justify-self: end;
+    white-space: nowrap;
 }
 
 .summary-card__trend--up {
@@ -715,7 +735,11 @@ body.profile-page {
         gap: 12px;
     }
 
-    .summary-grid,
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+    }
+
     .quick-actions,
     .analytics-grid,
     .alerts-grid {
@@ -783,10 +807,28 @@ body.profile-page {
         font-size: 20px;
     }
 
+    .summary-grid {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        gap: 20px;
+    }
+
     .summary-card {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 16px;
+        grid-template-columns: auto 1fr;
+        grid-template-areas:
+            "icon trend"
+            "content content";
+        align-items: start;
+        gap: 12px;
+    }
+
+    .summary-card__trend {
+        align-self: center;
+        justify-self: end;
+    }
+
+    .summary-card__icon {
+        width: 48px;
+        height: 48px;
     }
 
     .summary-card__number {
