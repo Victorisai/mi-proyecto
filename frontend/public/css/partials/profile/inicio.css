@@ -142,7 +142,7 @@ body.profile-page {
     margin-bottom: 24px;
 }
 
-.dashboard__section-title {
+.inicio-section__title {
     font-size: 22px;
     color: #1f2937;
     font-weight: 700;
@@ -172,6 +172,7 @@ body.profile-page {
     border: 1px solid rgba(52, 152, 219, 0.12);
     position: relative;
     overflow: hidden;
+    margin-bottom: 25px;
 }
 
 .dashboard__hero::after {
@@ -806,7 +807,7 @@ body.profile-page {
         font-size: 18px;
     }
 
-    .dashboard__section-title {
+    .inicio-section__title {
         font-size: 20px;
     }
 
