@@ -1,48 +1,48 @@
-<section class="leads">
-    <div class="dashboard__breadcrumb">
-        <span class="breadcrumb__label">Panel</span>
-        <span class="breadcrumb__divider">/</span>
-        <span class="breadcrumb__current">Leads</span>
+<section class="leads-view-leads">
+    <div class="leads-view-dashboard__breadcrumb">
+        <span class="leads-view-breadcrumb__label">Panel</span>
+        <span class="leads-view-breadcrumb__divider">/</span>
+        <span class="leads-view-breadcrumb__current">Leads</span>
     </div>
 
-    <div class="leads__content">
-        <div class="leads__toolbar">
-            <div class="leads__toolbar-row">
-                <div class="leads__title-group">
-                    <h1 class="leads__heading">Leads</h1>
-                    <span class="leads__chip" id="leadsCount" aria-live="polite">Total: 12</span>
+    <div class="leads-view-leads__content">
+        <div class="leads-view-leads__toolbar">
+            <div class="leads-view-leads__toolbar-row">
+                <div class="leads-view-leads__title-group">
+                    <h1 class="leads-view-leads__heading">Leads</h1>
+                    <span class="leads-view-leads__chip" id="leadsCount" aria-live="polite">Total: 12</span>
                 </div>
-                <div class="leads__actions">
-                    <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" title="Notificaciones">
+                <div class="leads-view-leads__actions">
+                    <button class="leads-view-leads-btn leads-view-leads-btn--ghost leads-view-leads-btn--icon" type="button" title="Notificaciones">
                         <span aria-hidden="true">🔔</span>
-                        <span class="sr-only">Notificaciones</span>
+                        <span class="leads-view-sr-only">Notificaciones</span>
                     </button>
-                    <button class="leads-btn leads-btn--primary" type="button" id="exportBtn">Exportar CSV</button>
+                    <button class="leads-view-leads-btn leads-view-leads-btn--primary" type="button" id="exportBtn">Exportar CSV</button>
                 </div>
             </div>
-            <div class="card leads__filters" role="region" aria-label="Filtros de búsqueda">
-                <div class="leads__filters-grid">
-                    <label class="sr-only" for="leadSearch">Buscar</label>
-                    <input class="leads-input" id="leadSearch" type="search" placeholder="Buscar por nombre, email, teléfono o mensaje…" />
+            <div class="leads-view-card leads-view-leads__filters" role="region" aria-label="Filtros de búsqueda">
+                <div class="leads-view-leads__filters-grid">
+                    <label class="leads-view-sr-only" for="leadSearch">Buscar</label>
+                    <input class="leads-view-leads-input" id="leadSearch" type="search" placeholder="Buscar por nombre, email, teléfono o mensaje…" />
 
-                    <label class="sr-only" for="leadDateRange">Rango de fecha</label>
-                    <select class="leads-select" id="leadDateRange" title="Rango de fecha">
+                    <label class="leads-view-sr-only" for="leadDateRange">Rango de fecha</label>
+                    <select class="leads-view-leads-select" id="leadDateRange" title="Rango de fecha">
                         <option value="all">Todas las fechas</option>
                         <option value="today">Hoy</option>
                         <option value="week">Esta semana</option>
                         <option value="month">Este mes</option>
                     </select>
 
-                    <label class="sr-only" for="leadStateFilter">Estado</label>
-                    <select class="leads-select" id="leadStateFilter" title="Estado">
+                    <label class="leads-view-sr-only" for="leadStateFilter">Estado</label>
+                    <select class="leads-view-leads-select" id="leadStateFilter" title="Estado">
                         <option value="all">Todos los estados</option>
                         <option value="new">Nuevo</option>
                         <option value="progress">En seguimiento</option>
                         <option value="done">Cerrado</option>
                     </select>
 
-                    <label class="sr-only" for="leadPropertyFilter">Propiedad</label>
-                    <select class="leads-select" id="leadPropertyFilter" title="Propiedad">
+                    <label class="leads-view-sr-only" for="leadPropertyFilter">Propiedad</label>
+                    <select class="leads-view-leads-select" id="leadPropertyFilter" title="Propiedad">
                         <option value="all">Todas las propiedades</option>
                         <option value="Casa Cancún · ID #A102">Casa Cancún · ID #A102</option>
                         <option value="Lote Holbox · ID #L25">Lote Holbox · ID #L25</option>
@@ -52,52 +52,52 @@
             </div>
         </div>
 
-        <div class="leads__metrics">
-            <article class="card leads-metric">
-                <div class="leads-metric__info">
-                    <span class="leads-metric__label">Total</span>
-                    <span class="leads-metric__value" id="leadsTotal">12</span>
+        <div class="leads-view-leads__metrics">
+            <article class="leads-view-card leads-view-leads-metric">
+                <div class="leads-view-leads-metric__info">
+                    <span class="leads-view-leads-metric__label">Total</span>
+                    <span class="leads-view-leads-metric__value" id="leadsTotal">12</span>
                 </div>
-                <span class="leads-metric__badge">100%</span>
+                <span class="leads-view-leads-metric__badge">100%</span>
             </article>
-            <article class="card leads-metric">
-                <div class="leads-metric__info">
-                    <span class="leads-metric__label">Nuevos</span>
-                    <span class="leads-metric__value" id="leadsNew">5</span>
+            <article class="leads-view-card leads-view-leads-metric">
+                <div class="leads-view-leads-metric__info">
+                    <span class="leads-view-leads-metric__label">Nuevos</span>
+                    <span class="leads-view-leads-metric__value" id="leadsNew">5</span>
                 </div>
-                <span class="leads-metric__badge leads-metric__badge--new">
-                    <svg class="leads-metric__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+                <span class="leads-view-leads-metric__badge leads-view-leads-metric__badge--new">
+                    <svg class="leads-view-leads-metric__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
                         <circle cx="8" cy="8" r="6"></circle>
                     </svg>
                 </span>
             </article>
-            <article class="card leads-metric">
-                <div class="leads-metric__info">
-                    <span class="leads-metric__label">En seguimiento</span>
-                    <span class="leads-metric__value" id="leadsProgress">4</span>
+            <article class="leads-view-card leads-view-leads-metric">
+                <div class="leads-view-leads-metric__info">
+                    <span class="leads-view-leads-metric__label">En seguimiento</span>
+                    <span class="leads-view-leads-metric__value" id="leadsProgress">4</span>
                 </div>
-                <span class="leads-metric__badge leads-metric__badge--progress">
-                    <svg class="leads-metric__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+                <span class="leads-view-leads-metric__badge leads-view-leads-metric__badge--progress">
+                    <svg class="leads-view-leads-metric__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
                         <circle cx="8" cy="8" r="6"></circle>
                     </svg>
                 </span>
             </article>
-            <article class="card leads-metric">
-                <div class="leads-metric__info">
-                    <span class="leads-metric__label">Cerrados</span>
-                    <span class="leads-metric__value" id="leadsDone">3</span>
+            <article class="leads-view-card leads-view-leads-metric">
+                <div class="leads-view-leads-metric__info">
+                    <span class="leads-view-leads-metric__label">Cerrados</span>
+                    <span class="leads-view-leads-metric__value" id="leadsDone">3</span>
                 </div>
-                <span class="leads-metric__badge leads-metric__badge--done">
-                    <svg class="leads-metric__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+                <span class="leads-view-leads-metric__badge leads-view-leads-metric__badge--done">
+                    <svg class="leads-view-leads-metric__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
                         <circle cx="8" cy="8" r="6"></circle>
                     </svg>
                 </span>
             </article>
         </div>
 
-        <div class="card leads__table">
-            <div class="leads-table__wrapper">
-                <table class="leads-table" aria-describedby="leadsCount">
+        <div class="leads-view-card leads-view-leads__table">
+            <div class="leads-view-leads-table__wrapper">
+                <table class="leads-view-leads-table" aria-describedby="leadsCount">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -115,62 +115,62 @@
             </div>
         </div>
 
-        <div class="leads__pagination">
-            <button class="leads-btn leads-btn--ghost" type="button" id="leadsPrev">◀</button>
-            <span class="leads__pagination-range" id="leadsRange">Mostrando 1–10 de 12</span>
-            <button class="leads-btn leads-btn--ghost" type="button" id="leadsNext">▶</button>
+        <div class="leads-view-leads__pagination">
+            <button class="leads-view-leads-btn leads-view-leads-btn--ghost" type="button" id="leadsPrev">◀</button>
+            <span class="leads-view-leads__pagination-range" id="leadsRange">Mostrando 1–10 de 12</span>
+            <button class="leads-view-leads-btn leads-view-leads-btn--ghost" type="button" id="leadsNext">▶</button>
         </div>
     </div>
 </section>
 
-<div class="leads-drawer" id="leadDrawer" role="dialog" aria-modal="true" aria-label="Detalles del lead" aria-hidden="true">
-    <div class="leads-drawer__backdrop" data-close></div>
-    <aside class="leads-drawer__panel">
-        <div class="leads-drawer__header">
-            <h3 class="leads-drawer__title" id="drawerName">Nombre Lead</h3>
-            <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" data-close title="Cerrar">✕</button>
+<div class="leads-view-leads-drawer" id="leadDrawer" role="dialog" aria-modal="true" aria-label="Detalles del lead" aria-hidden="true">
+    <div class="leads-view-leads-drawer__backdrop" data-close></div>
+    <aside class="leads-view-leads-drawer__panel">
+        <div class="leads-view-leads-drawer__header">
+            <h3 class="leads-view-leads-drawer__title" id="drawerName">Nombre Lead</h3>
+            <button class="leads-view-leads-btn leads-view-leads-btn--ghost leads-view-leads-btn--icon" type="button" data-close title="Cerrar">✕</button>
         </div>
-        <div class="leads-drawer__section">
-            <dl class="leads-drawer__details">
-                <div class="leads-drawer__detail">
+        <div class="leads-view-leads-drawer__section">
+            <dl class="leads-view-leads-drawer__details">
+                <div class="leads-view-leads-drawer__detail">
                     <dt>Email</dt>
                     <dd id="drawerEmail"></dd>
                 </div>
-                <div class="leads-drawer__detail">
+                <div class="leads-view-leads-drawer__detail">
                     <dt>Teléfono</dt>
                     <dd id="drawerPhone"></dd>
                 </div>
-                <div class="leads-drawer__detail">
+                <div class="leads-view-leads-drawer__detail">
                     <dt>Propiedad</dt>
                     <dd id="drawerProperty"></dd>
                 </div>
-                <div class="leads-drawer__detail">
+                <div class="leads-view-leads-drawer__detail">
                     <dt>Fecha</dt>
                     <dd id="drawerDate"></dd>
                 </div>
-                <div class="leads-drawer__detail">
+                <div class="leads-view-leads-drawer__detail">
                     <dt>Estado</dt>
                     <dd id="drawerState"></dd>
                 </div>
             </dl>
         </div>
-        <div class="leads-drawer__section">
-            <h4 class="leads-drawer__subtitle">Mensaje</h4>
+        <div class="leads-view-leads-drawer__section">
+            <h4 class="leads-view-leads-drawer__subtitle">Mensaje</h4>
             <p id="drawerMessage"></p>
         </div>
-        <div class="leads-drawer__section">
-            <div class="leads-drawer__actions">
-                <a class="leads-btn" id="drawerMailto" target="_blank" rel="noopener">Enviar correo</a>
-                <a class="leads-btn" id="drawerWhats" target="_blank" rel="noopener">Abrir WhatsApp</a>
-                <button class="leads-btn leads-btn--primary" type="button" id="drawerMarkProgress">Marcar "En seguimiento"</button>
-                <button class="leads-btn" type="button" id="drawerMarkDone">Marcar "Cerrado"</button>
+        <div class="leads-view-leads-drawer__section">
+            <div class="leads-view-leads-drawer__actions">
+                <a class="leads-view-leads-btn" id="drawerMailto" target="_blank" rel="noopener">Enviar correo</a>
+                <a class="leads-view-leads-btn" id="drawerWhats" target="_blank" rel="noopener">Abrir WhatsApp</a>
+                <button class="leads-view-leads-btn leads-view-leads-btn--primary" type="button" id="drawerMarkProgress">Marcar "En seguimiento"</button>
+                <button class="leads-view-leads-btn" type="button" id="drawerMarkDone">Marcar "Cerrado"</button>
             </div>
         </div>
-        <div class="leads-drawer__section">
-            <h4 class="leads-drawer__subtitle">Notas internas</h4>
-            <textarea class="leads-textarea" id="drawerNotes" rows="4" placeholder="Ej: Llamé y agendamos visita el sábado"></textarea>
-            <div class="leads-drawer__footer">
-                <button class="leads-btn leads-btn--ghost" type="button">Guardar nota</button>
+        <div class="leads-view-leads-drawer__section">
+            <h4 class="leads-view-leads-drawer__subtitle">Notas internas</h4>
+            <textarea class="leads-view-leads-textarea" id="drawerNotes" rows="4" placeholder="Ej: Llamé y agendamos visita el sábado"></textarea>
+            <div class="leads-view-leads-drawer__footer">
+                <button class="leads-view-leads-btn leads-view-leads-btn--ghost" type="button">Guardar nota</button>
             </div>
         </div>
     </aside>

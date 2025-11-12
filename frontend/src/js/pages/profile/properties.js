@@ -17,7 +17,7 @@
         panel.dataset.propertiesInitialized = 'true';
 
         const closers = modal.querySelectorAll('[data-modal-close]');
-        const steps = Array.from(modal.querySelectorAll('.modal-publish__step'));
+        const steps = Array.from(modal.querySelectorAll('.properties-view-modal-publish__step'));
         const summaryBadges = {
             purpose: modal.querySelector('[data-selection-purpose]'),
             type: modal.querySelector('[data-selection-type]')
@@ -36,10 +36,10 @@
             const { onComplete } = options;
             const closers = Array.from(modalElement.querySelectorAll('[data-modal-close]'));
             const firstField = modalElement.querySelector('input, textarea, select, button');
-            const fileInput = modalElement.querySelector('.publish-details__file-input');
-            const uploadButton = modalElement.querySelector('.publish-details__upload-btn');
-            const uploadArea = modalElement.querySelector('.publish-details__upload');
-            const galleryContainer = modalElement.querySelector('.publish-details__gallery');
+            const fileInput = modalElement.querySelector('.properties-view-publish-details__file-input');
+            const uploadButton = modalElement.querySelector('.properties-view-publish-details__upload-btn');
+            const uploadArea = modalElement.querySelector('.properties-view-publish-details__upload');
+            const galleryContainer = modalElement.querySelector('.properties-view-publish-details__gallery');
             const galleryList = modalElement.querySelector('[data-gallery-list]');
             const galleryStatus = modalElement.querySelector('[data-gallery-status]');
             const galleryCount = modalElement.querySelector('[data-gallery-count]');
@@ -50,7 +50,7 @@
             const galleryItems = [];
             const recommendedGallerySize = 12;
             let dragSourceIndex = null;
-            const detailsForm = modalElement.querySelector('.publish-details');
+            const detailsForm = modalElement.querySelector('.properties-view-publish-details');
             const detailsSteps = detailsForm ? Array.from(detailsForm.querySelectorAll('[data-details-step]')) : [];
             const detailsPrevButton = modalElement.querySelector('[data-details-prev]');
             const featuresContent = modalElement.querySelector('[data-features-content]');
@@ -67,7 +67,7 @@
             const pricingError = modalElement.querySelector('[data-pricing-error]');
             const priceInput = modalElement.querySelector('[data-pricing-input]');
             const currencySymbol = modalElement.querySelector('[data-pricing-currency-symbol]');
-            const pricingInputGroup = modalElement.querySelector('.publish-pricing__input-group');
+            const pricingInputGroup = modalElement.querySelector('.properties-view-publish-pricing__input-group');
             const pricingPrevButton = modalElement.querySelector('[data-pricing-prev]');
             const currencySelect = modalElement.querySelector('[data-pricing-currency-select]');
             const customCurrencySelect = modalElement.querySelector('[data-currency-select]');
@@ -77,7 +77,7 @@
             const currencyOptionItems = currencyOptionsList
                 ? Array.from(currencyOptionsList.querySelectorAll('[data-currency-option]'))
                 : [];
-            const modalDialog = modalElement.querySelector('.modal__dialog');
+            const modalDialog = modalElement.querySelector('.properties-view-modal__dialog');
             let currentDetailsStep = 'basic';
             let selectedPropertyType = null;
             let selectedPropertyTypeLabel = '';
@@ -111,7 +111,7 @@
                 const hasType = Boolean(selectedPropertyType);
                 featureGroups.forEach(group => {
                     const matches = hasType && group.dataset.featureCategory === selectedPropertyType;
-                    group.classList.toggle('property-features__group--active', matches);
+                    group.classList.toggle('properties-view-property-features__group--active', matches);
                     if (matches) {
                         group.removeAttribute('hidden');
                     } else {
@@ -417,7 +417,7 @@
                 }
                 detailsSteps.forEach(section => {
                     const isActive = section.dataset.detailsStep === step;
-                    section.classList.toggle('publish-details__step--active', isActive);
+                    section.classList.toggle('properties-view-publish-details__step--active', isActive);
                     section.classList.toggle('is-active', isActive);
                     if (isActive) {
                         section.removeAttribute('hidden');
@@ -641,25 +641,25 @@
 
                 galleryItems.forEach((item, index) => {
                     const listItem = document.createElement('li');
-                    listItem.className = 'publish-details__gallery-item';
+                    listItem.className = 'properties-view-publish-details__gallery-item';
                     listItem.draggable = true;
                     listItem.dataset.index = String(index);
 
                     const image = document.createElement('img');
-                    image.className = 'publish-details__gallery-thumb';
+                    image.className = 'properties-view-publish-details__gallery-thumb';
                     image.src = item.previewUrl;
                     image.alt = `Vista previa ${index + 1}`;
 
                     const overlay = document.createElement('div');
-                    overlay.className = 'publish-details__gallery-overlay';
+                    overlay.className = 'properties-view-publish-details__gallery-overlay';
 
                     const indexBadge = document.createElement('span');
-                    indexBadge.className = 'publish-details__gallery-index';
+                    indexBadge.className = 'properties-view-publish-details__gallery-index';
                     indexBadge.textContent = String(index + 1);
 
                     const removeButton = document.createElement('button');
                     removeButton.type = 'button';
-                    removeButton.className = 'publish-details__gallery-remove';
+                    removeButton.className = 'properties-view-publish-details__gallery-remove';
                     removeButton.setAttribute('aria-label', `Quitar ${item.file.name}`);
                     removeButton.innerHTML = '&times;';
                     removeButton.addEventListener('click', (event) => {
@@ -948,7 +948,7 @@
         const showStep = (stepName) => {
             steps.forEach(step => {
                 const isActive = step.dataset.step === stepName;
-                step.classList.toggle('modal-publish__step--active', isActive);
+                step.classList.toggle('properties-view-modal-publish__step--active', isActive);
             });
             modal.dataset.currentStep = stepName;
         };

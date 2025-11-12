@@ -62,7 +62,7 @@
         };
 
         const stateIconMarkup = `
-            <svg class="leads-state__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
+            <svg class="leads-view-leads-state__icon" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
                 <circle cx="8" cy="8" r="6"></circle>
             </svg>
         `.trim();
@@ -74,9 +74,9 @@
         };
 
         const stateClasses = {
-            new: 'leads-state leads-state--new',
-            progress: 'leads-state leads-state--progress',
-            done: 'leads-state leads-state--done'
+            new: 'leads-view-leads-state leads-view-leads-state--new',
+            progress: 'leads-view-leads-state leads-view-leads-state--progress',
+            done: 'leads-view-leads-state leads-view-leads-state--done'
         };
 
         const buildStateBadge = (state) => {
@@ -84,7 +84,7 @@
             const badgeLabel = stateLabels[safeState];
             const badgeClass = stateClasses[safeState];
 
-            return `<span class="${badgeClass}">${stateIconMarkup}<span class="leads-state__label">${badgeLabel}</span></span>`;
+            return `<span class="${badgeClass}">${stateIconMarkup}<span class="leads-view-leads-state__label">${badgeLabel}</span></span>`;
         };
 
         let lastFiltered = leadsData.slice();
@@ -107,10 +107,10 @@
                 elements.drawerName.textContent = lead.name;
             }
             if (elements.drawerEmail) {
-                elements.drawerEmail.innerHTML = `<a class="leads-link" href="mailto:${lead.email}">${lead.email}</a>`;
+                elements.drawerEmail.innerHTML = `<a class="leads-view-leads-link" href="mailto:${lead.email}">${lead.email}</a>`;
             }
             if (elements.drawerPhone) {
-                elements.drawerPhone.innerHTML = `<a class="leads-link" href="tel:${lead.phone}">${lead.phone}</a>`;
+                elements.drawerPhone.innerHTML = `<a class="leads-view-leads-link" href="tel:${lead.phone}">${lead.phone}</a>`;
             }
             if (elements.drawerProperty) {
                 elements.drawerProperty.textContent = lead.property;
@@ -221,14 +221,14 @@
                 return `
                     <tr>
                         <td>${lead.name}</td>
-                        <td><a href="tel:${lead.phone}" class="leads-link">${lead.phone}</a></td>
-                        <td><a href="mailto:${lead.email}" class="leads-link">${lead.email}</a></td>
+                        <td><a href="tel:${lead.phone}" class="leads-view-leads-link">${lead.phone}</a></td>
+                        <td><a href="mailto:${lead.email}" class="leads-view-leads-link">${lead.email}</a></td>
                         <td>${lead.property}</td>
                         <td title="${message}">${truncatedMessage}</td>
                         <td>${formatDate(lead.date)}</td>
                         <td>${buildStateBadge(lead.state)}</td>
                         <td>
-                            <div class="leads-row-actions">
+                            <div class="leads-view-leads-row-actions">
                                 <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Ver detalles" data-view="${lead.id}">${eyeIcon}</button>
                                 <button class="leads-btn leads-btn--ghost leads-btn--icon" type="button" aria-label="Abrir WhatsApp" data-whats="${lead.id}">${chatIcon}</button>
                             </div>

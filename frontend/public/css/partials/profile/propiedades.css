@@ -1,5 +1,6 @@
-/* Importaciones y estilos base */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Adamina&family=Arvo:ital,wght@0,400;0,700;1,400;1,700&family=Cantata+One&family=DM+Serif+Display:ital@0;1&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&family=Sedan+SC&display=swap');
+
+/* Importaciones y estilos base */
 
 /* ================================================= */
 /* === ESTILOS BASE === */
@@ -29,7 +30,7 @@ button {
 /* ================================================= */
 /* === ENCABEZADO DEL PANEL === */
 /* ================================================= */
-.dashboard__breadcrumb {
+.properties-view-dashboard__breadcrumb {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -40,21 +41,21 @@ button {
     margin-bottom: 32px;
 }
 
-.breadcrumb__label {
+.properties-view-breadcrumb__label {
     font-weight: 600;
     color: #2c3e50;
 }
 
-.breadcrumb__current {
+.properties-view-breadcrumb__current {
     color: #3498db;
     font-weight: 600;
 }
 
-.dashboard__section {
+.properties-view-dashboard__section {
     margin-bottom: 48px;
 }
 
-.dashboard__section-heading {
+.properties-view-dashboard__section-heading {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -62,13 +63,13 @@ button {
     margin-bottom: 24px;
 }
 
-.dashboard__section-title {
+.properties-view-dashboard__section-title {
     font-size: 22px;
     color: #1f2937;
     font-weight: 700;
 }
 
-.dashboard__action-btn {
+.properties-view-dashboard__action-btn {
     border: none;
     border-radius: 12px;
     padding: 12px 22px;
@@ -78,18 +79,18 @@ button {
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
 }
 
-.dashboard__action-btn--primary {
+.properties-view-dashboard__action-btn--primary {
     background: linear-gradient(135deg, #3498db 0%, #4aa3e0 100%);
     color: #ffffff;
     box-shadow: 0 10px 25px rgba(52, 152, 219, 0.25);
 }
 
-.dashboard__action-btn:hover {
+.properties-view-dashboard__action-btn:hover {
     transform: translateY(-1px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 
-.card {
+.properties-view-card {
     background-color: #ffffff;
     border-radius: 18px;
     padding: 24px;
@@ -97,7 +98,7 @@ button {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
+.properties-view-card:hover {
     transform: translateY(-6px);
     box-shadow: 0 25px 55px rgba(15, 23, 42, 0.12);
 }
@@ -105,7 +106,7 @@ button {
 /* ================================================= */
 /* === ESTADO VACÍO DE PROPIEDADES === */
 /* ================================================= */
-.properties-empty {
+.properties-view-properties-empty {
     display: flex;
     align-items: center;
     gap: 32px;
@@ -114,7 +115,7 @@ button {
     border: 1px solid rgba(52, 152, 219, 0.15);
 }
 
-.properties-empty__illustration {
+.properties-view-properties-empty__illustration {
     flex-shrink: 0;
     width: 120px;
     height: 120px;
@@ -124,7 +125,7 @@ button {
     position: relative;
 }
 
-.properties-empty__illustration::after {
+.properties-view-properties-empty__illustration::after {
     content: "";
     position: absolute;
     inset: 24px;
@@ -133,27 +134,27 @@ button {
     box-shadow: 0 16px 32px rgba(52, 152, 219, 0.15);
 }
 
-.properties-empty__content {
+.properties-view-properties-empty__content {
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
 
-.properties-empty__title {
+.properties-view-properties-empty__title {
     font-size: 24px;
     font-weight: 700;
     color: #1f2937;
     margin: 0;
 }
 
-.properties-empty__description {
+.properties-view-properties-empty__description {
     font-size: 16px;
     color: #4b5563;
     max-width: 520px;
     margin: 0;
 }
 
-.properties-empty__note {
+.properties-view-properties-empty__note {
     font-size: 14px;
     color: #6b7280;
     margin: 0;
@@ -162,20 +163,20 @@ button {
 /* ================================================= */
 /* === RECOMENDACIONES === */
 /* ================================================= */
-.properties-tips {
+.properties-view-properties-tips {
     padding: 36px 40px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.96), rgba(243, 249, 255, 0.96));
     border: 1px solid rgba(209, 213, 219, 0.6);
 }
 
-.properties-tips__title {
+.properties-view-properties-tips__title {
     font-size: 20px;
     font-weight: 700;
     color: #1f2937;
     margin: 0 0 18px;
 }
 
-.properties-tips__list {
+.properties-view-properties-tips__list {
     margin: 0;
     padding-left: 20px;
     display: grid;
@@ -188,7 +189,7 @@ button {
 /* ================================================= */
 /* === MODALES BASE === */
 /* ================================================= */
-.modal {
+.properties-view-modal {
     position: fixed;
     inset: 0;
     display: flex;
@@ -202,17 +203,17 @@ button {
     padding: 24px;
 }
 
-.modal--visible {
+.properties-view-modal--visible {
     opacity: 1;
     visibility: visible;
 }
 
-.modal__overlay {
+.properties-view-modal__overlay {
     position: absolute;
     inset: 0;
 }
 
-.modal__dialog {
+.properties-view-modal__dialog {
     position: relative;
     background: #ffffff;
     border-radius: 24px;
@@ -223,35 +224,35 @@ button {
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
 }
 
-.modal__title {
+.properties-view-modal__title {
     font-size: 1.75rem;
     font-weight: 700;
     margin: -22px 0 0.5rem;
     padding-top: 1.5rem;
 }
 
-.modal__subtitle {
+.properties-view-modal__subtitle {
     font-size: 1rem;
     color: #6b7280;
     margin: 0 0 10px;
 }
 
-.modal__action {
+.properties-view-modal__action {
     flex: 1;
     text-align: center;
     border-radius: 12px;
 }
 
-.modal__action:not(.dashboard__action-btn--primary) {
+.properties-view-modal__action:not(.properties-view-dashboard__action-btn--primary) {
     background: #e5f2ff;
     color: #1f2937;
 }
 
-.modal__action:not(.dashboard__action-btn--primary):hover {
+.properties-view-modal__action:not(.properties-view-dashboard__action-btn--primary):hover {
     background: #d6e9ff;
 }
 
-.modal__close {
+.properties-view-modal__close {
     position: absolute;
     top: 16px;
     right: 16px;
@@ -264,19 +265,19 @@ button {
     transition: color 0.2s ease;
 }
 
-.modal__close:hover {
+.properties-view-modal__close:hover {
     color: #4b5563;
 }
 
 /* ================================================= */
 /* === MODAL PUBLICAR PROPIEDAD === */
 /* ================================================= */
-.modal-publish {
+.properties-view-modal-publish {
     padding: 44px 48px 40px;
     text-align: left;
 }
 
-.modal-publish__summary {
+.properties-view-modal-publish__summary {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
@@ -284,7 +285,7 @@ button {
     margin-bottom: 12px;
 }
 
-.modal-publish__badge {
+.properties-view-modal-publish__badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -298,12 +299,12 @@ button {
     text-transform: uppercase;
 }
 
-.modal-publish__step {
+.properties-view-modal-publish__step {
     display: none;
     animation: modal-step-in 0.25s ease;
 }
 
-.modal-publish__step--active {
+.properties-view-modal-publish__step--active {
     display: block;
 }
 
@@ -318,17 +319,17 @@ button {
     }
 }
 
-.modal-publish__options {
+.properties-view-modal-publish__options {
     display: grid;
     gap: 16px;
     margin-top: 32px;
 }
 
-.modal-publish__options--grid {
+.properties-view-modal-publish__options--grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.modal-publish__option {
+.properties-view-modal-publish__option {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -343,20 +344,20 @@ button {
     text-align: left;
 }
 
-.modal-publish__option:hover,
-.modal-publish__option:focus {
+.properties-view-modal-publish__option:hover,
+.properties-view-modal-publish__option:focus {
     border-color: #2563eb;
     box-shadow: 0 14px 32px rgba(37, 99, 235, 0.15);
     transform: translateY(-2px);
     outline: none;
 }
 
-.modal-publish__option.is-selected {
+.properties-view-modal-publish__option.properties-view-is-selected {
     border-color: #2563eb;
     box-shadow: 0 16px 36px rgba(37, 99, 235, 0.18);
 }
 
-.modal-publish__icon {
+.properties-view-modal-publish__icon {
     width: 52px;
     height: 52px;
     display: inline-flex;
@@ -366,24 +367,24 @@ button {
     background: #f1f5f9;
 }
 
-.modal-publish__icon svg {
+.properties-view-modal-publish__icon svg {
     width: 32px;
     height: 32px;
 }
 
-.modal-publish__label {
+.properties-view-modal-publish__label {
     font-size: 18px;
     font-weight: 700;
     color: #1f2937;
 }
 
-.modal-publish__description {
+.properties-view-modal-publish__description {
     font-size: 14px;
     color: #4b5563;
     line-height: 1.5;
 }
 
-.modal-publish__back {
+.properties-view-modal-publish__back {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -395,19 +396,19 @@ button {
     margin-bottom: 12px;
 }
 
-.modal-publish__back:hover,
-.modal-publish__back:focus {
+.properties-view-modal-publish__back:hover,
+.properties-view-modal-publish__back:focus {
     color: #1d4ed8;
     text-decoration: underline;
 }
 
-.modal-publish__footer {
+.properties-view-modal-publish__footer {
     margin-top: 28px;
     display: flex;
     justify-content: flex-end;
 }
 
-.modal-publish__footer [data-publish-finish][disabled] {
+.properties-view-modal-publish__footer [data-publish-finish][disabled] {
     opacity: 0.6;
     cursor: not-allowed;
     box-shadow: none;
@@ -416,7 +417,7 @@ button {
 /* ================================================= */
 /* === MODAL DETALLES DE PUBLICACIÓN === */
 /* ================================================= */
-.modal-publish-details {
+.properties-view-modal-publish-details {
     max-width: 720px;
     max-height: calc(100vh - 96px);
     padding: 48px 56px;
@@ -431,33 +432,33 @@ button {
     scrollbar-gutter: stable both-edges;
 }
 
-.modal-publish-details::-webkit-scrollbar {
+.properties-view-modal-publish-details::-webkit-scrollbar {
     width: 10px;
 }
 
-.modal-publish-details::-webkit-scrollbar-track {
+.properties-view-modal-publish-details::-webkit-scrollbar-track {
     background: rgba(226, 232, 240, 0.45);
     border-radius: 999px;
 }
 
-.modal-publish-details::-webkit-scrollbar-thumb {
+.properties-view-modal-publish-details::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg, #93c5fd, #3b82f6);
     border-radius: 999px;
     border: 2px solid rgba(226, 232, 240, 0.65);
 }
 
-.modal-publish-details::-webkit-scrollbar-thumb:hover {
+.properties-view-modal-publish-details::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, #60a5fa, #2563eb);
 }
 
-.modal-publish-details__header {
+.properties-view-modal-publish-details__header {
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
     border-radius: 50px;
 }
 
-.modal-publish-details__badge {
+.properties-view-modal-publish-details__badge {
     position: absolute;
     top: 0;
     left: 50%;
@@ -476,32 +477,32 @@ button {
 /* ================================================= */
 /* === FORMULARIO DE PUBLICACIÓN === */
 /* ================================================= */
-.publish-details {
+.properties-view-publish-details {
     display: flex;
     flex-direction: column;
     gap: 28px;
 }
 
-.publish-details__grid {
+.properties-view-publish-details__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
 }
 
-.publish-details__field {
+.properties-view-publish-details__field {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.publish-details__field label {
+.properties-view-publish-details__field label {
     font-weight: 600;
     color: #1f2937;
     font-size: 15px;
 }
 
-.publish-details__field input,
-.publish-details__field textarea {
+.properties-view-publish-details__field input,
+.properties-view-publish-details__field textarea {
     width: 100%;
     border-radius: 14px;
     border: 1px solid rgba(148, 163, 184, 0.4);
@@ -511,34 +512,34 @@ button {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.publish-details__field input:focus,
-.publish-details__field textarea:focus {
+.properties-view-publish-details__field input:focus,
+.properties-view-publish-details__field textarea:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-.publish-details__field textarea {
+.properties-view-publish-details__field textarea {
     resize: vertical;
     min-height: 140px;
 }
 
-.publish-details__hint {
+.properties-view-publish-details__hint {
     font-size: 13px;
     color: #64748b;
 }
 
-.publish-details__location {
+.properties-view-publish-details__location {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-.publish-details__location input {
+.properties-view-publish-details__location input {
     padding-right: 52px;
 }
 
-.publish-details__location-btn {
+.properties-view-publish-details__location-btn {
     position: absolute;
     right: 12px;
     border: none;
@@ -554,18 +555,18 @@ button {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.publish-details__location-btn:hover,
-.publish-details__location-btn:focus {
+.properties-view-publish-details__location-btn:hover,
+.properties-view-publish-details__location-btn:focus {
     transform: translateY(-1px);
     box-shadow: 0 12px 25px rgba(37, 99, 235, 0.3);
 }
 
-.publish-details__location-btn svg {
+.properties-view-publish-details__location-btn svg {
     width: 18px;
     height: 18px;
 }
 
-.publish-details__upload {
+.properties-view-publish-details__upload {
     position: relative;
     display: grid;
     grid-template-columns: auto 1fr;
@@ -578,22 +579,22 @@ button {
     cursor: pointer;
 }
 
-.publish-details__upload.is-dragover {
+.properties-view-publish-details__upload.properties-view-is-dragover {
     border-color: rgba(37, 99, 235, 0.7);
     background: linear-gradient(135deg, rgba(191, 219, 254, 0.6), rgba(191, 219, 254, 0.4));
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
 }
 
-.publish-details__file-input {
+.properties-view-publish-details__file-input {
     display: none;
 }
 
-.publish-details__upload-illustration svg {
+.properties-view-publish-details__upload-illustration svg {
     width: 96px;
     height: 96px;
 }
 
-.publish-details__upload-copy {
+.properties-view-publish-details__upload-copy {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -601,16 +602,16 @@ button {
     font-size: 15px;
 }
 
-.publish-details__upload-copy strong {
+.properties-view-publish-details__upload-copy strong {
     font-size: 16px;
 }
 
-.publish-details__upload-copy span {
+.properties-view-publish-details__upload-copy span {
     color: #64748b;
     font-size: 13px;
 }
 
-.publish-details__upload-btn {
+.properties-view-publish-details__upload-btn {
     align-self: flex-start;
     margin-top: 6px;
     padding: 10px 18px;
@@ -624,13 +625,13 @@ button {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.publish-details__upload-btn:hover,
-.publish-details__upload-btn:focus {
+.properties-view-publish-details__upload-btn:hover,
+.properties-view-publish-details__upload-btn:focus {
     transform: translateY(-1px);
     box-shadow: 0 16px 30px rgba(37, 99, 235, 0.3);
 }
 
-.publish-details__gallery {
+.properties-view-publish-details__gallery {
     margin-top: 1.5rem;
     border: 1px solid rgba(148, 163, 184, 0.35);
     border-radius: 18px;
@@ -639,7 +640,7 @@ button {
     box-shadow: inset 0 1px 0 rgba(148, 163, 184, 0.12);
 }
 
-.publish-details__gallery-status {
+.properties-view-publish-details__gallery-status {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
@@ -653,46 +654,46 @@ button {
     transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.publish-details__gallery-status[data-state="filled"] {
+.properties-view-publish-details__gallery-status[data-state="filled"] {
     border-color: rgba(37, 99, 235, 0.35);
     background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(59, 130, 246, 0.08));
     box-shadow: 0 16px 32px rgba(37, 99, 235, 0.16);
 }
 
-.publish-details__gallery-status[data-state="complete"] {
+.properties-view-publish-details__gallery-status[data-state="complete"] {
     border-color: rgba(34, 197, 94, 0.45);
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.18), rgba(134, 239, 172, 0.18));
     box-shadow: 0 18px 34px rgba(16, 185, 129, 0.22);
 }
 
-.publish-details__gallery-status-main {
+.properties-view-publish-details__gallery-status-main {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
     color: #1e293b;
 }
 
-.publish-details__gallery-count {
+.properties-view-publish-details__gallery-count {
     font-weight: 600;
     font-size: 0.95rem;
 }
 
-.publish-details__gallery-count strong {
+.properties-view-publish-details__gallery-count strong {
     font-size: 1.1rem;
     color: #1d4ed8;
     margin-right: 0.35rem;
 }
 
-.publish-details__gallery-status[data-state="complete"] .publish-details__gallery-count strong {
+.properties-view-publish-details__gallery-status[data-state="complete"] .properties-view-publish-details__gallery-count strong {
     color: #15803d;
 }
 
-.publish-details__gallery-note {
+.properties-view-publish-details__gallery-note {
     font-size: 0.82rem;
     color: #475569;
 }
 
-.publish-details__gallery-progress {
+.properties-view-publish-details__gallery-progress {
     min-width: 190px;
     display: flex;
     flex-direction: column;
@@ -700,7 +701,7 @@ button {
     gap: 0.45rem;
 }
 
-.publish-details__gallery-progress-track {
+.properties-view-publish-details__gallery-progress-track {
     width: 100%;
     height: 6px;
     border-radius: 999px;
@@ -708,7 +709,7 @@ button {
     overflow: hidden;
 }
 
-.publish-details__gallery-progress-bar {
+.properties-view-publish-details__gallery-progress-bar {
     height: 100%;
     width: 0%;
     background: linear-gradient(90deg, #2563eb, #3b82f6);
@@ -716,21 +717,21 @@ button {
     transition: width 0.35s ease;
 }
 
-.publish-details__gallery-status[data-state="complete"] .publish-details__gallery-progress-bar {
+.properties-view-publish-details__gallery-status[data-state="complete"] .properties-view-publish-details__gallery-progress-bar {
     background: linear-gradient(90deg, #16a34a, #22c55e);
 }
 
-.publish-details__gallery-progress-label {
+.properties-view-publish-details__gallery-progress-label {
     font-size: 0.78rem;
     font-weight: 600;
     color: #1d4ed8;
 }
 
-.publish-details__gallery-status[data-state="complete"] .publish-details__gallery-progress-label {
+.properties-view-publish-details__gallery-status[data-state="complete"] .properties-view-publish-details__gallery-progress-label {
     color: #15803d;
 }
 
-.publish-details__gallery-placeholder {
+.properties-view-publish-details__gallery-placeholder {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -745,7 +746,7 @@ button {
     background: linear-gradient(135deg, rgba(226, 232, 240, 0.6), rgba(241, 245, 249, 0.9));
 }
 
-.publish-details__gallery-placeholder-icon {
+.properties-view-publish-details__gallery-placeholder-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -756,26 +757,26 @@ button {
     color: #2563eb;
 }
 
-.publish-details__gallery-placeholder-copy {
+.properties-view-publish-details__gallery-placeholder-copy {
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
 }
 
-.publish-details__gallery-placeholder-copy strong {
+.properties-view-publish-details__gallery-placeholder-copy strong {
     font-weight: 600;
     color: #1e293b;
     font-size: 1rem;
 }
 
-.publish-details__gallery-placeholder-copy p {
+.properties-view-publish-details__gallery-placeholder-copy p {
     margin: 0;
     color: #475569;
     font-size: 0.85rem;
     line-height: 1.6;
 }
 
-.publish-details__gallery-tips {
+.properties-view-publish-details__gallery-tips {
     margin: 0;
     padding-left: 1.1rem;
     display: flex;
@@ -786,7 +787,7 @@ button {
     list-style: disc;
 }
 
-.publish-details__gallery-list {
+.properties-view-publish-details__gallery-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: 1rem;
@@ -795,23 +796,23 @@ button {
     list-style: none;
 }
 
-.publish-details__gallery[data-empty="true"] .publish-details__gallery-list {
+.properties-view-publish-details__gallery[data-empty="true"] .properties-view-publish-details__gallery-list {
     display: none;
 }
 
-.publish-details__gallery[data-empty="true"] .publish-details__gallery-placeholder {
+.properties-view-publish-details__gallery[data-empty="true"] .properties-view-publish-details__gallery-placeholder {
     display: flex;
 }
 
-.publish-details__gallery:not([data-empty="true"]) .publish-details__gallery-placeholder {
+.properties-view-publish-details__gallery:not([data-empty="true"]) .properties-view-publish-details__gallery-placeholder {
     display: none;
 }
 
-.publish-details__gallery[data-empty="true"] .publish-details__gallery-status {
+.properties-view-publish-details__gallery[data-empty="true"] .properties-view-publish-details__gallery-status {
     box-shadow: 0 8px 18px rgba(148, 163, 184, 0.25);
 }
 
-.publish-details__gallery-item {
+.properties-view-publish-details__gallery-item {
     position: relative;
     border-radius: 14px;
     overflow: hidden;
@@ -823,25 +824,25 @@ button {
     aspect-ratio: 4 / 3;
 }
 
-.publish-details__gallery-item:active {
+.properties-view-publish-details__gallery-item:active {
     cursor: grabbing;
     transform: scale(0.98);
     box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
 }
 
-.publish-details__gallery-item.is-dragging {
+.properties-view-publish-details__gallery-item.properties-view-is-dragging {
     opacity: 0.65;
     border-color: rgba(37, 99, 235, 0.55);
 }
 
-.publish-details__gallery-thumb {
+.properties-view-publish-details__gallery-thumb {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
 }
 
-.publish-details__gallery-overlay {
+.properties-view-publish-details__gallery-overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -853,7 +854,7 @@ button {
     background: linear-gradient(180deg, rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0));
 }
 
-.publish-details__gallery-index {
+.properties-view-publish-details__gallery-index {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -867,7 +868,7 @@ button {
     box-shadow: 0 6px 12px rgba(37, 99, 235, 0.35);
 }
 
-.publish-details__gallery-remove {
+.properties-view-publish-details__gallery-remove {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -883,19 +884,19 @@ button {
     pointer-events: auto;
 }
 
-.publish-details__gallery-remove:hover,
-.publish-details__gallery-remove:focus {
+.properties-view-publish-details__gallery-remove:hover,
+.properties-view-publish-details__gallery-remove:focus {
     background: rgba(239, 68, 68, 0.3);
     color: #ffffff;
 }
 
-.publish-details__actions {
+.properties-view-publish-details__actions {
     display: flex;
     justify-content: flex-end;
     gap: 16px;
 }
 
-.publish-details__actions .modal__action {
+.properties-view-publish-details__actions .properties-view-modal__action {
     padding: 12px 22px;
     border: none;
     color: #1f2937;
@@ -903,38 +904,38 @@ button {
     font-weight: 600;
 }
 
-.publish-details__actions .modal__action:hover,
-.publish-details__actions .modal__action:focus {
+.properties-view-publish-details__actions .properties-view-modal__action:hover,
+.properties-view-publish-details__actions .properties-view-modal__action:focus {
     background: rgba(203, 213, 225, 0.9);
 }
 
-.publish-details__actions--between {
+.properties-view-publish-details__actions--between {
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px 16px;
 }
 
-.publish-details__steps {
+.properties-view-publish-details__steps {
     display: flex;
     flex-direction: column;
     gap: 40px;
 }
 
-.publish-details__step {
+.properties-view-publish-details__step {
     display: none;
     flex-direction: column;
     gap: 32px;
 }
 
-.publish-details__step--active,
-.publish-details__step.is-active {
+.properties-view-publish-details__step--active,
+.properties-view-publish-details__step.properties-view-is-active {
     display: flex;
 }
 
 /* ================================================= */
 /* === CARACTERÍSTICAS DE LA PROPIEDAD === */
 /* ================================================= */
-.property-features__header {
+.properties-view-property-features__header {
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
@@ -948,7 +949,7 @@ button {
     box-shadow: 0 24px 36px -28px rgba(15, 23, 42, 0.45);
 }
 
-.property-features__badge {
+.properties-view-property-features__badge {
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -961,20 +962,20 @@ button {
     letter-spacing: 0.01em;
 }
 
-.property-features__title {
+.properties-view-property-features__title {
     font-size: 1.6rem;
     font-weight: 700;
     color: #0f172a;
 }
 
-.property-features__subtitle {
+.properties-view-property-features__subtitle {
     font-size: 0.95rem;
     color: #4b5563;
     max-width: 580px;
     margin: 0 auto;
 }
 
-.property-features__type {
+.properties-view-property-features__type {
     display: flex;
     align-items: center;
     gap: 16px;
@@ -984,7 +985,7 @@ button {
     background: rgba(226, 232, 240, 0.45);
 }
 
-.property-features__type-icon {
+.properties-view-property-features__type-icon {
     width: 48px;
     height: 48px;
     display: inline-flex;
@@ -994,33 +995,33 @@ button {
     background: rgba(14, 165, 233, 0.16);
 }
 
-.property-features__type-icon svg {
+.properties-view-property-features__type-icon svg {
     width: 32px;
     height: 32px;
 }
 
-.property-features__type-label {
+.properties-view-property-features__type-label {
     font-weight: 700;
     color: #0f172a;
 }
 
-.property-features__type-note {
+.properties-view-property-features__type-note {
     margin: 4px 0 0;
     color: #475569;
     font-size: 0.92rem;
 }
 
-.property-features__content[hidden] {
+.properties-view-property-features__content[hidden] {
     display: none;
 }
 
-.property-features__content {
+.properties-view-property-features__content {
     display: flex;
     flex-direction: column;
     gap: 28px;
 }
 
-.property-features__group {
+.properties-view-property-features__group {
     display: none;
     flex-direction: column;
     gap: 24px;
@@ -1031,17 +1032,17 @@ button {
     box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
 }
 
-.property-features__group.property-features__group--active {
+.properties-view-property-features__group.properties-view-property-features__group--active {
     display: flex;
 }
 
-.property-features__group-header {
+.properties-view-property-features__group-header {
     display: flex;
     align-items: flex-start;
     gap: 16px;
 }
 
-.property-features__group-icon {
+.properties-view-property-features__group-icon {
     width: 52px;
     height: 52px;
     display: inline-flex;
@@ -1051,32 +1052,32 @@ button {
     background: rgba(16, 185, 129, 0.12);
 }
 
-.property-features__group h4 {
+.properties-view-property-features__group h4 {
     margin: 0;
     font-size: 1.15rem;
     font-weight: 700;
     color: #0f172a;
 }
 
-.property-features__group p {
+.properties-view-property-features__group p {
     margin: 4px 0 0;
     color: #4b5563;
 }
 
 
-.property-features__grid {
+.properties-view-property-features__grid {
     display: grid;
     gap: 20px;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
 
-.property-features__field {
+.properties-view-property-features__field {
     display: flex;
     flex-direction: column;
     gap: 8px;
 }
 
-.property-features__field-label {
+.properties-view-property-features__field-label {
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -1084,7 +1085,7 @@ button {
     color: #1f2937;
 }
 
-.property-features__label-icon {
+.properties-view-property-features__label-icon {
     width: 32px;
     height: 32px;
     display: inline-flex;
@@ -1094,12 +1095,12 @@ button {
     background: rgba(226, 232, 240, 0.65);
 }
 
-.property-features__label-icon svg {
+.properties-view-property-features__label-icon svg {
     width: 22px;
     height: 22px;
 }
 
-.property-features__input {
+.properties-view-property-features__input {
     width: 100%;
     padding: 12px 14px;
     border-radius: 12px;
@@ -1110,23 +1111,23 @@ button {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.property-features__input:focus {
+.properties-view-property-features__input:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
-.property-features__input::placeholder {
+.properties-view-property-features__input::placeholder {
     color: #94a3b8;
 }
 
-.property-features__toggles {
+.properties-view-property-features__toggles {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
 }
 
-.property-features__toggle {
+.properties-view-property-features__toggle {
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -1139,20 +1140,20 @@ button {
     transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.property-features__toggle:hover,
-.property-features__toggle:focus-within {
+.properties-view-property-features__toggle:hover,
+.properties-view-property-features__toggle:focus-within {
     border-color: #2563eb;
     background: rgba(219, 234, 254, 0.45);
     box-shadow: 0 12px 26px rgba(37, 99, 235, 0.12);
 }
 
-.property-features__toggle input {
+.properties-view-property-features__toggle input {
     width: 18px;
     height: 18px;
     accent-color: #2563eb;
 }
 
-.property-features__toggle-icon {
+.properties-view-property-features__toggle-icon {
     width: 32px;
     height: 32px;
     display: inline-flex;
@@ -1162,12 +1163,12 @@ button {
     background: rgba(37, 99, 235, 0.12);
 }
 
-.property-features__toggle-icon svg {
+.properties-view-property-features__toggle-icon svg {
     width: 20px;
     height: 20px;
 }
 
-.property-features__toggle-group {
+.properties-view-property-features__toggle-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -1177,63 +1178,63 @@ button {
     background: rgba(241, 245, 249, 0.7);
 }
 
-.property-features__toggle-group-title {
+.properties-view-property-features__toggle-group-title {
     font-weight: 700;
     color: #1f2937;
 }
 
-.property-features__toggle-list {
+.properties-view-property-features__toggle-list {
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
 }
 
-.property-features__group[data-feature-category="desarrollo"] .property-features__group-icon {
+.properties-view-property-features__group[data-feature-category="desarrollo"] .properties-view-property-features__group-icon {
     background: rgba(14, 165, 233, 0.14);
 }
 
-.property-features__group[data-feature-category="departamento"] .property-features__group-icon {
+.properties-view-property-features__group[data-feature-category="departamento"] .properties-view-property-features__group-icon {
     background: rgba(99, 102, 241, 0.14);
 }
 
-.property-features__group[data-feature-category="terreno"] .property-features__group-icon {
+.properties-view-property-features__group[data-feature-category="terreno"] .properties-view-property-features__group-icon {
     background: rgba(245, 158, 11, 0.14);
 }
 
-.property-features__group[data-feature-category="desarrollo"] .property-features__toggle-group {
+.properties-view-property-features__group[data-feature-category="desarrollo"] .properties-view-property-features__toggle-group {
     background: rgba(219, 234, 254, 0.55);
     border-color: rgba(37, 99, 235, 0.35);
 }
 
-.property-features__group[data-feature-category="terreno"] .property-features__toggle-group {
+.properties-view-property-features__group[data-feature-category="terreno"] .properties-view-property-features__toggle-group {
     background: rgba(254, 243, 199, 0.55);
     border-color: rgba(245, 158, 11, 0.4);
 }
 
-.property-features__group[data-feature-category="terreno"] .property-features__toggle-icon {
+.properties-view-property-features__group[data-feature-category="terreno"] .properties-view-property-features__toggle-icon {
     background: rgba(245, 158, 11, 0.12);
 }
 
-.property-features__group[data-feature-category="casa"] .property-features__toggle-icon {
+.properties-view-property-features__group[data-feature-category="casa"] .properties-view-property-features__toggle-icon {
     background: rgba(16, 185, 129, 0.12);
 }
 
-.property-features__group[data-feature-category="desarrollo"] .property-features__toggle-icon {
+.properties-view-property-features__group[data-feature-category="desarrollo"] .properties-view-property-features__toggle-icon {
     background: rgba(14, 165, 233, 0.12);
 }
 
-.property-features__group[data-feature-category="departamento"] .property-features__toggle-icon {
+.properties-view-property-features__group[data-feature-category="departamento"] .properties-view-property-features__toggle-icon {
     background: rgba(99, 102, 241, 0.12);
 }
 
-.property-features__group[data-feature-category="departamento"] .property-features__toggle-group-title {
+.properties-view-property-features__group[data-feature-category="departamento"] .properties-view-property-features__toggle-group-title {
     color: #3730a3;
 }
 
 /* ================================================= */
 /* === MODAL DE PRECIO === */
 /* ================================================= */
-.modal-pricing {
+.properties-view-modal-pricing {
     max-width: 540px;
     padding: 44px 48px;
     display: flex;
@@ -1243,7 +1244,7 @@ button {
     text-align: left;
 }
 
-.modal-pricing__header {
+.properties-view-modal-pricing__header {
     text-align: center;
     margin-bottom: 2rem;
     position: relative;
@@ -1257,7 +1258,7 @@ button {
     box-shadow: 0 24px 36px -28px rgba(15, 23, 42, 0.45);
 }
 
-.modal-pricing__badge {
+.properties-view-modal-pricing__badge {
     align-self: center;
     display: inline-flex;
     align-items: center;
@@ -1272,7 +1273,7 @@ button {
     text-transform: uppercase;
 }
 
-.modal-pricing__summary {
+.properties-view-modal-pricing__summary {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
@@ -1281,13 +1282,13 @@ button {
     padding: 18px 20px;
 }
 
-.modal-pricing__summary-item {
+.properties-view-modal-pricing__summary-item {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.modal-pricing__summary-label {
+.properties-view-modal-pricing__summary-label {
     font-size: 0.75rem;
     font-weight: 600;
     color: #64748b;
@@ -1295,32 +1296,32 @@ button {
     letter-spacing: 0.04em;
 }
 
-.modal-pricing__summary-value {
+.properties-view-modal-pricing__summary-value {
     font-size: 0.95rem;
     font-weight: 600;
     color: #0f172a;
 }
 
-.publish-pricing {
+.properties-view-publish-pricing {
     display: flex;
     flex-direction: column;
     gap: 28px;
 }
 
-.publish-pricing__field {
+.properties-view-publish-pricing__field {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
 
-.publish-pricing__field label,
-.publish-pricing__field-label {
+.properties-view-publish-pricing__field label,
+.properties-view-publish-pricing__field-label {
     font-weight: 600;
     color: #1f2937;
     font-size: 15px;
 }
 
-.publish-pricing__input-group {
+.properties-view-publish-pricing__input-group {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -1331,23 +1332,23 @@ button {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.publish-pricing__input-group:focus-within {
+.properties-view-publish-pricing__input-group:focus-within {
     border-color: #2563eb;
     box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
 
-.publish-pricing__input-group.has-error {
+.properties-view-publish-pricing__input-group.properties-view-has-error {
     border-color: #f87171;
     box-shadow: 0 0 0 4px rgba(248, 113, 113, 0.2);
 }
 
-.publish-pricing__currency {
+.properties-view-publish-pricing__currency {
     font-size: 1.15rem;
     font-weight: 700;
     color: #2563eb;
 }
 
-.publish-pricing__input-group input[data-pricing-input] {
+.properties-view-publish-pricing__input-group input[data-pricing-input] {
     border: 0;
     outline: none;
     width: 100%;
@@ -1357,18 +1358,18 @@ button {
     background: transparent;
 }
 
-.publish-pricing__hint {
+.properties-view-publish-pricing__hint {
     font-size: 0.875rem;
     color: #475569;
 }
 
-.publish-pricing__error {
+.properties-view-publish-pricing__error {
     font-size: 0.82rem;
     color: #dc2626;
     font-weight: 500;
 }
 
-.publish-pricing__currency-select {
+.properties-view-publish-pricing__currency-select {
     margin-left: auto;
     position: relative;
     display: inline-flex;
@@ -1377,7 +1378,7 @@ button {
     gap: 8px;
 }
 
-.publish-pricing__currency-trigger {
+.properties-view-publish-pricing__currency-trigger {
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -1392,19 +1393,19 @@ button {
     transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.publish-pricing__currency-trigger:hover,
-.publish-pricing__currency-trigger:focus {
+.properties-view-publish-pricing__currency-trigger:hover,
+.properties-view-publish-pricing__currency-trigger:focus {
     border-color: #2563eb;
     box-shadow: 0 8px 16px rgba(37, 99, 235, 0.12);
     transform: translateY(-1px);
     outline: none;
 }
 
-.publish-pricing__currency-trigger-label {
+.properties-view-publish-pricing__currency-trigger-label {
     white-space: nowrap;
 }
 
-.publish-pricing__select-arrow {
+.properties-view-publish-pricing__select-arrow {
     display: inline-flex;
     width: 16px;
     height: 16px;
@@ -1412,16 +1413,16 @@ button {
     transition: transform 0.2s ease;
 }
 
-.publish-pricing__select-arrow svg {
+.properties-view-publish-pricing__select-arrow svg {
     width: 100%;
     height: 100%;
 }
 
-.publish-pricing__currency-select.is-open .publish-pricing__select-arrow {
+.properties-view-publish-pricing__currency-select.properties-view-is-open .properties-view-publish-pricing__select-arrow {
     transform: rotate(-180deg);
 }
 
-.publish-pricing__currency-options {
+.properties-view-publish-pricing__currency-options {
     position: absolute;
     top: calc(100% + 10px);
     right: 0;
@@ -1440,13 +1441,13 @@ button {
     z-index: 10;
 }
 
-.publish-pricing__currency-select.is-open .publish-pricing__currency-options {
+.properties-view-publish-pricing__currency-select.properties-view-is-open .properties-view-publish-pricing__currency-options {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-.publish-pricing__currency-option {
+.properties-view-publish-pricing__currency-option {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1458,27 +1459,27 @@ button {
     color: #1f2937;
 }
 
-.publish-pricing__currency-option:hover,
-.publish-pricing__currency-option:focus {
+.properties-view-publish-pricing__currency-option:hover,
+.properties-view-publish-pricing__currency-option:focus {
     background: rgba(59, 130, 246, 0.12);
     outline: none;
 }
 
-.publish-pricing__currency-option.is-active {
+.properties-view-publish-pricing__currency-option.properties-view-is-active {
     background: rgba(59, 130, 246, 0.18);
     color: #1d4ed8;
 }
 
-.publish-pricing__currency-code {
+.properties-view-publish-pricing__currency-code {
     font-weight: 700;
 }
 
-.publish-pricing__currency-name {
+.properties-view-publish-pricing__currency-name {
     font-size: 0.85rem;
     color: inherit;
 }
 
-.publish-pricing__currency-native {
+.properties-view-publish-pricing__currency-native {
     position: absolute;
     width: 1px;
     height: 1px;
@@ -1490,14 +1491,14 @@ button {
     border: 0;
 }
 
-.publish-pricing__actions {
+.properties-view-publish-pricing__actions {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 16px;
 }
 
-.publish-pricing__actions .dashboard__action-btn {
+.properties-view-publish-pricing__actions .properties-view-dashboard__action-btn {
     min-width: 0;
 }
 
@@ -1505,69 +1506,69 @@ button {
 /* === RESPONSIVE === */
 /* ================================================= */
 @media (max-width: 900px) {
-    .modal-publish-details {
+    .properties-view-modal-publish-details {
         padding: 40px 28px;
         max-width: 90vw;
     }
 
-    .publish-details__grid {
+    .properties-view-publish-details__grid {
         grid-template-columns: 1fr;
     }
 
-    .publish-details__upload {
+    .properties-view-publish-details__upload {
         grid-template-columns: 1fr;
         text-align: center;
     }
 
-    .publish-details__upload-copy {
+    .properties-view-publish-details__upload-copy {
         align-items: center;
     }
 
-    .publish-details__upload-btn {
+    .properties-view-publish-details__upload-btn {
         align-self: center;
     }
 }
 
 @media (max-width: 768px) {
-    .modal-pricing {
+    .properties-view-modal-pricing {
         max-width: calc(100vw - 32px);
         padding: 36px 26px;
     }
 
-    .modal-pricing__summary {
+    .properties-view-modal-pricing__summary {
         grid-template-columns: 1fr;
     }
 
-    .publish-pricing__actions {
+    .properties-view-publish-pricing__actions {
         flex-direction: column-reverse;
         align-items: stretch;
     }
 
-    .publish-pricing__actions .dashboard__action-btn {
+    .properties-view-publish-pricing__actions .properties-view-dashboard__action-btn {
         text-align: center;
     }
 
-    .publish-details__gallery-status {
+    .properties-view-publish-details__gallery-status {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .publish-details__gallery-progress {
+    .properties-view-publish-details__gallery-progress {
         width: 100%;
         align-items: flex-start;
     }
 }
 
 @media (max-width: 600px) {
-    .modal__dialog {
+    .properties-view-modal__dialog {
         padding: 32px 24px;
     }
 
-    .modal-publish {
+    .properties-view-modal-publish {
         padding: 32px 24px;
     }
 
-    .modal-publish__options--grid {
+    .properties-view-modal-publish__options--grid {
         grid-template-columns: 1fr;
     }
 }

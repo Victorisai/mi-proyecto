@@ -1,29 +1,29 @@
-<div class="dashboard__breadcrumb">
-    <span class="breadcrumb__label">Panel</span>
-    <span class="breadcrumb__divider">/</span>
-    <span class="breadcrumb__current">Mis propiedades</span>
+<div class="properties-view-dashboard__breadcrumb">
+    <span class="properties-view-breadcrumb__label">Panel</span>
+    <span class="properties-view-breadcrumb__divider">/</span>
+    <span class="properties-view-breadcrumb__current">Mis propiedades</span>
 </div>
 
-<section class="dashboard__section">
-    <div class="dashboard__section-heading">
-        <h2 class="dashboard__section-title">Gestiona tu portafolio</h2>
-        <button class="dashboard__action-btn dashboard__action-btn--primary" data-modal-trigger="publish">Publicar propiedad</button>
+<section class="properties-view-dashboard__section">
+    <div class="properties-view-dashboard__section-heading">
+        <h2 class="properties-view-dashboard__section-title">Gestiona tu portafolio</h2>
+        <button class="properties-view-dashboard__action-btn properties-view-dashboard__action-btn--primary" data-modal-trigger="publish">Publicar propiedad</button>
     </div>
-    <div class="card properties-empty">
-        <div class="properties-empty__illustration" aria-hidden="true"></div>
-        <div class="properties-empty__content">
-            <h3 class="properties-empty__title">Aún no tienes propiedades publicadas</h3>
-            <p class="properties-empty__description">Comparte tu primera propiedad para comenzar a recibir clientes potenciales y seguimiento inteligente.</p>
-            <a href="#" class="dashboard__action-btn dashboard__action-btn--primary" data-modal-trigger="publish">Publicar mi primera propiedad</a>
-            <p class="properties-empty__note">¿Necesitas ayuda? Consulta nuestra guía para preparar un anuncio profesional.</p>
+    <div class="properties-view-card properties-view-properties-empty">
+        <div class="properties-view-properties-empty__illustration" aria-hidden="true"></div>
+        <div class="properties-view-properties-empty__content">
+            <h3 class="properties-view-properties-empty__title">Aún no tienes propiedades publicadas</h3>
+            <p class="properties-view-properties-empty__description">Comparte tu primera propiedad para comenzar a recibir clientes potenciales y seguimiento inteligente.</p>
+            <a href="#" class="properties-view-dashboard__action-btn properties-view-dashboard__action-btn--primary" data-modal-trigger="publish">Publicar mi primera propiedad</a>
+            <p class="properties-view-properties-empty__note">¿Necesitas ayuda? Consulta nuestra guía para preparar un anuncio profesional.</p>
         </div>
     </div>
 </section>
 
-<section class="dashboard__section">
-    <div class="properties-tips card">
-        <h2 class="properties-tips__title">Recomendaciones para destacar tus anuncios</h2>
-        <ul class="properties-tips__list">
+<section class="properties-view-dashboard__section">
+    <div class="properties-view-properties-tips properties-view-card">
+        <h2 class="properties-view-properties-tips__title">Recomendaciones para destacar tus anuncios</h2>
+        <ul class="properties-view-properties-tips__list">
             <li>Organiza fotografías en alta resolución y destaca los espacios clave.</li>
             <li>Describe atributos únicos: amenidades, ubicación estratégica y tipo de acabados.</li>
             <li>Define un precio competitivo respaldado por análisis comparativos.</li>
@@ -32,21 +32,21 @@
     </div>
 </section>
 
-<div class="modal" data-modal="publish" aria-hidden="true" role="dialog">
-    <div class="modal__overlay" data-modal-close></div>
-    <div class="modal__dialog modal-publish" role="document">
-        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
-        <div class="modal-publish__summary" aria-live="polite">
-            <span class="modal-publish__badge" data-selection-purpose hidden></span>
-            <span class="modal-publish__badge" data-selection-type hidden></span>
+<div class="properties-view-modal" data-modal="publish" aria-hidden="true" role="dialog">
+    <div class="properties-view-modal__overlay" data-modal-close></div>
+    <div class="properties-view-modal__dialog properties-view-modal-publish" role="document">
+        <button class="properties-view-modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+        <div class="properties-view-modal-publish__summary" aria-live="polite">
+            <span class="properties-view-modal-publish__badge" data-selection-purpose hidden></span>
+            <span class="properties-view-modal-publish__badge" data-selection-type hidden></span>
         </div>
 
-        <div class="modal-publish__step modal-publish__step--active" data-step="purpose" role="group" aria-labelledby="publish-purpose-title">
-            <h2 class="modal__title" id="publish-purpose-title">¿Qué deseas hacer?</h2>
-            <p class="modal__subtitle">Elige si quieres publicar una propiedad para venta o renta.</p>
-            <div class="modal-publish__options">
-                <button type="button" class="modal-publish__option" data-purpose="vender" data-label="Vender">
-                    <span class="modal-publish__icon" aria-hidden="true">
+        <div class="properties-view-modal-publish__step properties-view-modal-publish__step--active" data-step="purpose" role="group" aria-labelledby="publish-purpose-title">
+            <h2 class="properties-view-modal__title" id="publish-purpose-title">¿Qué deseas hacer?</h2>
+            <p class="properties-view-modal__subtitle">Elige si quieres publicar una propiedad para venta o renta.</p>
+            <div class="properties-view-modal-publish__options">
+                <button type="button" class="properties-view-modal-publish__option" data-purpose="vender" data-label="Vender">
+                    <span class="properties-view-modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
                             <path d="M9 20.5 24 9l15 11.5v15.5a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3V20.5Z" fill="#e8f5ff" stroke="#2563eb" stroke-width="2" stroke-linejoin="round"/>
                             <path d="M19.5 33h9" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
@@ -54,11 +54,11 @@
                             <text x="24" y="28" text-anchor="middle" font-size="9" font-family="'Inter', sans-serif" fill="#2563eb">$</text>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Vender</span>
-                    <span class="modal-publish__description">Encuentra compradores ideales para tu propiedad.</span>
+                    <span class="properties-view-modal-publish__label">Vender</span>
+                    <span class="properties-view-modal-publish__description">Encuentra compradores ideales para tu propiedad.</span>
                 </button>
-                <button type="button" class="modal-publish__option" data-purpose="rentar" data-label="Rentar">
-                    <span class="modal-publish__icon" aria-hidden="true">
+                <button type="button" class="properties-view-modal-publish__option" data-purpose="rentar" data-label="Rentar">
+                    <span class="properties-view-modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
                             <path d="M16 22v-5.5L24 11l8 5.5V22" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" stroke-linejoin="round"/>
                             <path d="M14 22h20v14H14z" fill="#eef2ff" stroke="#4f46e5" stroke-width="2" stroke-linejoin="round"/>
@@ -66,51 +66,51 @@
                             <path d="M24 26h4v8" stroke="#4f46e5" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Rentar</span>
-                    <span class="modal-publish__description">Conecta con inquilinos confiables para tu inmueble.</span>
+                    <span class="properties-view-modal-publish__label">Rentar</span>
+                    <span class="properties-view-modal-publish__description">Conecta con inquilinos confiables para tu inmueble.</span>
                 </button>
             </div>
         </div>
 
-        <div class="modal-publish__step" data-step="type" role="group" aria-labelledby="publish-type-title">
-            <button type="button" class="modal-publish__back" data-publish-back>
+        <div class="properties-view-modal-publish__step" data-step="type" role="group" aria-labelledby="publish-type-title">
+            <button type="button" class="properties-view-modal-publish__back" data-publish-back>
                 <span aria-hidden="true">&#8592;</span>
                 Volver
             </button>
-            <h2 class="modal__title" id="publish-type-title">¿Qué tipo de propiedad publicarás?</h2>
-            <p class="modal__subtitle">Selecciona la categoría que mejor describe tu inmueble.</p>
-            <div class="modal-publish__options modal-publish__options--grid" role="list">
-                <button type="button" class="modal-publish__option" data-type="casa" data-label="Casa" role="listitem">
-                    <span class="modal-publish__icon" aria-hidden="true">
+            <h2 class="properties-view-modal__title" id="publish-type-title">¿Qué tipo de propiedad publicarás?</h2>
+            <p class="properties-view-modal__subtitle">Selecciona la categoría que mejor describe tu inmueble.</p>
+            <div class="properties-view-modal-publish__options properties-view-modal-publish__options--grid" role="list">
+                <button type="button" class="properties-view-modal-publish__option" data-type="casa" data-label="Casa" role="listitem">
+                    <span class="properties-view-modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
                             <path d="M8 22 24 10l16 12v16H8Z" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-linejoin="round"/>
                             <path d="M20 38V26h8v12" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Casa</span>
+                    <span class="properties-view-modal-publish__label">Casa</span>
                 </button>
-                <button type="button" class="modal-publish__option" data-type="departamento" data-label="Departamento" role="listitem">
-                    <span class="modal-publish__icon" aria-hidden="true">
+                <button type="button" class="properties-view-modal-publish__option" data-type="departamento" data-label="Departamento" role="listitem">
+                    <span class="properties-view-modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
                             <path d="M12 8h24v32H12z" fill="#eef2ff" stroke="#6366f1" stroke-width="2" stroke-linejoin="round"/>
                             <path d="M18 16h4m4 0h4m-12 8h4m4 0h4m-12 8h4m4 0h4" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
                             <path d="M22 40v-6h4v6" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Departamento</span>
+                    <span class="properties-view-modal-publish__label">Departamento</span>
                 </button>
-                <button type="button" class="modal-publish__option" data-type="terreno" data-label="Terreno" role="listitem">
-                    <span class="modal-publish__icon" aria-hidden="true">
+                <button type="button" class="properties-view-modal-publish__option" data-type="terreno" data-label="Terreno" role="listitem">
+                    <span class="properties-view-modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
                             <path d="M6 34 24 14l18 20" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" stroke-linejoin="round"/>
                             <path d="M10 34h28" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
                             <path d="M18 26h12" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Terreno</span>
+                    <span class="properties-view-modal-publish__label">Terreno</span>
                 </button>
-                <button type="button" class="modal-publish__option" data-type="desarrollo" data-label="Desarrollo" role="listitem">
-                    <span class="modal-publish__icon" aria-hidden="true">
+                <button type="button" class="properties-view-modal-publish__option" data-type="desarrollo" data-label="Desarrollo" role="listitem">
+                    <span class="properties-view-modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
                             <path d="M10 34V16l8-4v22" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
                             <path d="M22 34V10l8 4v20" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
@@ -118,11 +118,11 @@
                             <path d="M10 34h28" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Desarrollo</span>
+                    <span class="properties-view-modal-publish__label">Desarrollo</span>
                 </button>
             </div>
-            <footer class="modal-publish__footer">
-                <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-finish disabled>
+            <footer class="properties-view-modal-publish__footer">
+                <button type="button" class="properties-view-dashboard__action-btn properties-view-dashboard__action-btn--primary" data-publish-finish disabled>
                     Continuar con la publicación
                 </button>
             </footer>
@@ -130,126 +130,126 @@
     </div>
 </div>
 
-<div class="modal" data-modal="publish-details" aria-hidden="true" role="dialog">
-    <div class="modal__overlay" data-modal-close></div>
-    <div class="modal__dialog modal-publish-details" role="document">
-        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
-        <header class="modal-publish-details__header">
-            <span class="modal-publish-details__badge">Ficha profesional</span>
-            <h2 class="modal__title">Comparte los detalles clave</h2>
-            <p class="modal__subtitle">Completa la información esencial para que tu propiedad destaque.</p>
+<div class="properties-view-modal" data-modal="publish-details" aria-hidden="true" role="dialog">
+    <div class="properties-view-modal__overlay" data-modal-close></div>
+    <div class="properties-view-modal__dialog properties-view-modal-publish-details" role="document">
+        <button class="properties-view-modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+        <header class="properties-view-modal-publish-details__header">
+            <span class="properties-view-modal-publish-details__badge">Ficha profesional</span>
+            <h2 class="properties-view-modal__title">Comparte los detalles clave</h2>
+            <p class="properties-view-modal__subtitle">Completa la información esencial para que tu propiedad destaque.</p>
         </header>
         
-        <form class="publish-details" novalidate data-current-step="basic">
-            <div class="publish-details__steps">
-                <section class="publish-details__step publish-details__step--active" data-details-step="basic">
-                    <div class="publish-details__grid">
-                        <div class="publish-details__field">
+        <form class="properties-view-publish-details" novalidate data-current-step="basic">
+            <div class="properties-view-publish-details__steps">
+                <section class="properties-view-publish-details__step properties-view-publish-details__step--active" data-details-step="basic">
+                    <div class="properties-view-publish-details__grid">
+                        <div class="properties-view-publish-details__field">
                             <label for="publish-title">Título del anuncio</label>
                             <input type="text" id="publish-title" name="title" placeholder="Ej. Residencia moderna en Puerto Cancún" required>
-                            <span class="publish-details__hint">Usa un título atractivo que resalte el valor principal.</span>
+                            <span class="properties-view-publish-details__hint">Usa un título atractivo que resalte el valor principal.</span>
                         </div>
-                        <div class="publish-details__field">
+                        <div class="properties-view-publish-details__field">
                             <label for="publish-location">Ubicación</label>
-                            <div class="publish-details__location">
+                            <div class="properties-view-publish-details__location">
                                 <input type="text" id="publish-location" name="location" placeholder="Ciudad, colonia o desarrollo" required>
-                                <button type="button" class="publish-details__location-btn" aria-label="Localizar en mapa">
+                                <button type="button" class="properties-view-publish-details__location-btn" aria-label="Localizar en mapa">
                                     <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
                                         <path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z" fill="currentColor"/>
                                     </svg>
                                 </button>
                             </div>
-                            <span class="publish-details__hint">Comparte la zona o punto de referencia más conocido.</span>
+                            <span class="properties-view-publish-details__hint">Comparte la zona o punto de referencia más conocido.</span>
                         </div>
                     </div>
 
-                    <div class="publish-details__field">
+                    <div class="properties-view-publish-details__field">
                         <label for="publish-description">Descripción destacada</label>
                         <textarea id="publish-description" name="description" rows="5" placeholder="Describe amenidades, distribución, acabados y cualquier detalle relevante." required></textarea>
-                        <span class="publish-details__hint">Incluye los diferenciales de la propiedad y detalles que inspiren confianza.</span>
+                        <span class="properties-view-publish-details__hint">Incluye los diferenciales de la propiedad y detalles que inspiren confianza.</span>
                     </div>
 
-                    <div class="publish-details__field">
+                    <div class="properties-view-publish-details__field">
                         <label for="publish-images">Galería fotográfica</label>
-                        <div class="publish-details__upload" role="group" aria-labelledby="publish-images">
-                            <input type="file" id="publish-images" name="images" accept="image/*" multiple class="publish-details__file-input" hidden>
-                            <div class="publish-details__upload-illustration" aria-hidden="true">
+                        <div class="properties-view-publish-details__upload" role="group" aria-labelledby="publish-images">
+                            <input type="file" id="publish-images" name="images" accept="image/*" multiple class="properties-view-publish-details__file-input" hidden>
+                            <div class="properties-view-publish-details__upload-illustration" aria-hidden="true">
                                 <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                                     <rect x="8" y="12" width="48" height="40" rx="10" fill="rgba(59,130,246,0.1)"/>
                                     <path d="M16 36l8-10 10 13 6-7 8 10" fill="none" stroke="#3b82f6" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
                                     <circle cx="24" cy="24" r="4" fill="#3b82f6"/>
                                 </svg>
                             </div>
-                            <div class="publish-details__upload-copy">
+                            <div class="properties-view-publish-details__upload-copy">
                                 <strong>Arrastra y suelta tus imágenes</strong>
                                 <span>Admite JPG, PNG o WebP. Peso recomendado: &lt; 5MB por archivo.</span>
-                                <button type="button" class="publish-details__upload-btn">Seleccionar archivos</button>
+                                <button type="button" class="properties-view-publish-details__upload-btn">Seleccionar archivos</button>
                             </div>
                         </div>
-                        <div class="publish-details__gallery" aria-live="polite" data-empty="true">
-                            <div class="publish-details__gallery-status" data-gallery-status data-state="empty">
-                                <div class="publish-details__gallery-status-main">
-                                    <span class="publish-details__gallery-count"><strong data-gallery-count>0</strong> imágenes cargadas</span>
-                                    <span class="publish-details__gallery-note" data-gallery-cover>La portada se asignará a la primera imagen que cargues.</span>
+                        <div class="properties-view-publish-details__gallery" aria-live="polite" data-empty="true">
+                            <div class="properties-view-publish-details__gallery-status" data-gallery-status data-state="empty">
+                                <div class="properties-view-publish-details__gallery-status-main">
+                                    <span class="properties-view-publish-details__gallery-count"><strong data-gallery-count>0</strong> imágenes cargadas</span>
+                                    <span class="properties-view-publish-details__gallery-note" data-gallery-cover>La portada se asignará a la primera imagen que cargues.</span>
                                 </div>
-                                <div class="publish-details__gallery-progress" data-gallery-progress-wrapper role="img" aria-label="Progreso de la galería 0% listo">
-                                    <div class="publish-details__gallery-progress-track">
-                                        <div class="publish-details__gallery-progress-bar" data-gallery-progress style="width: 0%;"></div>
+                                <div class="properties-view-publish-details__gallery-progress" data-gallery-progress-wrapper role="img" aria-label="Progreso de la galería 0% listo">
+                                    <div class="properties-view-publish-details__gallery-progress-track">
+                                        <div class="properties-view-publish-details__gallery-progress-bar" data-gallery-progress style="width: 0%;"></div>
                                     </div>
-                                    <span class="publish-details__gallery-progress-label" data-gallery-progress-label>0% listo</span>
+                                    <span class="properties-view-publish-details__gallery-progress-label" data-gallery-progress-label>0% listo</span>
                                 </div>
                             </div>
-                            <div class="publish-details__gallery-placeholder" data-gallery-placeholder>
-                                <span class="publish-details__gallery-placeholder-icon" aria-hidden="true">
+                            <div class="properties-view-publish-details__gallery-placeholder" data-gallery-placeholder>
+                                <span class="properties-view-publish-details__gallery-placeholder-icon" aria-hidden="true">
                                     <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg" focusable="false">
                                         <rect x="5" y="9" width="46" height="36" rx="10" fill="rgba(59,130,246,0.12)" />
                                         <path d="M16 32l7-9 8 11 5-6 6 7" fill="none" stroke="#2563eb" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" />
                                         <circle cx="21" cy="22" r="4" fill="#2563eb" fill-opacity="0.85" />
                                     </svg>
                                 </span>
-                                <div class="publish-details__gallery-placeholder-copy">
+                                <div class="properties-view-publish-details__gallery-placeholder-copy">
                                     <strong>Aquí verás la vista previa de tu galería.</strong>
                                     <p>Ordena las fotografías para narrar un recorrido atractivo: inicia con la fachada, continúa con las áreas sociales y finaliza con los detalles clave.</p>
-                                    <ul class="publish-details__gallery-tips">
+                                    <ul class="properties-view-publish-details__gallery-tips">
                                         <li>Utiliza imágenes horizontales en alta resolución y buena iluminación.</li>
                                         <li>Incluye al menos una foto por espacio destacado y amenidad relevante.</li>
                                         <li>Añade planos, renders o vistas aéreas si cuentas con ellos.</li>
                                     </ul>
                                 </div>
                             </div>
-                            <ul class="publish-details__gallery-list" data-gallery-list></ul>
+                            <ul class="properties-view-publish-details__gallery-list" data-gallery-list></ul>
                         </div>
                     </div>
 
-                    <div class="publish-details__actions">
-                        <button type="button" class="modal__action" data-modal-close>Completar más tarde</button>
-                        <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-details-next>Guardar y continuar</button>
+                    <div class="properties-view-publish-details__actions">
+                        <button type="button" class="properties-view-modal__action" data-modal-close>Completar más tarde</button>
+                        <button type="submit" class="properties-view-dashboard__action-btn properties-view-dashboard__action-btn--primary" data-details-next>Guardar y continuar</button>
                     </div>
                 </section>
 
-                <section class="publish-details__step" data-details-step="features">
-                    <header class="property-features__header">
-                        <span class="property-features__badge">Paso 2 de 2</span>
-                        <h3 class="property-features__title">Define las características técnicas</h3>
-                        <p class="property-features__subtitle">Personaliza la ficha según la tipología seleccionada.</p>
-                        <div class="property-features__type">
-                            <span class="property-features__type-icon" aria-hidden="true">
+                <section class="properties-view-publish-details__step" data-details-step="features">
+                    <header class="properties-view-property-features__header">
+                        <span class="properties-view-property-features__badge">Paso 2 de 2</span>
+                        <h3 class="properties-view-property-features__title">Define las características técnicas</h3>
+                        <p class="properties-view-property-features__subtitle">Personaliza la ficha según la tipología seleccionada.</p>
+                        <div class="properties-view-property-features__type">
+                            <span class="properties-view-property-features__type-icon" aria-hidden="true">
                                 <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
                                     <path d="M6 14 16 6l10 8v12a2 2 0 0 1-2 2h-6v-8h-4v8H8a2 2 0 0 1-2-2Z" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
                                     <path d="M6 14h20" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
                                 </svg>
                             </span>
-                            <div class="property-features__type-content">
-                                <span class="property-features__type-label" data-feature-type-label>Tipo no seleccionado</span>
-                                <p class="property-features__type-note" data-feature-summary>Selecciona un tipo de propiedad en el paso anterior para ver las opciones disponibles.</p>
+                            <div class="properties-view-property-features__type-content">
+                                <span class="properties-view-property-features__type-label" data-feature-type-label>Tipo no seleccionado</span>
+                                <p class="properties-view-property-features__type-note" data-feature-summary>Selecciona un tipo de propiedad en el paso anterior para ver las opciones disponibles.</p>
                             </div>
                         </div>
                     </header>
 
-                    <div class="property-features__content" data-features-content>
-                        <div class="property-features__group" data-feature-category="casa">
-                            <div class="property-features__group-header">
-                                <span class="property-features__group-icon" aria-hidden="true">
+                    <div class="properties-view-property-features__content" data-features-content>
+                        <div class="properties-view-property-features__group" data-feature-category="casa">
+                            <div class="properties-view-property-features__group-header">
+                                <span class="properties-view-property-features__group-icon" aria-hidden="true">
                                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
                                         <path d="M6 14 16 6l10 8v12a2 2 0 0 1-2 2h-6v-8h-4v8H8a2 2 0 0 1-2-2Z" fill="#ecfdf5" stroke="#10b981" stroke-width="1.6" stroke-linejoin="round"/>
                                     </svg>
@@ -259,10 +259,10 @@
                                     <p>Describe la configuración general de la casa.</p>
                                 </div>
                             </div>
-                            <div class="property-features__grid">
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-casa-recamaras">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                            <div class="properties-view-property-features__grid">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-casa-recamaras">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="3" y="10" width="18" height="8" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
                                                 <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
@@ -270,11 +270,11 @@
                                         </span>
                                         <span>Recámaras</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-casa-recamaras" name="recamaras_casas" class="property-features__input" placeholder="Ej. 3">
+                                    <input type="number" min="0" id="feature-casa-recamaras" name="recamaras_casas" class="properties-view-property-features__input" placeholder="Ej. 3">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-casa-banos">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-casa-banos">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 11h14" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M6 11v3a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5v-3" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
@@ -283,11 +283,11 @@
                                         </span>
                                         <span>Baños</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-casa-banos" name="banos_casas" class="property-features__input" placeholder="Ej. 2.5">
+                                    <input type="number" min="0" id="feature-casa-banos" name="banos_casas" class="properties-view-property-features__input" placeholder="Ej. 2.5">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-casa-estacionamientos">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-casa-estacionamientos">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="4" y="7" width="16" height="10" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
                                                 <path d="M7 17v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
@@ -296,11 +296,11 @@
                                         </span>
                                         <span>Estacionamientos</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-casa-estacionamientos" name="estacionamientos_casas" class="property-features__input" placeholder="Ej. 2">
+                                    <input type="number" min="0" id="feature-casa-estacionamientos" name="estacionamientos_casas" class="properties-view-property-features__input" placeholder="Ej. 2">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-casa-superficie-total">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-casa-superficie-total">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="4" y="4" width="16" height="16" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6"/>
                                                 <path d="M8 8h8v8H8z" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
@@ -308,11 +308,11 @@
                                         </span>
                                         <span>Superficie total</span>
                                     </label>
-                                    <input type="text" id="feature-casa-superficie-total" name="superficie_total_casas" class="property-features__input" placeholder="Ej. 240 m²">
+                                    <input type="text" id="feature-casa-superficie-total" name="superficie_total_casas" class="properties-view-property-features__input" placeholder="Ej. 240 m²">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-casa-superficie-construida">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-casa-superficie-construida">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 18V9l7-5 7 5v9" fill="#e0f2f1" stroke="#0f766e" stroke-width="1.6" stroke-linejoin="round"/>
                                                 <path d="M9 18v-5h6v5" stroke="#0f766e" stroke-width="1.6" stroke-linecap="round"/>
@@ -320,11 +320,11 @@
                                         </span>
                                         <span>Superficie construida</span>
                                     </label>
-                                    <input type="text" id="feature-casa-superficie-construida" name="superficie_construida_casas" class="property-features__input" placeholder="Ej. 180 m²">
+                                    <input type="text" id="feature-casa-superficie-construida" name="superficie_construida_casas" class="properties-view-property-features__input" placeholder="Ej. 180 m²">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-casa-niveles">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-casa-niveles">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M6 18h12" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M6 14h8" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
@@ -333,13 +333,13 @@
                                         </span>
                                         <span>Niveles</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-casa-niveles" name="niveles_casas" class="property-features__input" placeholder="Ej. 2">
+                                    <input type="number" min="0" id="feature-casa-niveles" name="niveles_casas" class="properties-view-property-features__input" placeholder="Ej. 2">
                                 </div>
                             </div>
-                            <div class="property-features__toggles">
-                                <label class="property-features__toggle" for="feature-casa-terraza">
+                            <div class="properties-view-property-features__toggles">
+                                <label class="properties-view-property-features__toggle" for="feature-casa-terraza">
                                     <input type="checkbox" id="feature-casa-terraza" name="terraza_casas">
-                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                    <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4 16h16" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
                                             <path d="M6 16V9a6 6 0 0 1 12 0v7" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
@@ -347,9 +347,9 @@
                                     </span>
                                     <span>Terraza</span>
                                 </label>
-                                <label class="property-features__toggle" for="feature-casa-alberca">
+                                <label class="properties-view-property-features__toggle" for="feature-casa-alberca">
                                     <input type="checkbox" id="feature-casa-alberca" name="alberca_casas">
-                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                    <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4 15c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
                                             <path d="M4 11c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
@@ -357,9 +357,9 @@
                                     </span>
                                     <span>Alberca</span>
                                 </label>
-                                <label class="property-features__toggle" for="feature-casa-amueblada">
+                                <label class="properties-view-property-features__toggle" for="feature-casa-amueblada">
                                     <input type="checkbox" id="feature-casa-amueblada" name="amueblada_casas">
-                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                    <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="3" y="10" width="18" height="8" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
                                             <path d="M5 18v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
@@ -371,9 +371,9 @@
                             </div>
                         </div>
 
-                        <div class="property-features__group" data-feature-category="departamento">
-                            <div class="property-features__group-header">
-                                <span class="property-features__group-icon" aria-hidden="true">
+                        <div class="properties-view-property-features__group" data-feature-category="departamento">
+                            <div class="properties-view-property-features__group-header">
+                                <span class="properties-view-property-features__group-icon" aria-hidden="true">
                                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
                                         <rect x="8" y="4" width="16" height="24" rx="2.5" fill="#eef2ff" stroke="#4f46e5" stroke-width="1.6"/>
                                         <path d="M12 10h4m4 0h4M12 16h4m4 0h4M12 22h4m4 0h4" stroke="#4f46e5" stroke-width="1.4" stroke-linecap="round"/>
@@ -384,10 +384,10 @@
                                     <p>Agrega los datos clave de la unidad.</p>
                                 </div>
                             </div>
-                            <div class="property-features__grid">
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-departamento-recamaras">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                            <div class="properties-view-property-features__grid">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-departamento-recamaras">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="3" y="10" width="18" height="8" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
                                                 <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
@@ -395,11 +395,11 @@
                                         </span>
                                         <span>Recámaras</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-departamento-recamaras" name="recamaras_departamentos" class="property-features__input" placeholder="Ej. 2">
+                                    <input type="number" min="0" id="feature-departamento-recamaras" name="recamaras_departamentos" class="properties-view-property-features__input" placeholder="Ej. 2">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-departamento-banos">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-departamento-banos">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 11h14" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M6 11v3a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5v-3" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
@@ -408,11 +408,11 @@
                                         </span>
                                         <span>Baños</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-departamento-banos" name="banos_departamentos" class="property-features__input" placeholder="Ej. 2">
+                                    <input type="number" min="0" id="feature-departamento-banos" name="banos_departamentos" class="properties-view-property-features__input" placeholder="Ej. 2">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-departamento-estacionamientos">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-departamento-estacionamientos">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="4" y="7" width="16" height="10" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.6"/>
                                                 <path d="M7 17v2" stroke="#7c3aed" stroke-width="1.6" stroke-linecap="round"/>
@@ -421,11 +421,11 @@
                                         </span>
                                         <span>Estacionamientos</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-departamento-estacionamientos" name="estacionamientos_departamentos" class="property-features__input" placeholder="Ej. 1">
+                                    <input type="number" min="0" id="feature-departamento-estacionamientos" name="estacionamientos_departamentos" class="properties-view-property-features__input" placeholder="Ej. 1">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-departamento-superficie-total">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-departamento-superficie-total">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="4" y="4" width="16" height="16" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6"/>
                                                 <path d="M8 8h8v8H8z" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
@@ -433,11 +433,11 @@
                                         </span>
                                         <span>Superficie total</span>
                                     </label>
-                                    <input type="text" id="feature-departamento-superficie-total" name="superficie_total_departamentos" class="property-features__input" placeholder="Ej. 95 m²">
+                                    <input type="text" id="feature-departamento-superficie-total" name="superficie_total_departamentos" class="properties-view-property-features__input" placeholder="Ej. 95 m²">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-departamento-piso">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-departamento-piso">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M8 5h8v14H8z" fill="#f1f5f9" stroke="#1d4ed8" stroke-width="1.6" stroke-linejoin="round"/>
                                                 <path d="M10 9h4m-4 4h4" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/>
@@ -445,13 +445,13 @@
                                         </span>
                                         <span>Piso</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-departamento-piso" name="piso_departamentos" class="property-features__input" placeholder="Ej. 12">
+                                    <input type="number" min="0" id="feature-departamento-piso" name="piso_departamentos" class="properties-view-property-features__input" placeholder="Ej. 12">
                                 </div>
                             </div>
-                            <div class="property-features__toggles">
-                                <label class="property-features__toggle" for="feature-departamento-terraza">
+                            <div class="properties-view-property-features__toggles">
+                                <label class="properties-view-property-features__toggle" for="feature-departamento-terraza">
                                     <input type="checkbox" id="feature-departamento-terraza" name="terraza_departamentos">
-                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                    <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M4 16h16" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
                                             <path d="M6 16V9a6 6 0 0 1 12 0v7" stroke="#f97316" stroke-width="1.6" stroke-linecap="round"/>
@@ -459,12 +459,12 @@
                                     </span>
                                     <span>Terraza privada</span>
                                 </label>
-                                <div class="property-features__toggle-group" role="group" aria-labelledby="feature-departamento-amenidades">
-                                    <span id="feature-departamento-amenidades" class="property-features__toggle-group-title">Amenidades</span>
-                                    <div class="property-features__toggle-list">
-                                        <label class="property-features__toggle" for="feature-departamento-gimnasio">
+                                <div class="properties-view-property-features__toggle-group" role="group" aria-labelledby="feature-departamento-amenidades">
+                                    <span id="feature-departamento-amenidades" class="properties-view-property-features__toggle-group-title">Amenidades</span>
+                                    <div class="properties-view-property-features__toggle-list">
+                                        <label class="properties-view-property-features__toggle" for="feature-departamento-gimnasio">
                                             <input type="checkbox" id="feature-departamento-gimnasio" name="gimnasio_departamentos">
-                                            <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M5 8h2v8H5zM17 8h2v8h-2z" fill="#60a5fa"/>
                                                     <rect x="8" y="6" width="8" height="12" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.4"/>
@@ -472,9 +472,9 @@
                                             </span>
                                             <span>Gimnasio</span>
                                         </label>
-                                        <label class="property-features__toggle" for="feature-departamento-alberca">
+                                        <label class="properties-view-property-features__toggle" for="feature-departamento-alberca">
                                             <input type="checkbox" id="feature-departamento-alberca" name="alberca_departamentos">
-                                            <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M4 15c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
                                                     <path d="M4 11c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
@@ -482,9 +482,9 @@
                                             </span>
                                             <span>Alberca</span>
                                         </label>
-                                        <label class="property-features__toggle" for="feature-departamento-salon-eventos">
+                                        <label class="properties-view-property-features__toggle" for="feature-departamento-salon-eventos">
                                             <input type="checkbox" id="feature-departamento-salon-eventos" name="salon_eventos_departamentos">
-                                            <span class="property-features__toggle-icon" aria-hidden="true">
+                                            <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                                 <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                     <rect x="4" y="8" width="16" height="10" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4"/>
                                                     <path d="M7 12h10" stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round"/>
@@ -494,9 +494,9 @@
                                         </label>
                                     </div>
                                 </div>
-                                <label class="property-features__toggle" for="feature-departamento-elevador">
+                                <label class="properties-view-property-features__toggle" for="feature-departamento-elevador">
                                     <input type="checkbox" id="feature-departamento-elevador" name="elevador_departamentos">
-                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                    <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <rect x="6" y="4" width="12" height="16" rx="2" fill="#f1f5f9" stroke="#1d4ed8" stroke-width="1.6"/>
                                             <path d="M10 9h4M10 15h4" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/>
@@ -508,9 +508,9 @@
                             </div>
                         </div>
 
-                        <div class="property-features__group" data-feature-category="terreno">
-                            <div class="property-features__group-header">
-                                <span class="property-features__group-icon" aria-hidden="true">
+                        <div class="properties-view-property-features__group" data-feature-category="terreno">
+                            <div class="properties-view-property-features__group-header">
+                                <span class="properties-view-property-features__group-icon" aria-hidden="true">
                                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
                                         <path d="M4 24 16 8l12 16" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
                                         <path d="M8 24h16" stroke="#f59e0b" stroke-width="1.6" stroke-linecap="round"/>
@@ -521,10 +521,10 @@
                                     <p>Comparte medidas, servicios y potencial de desarrollo.</p>
                                 </div>
                             </div>
-                            <div class="property-features__grid">
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-terreno-superficie-total">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                            <div class="properties-view-property-features__grid">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-terreno-superficie-total">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="4" y="4" width="16" height="16" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.6"/>
                                                 <path d="M8 8h8v8H8z" fill="none" stroke="#f59e0b" stroke-width="1.6" stroke-linejoin="round"/>
@@ -532,22 +532,22 @@
                                         </span>
                                         <span>Superficie total</span>
                                     </label>
-                                    <input type="text" id="feature-terreno-superficie-total" name="superficie_total_terrenos" class="property-features__input" placeholder="Ej. 1,200 m²">
+                                    <input type="text" id="feature-terreno-superficie-total" name="superficie_total_terrenos" class="properties-view-property-features__input" placeholder="Ej. 1,200 m²">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-terreno-tipo-suelo">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-terreno-tipo-suelo">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4 18h16l-3-6-5 4-3-4z" fill="#fef9c3" stroke="#d97706" stroke-width="1.6" stroke-linejoin="round"/>
                                             </svg>
                                         </span>
                                         <span>Tipo de suelo</span>
                                     </label>
-                                    <input type="text" id="feature-terreno-tipo-suelo" name="tipo_suelo_terrenos" class="property-features__input" placeholder="Ej. Rocoso, nivelado">
+                                    <input type="text" id="feature-terreno-tipo-suelo" name="tipo_suelo_terrenos" class="properties-view-property-features__input" placeholder="Ej. Rocoso, nivelado">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-terreno-frente">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-terreno-frente">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 7h14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M5 17h14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
@@ -555,11 +555,11 @@
                                         </span>
                                         <span>Frente</span>
                                     </label>
-                                    <input type="text" id="feature-terreno-frente" name="frente_terrenos" class="property-features__input" placeholder="Ej. 30 m">
+                                    <input type="text" id="feature-terreno-frente" name="frente_terrenos" class="properties-view-property-features__input" placeholder="Ej. 30 m">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-terreno-fondo">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-terreno-fondo">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M7 5v14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M17 5v14" stroke="#14b8a6" stroke-width="1.6" stroke-linecap="round"/>
@@ -567,11 +567,11 @@
                                         </span>
                                         <span>Fondo</span>
                                     </label>
-                                    <input type="text" id="feature-terreno-fondo" name="fondo_terrenos" class="property-features__input" placeholder="Ej. 40 m">
+                                    <input type="text" id="feature-terreno-fondo" name="fondo_terrenos" class="properties-view-property-features__input" placeholder="Ej. 40 m">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-terreno-tipo-propiedad">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-terreno-tipo-propiedad">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4 15h16" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M6 11h12" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
@@ -580,7 +580,7 @@
                                         </span>
                                         <span>Tipo de propiedad</span>
                                     </label>
-                                    <select id="feature-terreno-tipo-propiedad" name="tipo_propiedad_terrenos" class="property-features__input">
+                                    <select id="feature-terreno-tipo-propiedad" name="tipo_propiedad_terrenos" class="properties-view-property-features__input">
                                         <option value="">Selecciona una opción</option>
                                         <option value="residencial">Residencial</option>
                                         <option value="comercial">Comercial</option>
@@ -589,12 +589,12 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="property-features__toggle-group" role="group" aria-labelledby="feature-terreno-servicios">
-                                <span id="feature-terreno-servicios" class="property-features__toggle-group-title">Servicios disponibles</span>
-                                <div class="property-features__toggle-list">
-                                    <label class="property-features__toggle" for="feature-terreno-luz">
+                            <div class="properties-view-property-features__toggle-group" role="group" aria-labelledby="feature-terreno-servicios">
+                                <span id="feature-terreno-servicios" class="properties-view-property-features__toggle-group-title">Servicios disponibles</span>
+                                <div class="properties-view-property-features__toggle-list">
+                                    <label class="properties-view-property-features__toggle" for="feature-terreno-luz">
                                         <input type="checkbox" id="feature-terreno-luz" name="luz_terrenos">
-                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M12 4a6 6 0 0 1 6 6c0 2.2-1 3.6-2 4.6a3 3 0 0 0-1 2.2V18h-6v-1.2a3 3 0 0 0-1-2.2c-1-1-2-2.4-2-4.6a6 6 0 0 1 6-6Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.4"/>
                                                 <path d="M10 20h4" stroke="#f59e0b" stroke-width="1.4" stroke-linecap="round"/>
@@ -602,18 +602,18 @@
                                         </span>
                                         <span>Luz</span>
                                     </label>
-                                    <label class="property-features__toggle" for="feature-terreno-agua">
+                                    <label class="properties-view-property-features__toggle" for="feature-terreno-agua">
                                         <input type="checkbox" id="feature-terreno-agua" name="agua_terrenos">
-                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M12 4s5 5.2 5 9a5 5 0 1 1-10 0c0-3.8 5-9 5-9Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.4"/>
                                             </svg>
                                         </span>
                                         <span>Agua</span>
                                     </label>
-                                    <label class="property-features__toggle" for="feature-terreno-drenaje">
+                                    <label class="properties-view-property-features__toggle" for="feature-terreno-drenaje">
                                         <input type="checkbox" id="feature-terreno-drenaje" name="drenaje_terrenos">
-                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M6 9h12v2a6 6 0 0 1-12 0Z" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.4" stroke-linejoin="round"/>
                                                 <path d="M9 14h6" stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round"/>
@@ -625,9 +625,9 @@
                             </div>
                         </div>
 
-                        <div class="property-features__group" data-feature-category="desarrollo">
-                            <div class="property-features__group-header">
-                                <span class="property-features__group-icon" aria-hidden="true">
+                        <div class="properties-view-property-features__group" data-feature-category="desarrollo">
+                            <div class="properties-view-property-features__group-header">
+                                <span class="properties-view-property-features__group-icon" aria-hidden="true">
                                     <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" focusable="false">
                                         <path d="M6 24V10l6-3v17" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
                                         <path d="M16 24V6l6 3v15" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
@@ -639,10 +639,10 @@
                                     <p>Detalla etapas, amenidades y alcance del proyecto.</p>
                                 </div>
                             </div>
-                            <div class="property-features__grid">
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-desarrollo-unidades">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                            <div class="properties-view-property-features__grid">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-desarrollo-unidades">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="4" y="4" width="16" height="16" rx="2" fill="#e0f2fe" stroke="#2563eb" stroke-width="1.4"/>
                                                 <path d="M8 8h8v8H8z" fill="none" stroke="#2563eb" stroke-width="1.4" stroke-linejoin="round"/>
@@ -650,33 +650,33 @@
                                         </span>
                                         <span>Número de unidades</span>
                                     </label>
-                                    <input type="number" min="0" id="feature-desarrollo-unidades" name="num_unidades_desarrollos" class="property-features__input" placeholder="Ej. 120">
+                                    <input type="number" min="0" id="feature-desarrollo-unidades" name="num_unidades_desarrollos" class="properties-view-property-features__input" placeholder="Ej. 120">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-desarrollo-superficie-min">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-desarrollo-superficie-min">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="5" y="5" width="7" height="7" rx="1.5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
                                             </svg>
                                         </span>
                                         <span>Superficie mínima</span>
                                     </label>
-                                    <input type="text" id="feature-desarrollo-superficie-min" name="superficie_min_desarrollos" class="property-features__input" placeholder="Ej. 45 m²">
+                                    <input type="text" id="feature-desarrollo-superficie-min" name="superficie_min_desarrollos" class="properties-view-property-features__input" placeholder="Ej. 45 m²">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-desarrollo-superficie-max">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-desarrollo-superficie-max">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="12" y="12" width="7" height="7" rx="1.5" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
                                             </svg>
                                         </span>
                                         <span>Superficie máxima</span>
                                     </label>
-                                    <input type="text" id="feature-desarrollo-superficie-max" name="superficie_max_desarrollos" class="property-features__input" placeholder="Ej. 180 m²">
+                                    <input type="text" id="feature-desarrollo-superficie-max" name="superficie_max_desarrollos" class="properties-view-property-features__input" placeholder="Ej. 180 m²">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-desarrollo-rango-recamaras">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-desarrollo-rango-recamaras">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <rect x="3" y="10" width="18" height="8" rx="2" fill="#dbeafe" stroke="#2563eb" stroke-width="1.4"/>
                                                 <path d="M7 10V8a5 5 0 0 1 10 0v2" stroke="#2563eb" stroke-width="1.4" stroke-linecap="round"/>
@@ -684,11 +684,11 @@
                                         </span>
                                         <span>Rango de recámaras</span>
                                     </label>
-                                    <input type="text" id="feature-desarrollo-rango-recamaras" name="rango_recamaras_desarrollos" class="property-features__input" placeholder="Ej. 1 a 4">
+                                    <input type="text" id="feature-desarrollo-rango-recamaras" name="rango_recamaras_desarrollos" class="properties-view-property-features__input" placeholder="Ej. 1 a 4">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-desarrollo-rango-banos">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-desarrollo-rango-banos">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 11h14" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M6 11v3a5 5 0 0 0 5 5h2a5 5 0 0 0 5-5v-3" stroke="#0ea5e9" stroke-width="1.6" stroke-linejoin="round"/>
@@ -696,11 +696,11 @@
                                         </span>
                                         <span>Rango de baños</span>
                                     </label>
-                                    <input type="text" id="feature-desarrollo-rango-banos" name="rango_banos_desarrollos" class="property-features__input" placeholder="Ej. 1 a 3.5">
+                                    <input type="text" id="feature-desarrollo-rango-banos" name="rango_banos_desarrollos" class="properties-view-property-features__input" placeholder="Ej. 1 a 3.5">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-desarrollo-etapas">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-desarrollo-etapas">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4 18h16" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M4 14h10" stroke="#2563eb" stroke-width="1.6" stroke-linecap="round"/>
@@ -709,11 +709,11 @@
                                         </span>
                                         <span>Etapas</span>
                                     </label>
-                                    <input type="text" id="feature-desarrollo-etapas" name="etapas_desarrollos" class="property-features__input" placeholder="Ej. 3 fases">
+                                    <input type="text" id="feature-desarrollo-etapas" name="etapas_desarrollos" class="properties-view-property-features__input" placeholder="Ej. 3 fases">
                                 </div>
-                                <div class="property-features__field">
-                                    <label class="property-features__field-label" for="feature-desarrollo-entrega">
-                                        <span aria-hidden="true" class="property-features__label-icon">
+                                <div class="properties-view-property-features__field">
+                                    <label class="properties-view-property-features__field-label" for="feature-desarrollo-entrega">
+                                        <span aria-hidden="true" class="properties-view-property-features__label-icon">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M12 3v18" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M6 7h12" stroke="#0ea5e9" stroke-width="1.6" stroke-linecap="round"/>
@@ -722,15 +722,15 @@
                                         </span>
                                         <span>Entrega estimada</span>
                                     </label>
-                                    <input type="text" id="feature-desarrollo-entrega" name="entrega_estimada_desarrollos" class="property-features__input" placeholder="Ej. 4T 2025">
+                                    <input type="text" id="feature-desarrollo-entrega" name="entrega_estimada_desarrollos" class="properties-view-property-features__input" placeholder="Ej. 4T 2025">
                                 </div>
                             </div>
-                            <div class="property-features__toggle-group" role="group" aria-labelledby="feature-desarrollo-amenidades">
-                                <span id="feature-desarrollo-amenidades" class="property-features__toggle-group-title">Amenidades destacadas</span>
-                                <div class="property-features__toggle-list">
-                                    <label class="property-features__toggle" for="feature-desarrollo-alberca">
+                            <div class="properties-view-property-features__toggle-group" role="group" aria-labelledby="feature-desarrollo-amenidades">
+                                <span id="feature-desarrollo-amenidades" class="properties-view-property-features__toggle-group-title">Amenidades destacadas</span>
+                                <div class="properties-view-property-features__toggle-list">
+                                    <label class="properties-view-property-features__toggle" for="feature-desarrollo-alberca">
                                         <input type="checkbox" id="feature-desarrollo-alberca" name="alberca_desarrollos">
-                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M4 15c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
                                                 <path d="M4 11c1.5 0 1.5 1 3 1s1.5-1 3-1 1.5 1 3 1 1.5-1 3-1 1.5 1 3 1" fill="none" stroke="#0284c7" stroke-width="1.6" stroke-linecap="round"/>
@@ -738,18 +738,18 @@
                                         </span>
                                         <span>Alberca</span>
                                     </label>
-                                    <label class="property-features__toggle" for="feature-desarrollo-areas-verdes">
+                                    <label class="properties-view-property-features__toggle" for="feature-desarrollo-areas-verdes">
                                         <input type="checkbox" id="feature-desarrollo-areas-verdes" name="areas_verdes_desarrollos">
-                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M12 4c3 3 5 5.5 5 8.5a5 5 0 0 1-10 0C7 9.5 9 7 12 4Z" fill="#dcfce7" stroke="#16a34a" stroke-width="1.4"/>
                                             </svg>
                                         </span>
                                         <span>Áreas verdes</span>
                                     </label>
-                                    <label class="property-features__toggle" for="feature-desarrollo-gimnasio">
+                                    <label class="properties-view-property-features__toggle" for="feature-desarrollo-gimnasio">
                                         <input type="checkbox" id="feature-desarrollo-gimnasio" name="gimnasio_desarrollos">
-                                        <span class="property-features__toggle-icon" aria-hidden="true">
+                                        <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path d="M5 8h2v8H5zM17 8h2v8h-2z" fill="#60a5fa"/>
                                                 <rect x="8" y="6" width="8" height="12" rx="2" fill="#bfdbfe" stroke="#2563eb" stroke-width="1.4"/>
@@ -759,10 +759,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="property-features__toggles">
-                                <label class="property-features__toggle" for="feature-desarrollo-pet-friendly">
+                            <div class="properties-view-property-features__toggles">
+                                <label class="properties-view-property-features__toggle" for="feature-desarrollo-pet-friendly">
                                     <input type="checkbox" id="feature-desarrollo-pet-friendly" name="pet_friendly_desarrollos">
-                                    <span class="property-features__toggle-icon" aria-hidden="true">
+                                    <span class="properties-view-property-features__toggle-icon" aria-hidden="true">
                                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M8 11a4 4 0 0 1 8 0v1a4 4 0 0 1-8 0Z" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.4"/>
                                             <circle cx="7" cy="8" r="1.5" fill="#f59e0b"/>
@@ -775,69 +775,69 @@
                         </div>
                     </div>
 
-                    <div class="publish-details__actions publish-details__actions--between">
-                        <button type="button" class="modal__action" data-details-prev>Volver a información</button>
-                        <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-details-submit>Guardar y continuar</button>
+                    <div class="properties-view-publish-details__actions properties-view-publish-details__actions--between">
+                        <button type="button" class="properties-view-modal__action" data-details-prev>Volver a información</button>
+                        <button type="submit" class="properties-view-dashboard__action-btn properties-view-dashboard__action-btn--primary" data-details-submit>Guardar y continuar</button>
                     </div>
                 </section>
 
-                <section class="publish-details__step" data-details-step="pricing">
-                    <header class="modal-pricing__header">
-                        <span class="modal-pricing__badge">Estrategia comercial</span>
-                        <h2 class="modal__title">Define el precio ideal</h2>
-                        <p class="modal__subtitle">Establece el monto y la moneda con la que publicarás tu propiedad.</p>
+                <section class="properties-view-publish-details__step" data-details-step="pricing">
+                    <header class="properties-view-modal-pricing__header">
+                        <span class="properties-view-modal-pricing__badge">Estrategia comercial</span>
+                        <h2 class="properties-view-modal__title">Define el precio ideal</h2>
+                        <p class="properties-view-modal__subtitle">Establece el monto y la moneda con la que publicarás tu propiedad.</p>
                     </header>
 
-                    <section class="modal-pricing__summary" aria-live="polite">
-                        <div class="modal-pricing__summary-item">
-                            <span class="modal-pricing__summary-label">Propósito</span>
-                            <span class="modal-pricing__summary-value" data-pricing-purpose>Por definir</span>
+                    <section class="properties-view-modal-pricing__summary" aria-live="polite">
+                        <div class="properties-view-modal-pricing__summary-item">
+                            <span class="properties-view-modal-pricing__summary-label">Propósito</span>
+                            <span class="properties-view-modal-pricing__summary-value" data-pricing-purpose>Por definir</span>
                         </div>
-                        <div class="modal-pricing__summary-item">
-                            <span class="modal-pricing__summary-label">Tipo de propiedad</span>
-                            <span class="modal-pricing__summary-value" data-pricing-type>Por definir</span>
+                        <div class="properties-view-modal-pricing__summary-item">
+                            <span class="properties-view-modal-pricing__summary-label">Tipo de propiedad</span>
+                            <span class="properties-view-modal-pricing__summary-value" data-pricing-type>Por definir</span>
                         </div>
                     </section>
 
-                    <div class="publish-pricing" data-pricing-form>
-                        <div class="publish-pricing__field">
+                    <div class="properties-view-publish-pricing" data-pricing-form>
+                        <div class="properties-view-publish-pricing__field">
                             <label for="publish-price" data-pricing-label>Precio de venta</label>
-                            <div class="publish-pricing__input-group">
-                                <span class="publish-pricing__currency" data-pricing-currency-symbol>$</span>
+                            <div class="properties-view-publish-pricing__input-group">
+                                <span class="properties-view-publish-pricing__currency" data-pricing-currency-symbol>$</span>
                                 <input type="text" id="publish-price" name="price" inputmode="decimal" placeholder="Ej. 4,500,000" data-pricing-input required>
-                                <div class="publish-pricing__currency-select" data-currency-select>
-                                    <button class="publish-pricing__currency-trigger" type="button" data-currency-trigger aria-haspopup="listbox" aria-expanded="false">
-                                        <span class="publish-pricing__currency-trigger-label" data-currency-label>MXN · Peso mexicano</span>
-                                        <span class="publish-pricing__select-arrow" aria-hidden="true">
+                                <div class="properties-view-publish-pricing__currency-select" data-currency-select>
+                                    <button class="properties-view-publish-pricing__currency-trigger" type="button" data-currency-trigger aria-haspopup="listbox" aria-expanded="false">
+                                        <span class="properties-view-publish-pricing__currency-trigger-label" data-currency-label>MXN · Peso mexicano</span>
+                                        <span class="properties-view-publish-pricing__select-arrow" aria-hidden="true">
                                             <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" focusable="false">
                                                 <path d="M4 6l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                             </svg>
                                         </span>
                                     </button>
-                                    <ul class="publish-pricing__currency-options" data-currency-options role="listbox">
-                                        <li class="publish-pricing__currency-option is-active" role="option" data-currency-option data-value="MXN" data-symbol="$" data-label="Peso mexicano" tabindex="0" aria-selected="true">
-                                            <span class="publish-pricing__currency-code">MXN</span>
-                                            <span class="publish-pricing__currency-name">Peso mexicano</span>
+                                    <ul class="properties-view-publish-pricing__currency-options" data-currency-options role="listbox">
+                                        <li class="properties-view-publish-pricing__currency-option properties-view-is-active" role="option" data-currency-option data-value="MXN" data-symbol="$" data-label="Peso mexicano" tabindex="0" aria-selected="true">
+                                            <span class="properties-view-publish-pricing__currency-code">MXN</span>
+                                            <span class="properties-view-publish-pricing__currency-name">Peso mexicano</span>
                                         </li>
-                                        <li class="publish-pricing__currency-option" role="option" data-currency-option data-value="USD" data-symbol="$" data-label="Dólar estadounidense" tabindex="0" aria-selected="false">
-                                            <span class="publish-pricing__currency-code">USD</span>
-                                            <span class="publish-pricing__currency-name">Dólar estadounidense</span>
+                                        <li class="properties-view-publish-pricing__currency-option" role="option" data-currency-option data-value="USD" data-symbol="$" data-label="Dólar estadounidense" tabindex="0" aria-selected="false">
+                                            <span class="properties-view-publish-pricing__currency-code">USD</span>
+                                            <span class="properties-view-publish-pricing__currency-name">Dólar estadounidense</span>
                                         </li>
                                     </ul>
-                                    <select id="publish-currency" name="currency" data-pricing-currency-select class="publish-pricing__currency-native" aria-hidden="true" tabindex="-1">
+                                    <select id="publish-currency" name="currency" data-pricing-currency-select class="properties-view-publish-pricing__currency-native" aria-hidden="true" tabindex="-1">
                                         <option value="MXN" data-currency-label="Peso mexicano" data-currency-symbol="$" selected>MXN</option>
                                         <option value="USD" data-currency-label="Dólar estadounidense" data-currency-symbol="$">USD</option>
                                     </select>
                                 </div>
                             </div>
-                            <p class="publish-pricing__hint" data-pricing-helper>Este será el precio mostrado en tu anuncio.</p>
-                            <p class="publish-pricing__error" data-pricing-error hidden>Ingresa un monto válido para continuar.</p>
+                            <p class="properties-view-publish-pricing__hint" data-pricing-helper>Este será el precio mostrado en tu anuncio.</p>
+                            <p class="properties-view-publish-pricing__error" data-pricing-error hidden>Ingresa un monto válido para continuar.</p>
                         </div>
                     </div>
 
-                    <div class="publish-details__actions publish-details__actions--between">
-                        <button type="button" class="modal__action" data-pricing-prev>Volver a características</button>
-                        <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary" data-pricing-submit>Guardar precio</button>
+                    <div class="properties-view-publish-details__actions properties-view-publish-details__actions--between">
+                        <button type="button" class="properties-view-modal__action" data-pricing-prev>Volver a características</button>
+                        <button type="submit" class="properties-view-dashboard__action-btn properties-view-dashboard__action-btn--primary" data-pricing-submit>Guardar precio</button>
                     </div>
                 </section>
             </div>

@@ -1,62 +1,62 @@
-<section class="messages" data-messages>
-    <div class="dashboard__breadcrumb">
-        <span class="breadcrumb__label">Panel</span>
-        <span class="breadcrumb__divider">/</span>
-        <span class="breadcrumb__current">Mensajes</span>
+<section class="messages-view-messages" data-messages>
+    <div class="messages-view-dashboard__breadcrumb">
+        <span class="messages-view-breadcrumb__label">Panel</span>
+        <span class="messages-view-breadcrumb__divider">/</span>
+        <span class="messages-view-breadcrumb__current">Mensajes</span>
     </div>
 
-    <div class="messages__header">
-        <div class="messages__header-info">
-            <h1 class="messages__title">Mensajes</h1>
-            <p class="messages__subtitle">Inbox en tiempo real · Comprador ↔ Vendedor</p>
+    <div class="messages-view-messages__header">
+        <div class="messages-view-messages__header-info">
+            <h1 class="messages-view-messages__title">Mensajes</h1>
+            <p class="messages-view-messages__subtitle">Inbox en tiempo real · Comprador ↔ Vendedor</p>
         </div>
-        <div class="messages__kpis">
-            <div class="messages__kpi">
-                <span class="messages__kpi-label">
-                    <svg class="messages__kpi-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <div class="messages-view-messages__kpis">
+            <div class="messages-view-messages__kpi">
+                <span class="messages-view-messages__kpi-label">
+                    <svg class="messages-view-messages__kpi-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 5.5h10a3.5 3.5 0 0 1 3.5 3.5v4a3.5 3.5 0 0 1-3.5 3.5H9.3L6 19.5v-3H5A3.5 3.5 0 0 1 1.5 13V9A3.5 3.5 0 0 1 5 5.5Z" />
                     </svg>
                     Chats totales
                 </span>
-                <strong class="messages__kpi-value" data-messages-kpi-open>0</strong>
+                <strong class="messages-view-messages__kpi-value" data-messages-kpi-open>0</strong>
             </div>
-            <div class="messages__kpi">
-                <span class="messages__kpi-label">
-                    <svg class="messages__kpi-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="messages-view-messages__kpi">
+                <span class="messages-view-messages__kpi-label">
+                    <svg class="messages-view-messages__kpi-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 3a5 5 0 0 1 5 5v3.2c0 .8.3 1.6.8 2.3l.7 1.1H5.5l.7-1.1c.5-.7.8-1.5.8-2.3V8a5 5 0 0 1 5-5Z" />
                         <path d="M9.5 18.5a2.5 2.5 0 0 0 5 0" />
                     </svg>
                     No leídos
                 </span>
-                <strong class="messages__kpi-value" data-messages-kpi-unread>0</strong>
+                <strong class="messages-view-messages__kpi-value" data-messages-kpi-unread>0</strong>
             </div>
-            <div class="messages__kpi">
-                <span class="messages__kpi-label">
-                    <svg class="messages__kpi-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="messages-view-messages__kpi">
+                <span class="messages-view-messages__kpi-label">
+                    <svg class="messages-view-messages__kpi-icon" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="7" />
                         <path d="m9.5 12.3 1.8 1.9 3.4-3.4" />
                     </svg>
                     Estado
                 </span>
-                <strong class="messages__kpi-value" data-messages-kpi-status>Conectado</strong>
+                <strong class="messages-view-messages__kpi-value" data-messages-kpi-status>Conectado</strong>
             </div>
         </div>
     </div>
 
-    <div class="messages__layout">
-        <aside class="messages__panel messages__panel--inbox card">
-            <div class="messages__toolbar">
-                <div class="messages__tabs" role="tablist">
-                    <button type="button" class="messages__tab messages__tab--active" role="tab" aria-selected="true">Inbox</button>
+    <div class="messages-view-messages__layout">
+        <aside class="messages-view-messages__panel messages-view-messages__panel--inbox messages-view-card">
+            <div class="messages-view-messages__toolbar">
+                <div class="messages-view-messages__tabs" role="tablist">
+                    <button type="button" class="messages-view-messages__tab messages-view-messages__tab--active" role="tab" aria-selected="true">Inbox</button>
                 </div>
-                <div class="messages__search">
-                    <label class="messages__field">
-                        <span class="sr-only">Buscar conversaciones</span>
-                        <input type="search" class="messages__input" placeholder="Buscar comprador, propiedad, texto… (Ctrl+/)" data-messages-search>
+                <div class="messages-view-messages__search">
+                    <label class="messages-view-messages__field">
+                        <span class="messages-view-sr-only">Buscar conversaciones</span>
+                        <input type="search" class="messages-view-messages__input" placeholder="Buscar comprador, propiedad, texto… (Ctrl+/)" data-messages-search>
                     </label>
-                    <label class="messages__field">
-                        <span class="sr-only">Filtrar por propiedad</span>
-                        <select class="messages__select" data-messages-property>
+                    <label class="messages-view-messages__field">
+                        <span class="messages-view-sr-only">Filtrar por propiedad</span>
+                        <select class="messages-view-messages__select" data-messages-property>
                             <option value="all">Todas las propiedades</option>
                             <option value="Casa Cancún · #A102">Casa Cancún · #A102</option>
                             <option value="Lote Holbox · #L25">Lote Holbox · #L25</option>
@@ -64,69 +64,69 @@
                         </select>
                     </label>
                 </div>
-                <div class="messages__chips">
-                    <label class="messages__chip">
-                        <input type="checkbox" class="messages__chip-input" data-messages-filter-unread>
+                <div class="messages-view-messages__chips">
+                    <label class="messages-view-messages__chip">
+                        <input type="checkbox" class="messages-view-messages__chip-input" data-messages-filter-unread>
                         <span>Solo no leídos</span>
                     </label>
-                    <label class="messages__chip">
-                        <input type="checkbox" class="messages__chip-input" data-messages-filter-pinned checked>
+                    <label class="messages-view-messages__chip">
+                        <input type="checkbox" class="messages-view-messages__chip-input" data-messages-filter-pinned checked>
                         <span>Fijadas primero</span>
                     </label>
                 </div>
             </div>
-            <div class="messages__list" data-messages-list role="listbox" aria-label="Conversaciones"></div>
+            <div class="messages-view-messages__list" data-messages-list role="listbox" aria-label="Conversaciones"></div>
         </aside>
 
-        <section class="messages__panel messages__panel--chat card" aria-live="polite">
-            <div class="messages__chat-header">
-                <span class="messages__breadcrumbs" data-messages-crumb>Mensajes / —</span>
-                <div class="messages__chat-actions">
-                    <button type="button" class="messages__button" data-messages-delete-trigger disabled>Eliminar chat</button>
-                    <button type="button" class="messages__button" data-messages-pin disabled>Fijar</button>
+        <section class="messages-view-messages__panel messages-view-messages__panel--chat messages-view-card" aria-live="polite">
+            <div class="messages-view-messages__chat-header">
+                <span class="messages-view-messages__breadcrumbs" data-messages-crumb>Mensajes / —</span>
+                <div class="messages-view-messages__chat-actions">
+                    <button type="button" class="messages-view-messages__button" data-messages-delete-trigger disabled>Eliminar chat</button>
+                    <button type="button" class="messages-view-messages__button" data-messages-pin disabled>Fijar</button>
                 </div>
             </div>
-            <header class="messages__conversation-head">
-                <div class="messages__conversation-meta">
-                    <div class="messages__avatar" data-messages-header-avatar>A</div>
-                    <div class="messages__conversation-title">
-                        <strong class="messages__conversation-name" data-messages-header-name>Selecciona una conversación</strong>
-                        <small class="messages__conversation-sub" data-messages-header-sub>—</small>
+            <header class="messages-view-messages__conversation-head">
+                <div class="messages-view-messages__conversation-meta">
+                    <div class="messages-view-messages__avatar" data-messages-header-avatar>A</div>
+                    <div class="messages-view-messages__conversation-title">
+                        <strong class="messages-view-messages__conversation-name" data-messages-header-name>Selecciona una conversación</strong>
+                        <small class="messages-view-messages__conversation-sub" data-messages-header-sub>—</small>
                     </div>
                 </div>
-                <div class="messages__conversation-actions"></div>
+                <div class="messages-view-messages__conversation-actions"></div>
             </header>
-            <div class="messages__offline" data-messages-offline>Estás sin conexión. Los mensajes se enviarán cuando reconectes.</div>
-            <div class="messages__chat-body" data-messages-body>
-                <div class="messages__empty">Elige una conversación de la lista para comenzar</div>
+            <div class="messages-view-messages__offline" data-messages-offline>Estás sin conexión. Los mensajes se enviarán cuando reconectes.</div>
+            <div class="messages-view-messages__chat-body" data-messages-body>
+                <div class="messages-view-messages__empty">Elige una conversación de la lista para comenzar</div>
             </div>
-            <div class="messages__hint">Enter = enviar · Shift+Enter = salto de línea</div>
-            <footer class="messages__composer">
-                <button type="button" class="messages__button messages__button--icon" title="Adjuntar" data-messages-attach disabled>
-                    <svg class="messages__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"
+            <div class="messages-view-messages__hint">Enter = enviar · Shift+Enter = salto de línea</div>
+            <footer class="messages-view-messages__composer">
+                <button type="button" class="messages-view-messages__button messages-view-messages__button--icon" title="Adjuntar" data-messages-attach disabled>
+                    <svg class="messages-view-messages__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"
                         fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 12.5 12.5 21a4.95 4.95 0 0 1-7-7l8.5-8.5a3 3 0 0 1 4.2 4.2L9.7 18.2a1.5 1.5 0 0 1-2.1-2.1l7.6-7.6" />
                     </svg>
                 </button>
-                <input type="file" class="messages__file-input" data-messages-file-input aria-label="Adjuntar archivo" multiple hidden>
-                <textarea class="messages__input messages__input--textarea" rows="2" placeholder="Escribe un mensaje…" data-messages-input disabled></textarea>
-                <button type="button" class="messages__button messages__button--primary" data-messages-send disabled>Enviar</button>
+                <input type="file" class="messages-view-messages__file-input" data-messages-file-input aria-label="Adjuntar archivo" multiple hidden>
+                <textarea class="messages-view-messages__input messages-view-messages__input--textarea" rows="2" placeholder="Escribe un mensaje…" data-messages-input disabled></textarea>
+                <button type="button" class="messages-view-messages__button messages-view-messages__button--primary" data-messages-send disabled>Enviar</button>
             </footer>
         </section>
 
-        <aside class="messages__panel messages__panel--context">
-            <div class="messages__section card messages__context-intro">
-                <h2 class="messages__context-title">Información adicional</h2>
-                <p class="messages__context-subtitle">Accede al perfil del comprador, la publicación y la actividad reciente sin desplazarte lateralmente.</p>
+        <aside class="messages-view-messages__panel messages-view-messages__panel--context">
+            <div class="messages-view-messages__section messages-view-card messages-view-messages__context-intro">
+                <h2 class="messages-view-messages__context-title">Información adicional</h2>
+                <p class="messages-view-messages__context-subtitle">Accede al perfil del comprador, la publicación y la actividad reciente sin desplazarte lateralmente.</p>
             </div>
 
-            <div class="messages__context-cards">
-                <div class="messages__section card">
-                    <div class="messages__section-head">
+            <div class="messages-view-messages__context-cards">
+                <div class="messages-view-messages__section messages-view-card">
+                    <div class="messages-view-messages__section-head">
                         <strong>Perfil del comprador</strong>
-                        <span class="messages__tag">Miembro desde · 2025</span>
+                        <span class="messages-view-messages__tag">Miembro desde · 2025</span>
                     </div>
-                    <dl class="messages__context-grid">
+                    <dl class="messages-view-messages__context-grid">
                         <div>
                             <dt>Nombre</dt>
                             <dd data-messages-context-name>—</dd>
@@ -146,54 +146,54 @@
                     </dl>
                 </div>
 
-                <div class="messages__section card">
+                <div class="messages-view-messages__section messages-view-card">
                     <strong>Hilo / Publicación</strong>
-                    <div class="messages__listing">
-                        <div class="messages__listing-thumb" aria-hidden="true"></div>
-                        <div class="messages__listing-body">
-                            <div class="messages__listing-title" data-messages-property-title>—</div>
-                            <div class="messages__listing-meta" data-messages-property-meta>—</div>
+                    <div class="messages-view-messages__listing">
+                        <div class="messages-view-messages__listing-thumb" aria-hidden="true"></div>
+                        <div class="messages-view-messages__listing-body">
+                            <div class="messages-view-messages__listing-title" data-messages-property-title>—</div>
+                            <div class="messages-view-messages__listing-meta" data-messages-property-meta>—</div>
                         </div>
-                        <button type="button" class="messages__button messages__button--ghost">Abrir publicación</button>
+                        <button type="button" class="messages-view-messages__button messages-view-messages__button--ghost">Abrir publicación</button>
                     </div>
-                    <div class="messages__tags">
-                        <span class="messages__tag">Chat directo</span>
-                        <span class="messages__tag">Tiempo real</span>
+                    <div class="messages-view-messages__tags">
+                        <span class="messages-view-messages__tag">Chat directo</span>
+                        <span class="messages-view-messages__tag">Tiempo real</span>
                     </div>
                 </div>
 
-                <div class="messages__section card">
+                <div class="messages-view-messages__section messages-view-card">
                     <strong>Actividad del chat</strong>
-                    <p class="messages__section-helper">Eventos recientes</p>
-                    <ul class="messages__timeline" data-messages-timeline>
+                    <p class="messages-view-messages__section-helper">Eventos recientes</p>
+                    <ul class="messages-view-messages__timeline" data-messages-timeline>
                         <li>10:32 · Mensaje recibido</li>
                         <li>10:35 · Leído por vendedor</li>
                         <li>10:40 · Enviado archivo</li>
                     </ul>
                 </div>
 
-                <div class="messages__section card">
+                <div class="messages-view-messages__section messages-view-card">
                     <strong>Archivos compartidos</strong>
-                    <div class="messages__tags" data-messages-files>
-                        <span class="messages__tag">brochure.pdf</span>
-                        <span class="messages__tag">plano.png</span>
+                    <div class="messages-view-messages__tags" data-messages-files>
+                        <span class="messages-view-messages__tag">brochure.pdf</span>
+                        <span class="messages-view-messages__tag">plano.png</span>
                     </div>
                 </div>
             </div>
         </aside>
     </div>
 
-    <div class="deletechat" data-messages-delete-modal aria-hidden="true" role="dialog"
+    <div class="messages-view-deletechat" data-messages-delete-modal aria-hidden="true" role="dialog"
         aria-labelledby="delete-chat-title" aria-describedby="delete-chat-description">
-        <div class="deletechat_overlay" data-messages-delete-close></div>
-        <div class="deletechat__dialog" role="document">
-            <button class="deletechat__close" type="button" aria-label="Cerrar" data-messages-delete-close>&times;</button>
-            <h2 class="deletechat__title" id="delete-chat-title">¿Deseas eliminar el chat?</h2>
-            <p class="deletechat__subtitle" id="delete-chat-description">Se eliminará toda la conversación del historial.</p>
-            <div class="deletechat__actions">
-                <button type="button" class="deletechat__action dashboard__action-btn dashboard__action-btn--primary"
+        <div class="messages-view-deletechat_overlay" data-messages-delete-close></div>
+        <div class="messages-view-deletechat__dialog" role="document">
+            <button class="messages-view-deletechat__close" type="button" aria-label="Cerrar" data-messages-delete-close>&times;</button>
+            <h2 class="messages-view-deletechat__title" id="delete-chat-title">¿Deseas eliminar el chat?</h2>
+            <p class="messages-view-deletechat__subtitle" id="delete-chat-description">Se eliminará toda la conversación del historial.</p>
+            <div class="messages-view-deletechat__actions">
+                <button type="button" class="messages-view-deletechat__action messages-view-dashboard__action-btn messages-view-dashboard__action-btn--primary"
                     data-messages-delete-confirm>Confirmar</button>
-                <button type="button" class="deletechat__action" data-messages-delete-close>Cancelar</button>
+                <button type="button" class="messages-view-deletechat__action" data-messages-delete-close>Cancelar</button>
             </div>
         </div>
     </div>

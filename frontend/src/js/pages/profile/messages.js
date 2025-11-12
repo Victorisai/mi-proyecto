@@ -128,21 +128,21 @@
     };
 
     const createAttachmentElement = (file) => {
-        const attachment = createElement('div', 'messages__attachment');
+        const attachment = createElement('div', 'messages-view-messages__attachment');
         attachment.title = file.name;
 
-        const icon = createElement('span', 'messages__attachment-icon');
+        const icon = createElement('span', 'messages-view-messages__attachment-icon');
         icon.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5 12.5 21a4.95 4.95 0 0 1-7-7l8.5-8.5a3 3 0 0 1 4.2 4.2L9.7 18.2a1.5 1.5 0 0 1-2.1-2.1l7.6-7.6" /></svg>';
 
-        const info = createElement('div', 'messages__attachment-info');
+        const info = createElement('div', 'messages-view-messages__attachment-info');
 
-        const name = createElement('span', 'messages__attachment-name');
+        const name = createElement('span', 'messages-view-messages__attachment-name');
         name.textContent = file.name;
         info.appendChild(name);
 
         const sizeLabel = formatFileSize(file.size);
         if (sizeLabel) {
-            const meta = createElement('span', 'messages__attachment-meta');
+            const meta = createElement('span', 'messages-view-messages__attachment-meta');
             meta.textContent = sizeLabel;
             info.appendChild(meta);
         }
@@ -174,7 +174,7 @@
         if (!elements.list) {
             return;
         }
-        const emptyState = createElement('div', 'messages__empty');
+        const emptyState = createElement('div', 'messages-view-messages__empty');
         emptyState.textContent = 'No hay conversaciones con estos filtros.';
         elements.list.innerHTML = '';
         elements.list.appendChild(emptyState);
@@ -232,7 +232,7 @@
         const fragment = document.createDocumentFragment();
 
         filtered.forEach((conversation) => {
-            const item = createElement('div', 'messages__conversation-item');
+            const item = createElement('div', 'messages-view-messages__conversation-item');
             item.setAttribute('role', 'option');
             item.dataset.id = conversation.id.toString();
 
@@ -243,22 +243,22 @@
                 item.removeAttribute('aria-selected');
             }
 
-            const avatar = createElement('div', 'messages__conversation-avatar');
+            const avatar = createElement('div', 'messages-view-messages__conversation-avatar');
             avatar.textContent = conversation.buyer.charAt(0);
 
-            const info = createElement('div', 'messages__conversation-info');
+            const info = createElement('div', 'messages-view-messages__conversation-info');
 
-            const header = createElement('div', 'messages__conversation-header');
-            const name = createElement('div', 'messages__conversation-name');
+            const header = createElement('div', 'messages-view-messages__conversation-header');
+            const name = createElement('div', 'messages-view-messages__conversation-name');
             name.textContent = conversation.buyer;
 
             if (conversation.pinned) {
-                const pin = createElement('span', 'messages__pin');
+                const pin = createElement('span', 'messages-view-messages__pin');
                 const pinIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                 pinIcon.setAttribute('viewBox', '0 0 24 24');
                 pinIcon.setAttribute('aria-hidden', 'true');
                 pinIcon.setAttribute('focusable', 'false');
-                pinIcon.classList.add('messages__pin-icon');
+                pinIcon.classList.add('messages-view-messages__pin-icon');
             
                 const pinPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 pinPath.setAttribute('fill', 'currentColor');
@@ -272,24 +272,24 @@
                 name.appendChild(pin);
             }
 
-            const time = createElement('div', 'messages__conversation-prop');
+            const time = createElement('div', 'messages-view-messages__conversation-prop');
             time.textContent = conversation.lastAt;
             header.appendChild(name);
             header.appendChild(time);
 
-            const property = createElement('div', 'messages__conversation-prop');
+            const property = createElement('div', 'messages-view-messages__conversation-prop');
             property.textContent = conversation.property;
 
-            const preview = createElement('div', 'messages__conversation-prop');
+            const preview = createElement('div', 'messages-view-messages__conversation-prop');
             preview.textContent = conversation.lastMessage;
 
             info.appendChild(header);
             info.appendChild(property);
             info.appendChild(preview);
 
-            const right = createElement('div', 'messages__conversation-meta');
+            const right = createElement('div', 'messages-view-messages__conversation-meta');
             if (conversation.unread > 0) {
-                const badge = createElement('span', 'messages__badge');
+                const badge = createElement('span', 'messages-view-messages__badge');
                 badge.textContent = conversation.unread.toString();
                 right.appendChild(badge);
             }
@@ -327,7 +327,7 @@
         elements.files.innerHTML = '';
         const files = conversation.files && conversation.files.length > 0 ? conversation.files : ['Sin archivos recientes'];
         files.forEach((file) => {
-            const tag = createElement('span', 'messages__tag');
+            const tag = createElement('span', 'messages-view-messages__tag');
             tag.textContent = file;
             elements.files.appendChild(tag);
         });
@@ -371,7 +371,7 @@
         }
 
         if (!state.activeId) {
-            const empty = createElement('div', 'messages__empty');
+            const empty = createElement('div', 'messages-view-messages__empty');
             empty.textContent = 'Elige una conversación de la lista para comenzar';
             elements.chatBody.appendChild(empty);
             return;
@@ -380,18 +380,18 @@
         const conversationMessages = messagesByConversation[state.activeId] || [];
 
         if (conversationMessages.length > 0) {
-            const daySeparator = createElement('div', 'messages__day-separator');
+            const daySeparator = createElement('div', 'messages-view-messages__day-separator');
             daySeparator.textContent = 'Hoy';
             elements.chatBody.appendChild(daySeparator);
         }
 
         conversationMessages.forEach((message) => {
-            const bubble = createElement('div', 'messages__bubble');
-            bubble.classList.add(message.mine ? 'messages__bubble--mine' : 'messages__bubble--theirs');
+            const bubble = createElement('div', 'messages-view-messages__bubble');
+            bubble.classList.add(message.mine ? 'messages-view-messages__bubble--mine' : 'messages-view-messages__bubble--theirs');
 
-            const content = createElement('div', 'messages__bubble-text');
+            const content = createElement('div', 'messages-view-messages__bubble-text');
             if (message.text) {
-                const textBlock = createElement('span', 'messages__bubble-text-content');
+                const textBlock = createElement('span', 'messages-view-messages__bubble-text-content');
                 textBlock.textContent = message.text;
                 content.appendChild(textBlock);
             }
@@ -402,7 +402,7 @@
                 content.textContent = '';
             }
 
-            const meta = createElement('div', 'messages__bubble-meta');
+            const meta = createElement('div', 'messages-view-messages__bubble-meta');
             const time = createElement('span');
             time.textContent = message.at;
             meta.appendChild(time);
@@ -413,7 +413,7 @@
                 meta.appendChild(read);
             }
 
-            const actions = createElement('div', 'messages__bubble-actions');
+            const actions = createElement('div', 'messages-view-messages__bubble-actions');
             const actionButtons = [
                 { label: '📋', title: 'Copiar mensaje' },
                 { label: '↩', title: 'Responder' },
@@ -421,7 +421,7 @@
             ];
 
             actionButtons.forEach((config) => {
-                const button = createElement('button', 'messages__button messages__button--icon');
+                const button = createElement('button', 'messages-view-messages__button messages-view-messages__button--icon');
                 button.type = 'button';
                 button.title = config.title;
                 button.textContent = config.label;
@@ -566,7 +566,7 @@
         }
         if (elements.files) {
             elements.files.innerHTML = '';
-            const emptyFileTag = createElement('span', 'messages__tag');
+            const emptyFileTag = createElement('span', 'messages-view-messages__tag');
             emptyFileTag.textContent = 'Sin archivos recientes';
             elements.files.appendChild(emptyFileTag);
         }
@@ -671,7 +671,7 @@
             renderInbox();
         }
 
-        const typing = elements.chatBody && state.activeId === conversationId ? createElement('div', 'messages__typing') : null;
+        const typing = elements.chatBody && state.activeId === conversationId ? createElement('div', 'messages-view-messages__typing') : null;
 
         if (typing && elements.chatBody) {
             typing.innerHTML = '<span>•••</span><span>Escribiendo…</span>';

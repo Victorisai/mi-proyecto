@@ -84,7 +84,7 @@
 
             const tabButtons = Array.from(panel.querySelectorAll('[data-profile-tab]'));
             const tabPanels = Array.from(panel.querySelectorAll('[data-profile-panel]'));
-            const securityForm = panel.querySelector('.profile-security');
+            const securityForm = panel.querySelector('.profile-view-profile-security');
 
             initPasswordToggles(panel);
 
@@ -274,7 +274,7 @@
                 bio: panel.querySelector('[data-profile-overview="bio"]'),
             };
 
-            const form = panel.querySelector('.profile-form');
+            const form = panel.querySelector('.profile-view-profile-form');
             if (!form) {
                 activateTab('overview');
                 return;
