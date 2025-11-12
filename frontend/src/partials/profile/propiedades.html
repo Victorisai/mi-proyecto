@@ -130,18 +130,19 @@
     </div>
 </div>
 
-<div class="modal" data-modal="publish-details" aria-hidden="true" role="dialog">
+<div class="modal modal--publish-details" data-modal="publish-details" aria-hidden="true" role="dialog">
     <div class="modal__overlay" data-modal-close></div>
     <div class="modal__dialog modal-publish-details" role="document">
         <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
-        <header class="modal-publish-details__header">
-            <span class="modal-publish-details__badge">Ficha profesional</span>
-            <h2 class="modal__title">Comparte los detalles clave</h2>
-            <p class="modal__subtitle">Completa la información esencial para que tu propiedad destaque.</p>
-        </header>
-        
-        <form class="publish-details" novalidate data-current-step="basic">
-            <div class="publish-details__steps">
+        <div class="modal-publish-details__content">
+            <header class="modal-publish-details__header">
+                <span class="modal-publish-details__badge">Ficha profesional</span>
+                <h2 class="modal__title">Comparte los detalles clave</h2>
+                <p class="modal__subtitle">Completa la información esencial para que tu propiedad destaque.</p>
+            </header>
+
+            <form class="publish-details" novalidate data-current-step="basic">
+                <div class="publish-details__steps">
                 <section class="publish-details__step publish-details__step--active" data-details-step="basic">
                     <div class="publish-details__grid">
                         <div class="publish-details__field">
@@ -841,7 +842,9 @@
                     </div>
                 </section>
             </div>
-        </form>
+            </form>
+
+        </div>
 
     </div>
 </div>
