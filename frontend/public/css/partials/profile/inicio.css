@@ -142,7 +142,7 @@ body.profile-page {
     margin-bottom: 24px;
 }
 
-.dashboard__section-title {
+.inicio-section__title {
     font-size: 22px;
     color: #1f2937;
     font-weight: 700;
@@ -278,7 +278,7 @@ body.profile-page {
 /* ================================================= */
 .summary-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 28px;
 }
 
@@ -289,7 +289,6 @@ body.profile-page {
     align-items: center;
     gap: 18px;
     text-align: left;
-    position: relative;
 }
 
 .summary-card__content {
@@ -365,8 +364,10 @@ body.profile-page {
     color: #2f80ed;
     justify-self: end;
     white-space: nowrap;
-    position: relative;
-    top: 30px;
+    align-self: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .summary-card__trend--up {
@@ -389,7 +390,7 @@ body.profile-page {
 /* ================================================= */
 .quick-actions {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 22px;
 }
 
@@ -739,7 +740,7 @@ body.profile-page {
     }
 
     .summary-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         gap: 24px;
     }
 
@@ -806,12 +807,12 @@ body.profile-page {
         font-size: 18px;
     }
 
-    .dashboard__section-title {
+    .inicio-section__title {
         font-size: 20px;
     }
 
     .summary-grid {
-        grid-template-columns: repeat(2, minmax(140px, 1fr));
+        grid-template-columns: 1fr;
         gap: 20px;
     }
 
@@ -827,8 +828,6 @@ body.profile-page {
     .summary-card__trend {
         align-self: center;
         justify-self: end;
-        position: relative;
-        top: 95px;
     }
 
     .summary-card__icon {
