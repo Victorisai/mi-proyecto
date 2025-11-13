@@ -58,8 +58,18 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
     gap: 16px;
     margin-bottom: 24px;
+}
+
+.dashboard__section-title {
+    flex: 1 1 auto;
+    min-width: 220px;
+}
+
+.dashboard__section-heading .dashboard__action-btn {
+    flex-shrink: 0;
 }
 
 .dashboard__section-title {
@@ -112,6 +122,7 @@ button {
     padding: 36px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(236, 248, 255, 0.9));
     border: 1px solid rgba(52, 152, 219, 0.15);
+    flex-wrap: wrap;
 }
 
 .properties-empty__illustration {
@@ -1504,7 +1515,62 @@ button {
 /* ================================================= */
 /* === RESPONSIVE === */
 /* ================================================= */
+@media (max-width: 1200px) {
+    .properties-empty {
+        justify-content: center;
+        padding: 32px;
+    }
+
+    .properties-empty__content {
+        max-width: 620px;
+    }
+
+    .properties-tips {
+        padding: 32px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .properties-empty {
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
+    }
+
+    .properties-empty__illustration {
+        width: 104px;
+        height: 104px;
+    }
+
+    .properties-empty__content {
+        align-items: center;
+    }
+
+    .properties-empty__description,
+    .properties-empty__note {
+        max-width: 100%;
+    }
+
+    .properties-tips {
+        text-align: center;
+    }
+
+    .properties-tips__list {
+        text-align: left;
+        justify-items: center;
+    }
+}
+
 @media (max-width: 900px) {
+    .dashboard__breadcrumb {
+        font-size: 12px;
+        gap: 6px;
+    }
+
+    .card {
+        padding: 24px;
+    }
+
     .modal-publish-details {
         padding: 40px 28px;
         max-width: 90vw;
@@ -1526,9 +1592,39 @@ button {
     .publish-details__upload-btn {
         align-self: center;
     }
+
+    .property-features__grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 @media (max-width: 768px) {
+    .dashboard__section-heading {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dashboard__section-heading .dashboard__action-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .dashboard__section-title {
+        min-width: 0;
+    }
+
+    .card {
+        padding: 22px;
+    }
+
+    .properties-tips {
+        padding: 26px;
+    }
+
+    .properties-tips__list {
+        font-size: 14px;
+    }
+
     .modal-pricing {
         max-width: calc(100vw - 32px);
         padding: 36px 26px;
@@ -1556,18 +1652,91 @@ button {
         width: 100%;
         align-items: flex-start;
     }
+
+    .publish-details__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .publish-details__actions .dashboard__action-btn,
+    .publish-details__actions .modal__action {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .properties-empty {
+        padding: 28px 22px;
+    }
+
+    .properties-empty__illustration {
+        width: 88px;
+        height: 88px;
+    }
+
+    .properties-empty__title {
+        font-size: 22px;
+    }
+
+    .properties-empty__description {
+        font-size: 15px;
+    }
+
+    .modal-publish-details {
+        max-height: calc(100vh - 48px);
+    }
 }
 
 @media (max-width: 600px) {
     .modal__dialog {
         padding: 32px 24px;
+        max-width: calc(100vw - 24px);
+        max-height: calc(95vh - 32px);
+        overflow-y: auto;
     }
 
     .modal-publish {
         padding: 32px 24px;
     }
 
-    .modal-publish__options--grid {
-        grid-template-columns: 1fr;
+    .modal__title {
+        font-size: 1.5rem;
+    }
+
+    .modal__subtitle {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard__breadcrumb {
+        flex-wrap: wrap;
+        row-gap: 4px;
+    }
+
+    .dashboard__section-title {
+        font-size: 20px;
+    }
+
+    .dashboard__action-btn {
+        width: 100%;
+    }
+
+    .card {
+        padding: 20px 18px;
+    }
+
+    .properties-tips {
+        padding: 22px 18px;
+    }
+
+    .modal__dialog {
+        padding: 28px 18px;
+    }
+
+    .modal__close {
+        top: 12px;
+        right: 12px;
     }
 }
