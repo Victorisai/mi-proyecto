@@ -80,45 +80,67 @@
             <h2 class="modal__title" id="publish-type-title">¿Qué tipo de propiedad publicarás?</h2>
             <p class="modal__subtitle">Selecciona la categoría que mejor describe tu inmueble.</p>
             <div class="modal-publish__options modal-publish__options--grid" role="list">
-                <button type="button" class="modal-publish__option" data-type="casa" data-label="Casa" role="listitem">
+                <button type="button" class="modal-publish__option" data-type="residencial" data-label="Residencial" role="listitem">
                     <span class="modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                            <path d="M8 22 24 10l16 12v16H8Z" fill="#ecfdf5" stroke="#10b981" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M20 38V26h8v12" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M9 23 24 11l15 12v16H9Z" fill="#ecfdf5" stroke="#16a34a" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M18 39V27h6v12" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M28 39V24h6v15" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Casa</span>
+                    <span class="modal-publish__label">Residencial</span>
                 </button>
-                <button type="button" class="modal-publish__option" data-type="departamento" data-label="Departamento" role="listitem">
+                <button type="button" class="modal-publish__option" data-type="terrenos" data-label="Terrenos" role="listitem">
                     <span class="modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                            <path d="M12 8h24v32H12z" fill="#eef2ff" stroke="#6366f1" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M18 16h4m4 0h4m-12 8h4m4 0h4m-12 8h4m4 0h4" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M22 40v-6h4v6" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M6 36h36L30 18l-6 6-6-10Z" fill="#fef3c7" stroke="#d97706" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M10 36h28" stroke="#d97706" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M20 28h8" stroke="#d97706" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Departamento</span>
+                    <span class="modal-publish__label">Terrenos</span>
                 </button>
-                <button type="button" class="modal-publish__option" data-type="terreno" data-label="Terreno" role="listitem">
+                <button type="button" class="modal-publish__option" data-type="comercial" data-label="Comercial" role="listitem">
                     <span class="modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                            <path d="M6 34 24 14l18 20" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M10 34h28" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
-                            <path d="M18 26h12" stroke="#f59e0b" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M10 18h28l-4 20H14Z" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M14 18V12h20v6" stroke="#0284c7" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M20 27h8" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M18 34h12" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Terreno</span>
+                    <span class="modal-publish__label">Comercial</span>
                 </button>
-                <button type="button" class="modal-publish__option" data-type="desarrollo" data-label="Desarrollo" role="listitem">
+                <button type="button" class="modal-publish__option" data-type="industrial" data-label="Industrial" role="listitem">
                     <span class="modal-publish__icon" aria-hidden="true">
                         <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
-                            <path d="M10 34V16l8-4v22" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M22 34V10l8 4v20" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M34 34V20l4 2v12" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
-                            <path d="M10 34h28" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M8 36h32V20l-8 4-6-6-6 6-8-8Z" fill="#f1f5f9" stroke="#475569" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M16 36v-6h6v6" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M26 36v-4h6v4" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M12 24h4" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
                         </svg>
                     </span>
-                    <span class="modal-publish__label">Desarrollo</span>
+                    <span class="modal-publish__label">Industrial</span>
+                </button>
+                <button type="button" class="modal-publish__option" data-type="especiales" data-label="Especiales" role="listitem">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="m24 8 4 10h11l-9 6 3 10-9-6-9 6 3-10-9-6h11Z" fill="#f5f3ff" stroke="#7c3aed" stroke-width="2" stroke-linejoin="round"/>
+                            <circle cx="24" cy="24" r="4" fill="#7c3aed" fill-opacity="0.2" stroke="#7c3aed" stroke-width="2"/>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Especiales</span>
+                </button>
+                <button type="button" class="modal-publish__option" data-type="desarrollos" data-label="Desarrollos" role="listitem">
+                    <span class="modal-publish__icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false">
+                            <path d="M12 36V18l8-4v22" fill="#f0f9ff" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M24 36V12l8 4v20" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M34 36V20l4 2v14" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M12 36h26" stroke="#0ea5e9" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="modal-publish__label">Desarrollos</span>
                 </button>
             </div>
             <footer class="modal-publish__footer">
