@@ -232,6 +232,9 @@ button {
     width: 100%;
     text-align: center;
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+    scrollbar-gutter: stable both-edges;
 }
 
 .modal__title {
@@ -422,4 +425,39 @@ button {
     opacity: 0.6;
     cursor: not-allowed;
     box-shadow: none;
+}
+
+@media (max-width: 900px) {
+    .modal__dialog {
+        padding: 36px 32px;
+    }
+}
+
+@media (max-width: 640px) {
+    .modal {
+        align-items: flex-start;
+        padding: 16px;
+    }
+
+    .modal__dialog {
+        border-radius: 18px;
+        padding: 28px 20px;
+        max-height: calc(100vh - 32px);
+    }
+
+    .modal__title {
+        font-size: 1.5rem;
+    }
+
+    .modal-publish__options {
+        margin-top: 24px;
+    }
+
+    .modal-publish__options--grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-publish__option {
+        padding: 18px;
+    }
 }
