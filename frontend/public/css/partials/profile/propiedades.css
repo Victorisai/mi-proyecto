@@ -210,8 +210,7 @@ button {
     visibility: hidden;
     transition: opacity 0.25s ease, visibility 0.25s ease;
     z-index: 200;
-    padding: 24px;
-    overflow: auto;
+    padding: clamp(16px, 6vw, 48px);
 }
 
 .modal--visible {
@@ -227,27 +226,28 @@ button {
 .modal__dialog {
     position: relative;
     background: #ffffff;
-    border-radius: 24px;
-    padding: 40px 48px;
-    max-width: min(520px, calc(100vw - 48px));
-    width: 100%;
-    max-height: calc(100vh - 48px);
-    overflow: auto;
+    border-radius: clamp(18px, 3vw, 24px);
+    padding: clamp(28px, 5vw, 48px);
+    width: min(100%, 760px);
+    max-width: min(760px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 3vw, 24px);
     text-align: center;
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
 }
 
 .modal__title {
-    font-size: 1.75rem;
+    font-size: clamp(1.35rem, 3.5vw, 1.75rem);
     font-weight: 700;
-    margin: -22px 0 0.5rem;
-    padding-top: 1.5rem;
+    margin: 0;
+    padding-top: clamp(8px, 2vw, 24px);
 }
 
 .modal__subtitle {
-    font-size: 1rem;
+    font-size: clamp(0.95rem, 2.4vw, 1rem);
     color: #6b7280;
-    margin: 0 0 10px;
+    margin: 0 0 clamp(8px, 2vw, 16px);
 }
 
 .modal__action {
@@ -286,7 +286,7 @@ button {
 /* === MODAL PUBLICAR PROPIEDAD === */
 /* ================================================= */
 .modal-publish {
-    padding: 44px 48px 40px;
+    padding: 0;
     text-align: left;
 }
 
@@ -334,8 +334,8 @@ button {
 
 .modal-publish__options {
     display: grid;
-    gap: 16px;
-    margin-top: 32px;
+    gap: clamp(12px, 3vw, 20px);
+    margin-top: clamp(18px, 4vw, 32px);
 }
 
 .modal-publish__options--grid {
@@ -345,9 +345,9 @@ button {
 .modal-publish__option {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: clamp(10px, 2.5vw, 16px);
     align-items: flex-start;
-    padding: 22px;
+    padding: clamp(18px, 3.5vw, 24px);
     border-radius: 16px;
     border: 1.5px solid #e5e7eb;
     background: #ffffff;
@@ -428,39 +428,38 @@ button {
 }
 
 @media (max-width: 768px) {
-    .modal {
-        padding: 20px;
-    }
-
     .modal__dialog {
-        padding: 32px 28px;
+        padding: clamp(24px, 6vw, 32px);
         border-radius: 20px;
-        max-width: min(480px, calc(100vw - 40px));
-        max-height: calc(100vh - 40px);
+        width: min(100%, 520px);
     }
 
     .modal__title {
-        font-size: 1.5rem;
+        font-size: clamp(1.25rem, 5vw, 1.5rem);
     }
 }
 
 @media (max-width: 560px) {
-    .modal {
-        padding: 16px;
-    }
-
     .modal__dialog {
-        padding: 28px 22px;
+        padding: clamp(22px, 8vw, 28px);
         border-radius: 18px;
-        max-width: calc(100vw - 32px);
-        max-height: calc(100vh - 32px);
     }
 
-    .modal-publish__options--grid {
-        grid-template-columns: 1fr;
+    .modal-publish__options {
+        gap: clamp(12px, 4vw, 16px);
     }
 
     .modal-publish__option {
         align-items: stretch;
+    }
+}
+
+@media (min-width: 1024px) {
+    .modal__dialog {
+        width: min(100%, 820px);
+    }
+
+    .modal-publish__options--grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
