@@ -228,20 +228,22 @@ button {
     position: relative;
     background: #ffffff;
     border-radius: 24px;
-    padding: 40px 48px;
-    max-width: min(520px, calc(100vw - 48px));
-    width: 100%;
+    padding: clamp(28px, 5vw, 48px);
+    width: min(960px, 100%);
+    max-width: min(960px, calc(100vw - 48px));
     max-height: calc(100vh - 48px);
     overflow: auto;
     text-align: center;
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2.5vw, 24px);
 }
 
 .modal__title {
     font-size: 1.75rem;
     font-weight: 700;
-    margin: -22px 0 0.5rem;
-    padding-top: 1.5rem;
+    margin: 0 0 0.5rem;
 }
 
 .modal__subtitle {
@@ -286,8 +288,10 @@ button {
 /* === MODAL PUBLICAR PROPIEDAD === */
 /* ================================================= */
 .modal-publish {
-    padding: 44px 48px 40px;
     text-align: left;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(16px, 2vw, 24px);
 }
 
 .modal-publish__summary {
@@ -339,7 +343,7 @@ button {
 }
 
 .modal-publish__options--grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
 }
 
 .modal-publish__option {
@@ -429,38 +433,47 @@ button {
 
 @media (max-width: 768px) {
     .modal {
-        padding: 20px;
+        padding: clamp(16px, 4vw, 24px);
+        align-items: flex-start;
     }
 
     .modal__dialog {
-        padding: 32px 28px;
+        padding: clamp(24px, 6vw, 32px);
         border-radius: 20px;
-        max-width: min(480px, calc(100vw - 40px));
-        max-height: calc(100vh - 40px);
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(90vh - 2 * clamp(16px, 4vw, 24px));
     }
 
     .modal__title {
         font-size: 1.5rem;
     }
+
+    .modal-publish__options--grid {
+        grid-template-columns: repeat(2, minmax(140px, 1fr));
+    }
 }
 
 @media (max-width: 560px) {
-    .modal {
-        padding: 16px;
-    }
-
     .modal__dialog {
-        padding: 28px 22px;
         border-radius: 18px;
-        max-width: calc(100vw - 32px);
-        max-height: calc(100vh - 32px);
     }
 
     .modal-publish__options--grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(120px, 1fr));
     }
 
     .modal-publish__option {
         align-items: stretch;
+    }
+}
+
+@media (min-width: 1024px) {
+    .modal__dialog {
+        max-width: min(960px, calc(100vw - 96px));
+    }
+
+    .modal-publish__options--grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
