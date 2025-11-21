@@ -114,6 +114,99 @@
             document.removeEventListener('keydown', handleKeyDown);
         };
 
+        const openPublicationTemplate = (detail) => {
+            const profileRoot = panel.closest('.profile');
+            if (!profileRoot) {
+                return;
+            }
+
+            const mainContent = profileRoot.querySelector('.profile__main-content');
+            const publicationPanel = mainContent ? mainContent.querySelector('.profile__panel[data-section="publicar-propiedad"]') : null;
+
+            if (!mainContent || !publicationPanel) {
+                return;
+            }
+
+            const setActivePanel = () => {
+                mainContent.querySelectorAll('.profile__panel').forEach((panelItem) => {
+                    const isActive = panelItem === publicationPanel;
+                    panelItem.classList.toggle('profile__panel--active', isActive);
+                });
+            };
+
+            const applyPublicationSummary = () => {
+                const purposeBadge = publicationPanel.querySelector('[data-publish-summary="purpose"]');
+                const typeBadge = publicationPanel.querySelector('[data-publish-summary="type"]');
+                const context = publicationPanel.querySelector('[data-publish-context]');
+                const heading = publicationPanel.querySelector('[data-publish-heading]');
+
+                if (purposeBadge) {
+                    purposeBadge.textContent = detail && detail.purposeLabel ? detail.purposeLabel : '';
+                    purposeBadge.hidden = !(detail && detail.purposeLabel);
+                }
+
+                if (typeBadge) {
+                    typeBadge.textContent = detail && detail.typeLabel ? detail.typeLabel : '';
+                    typeBadge.hidden = !(detail && detail.typeLabel);
+                }
+
+                if (context) {
+                    const hasType = Boolean(detail && detail.typeLabel);
+                    const hasPurpose = Boolean(detail && detail.purposeLabel);
+                    const purposeText = hasPurpose ? detail.purposeLabel.toLowerCase() : 'publicar';
+                    context.textContent = hasType
+                        ? `Configura los datos iniciales para ${detail.typeLabel.toLowerCase()} en modalidad de ${purposeText}.`
+                        : 'Completa los datos base para crear un borrador profesional de tu anuncio.';
+                }
+
+                if (heading && typeof heading.focus === 'function') {
+                    heading.focus();
+                }
+            };
+
+            const ensurePublicationContent = () => {
+                if (publicationPanel.dataset.loaded === 'true') {
+                    return Promise.resolve();
+                }
+
+                const source = publicationPanel.dataset.src;
+
+                if (!source) {
+                    publicationPanel.dataset.loaded = 'true';
+                    return Promise.resolve();
+                }
+
+                publicationPanel.dataset.loading = 'true';
+
+                return fetch(source)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`No se pudo cargar el contenido de ${source}`);
+                        }
+                        return response.text();
+                    })
+                    .then((html) => {
+                        publicationPanel.innerHTML = html;
+                        publicationPanel.dataset.loaded = 'true';
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        publicationPanel.innerHTML = '<p class="panel__error">No se pudo cargar la plantilla de publicación.</p>';
+                        publicationPanel.dataset.loaded = 'error';
+                    })
+                    .finally(() => {
+                        delete publicationPanel.dataset.loading;
+                    });
+            };
+
+            ensurePublicationContent()
+                .then(() => {
+                    setActivePanel();
+                    applyPublicationSummary();
+                })
+                .catch((error) => console.error(error));
+        };
+
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
                 closeModal();
@@ -205,6 +298,7 @@
                     bubbles: true,
                     detail
                 }));
+                openPublicationTemplate(detail);
                 resetPublishState();
             });
         }

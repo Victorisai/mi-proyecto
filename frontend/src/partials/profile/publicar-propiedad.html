@@ -1,0 +1,83 @@
+<div class="dashboard__breadcrumb">
+    <span class="breadcrumb__label">Panel</span>
+    <span class="breadcrumb__divider">/</span>
+    <span class="breadcrumb__current">Publicar propiedad</span>
+</div>
+
+<section class="dashboard__section dashboard__section--wide">
+    <div class="dashboard__section-heading">
+        <div>
+            <p class="modal__subtitle">Paso 1 · Detalles iniciales</p>
+            <h1 class="dashboard__section-title" data-publish-heading tabindex="-1">Configura tu publicación</h1>
+            <p class="dashboard__section-description" data-publish-context>
+                Completa los datos base para crear un borrador profesional de tu anuncio.
+            </p>
+        </div>
+        <div class="modal-publish__summary" aria-live="polite">
+            <span class="modal-publish__badge" data-publish-summary="purpose" hidden></span>
+            <span class="modal-publish__badge" data-publish-summary="type" hidden></span>
+        </div>
+    </div>
+
+    <form class="card profile-form publish-form" data-publish-form>
+        <div class="profile-form__grid">
+            <label class="profile-form__field profile-form__field--full profile-form__field--icon" for="property-subtype">
+                <span class="profile-form__label">
+                    <span class="profile-form__icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 3 3 9l9 6 9-6-9-6Z" />
+                            <path d="m3 9 9 6 9-6" />
+                            <path d="m3 15 9 6 9-6" />
+                        </svg>
+                    </span>
+                    <span>Subtipo de propiedad</span>
+                </span>
+                <select id="property-subtype" name="property-subtype" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="departamento">Departamento</option>
+                    <option value="casa">Casa</option>
+                    <option value="loft">Loft</option>
+                    <option value="oficina">Oficina</option>
+                    <option value="local">Local comercial</option>
+                    <option value="terreno">Terreno</option>
+                    <option value="bodega">Bodega</option>
+                    <option value="consultorio">Consultorio</option>
+                </select>
+                <small class="profile-form__hint">Ejemplo: Departamento, Casa, Oficina, Local o Terreno residencial.</small>
+            </label>
+
+            <label class="profile-form__field profile-form__field--full profile-form__field--icon" for="property-title">
+                <span class="profile-form__label">
+                    <span class="profile-form__icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 6h16M4 12h10M4 18h8" />
+                            <path d="M12 3 2 9l10 6 10-6-10-6Z" />
+                        </svg>
+                    </span>
+                    <span>Título del anuncio</span>
+                </span>
+                <input type="text" id="property-title" name="property-title" placeholder="Ejemplo: Departamento moderno con vista al mar" required>
+                <small class="profile-form__hint">Destaca la mejor característica o el beneficio principal.</small>
+            </label>
+
+            <label class="profile-form__field profile-form__field--full profile-form__field--icon" for="property-description">
+                <span class="profile-form__label">
+                    <span class="profile-form__icon" aria-hidden="true">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4h16v16H4z" />
+                            <path d="M8 9h8M8 13h8M8 17h5" />
+                        </svg>
+                    </span>
+                    <span>Descripción breve</span>
+                </span>
+                <textarea id="property-description" name="property-description" rows="5" placeholder="Describe los espacios, acabados y beneficios de la zona." required></textarea>
+                <small class="profile-form__hint">Resume ubicación, amenidades clave y oportunidad de inversión.</small>
+            </label>
+        </div>
+
+        <footer class="publish-form__actions">
+            <button type="button" class="dashboard__action-btn">Guardar borrador</button>
+            <button type="button" class="dashboard__action-btn dashboard__action-btn--primary">Continuar</button>
+        </footer>
+    </form>
+</section>
