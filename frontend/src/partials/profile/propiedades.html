@@ -173,3 +173,59 @@
         </div>
     </div>
 </div>
+
+<div class="modal modal--fullscreen" data-modal="publish-details" aria-hidden="true" role="dialog">
+    <div class="modal__overlay" data-modal-close></div>
+    <div class="modal__dialog modal-publish modal-publish-details" role="document">
+        <button class="modal__close" type="button" aria-label="Cerrar" data-modal-close>&times;</button>
+
+        <div class="modal-publish-details__header">
+            <div class="modal-publish__summary" aria-live="polite">
+                <span class="modal-publish__badge" data-detail-purpose hidden></span>
+                <span class="modal-publish__badge" data-detail-type hidden></span>
+            </div>
+            <div class="modal-publish-details__title">
+                <h2 class="modal__title">Define los detalles iniciales</h2>
+                <p class="modal__subtitle">Elige el subtipo y redacta una descripción atractiva para tu anuncio.</p>
+            </div>
+        </div>
+
+        <form class="modal-publish-details__form" aria-label="Detalles de la propiedad">
+            <div class="modal-publish-details__field">
+                <label for="property-subtype" class="modal-publish-details__label">Subtipo de propiedad</label>
+                <div class="modal-publish-details__input">
+                    <select id="property-subtype" name="property-subtype">
+                        <option value="" selected disabled>Selecciona una opción</option>
+                        <option value="departamento">Departamento</option>
+                        <option value="casa">Casa</option>
+                        <option value="penthouse">Penthouse</option>
+                        <option value="loft">Loft</option>
+                        <option value="villa">Villa</option>
+                    </select>
+                </div>
+                <p class="modal-publish-details__hint">Agrega precisión para que los clientes encuentren tu inmueble rápidamente.</p>
+            </div>
+
+            <div class="modal-publish-details__field">
+                <label for="property-title" class="modal-publish-details__label">Título del anuncio</label>
+                <div class="modal-publish-details__input">
+                    <input type="text" id="property-title" name="property-title" placeholder="Ej. Casa moderna con alberca y jardín amplio">
+                </div>
+                <p class="modal-publish-details__hint">Sé claro y atractivo: destaca ubicación, amenidades o ventaja competitiva.</p>
+            </div>
+
+            <div class="modal-publish-details__field modal-publish-details__field--full">
+                <label for="property-description" class="modal-publish-details__label">Descripción</label>
+                <div class="modal-publish-details__input">
+                    <textarea id="property-description" name="property-description" rows="6" placeholder="Detalla distribución, amenidades, cercanías y cualquier característica única."></textarea>
+                </div>
+                <p class="modal-publish-details__hint">Incluye información clave para generar confianza y acelerar el contacto.</p>
+            </div>
+        </form>
+
+        <footer class="modal-publish-details__footer">
+            <button type="button" class="dashboard__action-btn">Guardar borrador</button>
+            <button type="button" class="dashboard__action-btn dashboard__action-btn--primary">Continuar</button>
+        </footer>
+    </div>
+</div>

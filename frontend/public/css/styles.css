@@ -6387,6 +6387,12 @@ body.profile-page {
     visibility: visible;
 }
 
+.modal--fullscreen {
+    align-items: stretch;
+    justify-content: stretch;
+    padding: 0;
+}
+
 .modal__overlay {
     position: absolute;
     inset: 0;
@@ -6401,6 +6407,15 @@ body.profile-page {
     width: 100%;
     text-align: center;
     box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+}
+
+.modal--fullscreen .modal__dialog {
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+    padding: clamp(24px, 4vw, 48px);
 }
 
 .modal__title {
@@ -6597,19 +6612,11 @@ body.profile-page {
     box-shadow: none;
 }
 
-.modal-publish-details { 
-    max-width: 720px;
-    max-height: calc(100vh - 96px);
-    padding: 48px 56px;
+.modal-publish-details {
     text-align: left;
     display: flex;
     flex-direction: column;
-    gap: 32px;
-    background: linear-gradient(165deg, #ffffff 60%, rgba(219, 234, 254, 0.5));
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #60a5fa rgba(148, 163, 184, 0.18);
-    scrollbar-gutter: stable both-edges;
+    gap: 24px;
 }
 
 .modal-pricing {
@@ -7120,6 +7127,78 @@ body.profile-page {
     box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
     margin-bottom: 1.25rem;
     transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Ajustes para modal de detalles de publicación en pantalla completa */
+.modal-publish-details__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.modal-publish-details__title {
+    max-width: 520px;
+}
+
+.modal-publish-details__form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px 24px;
+}
+
+.modal-publish-details__field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.modal-publish-details__field--full {
+    grid-column: 1 / -1;
+}
+
+.modal-publish-details__label {
+    font-weight: 700;
+    color: #111827;
+}
+
+.modal-publish-details__input select,
+.modal-publish-details__input input,
+.modal-publish-details__input textarea {
+    width: 100%;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 15px;
+    color: #111827;
+    background: #ffffff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-publish-details__input textarea {
+    resize: vertical;
+}
+
+.modal-publish-details__input select:focus,
+.modal-publish-details__input input:focus,
+.modal-publish-details__input textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+    outline: none;
+}
+
+.modal-publish-details__hint {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.modal-publish-details__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 8px;
 }
 
 .publish-details__gallery-status[data-state="filled"] {

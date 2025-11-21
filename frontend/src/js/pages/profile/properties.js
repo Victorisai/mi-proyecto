@@ -5,6 +5,7 @@
         }
 
         const modal = panel.querySelector('[data-modal="publish"]');
+        const detailModal = panel.querySelector('[data-modal="publish-details"]');
         if (!modal) {
             return;
         }
@@ -17,16 +18,22 @@
         panel.dataset.propertiesInitialized = 'true';
 
         const closers = Array.from(modal.querySelectorAll('[data-modal-close]'));
+        const detailClosers = detailModal ? Array.from(detailModal.querySelectorAll('[data-modal-close]')) : [];
         const steps = Array.from(modal.querySelectorAll('.modal-publish__step'));
         const summaryBadges = {
             purpose: modal.querySelector('[data-selection-purpose]'),
             type: modal.querySelector('[data-selection-type]')
+        };
+        const detailBadges = {
+            purpose: detailModal ? detailModal.querySelector('[data-detail-purpose]') : null,
+            type: detailModal ? detailModal.querySelector('[data-detail-type]') : null
         };
         const purposeOptions = Array.from(modal.querySelectorAll('[data-purpose]'));
         const typeOptions = Array.from(modal.querySelectorAll('[data-type]'));
         const backButton = modal.querySelector('[data-publish-back]');
         const finishButton = modal.querySelector('[data-publish-finish]');
         const modalDialog = modal.querySelector('.modal__dialog');
+        const detailDialog = detailModal ? detailModal.querySelector('.modal__dialog') : null;
 
         let publishState = {
             purpose: null,
@@ -99,18 +106,22 @@
             showStep('purpose');
         };
 
-        const updateAria = (isOpen) => {
-            modal.setAttribute('aria-hidden', String(!isOpen));
+        const updateAria = (element, isOpen) => {
+            if (!element) {
+                return;
+            }
+
+            element.setAttribute('aria-hidden', String(!isOpen));
             if (isOpen) {
-                modal.setAttribute('aria-modal', 'true');
+                element.setAttribute('aria-modal', 'true');
             } else {
-                modal.removeAttribute('aria-modal');
+                element.removeAttribute('aria-modal');
             }
         };
 
         const closeModal = () => {
             modal.classList.remove('modal--visible');
-            updateAria(false);
+            updateAria(modal, false);
             document.removeEventListener('keydown', handleKeyDown);
         };
 
@@ -124,11 +135,44 @@
         const openModal = () => {
             resetPublishState();
             modal.classList.add('modal--visible');
-            updateAria(true);
+            updateAria(modal, true);
             document.addEventListener('keydown', handleKeyDown);
 
             if (modalDialog) {
                 modalDialog.scrollTop = 0;
+            }
+        };
+
+        const closeDetailModal = () => {
+            if (!detailModal) {
+                return;
+            }
+
+            detailModal.classList.remove('modal--visible');
+            updateAria(detailModal, false);
+            document.removeEventListener('keydown', handleDetailKeyDown);
+        };
+
+        const handleDetailKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                closeDetailModal();
+            }
+        };
+
+        const openDetailModal = (detail) => {
+            if (!detailModal) {
+                return;
+            }
+
+            setBadge(detailBadges.purpose, detail === null || detail === void 0 ? void 0 : detail.purposeLabel);
+            setBadge(detailBadges.type, detail === null || detail === void 0 ? void 0 : detail.typeLabel);
+
+            detailModal.classList.add('modal--visible');
+            updateAria(detailModal, true);
+            document.addEventListener('keydown', handleDetailKeyDown);
+
+            if (detailDialog) {
+                detailDialog.scrollTop = 0;
             }
         };
 
@@ -201,11 +245,21 @@
                 };
 
                 closeModal();
+                openDetailModal(detail);
                 panel.dispatchEvent(new CustomEvent('properties:publish:continue', {
                     bubbles: true,
                     detail
                 }));
                 resetPublishState();
+            });
+        }
+
+        if (detailClosers.length) {
+            detailClosers.forEach(element => {
+                element.addEventListener('click', event => {
+                    event.preventDefault();
+                    closeDetailModal();
+                });
             });
         }
     };
