@@ -240,6 +240,124 @@ button {
     gap: clamp(16px, 2.5vw, 24px);
 }
 
+.dashboard__section-eyebrow {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #475569;
+    margin: 0 0 6px;
+}
+
+.dashboard__section-description {
+    color: #4b5563;
+    margin: 6px 0 0;
+}
+
+.publish-summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    color: #0f172a;
+    font-weight: 600;
+}
+
+.publish-summary__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    background: #e0f2fe;
+    color: #075985;
+    border-radius: 10px;
+    font-size: 0.95rem;
+}
+
+.publish-summary__divider {
+    color: #cbd5e1;
+    font-weight: 700;
+}
+
+.publish-card {
+    margin-top: 20px;
+    padding: clamp(18px, 4vw, 28px);
+}
+
+.publish-card__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: flex-start;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.publish-card__eyebrow {
+    margin: 0;
+    font-weight: 600;
+    color: #475569;
+}
+
+.publish-card__title {
+    margin: 6px 0 8px;
+    font-size: 1.35rem;
+    color: #0f172a;
+}
+
+.publish-card__subtitle {
+    margin: 0;
+    color: #4b5563;
+}
+
+.publish-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.publish-card__pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    background: #f1f5f9;
+    border-radius: 999px;
+    color: #0f172a;
+    font-weight: 600;
+    border: 1px solid #e2e8f0;
+}
+
+.publish-form {
+    margin-top: 20px;
+}
+
+.publish-form__grid {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.publish-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 16px;
+    margin-top: 12px;
+    border-top: 1px solid #e2e8f0;
+}
+
+@media (max-width: 768px) {
+    .publish-card__header {
+        flex-direction: column;
+    }
+
+    .publish-summary {
+        width: 100%;
+    }
+}
+
 .modal__title {
     font-size: 1.75rem;
     font-weight: 700;
