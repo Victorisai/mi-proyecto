@@ -1,0 +1,57 @@
+<div class="dashboard__breadcrumb">
+    <span class="breadcrumb__label">Panel</span>
+    <span class="breadcrumb__divider">/</span>
+    <span class="breadcrumb__current">Nueva publicación</span>
+</div>
+
+<section class="dashboard__section publish-layout" aria-labelledby="publish-step-title">
+    <div class="dashboard__section-heading publish-layout__heading">
+        <div>
+            <p class="publish-layout__eyebrow">Detalle inicial</p>
+            <h1 class="dashboard__section-title" id="publish-step-title">Define la base de tu anuncio</h1>
+            <p class="publish-layout__description">Clasifica la propiedad, nombra tu publicación y comparte una descripción breve para continuar con el proceso.</p>
+        </div>
+        <div class="publish-summary" aria-live="polite">
+            <span class="publish-summary__label">Selección previa</span>
+            <div class="publish-summary__badges">
+                <span class="modal-publish__badge" data-publish-summary="purpose">Selecciona venta o renta</span>
+                <span class="modal-publish__badge" data-publish-summary="type">Selecciona un tipo</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card publish-card">
+        <div class="publish-card__grid">
+            <div class="publish-card__field" role="group" aria-labelledby="publish-subtype-label">
+                <div class="publish-card__field-header">
+                    <label class="publish-card__label" id="publish-subtype-label">Subtipo de propiedad</label>
+                    <p class="publish-card__hint">Elige el subtipo que mejor describa tu inmueble.</p>
+                </div>
+                <div class="publish-card__chips" aria-label="Opciones de subtipo">
+                    <button type="button" class="pill-option is-selected">Casa</button>
+                    <button type="button" class="pill-option">Departamento</button>
+                    <button type="button" class="pill-option">Loft</button>
+                    <button type="button" class="pill-option">Townhouse</button>
+                    <button type="button" class="pill-option">Estudio</button>
+                </div>
+            </div>
+
+            <div class="publish-card__field">
+                <label class="publish-card__label" for="publish-title">Título del anuncio</label>
+                <input class="publish-card__input" type="text" id="publish-title" name="publish-title" placeholder="Ej. Departamento con vista al mar en zona hotelera" />
+                <p class="publish-card__hint">Mantén un título claro y atractivo para destacar en los listados.</p>
+            </div>
+
+            <div class="publish-card__field">
+                <label class="publish-card__label" for="publish-description">Descripción breve</label>
+                <textarea class="publish-card__textarea" id="publish-description" name="publish-description" rows="4" placeholder="Describe los espacios clave, amenidades y diferenciadores de la propiedad."></textarea>
+                <p class="publish-card__hint">Podrás agregar más detalles, fotos y características en el siguiente paso.</p>
+            </div>
+        </div>
+
+        <div class="publish-card__actions">
+            <button type="button" class="dashboard__action-btn dashboard__action-btn--ghost">Guardar como borrador</button>
+            <button type="button" class="dashboard__action-btn dashboard__action-btn--primary">Continuar</button>
+        </div>
+    </div>
+</section>
