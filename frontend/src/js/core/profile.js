@@ -138,6 +138,47 @@
             }
         });
 
+        const activatePanel = (targetSection) => {
+            if (!targetSection) {
+                return null;
+            }
+
+            const targetPanel = Array.from(panels).find((panel) => panel.dataset.section === targetSection);
+
+            panels.forEach((panel) => {
+                const isActive = panel === targetPanel;
+                panel.classList.toggle('profile__panel--active', isActive);
+
+                if (!isActive) {
+                    return;
+                }
+
+                const hasContent = panel.innerHTML.trim().length > 0;
+                const isLoaded = panel.dataset.loaded === 'true';
+                const isLoading = panel.dataset.loading === 'true';
+
+                if (isLoaded) {
+                    initializePanelFeatures(panel);
+                    onPanelReady(panel);
+                    return;
+                }
+
+                if (!hasContent || !isLoaded) {
+                    if (!isLoading) {
+                        loadPanelContent(panel);
+                    }
+                    return;
+                }
+
+                panel.dataset.loaded = 'true';
+                initializePanelFeatures(panel);
+                onPanelReady(panel);
+            });
+
+            closeMobileMenu();
+            return targetPanel || null;
+        };
+
         panels.forEach((panel) => loadPanelContent(panel));
 
         menuLinks.forEach((link) => {
@@ -152,37 +193,38 @@
                 menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
                 link.classList.add('sidebar__menu-link--active');
 
-                panels.forEach((panel) => {
-                    const isActive = panel.dataset.section === targetSection;
-                    panel.classList.toggle('profile__panel--active', isActive);
+                activatePanel(targetSection);
+            });
+        });
 
-                    if (!isActive) {
-                        return;
-                    }
+        document.addEventListener('properties:publish:continue', (event) => {
+            const publishPanel = activatePanel('publicacion');
 
-                    const hasContent = panel.innerHTML.trim().length > 0;
-                    const isLoaded = panel.dataset.loaded === 'true';
-                    const isLoading = panel.dataset.loading === 'true';
+            if (!publishPanel) {
+                return;
+            }
 
-                    if (isLoaded) {
-                        initializePanelFeatures(panel);
-                        onPanelReady(panel);
-                        return;
-                    }
+            const applySelection = () => {
+                const purposeBadge = publishPanel.querySelector('[data-publish-summary="purpose"]');
+                const typeBadge = publishPanel.querySelector('[data-publish-summary="type"]');
 
-                    if (!hasContent || !isLoaded) {
-                        if (!isLoading) {
-                            loadPanelContent(panel);
-                        }
-                        return;
-                    }
+                if (purposeBadge) {
+                    purposeBadge.textContent = event.detail?.purposeLabel || 'Venta o renta';
+                }
 
-                    panel.dataset.loaded = 'true';
-                    initializePanelFeatures(panel);
-                    onPanelReady(panel);
-                });
+                if (typeBadge) {
+                    typeBadge.textContent = event.detail?.typeLabel || 'Tipo de propiedad';
+                }
+            };
 
-                closeMobileMenu();
+            if (publishPanel.dataset.loaded === 'true') {
+                applySelection();
+                return;
+            }
+
+            publishPanel.addEventListener('profile:panel-ready', function handleReady() {
+                publishPanel.removeEventListener('profile:panel-ready', handleReady);
+                applySelection();
             });
         });
     });
