@@ -1,0 +1,68 @@
+<div class="dashboard__breadcrumb">
+    <span class="breadcrumb__label">Panel</span>
+    <span class="breadcrumb__divider">/</span>
+    <span class="breadcrumb__current">Publicar propiedad</span>
+</div>
+
+<section class="dashboard__section">
+    <div class="dashboard__section-heading">
+        <div>
+            <p class="dashboard__section-eyebrow">Publicación guiada</p>
+            <h2 class="dashboard__section-title">Define los detalles iniciales</h2>
+            <p class="dashboard__section-description">Completa la información base para continuar con tu anuncio.</p>
+        </div>
+        <div class="publish-summary" aria-label="Resumen de selección">
+            <span class="publish-summary__badge" data-publish-summary="purpose">Propósito sin definir</span>
+            <span class="publish-summary__divider" aria-hidden="true">•</span>
+            <span class="publish-summary__badge" data-publish-summary="type">Tipo sin definir</span>
+        </div>
+    </div>
+
+    <div class="card publish-card">
+        <header class="publish-card__header">
+            <div>
+                <p class="publish-card__eyebrow">Paso 2 • Información básica</p>
+                <h3 class="publish-card__title">Subtipo, título y descripción</h3>
+                <p class="publish-card__subtitle">Estos datos ayudarán a los clientes a entender rápidamente qué estás ofreciendo.</p>
+            </div>
+            <div class="publish-card__meta" aria-live="polite">
+                <span class="publish-card__pill" data-publish-summary="purpose">Propósito sin definir</span>
+                <span class="publish-card__pill" data-publish-summary="type">Tipo sin definir</span>
+            </div>
+        </header>
+
+        <form class="publish-form" action="#" method="post">
+            <div class="publish-form__grid">
+                <label class="profile-form__field" for="property-subtype">
+                    <span class="profile-form__label">Subtipo de propiedad</span>
+                    <select id="property-subtype" name="property_subtype">
+                        <option value="" selected>Selecciona una opción</option>
+                        <option value="casa">Casa</option>
+                        <option value="departamento">Departamento</option>
+                        <option value="loft">Loft</option>
+                        <option value="terreno">Terreno</option>
+                        <option value="oficina">Oficina</option>
+                        <option value="local-comercial">Local comercial</option>
+                    </select>
+                </label>
+
+                <label class="profile-form__field" for="property-title">
+                    <span class="profile-form__label">Título del anuncio</span>
+                    <input id="property-title" type="text" name="property_title" placeholder="Ej. Residencia moderna en zona premium" maxlength="120" required>
+                    <small class="profile-form__hint">Sé breve y claro, máximo 120 caracteres.</small>
+                </label>
+
+                <label class="profile-form__field profile-form__field--full" for="property-description">
+                    <span class="profile-form__label">Descripción</span>
+                    <textarea id="property-description" name="property_description" rows="5" placeholder="Comparte las características clave, amenidades y puntos fuertes de la propiedad." required></textarea>
+                    <small class="profile-form__hint">Destaca ubicación, estado del inmueble y beneficios principales.</small>
+                </label>
+            </div>
+
+            <footer class="publish-form__actions">
+                <button type="button" class="dashboard__action-btn">Guardar borrador</button>
+                <button type="submit" class="dashboard__action-btn dashboard__action-btn--primary">Continuar</button>
+            </footer>
+        </form>
+    </div>
+</section>
