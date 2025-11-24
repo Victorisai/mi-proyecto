@@ -33,11 +33,44 @@
 
         <form class="publish-form" action="#" method="post">
             <div class="publish-form__grid">
-                <label class="profile-form__field" for="property-subtype">
-                    <span class="profile-form__label">Subtipo de propiedad</span>
+                <label class="profile-form__field profile-form__field--icon" for="property-subtype">
+                    <span class="profile-form__label">
+                        <span class="profile-form__icon" aria-hidden="true">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9.5 12 4l9 5.5V20a1 1 0 0 1-1 1h-4.5v-6.5h-7V21H4a1 1 0 0 1-1-1V9.5Z" />
+                                <path d="M9.5 21v-6.5h5V21" />
+                            </svg>
+                        </span>
+                        <span>
+                            Subtipo de propiedad
+                            <small class="profile-form__hint">Agrupa por uso principal para mostrar filtros más relevantes.</small>
+                        </span>
+                    </span>
                     <select id="property-subtype" name="property_subtype">
                         <option value="" selected>Selecciona una opción</option>
+                        <optgroup label="Residencial">
+                            <option value="casa">Casa</option>
+                            <option value="departamento">Departamento</option>
+                            <option value="penthouse">Penthouse</option>
+                            <option value="townhouse">Townhouse</option>
+                            <option value="terreno_residencial">Terreno / Lote</option>
+                        </optgroup>
+                        <optgroup label="Comercial">
+                            <option value="oficina">Oficina</option>
+                            <option value="local_comercial">Local comercial</option>
+                            <option value="bodega">Bodega / Industrial</option>
+                            <option value="coworking">Espacio coworking</option>
+                            <option value="terreno_comercial">Terreno comercial</option>
+                        </optgroup>
                     </select>
+                    <div class="publish-card__meta" aria-hidden="true">
+                        <span class="publish-summary__badge">Residencial</span>
+                        <span class="publish-summary__divider">•</span>
+                        <span class="publish-summary__badge">Comercial</span>
+                        <span class="publish-summary__divider">•</span>
+                        <span class="publish-summary__badge">Inversión</span>
+                    </div>
+                    <small class="profile-form__hint">Selecciona el subtipo que mejor describa la propiedad para que las recomendaciones y filtros se adapten automáticamente.</small>
                 </label>
 
                 <label class="profile-form__field" for="property-title">
