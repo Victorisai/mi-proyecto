@@ -1,0 +1,75 @@
+<section class="publish-stage" aria-label="Configuración de publicación de propiedad">
+    <header class="publish-stage__header">
+        <p class="publish-stage__eyebrow">Publicación de propiedad</p>
+        <div class="publish-stage__headline-group">
+            <h2 class="publish-stage__title" data-publish-heading>Configura tu anuncio</h2>
+            <p class="publish-stage__subtitle">Personaliza el anuncio con base en el tipo de propiedad seleccionado.</p>
+        </div>
+        <div class="publish-stage__chips" aria-live="polite">
+            <span class="publish-stage__chip" data-publish-purpose-label>Propósito no definido</span>
+            <span class="publish-stage__chip publish-stage__chip--accent" data-publish-type-label>Tipo de propiedad no definido</span>
+        </div>
+    </header>
+
+    <div class="publish-card" role="form" aria-describedby="publish-form-description">
+        <p id="publish-form-description" class="publish-card__helper">Completa los detalles iniciales para estructurar tu publicación.</p>
+
+        <div class="publish-card__grid">
+            <div class="publish-card__block">
+                <div class="publish-card__field">
+                    <div class="publish-card__label-row">
+                        <label for="property-subtype" class="publish-card__label">Subtipo de propiedad</label>
+                        <span class="publish-card__tag" data-publish-selected-type>Tipo seleccionado</span>
+                    </div>
+                    <div class="publish-card__control">
+                        <select id="property-subtype" class="publish-card__select" data-publish-subtype>
+                            <option value="" disabled selected>Selecciona primero un tipo</option>
+                        </select>
+                        <p class="publish-card__hint" data-publish-subtype-helper>Las opciones se actualizarán según el tipo elegido.</p>
+                    </div>
+                </div>
+
+                <div class="publish-card__field">
+                    <label for="property-title" class="publish-card__label">Título del anuncio</label>
+                    <input id="property-title" type="text" class="publish-card__input" data-publish-title placeholder="Ejemplo: Residencia moderna con alberca en zona norte">
+                    <p class="publish-card__hint">Usa un título claro que destaque la mejor cualidad de la propiedad.</p>
+                </div>
+
+                <div class="publish-card__field">
+                    <label for="property-description" class="publish-card__label">Descripción</label>
+                    <textarea id="property-description" class="publish-card__textarea" data-publish-description rows="6" placeholder="Describe distribución, amenidades, ubicación y cualquier diferenciador clave."></textarea>
+                    <p class="publish-card__hint">Sé específico: menciona metros cuadrados, número de habitaciones, amenidades y cercanías.</p>
+                </div>
+            </div>
+
+            <aside class="publish-card__aside" aria-label="Resumen de selección">
+                <div class="publish-summary">
+                    <p class="publish-summary__title">Resumen de selección</p>
+                    <dl class="publish-summary__list">
+                        <div class="publish-summary__item">
+                            <dt>Propósito</dt>
+                            <dd data-publish-purpose-label>Sin definir</dd>
+                        </div>
+                        <div class="publish-summary__item">
+                            <dt>Tipo</dt>
+                            <dd data-publish-type-label>Sin definir</dd>
+                        </div>
+                        <div class="publish-summary__item">
+                            <dt>Subtipo</dt>
+                            <dd data-publish-subtype-preview>Pendiente de selección</dd>
+                        </div>
+                    </dl>
+                </div>
+                <div class="publish-guidance">
+                    <p class="publish-guidance__title">Consejo</p>
+                    <p class="publish-guidance__text">El subtipo ayuda a que la propiedad aparezca en resultados más precisos y segmentados.</p>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="publish-card__actions">
+            <button type="button" class="publish-action-btn publish-action-btn--ghost" data-publish-draft>Guardar borrador</button>
+            <button type="button" class="publish-action-btn publish-action-btn--primary" data-publish-continue>Continuar</button>
+        </footer>
+    </div>
+</section>

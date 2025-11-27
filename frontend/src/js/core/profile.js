@@ -20,6 +20,10 @@
             window.ProfileProperties.init(panel);
         }
 
+        if (section === 'publicar' && window.ProfilePublish && typeof window.ProfilePublish.init === 'function') {
+            window.ProfilePublish.init(panel);
+        }
+
         if (section === 'leads' && window.ProfileLeads && typeof window.ProfileLeads.init === 'function') {
             window.ProfileLeads.init(panel);
         }
@@ -90,6 +94,7 @@
         const panels = document.querySelectorAll('.profile__panel');
         const mobileMenu = document.querySelector('.profile__mobile-menu');
         const menuToggle = document.querySelector('.profile__mobile-menu-toggle');
+        const publishPanel = document.querySelector('.profile__panel[data-section="publicar"]');
 
         const setMobileMenuState = (isOpen) => {
             if (!mobileMenu || !menuToggle) {
@@ -111,6 +116,38 @@
 
             const isActive = menuToggle.classList.contains('is-active');
             setMobileMenuState(!isActive);
+        };
+
+        const activatePublishPanel = (detail = {}) => {
+            if (!publishPanel) {
+                return;
+            }
+
+            panels.forEach((panel) => {
+                const isActive = panel === publishPanel;
+                panel.classList.toggle('profile__panel--active', isActive);
+            });
+
+            menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
+
+            publishPanel.dataset.publishPurpose = detail.purpose || '';
+            publishPanel.dataset.publishPurposeLabel = detail.purposeLabel || '';
+            publishPanel.dataset.publishType = detail.type || '';
+            publishPanel.dataset.publishTypeLabel = detail.typeLabel || '';
+
+            const emitOpen = () => publishPanel.dispatchEvent(new CustomEvent('publish:open', { detail }));
+
+            if (publishPanel.dataset.loaded === 'true') {
+                emitOpen();
+                return;
+            }
+
+            const handleReady = () => {
+                publishPanel.removeEventListener('profile:panel-ready', handleReady);
+                emitOpen();
+            };
+
+            publishPanel.addEventListener('profile:panel-ready', handleReady);
         };
 
         if (menuToggle && mobileMenu) {
@@ -139,6 +176,11 @@
         });
 
         panels.forEach((panel) => loadPanelContent(panel));
+
+        document.addEventListener('properties:publish:continue', (event) => {
+            activatePublishPanel(event.detail || {});
+            closeMobileMenu();
+        });
 
         menuLinks.forEach((link) => {
             link.addEventListener('click', (event) => {
