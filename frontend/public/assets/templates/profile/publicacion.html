@@ -1,0 +1,55 @@
+<section class="publish-flow" aria-labelledby="publish-flow-title">
+    <header class="publish-flow__header">
+        <div class="publish-flow__eyebrow">Nueva publicación</div>
+        <h1 class="publish-flow__title" id="publish-flow-title">Define los detalles de tu anuncio</h1>
+        <p class="publish-flow__subtitle">
+            Selecciona el subtipo de propiedad y redacta la información principal para continuar con el flujo de alta.
+        </p>
+        <div class="publish-flow__context" aria-live="polite">
+            <span class="publish-flow__pill" data-publish-purpose-chip></span>
+            <span class="publish-flow__pill publish-flow__pill--muted" data-publish-type-chip></span>
+            <span class="publish-flow__hint" data-publish-context>
+                Estás creando un anuncio. Completa el subtipo, título y descripción para seguir.
+            </span>
+        </div>
+    </header>
+
+    <div class="publish-flow__grid">
+        <section class="publish-flow__card" aria-labelledby="publish-subtype-title">
+            <div class="publish-flow__card-header">
+                <h2 class="publish-flow__card-title" id="publish-subtype-title">Subtipo de propiedad</h2>
+                <p class="publish-flow__card-description">Las opciones se ajustan al tipo seleccionado.</p>
+            </div>
+            <label class="publish-flow__field">
+                <span class="publish-flow__label">Elige el subtipo</span>
+                <select class="publish-flow__select" data-subtype-select>
+                    <option value="">Selecciona el subtipo</option>
+                </select>
+                <span class="publish-flow__helper" data-subtype-helper>Selecciona un subtipo para continuar.</span>
+            </label>
+        </section>
+
+        <section class="publish-flow__card" aria-labelledby="publish-details-title">
+            <div class="publish-flow__card-header">
+                <h2 class="publish-flow__card-title" id="publish-details-title">Información principal</h2>
+                <p class="publish-flow__card-description">Crea un título claro y describe lo mejor de tu propiedad.</p>
+            </div>
+            <div class="publish-flow__fields">
+                <label class="publish-flow__field">
+                    <span class="publish-flow__label">Título del anuncio</span>
+                    <input type="text" class="publish-flow__input" data-publish-title placeholder="Ej. Casa moderna con terraza en zona céntrica" aria-describedby="title-helper">
+                    <span class="publish-flow__helper" id="title-helper">Sé específico: ubicación, amenidades clave o tipo de acabado.</span>
+                </label>
+                <label class="publish-flow__field">
+                    <span class="publish-flow__label">Descripción</span>
+                    <textarea class="publish-flow__textarea" data-publish-description rows="6" placeholder="Destaca distribución, amenidades, entorno y cualquier ventaja competitiva"></textarea>
+                    <span class="publish-flow__helper">Incluye detalles de valor: metros cuadrados, amenidades, servicios cercanos y condiciones.</span>
+                </label>
+            </div>
+            <div class="publish-flow__actions">
+                <button type="button" class="publish-flow__btn publish-flow__btn--ghost" data-publish-draft>Guardar borrador</button>
+                <button type="button" class="publish-flow__btn publish-flow__btn--primary" data-publish-continue disabled>Continuar</button>
+            </div>
+        </section>
+    </div>
+</section>

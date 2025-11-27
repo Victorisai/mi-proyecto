@@ -31,6 +31,10 @@
         if (section === 'mi-perfil' && window.ProfileMyProfile && typeof window.ProfileMyProfile.init === 'function') {
             window.ProfileMyProfile.init(panel);
         }
+
+        if (section === 'publicacion' && window.ProfilePublish && typeof window.ProfilePublish.init === 'function') {
+            window.ProfilePublish.init(panel);
+        }
     };
 
     const renderPanelError = (panel) => {

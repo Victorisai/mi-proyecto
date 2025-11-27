@@ -481,3 +481,203 @@ button {
         grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 }
+
+/* ================================================= */
+/* === FLUJO DE PUBLICACIÓN === */
+/* ================================================= */
+.publish-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.publish-flow__header {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.08), rgba(79, 70, 229, 0.08));
+    border: 1px solid rgba(52, 152, 219, 0.15);
+    border-radius: 18px;
+    padding: 20px 24px;
+    box-shadow: 0 10px 30px rgba(37, 99, 235, 0.08);
+}
+
+.publish-flow__eyebrow {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #2563eb;
+    text-transform: uppercase;
+}
+
+.publish-flow__title {
+    margin-top: 6px;
+    font-size: 24px;
+    color: #0f172a;
+}
+
+.publish-flow__subtitle {
+    color: #4b5563;
+    margin-top: 6px;
+    line-height: 1.6;
+}
+
+.publish-flow__context {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.publish-flow__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    background: #2563eb;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.publish-flow__pill--muted {
+    background: #f1f5f9;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+}
+
+.publish-flow__hint {
+    color: #475569;
+    font-size: 13px;
+}
+
+.publish-flow__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 18px;
+}
+
+.publish-flow__card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.publish-flow__card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.publish-flow__card-title {
+    font-size: 18px;
+    color: #0f172a;
+}
+
+.publish-flow__card-description {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.publish-flow__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.publish-flow__label {
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.publish-flow__select,
+.publish-flow__input,
+.publish-flow__textarea {
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    padding: 12px 14px;
+    font-size: 15px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+.publish-flow__select:focus,
+.publish-flow__input:focus,
+.publish-flow__textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    background: #fff;
+}
+
+.publish-flow__textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.publish-flow__helper {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.publish-flow__fields {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.publish-flow__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.publish-flow__btn {
+    border: 1px solid transparent;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.publish-flow__btn:hover {
+    transform: translateY(-1px);
+}
+
+.publish-flow__btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+}
+
+.publish-flow__btn--primary {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.25);
+}
+
+.publish-flow__btn--ghost {
+    background: #f8fafc;
+    color: #0f172a;
+    border-color: #e2e8f0;
+}
+
+@media (max-width: 768px) {
+    .publish-flow__actions {
+        justify-content: stretch;
+    }
+
+    .publish-flow__btn {
+        width: 100%;
+        text-align: center;
+    }
+}
