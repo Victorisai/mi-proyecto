@@ -1,0 +1,55 @@
+<div class="publish-flow">
+    <div class="publish-flow__header">
+        <div class="publish-flow__titles">
+            <p class="publish-flow__eyebrow">Nueva publicación</p>
+            <h2 class="publish-flow__title">Completa la información inicial</h2>
+            <p class="publish-flow__description">Confirma el tipo de operación, define el subtipo, agrega un título atractivo y una breve descripción para continuar con tu anuncio.</p>
+        </div>
+        <div class="publish-flow__summary card">
+            <div class="publish-flow__summary-item">
+                <span class="publish-flow__summary-label">Objetivo</span>
+                <span class="publish-flow__summary-value" data-publish-summary-purpose>Selecciona en el paso anterior</span>
+            </div>
+            <div class="publish-flow__summary-item">
+                <span class="publish-flow__summary-label">Tipo de propiedad</span>
+                <span class="publish-flow__summary-value" data-publish-summary-type>Selecciona en el paso anterior</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="card publish-flow__card">
+        <div class="publish-flow__section">
+            <div class="publish-flow__section-header">
+                <h3 class="publish-flow__section-title">Subtipo de propiedad</h3>
+                <p class="publish-flow__section-description">Elige la categoría que mejor se ajuste a tu inmueble.</p>
+            </div>
+            <div class="publish-flow__subtypes" role="group" aria-label="Seleccionar subtipo de propiedad" data-publish-subtypes>
+                <button type="button" class="publish-flow__chip" data-subtype="departamento">Departamento</button>
+                <button type="button" class="publish-flow__chip" data-subtype="casa">Casa</button>
+                <button type="button" class="publish-flow__chip" data-subtype="oficina">Oficina</button>
+                <button type="button" class="publish-flow__chip" data-subtype="local">Local comercial</button>
+                <button type="button" class="publish-flow__chip" data-subtype="bodega">Bodega</button>
+                <button type="button" class="publish-flow__chip" data-subtype="terreno">Terreno</button>
+            </div>
+        </div>
+
+        <div class="publish-flow__section publish-flow__section--grid">
+            <div class="publish-flow__field">
+                <label class="publish-flow__label" for="publish-title">Título del anuncio</label>
+                <input class="publish-flow__input" type="text" id="publish-title" name="publish-title" placeholder="Ej. Departamento con vista al mar en Zona Dorada" data-publish-title>
+                <p class="publish-flow__hint">Usa un título claro que destaque la ubicación o atributos principales.</p>
+            </div>
+            <div class="publish-flow__field">
+                <label class="publish-flow__label" for="publish-description">Descripción breve</label>
+                <textarea class="publish-flow__textarea" id="publish-description" name="publish-description" rows="4" placeholder="Describe de forma concisa el espacio, amenidades y puntos fuertes." data-publish-description></textarea>
+                <p class="publish-flow__hint">Puedes ampliar la información más adelante. Mantén un máximo de 280 caracteres.</p>
+            </div>
+        </div>
+
+        <div class="publish-flow__actions">
+            <button type="button" class="dashboard__action-btn" data-publish-draft>Guardar borrador</button>
+            <button type="button" class="dashboard__action-btn dashboard__action-btn--primary" data-publish-next disabled>Continuar</button>
+        </div>
+        <p class="publish-flow__feedback" role="status" aria-live="polite" data-publish-feedback></p>
+    </div>
+</div>

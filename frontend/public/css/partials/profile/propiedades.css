@@ -458,6 +458,218 @@ button {
     }
 }
 
+/* ================================================= */
+/* === FLUJO DE PUBLICACIÓN === */
+/* ================================================= */
+.publish-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.publish-flow__header {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 18px;
+    align-items: stretch;
+}
+
+.publish-flow__titles {
+    background: linear-gradient(135deg, rgba(52, 152, 219, 0.08), rgba(79, 70, 229, 0.06));
+    border: 1px solid rgba(52, 152, 219, 0.18);
+    border-radius: 18px;
+    padding: 22px;
+    box-shadow: 0 16px 32px rgba(52, 152, 219, 0.12);
+}
+
+.publish-flow__eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2563eb;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.publish-flow__title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.publish-flow__description {
+    color: #4b5563;
+    font-size: 15px;
+    margin: 0;
+}
+
+.publish-flow__summary {
+    border-radius: 18px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 18px 20px;
+    display: grid;
+    gap: 14px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.2);
+}
+
+.publish-flow__summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.publish-flow__summary-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #94a3b8;
+}
+
+.publish-flow__summary-value {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.publish-flow__card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.publish-flow__section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.publish-flow__section--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.publish-flow__section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.publish-flow__section-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.publish-flow__section-description {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.publish-flow__subtypes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.publish-flow__chip {
+    border: 1px solid #e5e7eb;
+    background: #ffffff;
+    color: #111827;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.publish-flow__chip:hover {
+    border-color: #93c5fd;
+    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.12);
+}
+
+.publish-flow__chip.is-selected {
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 12px 30px rgba(79, 70, 229, 0.25);
+}
+
+.publish-flow__field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.publish-flow__label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+}
+
+.publish-flow__input,
+.publish-flow__textarea {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 14px;
+    color: #111827;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.publish-flow__input:focus,
+.publish-flow__textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.publish-flow__textarea {
+    resize: vertical;
+    min-height: 140px;
+}
+
+.publish-flow__hint {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.publish-flow__actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.publish-flow__feedback {
+    margin: 0;
+    font-size: 14px;
+    color: #2563eb;
+}
+
+@media (max-width: 1024px) {
+    .publish-flow__header {
+        grid-template-columns: 1fr;
+    }
+
+    .publish-flow__section-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .publish-flow__actions {
+        justify-content: stretch;
+    }
+}
+
 @media (max-width: 560px) {
     .modal__dialog {
         border-radius: 18px;
