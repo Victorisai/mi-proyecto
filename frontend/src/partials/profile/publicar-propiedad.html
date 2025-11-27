@@ -1,0 +1,41 @@
+<section class="publish-template">
+    <header class="publish-template__header">
+        <div class="publish-template__intro">
+            <p class="publish-template__eyebrow">Nueva publicación</p>
+            <h1 class="publish-template__title">Define los detalles principales</h1>
+            <p class="publish-template__subtitle">Personaliza la publicación según el tipo de operación y propiedad seleccionados.</p>
+        </div>
+        <div class="publish-template__summary" aria-live="polite">
+            <div class="publish-template__pill" data-publish-purpose-label>Propósito</div>
+            <div class="publish-template__pill publish-template__pill--accent" data-publish-type-label>Tipo</div>
+        </div>
+    </header>
+
+    <div class="publish-template__card">
+        <div class="publish-template__field">
+            <div class="publish-template__field-heading">
+                <label class="publish-template__label" for="publish-subtype">Subtipo de propiedad</label>
+                <span class="publish-template__context" data-publish-type-context>Selecciona el subtipo disponible</span>
+            </div>
+            <div class="publish-template__options" data-subtype-options role="listbox" aria-label="Subtipo de propiedad">
+                <p class="publish-template__empty" data-subtype-empty>Primero selecciona un tipo de propiedad para ver los subtipos.</p>
+            </div>
+            <p class="publish-template__hint">El subtipo nos ayuda a recomendar el mejor flujo de publicación y los campos obligatorios.</p>
+        </div>
+
+        <div class="publish-template__field">
+            <label class="publish-template__label" for="publish-title">Título de la publicación</label>
+            <input type="text" id="publish-title" class="publish-template__input" name="publish-title" placeholder="Ej. Casa moderna con roof garden en zona norte" autocomplete="off">
+        </div>
+
+        <div class="publish-template__field">
+            <label class="publish-template__label" for="publish-description">Descripción</label>
+            <textarea id="publish-description" class="publish-template__textarea" name="publish-description" rows="6" placeholder="Comparte las características principales, amenidades y puntos fuertes de la propiedad."></textarea>
+        </div>
+
+        <div class="publish-template__actions">
+            <button type="button" class="publish-template__btn publish-template__btn--ghost" data-save-draft>Guardar borrador</button>
+            <button type="button" class="publish-template__btn publish-template__btn--primary" data-continue-publish disabled>Continuar</button>
+        </div>
+    </div>
+</section>
