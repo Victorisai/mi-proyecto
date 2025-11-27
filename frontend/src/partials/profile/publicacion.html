@@ -34,16 +34,34 @@
         <form class="publish-form" action="#" method="post">
             <div class="publish-form__grid">
                 <label class="profile-form__field" for="property-subtype">
-                    <span class="profile-form__label">Subtipo de propiedad</span>
-                    <select id="property-subtype" name="property_subtype">
-                        <option value="" selected>Selecciona una opción</option>
-                        <option value="casa">Casa</option>
-                        <option value="departamento">Departamento</option>
-                        <option value="loft">Loft</option>
-                        <option value="terreno">Terreno</option>
-                        <option value="oficina">Oficina</option>
-                        <option value="local-comercial">Local comercial</option>
-                    </select>
+                    <div class="profile-form__label-row">
+                        <span class="profile-form__label">Subtipo de propiedad</span>
+                        <span class="profile-form__badge" aria-hidden="true">Requerido</span>
+                    </div>
+                    <p class="profile-form__helper">Elige el subtipo que mejor describa tu inmueble para mostrarlo en la sección correcta.</p>
+                    <div class="profile-form__control profile-form__control--select">
+                        <select id="property-subtype" name="property_subtype" class="profile-form__select" required>
+                            <option value="" selected>Selecciona una opción</option>
+                            <optgroup label="Residencial">
+                                <option value="departamento">Departamento</option>
+                                <option value="casa">Casa</option>
+                                <option value="loft">Loft / Estudio</option>
+                                <option value="penthouse">Penthouse</option>
+                            </optgroup>
+                            <optgroup label="Comercial">
+                                <option value="oficina">Oficina</option>
+                                <option value="local">Local comercial</option>
+                                <option value="bodega">Bodega</option>
+                            </optgroup>
+                            <optgroup label="Terrenos y otros">
+                                <option value="terreno">Terreno / Lote</option>
+                                <option value="industrial">Nave industrial</option>
+                                <option value="otros">Otro (mixto o especial)</option>
+                            </optgroup>
+                        </select>
+                        <span class="profile-form__control-icon" aria-hidden="true">▾</span>
+                    </div>
+                    <small class="profile-form__hint">Clasificarlo bien ayuda a que tu anuncio aparezca en las búsquedas correctas.</small>
                 </label>
 
                 <label class="profile-form__field" for="property-title">

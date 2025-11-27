@@ -31,6 +31,10 @@
         if (section === 'mi-perfil' && window.ProfileMyProfile && typeof window.ProfileMyProfile.init === 'function') {
             window.ProfileMyProfile.init(panel);
         }
+
+        if (section === 'publicacion' && window.ProfilePublication && typeof window.ProfilePublication.init === 'function') {
+            window.ProfilePublication.init(panel);
+        }
     };
 
     const renderPanelError = (panel) => {
@@ -90,12 +94,9 @@
         const panels = document.querySelectorAll('.profile__panel');
         const mobileMenu = document.querySelector('.profile__mobile-menu');
         const menuToggle = document.querySelector('.profile__mobile-menu-toggle');
-        const publishPanel = document.querySelector('.profile__panel[data-section="publicacion"]');
 
         const menuLinksArray = Array.from(menuLinks);
         const panelsArray = Array.from(panels);
-        let publishSelection = null;
-
         const setMobileMenuState = (isOpen) => {
             if (!mobileMenu || !menuToggle) {
                 return;
@@ -116,26 +117,6 @@
 
             const isActive = menuToggle.classList.contains('is-active');
             setMobileMenuState(!isActive);
-        };
-
-        const renderPublishSelection = (panel) => {
-            if (!panel) {
-                return;
-            }
-
-            const purposeText = publishSelection?.purposeLabel || 'Propósito sin definir';
-            const typeText = publishSelection?.typeLabel || 'Tipo sin definir';
-
-            const purposeTargets = panel.querySelectorAll('[data-publish-summary="purpose"]');
-            const typeTargets = panel.querySelectorAll('[data-publish-summary="type"]');
-
-            purposeTargets.forEach((element) => {
-                element.textContent = purposeText;
-            });
-
-            typeTargets.forEach((element) => {
-                element.textContent = typeText;
-            });
         };
 
         const activateSection = (targetSection, options = {}) => {
@@ -216,10 +197,6 @@
 
         panelsArray.forEach((panel) => loadPanelContent(panel));
 
-        if (publishPanel) {
-            publishPanel.addEventListener('profile:panel-ready', () => renderPublishSelection(publishPanel));
-        }
-
         menuLinksArray.forEach((link) => {
             link.addEventListener('click', (event) => {
                 const targetSection = link.dataset.section;
@@ -236,13 +213,12 @@
         });
 
         document.addEventListener('properties:publish:continue', (event) => {
-            publishSelection = {
-                purposeLabel: event.detail?.purposeLabel || '',
-                typeLabel: event.detail?.typeLabel || ''
-            };
-
-            if (publishPanel) {
-                renderPublishSelection(publishPanel);
+            if (window.ProfilePublication && typeof window.ProfilePublication.setSelection === 'function') {
+                window.ProfilePublication.setSelection({
+                    purposeLabel: event.detail?.purposeLabel || '',
+                    typeLabel: event.detail?.typeLabel || '',
+                    type: event.detail?.type || ''
+                });
             }
 
             activateSection('publicacion', { skipMenuUpdate: true });
