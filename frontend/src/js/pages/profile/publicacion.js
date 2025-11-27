@@ -80,6 +80,7 @@
     };
 
     let panelRef = null;
+    let steps = [];
 
     const populateSubtypeSelect = (panel) => {
         if (!panel) {
@@ -133,6 +134,26 @@
         populateSubtypeSelect(panelRef);
     };
 
+    const showStep = (stepName) => {
+        if (!steps.length) {
+            return;
+        }
+
+        steps.forEach((step) => {
+            const isActive = step.dataset.publicationStep === stepName;
+            step.classList.toggle('publish-step--active', isActive);
+            if (isActive) {
+                step.removeAttribute('hidden');
+            } else {
+                step.setAttribute('hidden', '');
+            }
+        });
+
+        if (panelRef) {
+            panelRef.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     const setSelection = (nextSelection = {}) => {
         selection = {
             ...selection,
@@ -151,7 +172,33 @@
 
         panel.dataset.publicationInitialized = 'true';
         panelRef = panel;
+        steps = Array.from(panel.querySelectorAll('[data-publication-step]'));
+
+        const detailsForm = panel.querySelector('[data-publication-form="details"]');
+        const locationForm = panel.querySelector('[data-publication-form="location"]');
+        const backButton = panel.querySelector('[data-publication-back]');
+
         renderSelection();
+
+        if (detailsForm) {
+            detailsForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+                showStep('location');
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                showStep('details');
+            });
+        }
+
+        if (locationForm) {
+            locationForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+            });
+        }
     };
 
     global.ProfilePublication = global.ProfilePublication || {

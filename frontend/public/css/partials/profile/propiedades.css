@@ -285,6 +285,19 @@ button {
     padding: clamp(18px, 4vw, 28px);
 }
 
+.publish-steps {
+    display: grid;
+    gap: 18px;
+}
+
+.publish-step {
+    display: none;
+}
+
+.publish-step--active {
+    display: block;
+}
+
 .publish-card__header {
     display: flex;
     justify-content: space-between;
@@ -337,6 +350,10 @@ button {
     display: grid;
     gap: 18px;
     grid-template-columns: repeat(2, 1fr);
+}
+
+.publish-form__grid--stretch {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
 .profile-form__field {
@@ -451,6 +468,19 @@ button {
     padding-top: 16px;
     margin-top: 12px;
     border-top: 1px solid #e2e8f0;
+}
+
+.publish-form__actions--between {
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.publish-form__actions-left,
+.publish-form__actions-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 @media (max-width: 768px) {
