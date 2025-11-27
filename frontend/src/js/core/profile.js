@@ -31,10 +31,6 @@
         if (section === 'mi-perfil' && window.ProfileMyProfile && typeof window.ProfileMyProfile.init === 'function') {
             window.ProfileMyProfile.init(panel);
         }
-
-        if (section === 'publicacion' && window.ProfilePublication && typeof window.ProfilePublication.init === 'function') {
-            window.ProfilePublication.init(panel);
-        }
     };
 
     const renderPanelError = (panel) => {
@@ -95,8 +91,6 @@
         const mobileMenu = document.querySelector('.profile__mobile-menu');
         const menuToggle = document.querySelector('.profile__mobile-menu-toggle');
 
-        const menuLinksArray = Array.from(menuLinks);
-        const panelsArray = Array.from(panels);
         const setMobileMenuState = (isOpen) => {
             if (!mobileMenu || !menuToggle) {
                 return;
@@ -117,57 +111,6 @@
 
             const isActive = menuToggle.classList.contains('is-active');
             setMobileMenuState(!isActive);
-        };
-
-        const activateSection = (targetSection, options = {}) => {
-            const { skipMenuUpdate = false } = options;
-
-            if (!targetSection) {
-                return;
-            }
-
-            const targetPanel = panelsArray.find((panel) => panel.dataset.section === targetSection);
-
-            if (!targetPanel) {
-                return;
-            }
-
-            if (!skipMenuUpdate) {
-                menuLinksArray.forEach((menuLink) => {
-                    const isActiveLink = menuLink.dataset.section === targetSection;
-                    menuLink.classList.toggle('sidebar__menu-link--active', isActiveLink);
-                });
-            }
-
-            panelsArray.forEach((panel) => {
-                const isActive = panel === targetPanel;
-                panel.classList.toggle('profile__panel--active', isActive);
-
-                if (!isActive) {
-                    return;
-                }
-
-                const hasContent = panel.innerHTML.trim().length > 0;
-                const isLoaded = panel.dataset.loaded === 'true';
-                const isLoading = panel.dataset.loading === 'true';
-
-                if (isLoaded) {
-                    initializePanelFeatures(panel);
-                    onPanelReady(panel);
-                    return;
-                }
-
-                if (!hasContent || !isLoaded) {
-                    if (!isLoading) {
-                        loadPanelContent(panel);
-                    }
-                    return;
-                }
-
-                panel.dataset.loaded = 'true';
-                initializePanelFeatures(panel);
-                onPanelReady(panel);
-            });
         };
 
         if (menuToggle && mobileMenu) {
@@ -195,9 +138,9 @@
             }
         });
 
-        panelsArray.forEach((panel) => loadPanelContent(panel));
+        panels.forEach((panel) => loadPanelContent(panel));
 
-        menuLinksArray.forEach((link) => {
+        menuLinks.forEach((link) => {
             link.addEventListener('click', (event) => {
                 const targetSection = link.dataset.section;
                 if (!targetSection) {
@@ -206,23 +149,41 @@
 
                 event.preventDefault();
 
-                activateSection(targetSection);
+                menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
+                link.classList.add('sidebar__menu-link--active');
+
+                panels.forEach((panel) => {
+                    const isActive = panel.dataset.section === targetSection;
+                    panel.classList.toggle('profile__panel--active', isActive);
+
+                    if (!isActive) {
+                        return;
+                    }
+
+                    const hasContent = panel.innerHTML.trim().length > 0;
+                    const isLoaded = panel.dataset.loaded === 'true';
+                    const isLoading = panel.dataset.loading === 'true';
+
+                    if (isLoaded) {
+                        initializePanelFeatures(panel);
+                        onPanelReady(panel);
+                        return;
+                    }
+
+                    if (!hasContent || !isLoaded) {
+                        if (!isLoading) {
+                            loadPanelContent(panel);
+                        }
+                        return;
+                    }
+
+                    panel.dataset.loaded = 'true';
+                    initializePanelFeatures(panel);
+                    onPanelReady(panel);
+                });
 
                 closeMobileMenu();
             });
-        });
-
-        document.addEventListener('properties:publish:continue', (event) => {
-            if (window.ProfilePublication && typeof window.ProfilePublication.setSelection === 'function') {
-                window.ProfilePublication.setSelection({
-                    purposeLabel: event.detail?.purposeLabel || '',
-                    typeLabel: event.detail?.typeLabel || '',
-                    type: event.detail?.type || ''
-                });
-            }
-
-            activateSection('publicacion', { skipMenuUpdate: true });
-            closeMobileMenu();
         });
     });
 })();
