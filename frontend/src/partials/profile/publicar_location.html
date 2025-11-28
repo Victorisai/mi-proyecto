@@ -1,0 +1,49 @@
+<section class="publish-location" aria-label="Ubicación de la propiedad" data-publish-location>
+    <header class="publish-location__header">
+        <p class="publish-location__eyebrow">Ubicación</p>
+        <div class="publish-location__headline">
+            <h2 class="publish-location__title">Agrega los datos de ubicación</h2>
+            <p class="publish-location__subtitle">Comparte la dirección principal de la propiedad para optimizar la visibilidad en los resultados.</p>
+        </div>
+    </header>
+
+    <div class="publish-location__card">
+        <div class="publish-location__intro">
+            <p class="publish-location__intro-title">Dirección principal</p>
+            <p class="publish-location__intro-text">Completa estos campos con los datos básicos. Más adelante podrás afinar la ubicación con el mapa.</p>
+        </div>
+
+        <form class="publish-location__form" data-publish-location-form>
+            <div class="publish-location__field">
+                <label for="location-country" class="publish-location__label">País</label>
+                <input id="location-country" name="country" type="text" class="publish-location__input" placeholder="México">
+            </div>
+
+            <div class="publish-location__field publish-location__field--split">
+                <div class="publish-location__field">
+                    <label for="location-street" class="publish-location__label">Calle</label>
+                    <input id="location-street" name="street" type="text" class="publish-location__input" placeholder="Av. Insurgentes">
+                </div>
+                <div class="publish-location__field publish-location__field--narrow">
+                    <label for="location-number" class="publish-location__label">Número</label>
+                    <input id="location-number" name="number" type="text" class="publish-location__input" placeholder="123">
+                </div>
+            </div>
+
+            <div class="publish-location__field">
+                <label for="location-state" class="publish-location__label">Estado</label>
+                <input id="location-state" name="state" type="text" class="publish-location__input" placeholder="Nuevo León">
+            </div>
+
+            <div class="publish-location__field">
+                <label for="location-city" class="publish-location__label">Ciudad / Municipio</label>
+                <input id="location-city" name="city" type="text" class="publish-location__input" placeholder="Monterrey">
+            </div>
+        </form>
+
+        <footer class="publish-location__actions">
+            <button type="button" class="publish-location__action publish-location__action--ghost" data-publish-location-back>Volver</button>
+            <button type="button" class="publish-location__action publish-location__action--primary" data-publish-location-save>Guardar y continuar</button>
+        </footer>
+    </div>
+</section>

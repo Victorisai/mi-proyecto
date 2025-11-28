@@ -82,6 +82,11 @@
         const subtypeHelper = panel.querySelector('[data-publish-subtype-helper]');
         const subtypePreview = panel.querySelector('[data-publish-subtype-preview]');
         const selectedTypeTag = panel.querySelector('[data-publish-selected-type]');
+        const stageSection = panel.querySelector('[data-publish-stage]');
+        const continueButton = panel.querySelector('[data-publish-continue]');
+
+        let locationSection = panel.querySelector('[data-publish-location]');
+        let locationContentLoaded = Boolean(locationSection);
 
         const formatSelection = (value, fallback) => (value && value.trim().length ? value : fallback);
 
@@ -161,8 +166,78 @@
             populateSubtypeOptions(detail.type);
         };
 
+        const toggleStep = (step) => {
+            if (stageSection) {
+                stageSection.classList.toggle('publish-flow__step--hidden', step !== 'details');
+            }
+            if (locationSection) {
+                locationSection.classList.toggle('publish-flow__step--hidden', step !== 'location');
+            }
+        };
+
+        const attachLocationEvents = () => {
+            if (!locationSection) {
+                return;
+            }
+
+            const backButton = locationSection.querySelector('[data-publish-location-back]');
+            const saveButton = locationSection.querySelector('[data-publish-location-save]');
+
+            if (backButton) {
+                backButton.addEventListener('click', () => toggleStep('details'));
+            }
+
+            if (saveButton) {
+                saveButton.addEventListener('click', () => {
+                    const form = locationSection.querySelector('[data-publish-location-form]');
+                    if (form && typeof form.reportValidity === 'function' && !form.reportValidity()) {
+                        return;
+                    }
+                    // Aquí se conectará el guardado con la API de ubicación (Google Maps).
+                });
+            }
+        };
+
+        const loadLocationSection = async () => {
+            if (locationContentLoaded) {
+                toggleStep('location');
+                return;
+            }
+
+            const source = stageSection?.dataset.locationSrc || 'assets/templates/profile/publicar_location.html';
+
+            try {
+                const response = await fetch(source);
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar la sección de ubicación');
+                }
+                const html = await response.text();
+                const temp = document.createElement('div');
+                temp.innerHTML = html.trim();
+                const fetchedSection = temp.querySelector('[data-publish-location]');
+
+                if (fetchedSection) {
+                    fetchedSection.classList.add('publish-flow__step--hidden');
+                    panel.appendChild(fetchedSection);
+                    locationSection = fetchedSection;
+                    locationContentLoaded = true;
+                    attachLocationEvents();
+                    toggleStep('location');
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
         if (subtypeSelect) {
             subtypeSelect.addEventListener('change', updateSubtypePreview);
+        }
+
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                loadLocationSection();
+            });
         }
 
         panel.addEventListener('publish:open', (event) => {
