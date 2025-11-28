@@ -24,6 +24,10 @@
             window.ProfilePublish.init(panel);
         }
 
+        if (section === 'publicar-ubicacion' && window.ProfilePublish && typeof window.ProfilePublish.init === 'function') {
+            window.ProfilePublish.init(panel);
+        }
+
         if (section === 'leads' && window.ProfileLeads && typeof window.ProfileLeads.init === 'function') {
             window.ProfileLeads.init(panel);
         }
@@ -95,6 +99,7 @@
         const mobileMenu = document.querySelector('.profile__mobile-menu');
         const menuToggle = document.querySelector('.profile__mobile-menu-toggle');
         const publishPanel = document.querySelector('.profile__panel[data-section="publicar"]');
+        const publishLocationPanel = document.querySelector('.profile__panel[data-section="publicar-ubicacion"]');
 
         const setMobileMenuState = (isOpen) => {
             if (!mobileMenu || !menuToggle) {
@@ -150,6 +155,39 @@
             publishPanel.addEventListener('profile:panel-ready', handleReady);
         };
 
+        const activatePublishLocationPanel = (detail = {}) => {
+            if (!publishLocationPanel) {
+                return;
+            }
+
+            panels.forEach((panel) => {
+                const isActive = panel === publishLocationPanel;
+                panel.classList.toggle('profile__panel--active', isActive);
+            });
+
+            menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
+
+            publishLocationPanel.dataset.publishPurposeLabel = detail.purposeLabel || '';
+            publishLocationPanel.dataset.publishTypeLabel = detail.typeLabel || '';
+            publishLocationPanel.dataset.publishSubtype = detail.subtype || '';
+            publishLocationPanel.dataset.publishTitle = detail.title || '';
+            publishLocationPanel.dataset.publishDescription = detail.description || '';
+
+            const emitOpen = () => publishLocationPanel.dispatchEvent(new CustomEvent('publish-location:open', { detail }));
+
+            if (publishLocationPanel.dataset.loaded === 'true') {
+                emitOpen();
+                return;
+            }
+
+            const handleReady = () => {
+                publishLocationPanel.removeEventListener('profile:panel-ready', handleReady);
+                emitOpen();
+            };
+
+            publishLocationPanel.addEventListener('profile:panel-ready', handleReady);
+        };
+
         if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', (event) => {
                 event.stopPropagation();
@@ -179,6 +217,17 @@
 
         document.addEventListener('properties:publish:continue', (event) => {
             activatePublishPanel(event.detail || {});
+            closeMobileMenu();
+        });
+
+        document.addEventListener('publish:location:start', (event) => {
+            activatePublishLocationPanel(event.detail || {});
+            closeMobileMenu();
+        });
+
+        document.addEventListener('publish:location:back', (event) => {
+            const detail = event.detail || {};
+            activatePublishPanel(detail);
             closeMobileMenu();
         });
 
