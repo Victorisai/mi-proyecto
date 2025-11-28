@@ -82,6 +82,16 @@
         const subtypeHelper = panel.querySelector('[data-publish-subtype-helper]');
         const subtypePreview = panel.querySelector('[data-publish-subtype-preview]');
         const selectedTypeTag = panel.querySelector('[data-publish-selected-type]');
+        const continueButton = panel.querySelector('[data-publish-continue]');
+        const titleInput = panel.querySelector('[data-publish-title]');
+        const descriptionInput = panel.querySelector('[data-publish-description]');
+
+        let currentSelection = {
+            purpose: '',
+            purposeLabel: '',
+            type: '',
+            typeLabel: ''
+        };
 
         const formatSelection = (value, fallback) => (value && value.trim().length ? value : fallback);
 
@@ -142,6 +152,13 @@
             const purposeText = formatSelection(detail.purposeLabel, 'Propósito no definido');
             const typeText = formatSelection(detail.typeLabel, 'Tipo de propiedad no definido');
 
+            currentSelection = {
+                purpose: detail.purpose || '',
+                purposeLabel: purposeText,
+                type: detail.type || '',
+                typeLabel: typeText
+            };
+
             purposeLabels.forEach((element) => {
                 element.textContent = purposeText;
             });
@@ -175,6 +192,32 @@
             typeLabel: panel.dataset.publishTypeLabel,
             type: panel.dataset.publishType
         });
+
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const selectedSubtypeOption = subtypeSelect && subtypeSelect.options[subtypeSelect.selectedIndex];
+                const subtypeValue = selectedSubtypeOption ? selectedSubtypeOption.value : '';
+                const subtypeLabel = selectedSubtypeOption ? selectedSubtypeOption.textContent : '';
+
+                const detail = {
+                    purpose: currentSelection.purpose,
+                    purposeLabel: currentSelection.purposeLabel,
+                    type: currentSelection.type,
+                    typeLabel: currentSelection.typeLabel,
+                    subtype: subtypeValue,
+                    subtypeLabel,
+                    title: titleInput ? titleInput.value.trim() : '',
+                    description: descriptionInput ? descriptionInput.value.trim() : ''
+                };
+
+                panel.dispatchEvent(new CustomEvent('publish:continue', {
+                    bubbles: true,
+                    detail
+                }));
+            });
+        }
     };
 
     global.ProfilePublish = { init };

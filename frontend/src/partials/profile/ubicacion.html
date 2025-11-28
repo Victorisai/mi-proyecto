@@ -1,0 +1,67 @@
+<section class="location-stage" aria-label="Ubicación de la propiedad">
+    <header class="location-stage__header">
+        <p class="location-stage__eyebrow">Paso 2: Ubicación</p>
+        <div class="location-stage__headline-group">
+            <h2 class="location-stage__title" data-location-heading>Confirma la ubicación de tu propiedad</h2>
+            <p class="location-stage__subtitle">Asigna la dirección exacta para que los clientes encuentren el inmueble fácilmente.</p>
+        </div>
+        <div class="location-stage__chips" aria-live="polite">
+            <span class="location-stage__chip" data-location-purpose-label>Propósito no definido</span>
+            <span class="location-stage__chip location-stage__chip--accent" data-location-type-label>Tipo no definido</span>
+            <span class="location-stage__chip" data-location-subtype-label>Subtipo no definido</span>
+        </div>
+    </header>
+
+    <div class="location-card" role="form" aria-describedby="location-form-description">
+        <p id="location-form-description" class="location-card__helper">Completa la dirección para mejorar la precisión del anuncio.</p>
+
+        <div class="location-card__summary" aria-label="Resumen de la propiedad">
+            <div>
+                <p class="location-card__label">Título</p>
+                <p class="location-card__value" data-location-title>Sin título</p>
+            </div>
+            <div>
+                <p class="location-card__label">Descripción</p>
+                <p class="location-card__value" data-location-description>Sin descripción</p>
+            </div>
+        </div>
+
+        <div class="location-card__grid">
+            <div class="location-card__field">
+                <label for="location-country" class="location-card__label">País</label>
+                <input id="location-country" type="text" class="location-card__input" placeholder="Ej. México">
+            </div>
+            <div class="location-card__field">
+                <label for="location-state" class="location-card__label">Estado / Provincia</label>
+                <input id="location-state" type="text" class="location-card__input" placeholder="Ej. Jalisco">
+            </div>
+            <div class="location-card__field">
+                <label for="location-city" class="location-card__label">Ciudad</label>
+                <input id="location-city" type="text" class="location-card__input" placeholder="Ej. Guadalajara">
+            </div>
+            <div class="location-card__field">
+                <label for="location-neighborhood" class="location-card__label">Colonia / Barrio</label>
+                <input id="location-neighborhood" type="text" class="location-card__input" placeholder="Ej. Providencia">
+            </div>
+            <div class="location-card__field">
+                <label for="location-address" class="location-card__label">Calle y número</label>
+                <input id="location-address" type="text" class="location-card__input" placeholder="Ej. Av. Américas 1234">
+            </div>
+            <div class="location-card__field">
+                <label for="location-zip" class="location-card__label">Código postal</label>
+                <input id="location-zip" type="text" class="location-card__input" placeholder="Ej. 44630">
+            </div>
+        </div>
+
+        <div class="location-card__map-hint">
+            <p class="location-card__label">Mapa (opcional)</p>
+            <p class="location-card__helper">Añade la ubicación aproximada en el mapa para que los interesados visualicen el entorno.</p>
+            <div class="location-card__map-placeholder" aria-hidden="true">Mapa interactivo próximamente</div>
+        </div>
+
+        <footer class="location-card__actions">
+            <button type="button" class="location-action-btn location-action-btn--ghost" data-location-back>Volver a detalles</button>
+            <button type="button" class="location-action-btn location-action-btn--primary" data-location-save>Guardar y continuar</button>
+        </footer>
+    </div>
+</section>

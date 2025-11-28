@@ -24,6 +24,10 @@
             window.ProfilePublish.init(panel);
         }
 
+        if (section === 'ubicacion' && window.ProfileLocation && typeof window.ProfileLocation.init === 'function') {
+            window.ProfileLocation.init(panel);
+        }
+
         if (section === 'leads' && window.ProfileLeads && typeof window.ProfileLeads.init === 'function') {
             window.ProfileLeads.init(panel);
         }
@@ -95,6 +99,7 @@
         const mobileMenu = document.querySelector('.profile__mobile-menu');
         const menuToggle = document.querySelector('.profile__mobile-menu-toggle');
         const publishPanel = document.querySelector('.profile__panel[data-section="publicar"]');
+        const locationPanel = document.querySelector('.profile__panel[data-section="ubicacion"]');
 
         const setMobileMenuState = (isOpen) => {
             if (!mobileMenu || !menuToggle) {
@@ -150,6 +155,46 @@
             publishPanel.addEventListener('profile:panel-ready', handleReady);
         };
 
+        const activateLocationPanel = (detail = {}) => {
+            if (!locationPanel) {
+                return;
+            }
+
+            panels.forEach((panel) => {
+                const isActive = panel === locationPanel;
+                panel.classList.toggle('profile__panel--active', isActive);
+            });
+
+            menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
+
+            locationPanel.dataset.locationPurpose = detail.purpose || '';
+            locationPanel.dataset.locationPurposeLabel = detail.purposeLabel || '';
+            locationPanel.dataset.locationType = detail.type || '';
+            locationPanel.dataset.locationTypeLabel = detail.typeLabel || '';
+            locationPanel.dataset.locationSubtype = detail.subtype || '';
+            locationPanel.dataset.locationSubtypeLabel = detail.subtypeLabel || '';
+            locationPanel.dataset.locationTitle = detail.title || '';
+            locationPanel.dataset.locationDescription = detail.description || '';
+
+            const emitOpen = () => locationPanel.dispatchEvent(new CustomEvent('location:open', { detail }));
+
+            if (locationPanel.dataset.loaded === 'true') {
+                emitOpen();
+                return;
+            }
+
+            if (locationPanel.dataset.loaded === 'error') {
+                return;
+            }
+
+            const handleReady = () => {
+                locationPanel.removeEventListener('profile:panel-ready', handleReady);
+                emitOpen();
+            };
+
+            locationPanel.addEventListener('profile:panel-ready', handleReady);
+        };
+
         if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', (event) => {
                 event.stopPropagation();
@@ -179,6 +224,11 @@
 
         document.addEventListener('properties:publish:continue', (event) => {
             activatePublishPanel(event.detail || {});
+            closeMobileMenu();
+        });
+
+        document.addEventListener('publish:continue', (event) => {
+            activateLocationPanel(event.detail || {});
             closeMobileMenu();
         });
 
