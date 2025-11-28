@@ -75,26 +75,32 @@
 
         panel.dataset.publishInitialized = 'true';
 
-        const heading = panel.querySelector('[data-publish-heading]');
-        const purposeLabels = panel.querySelectorAll('[data-publish-purpose-label]');
-        const typeLabels = panel.querySelectorAll('[data-publish-type-label]');
-        const subtypeSelect = panel.querySelector('[data-publish-subtype]');
-        const subtypeHelper = panel.querySelector('[data-publish-subtype-helper]');
-        const subtypePreview = panel.querySelector('[data-publish-subtype-preview]');
-        const selectedTypeTag = panel.querySelector('[data-publish-selected-type]');
+        const selectionState = {
+            purpose: panel.dataset.publishPurpose || '',
+            purposeLabel: panel.dataset.publishPurposeLabel || '',
+            type: panel.dataset.publishType || '',
+            typeLabel: panel.dataset.publishTypeLabel || ''
+        };
 
         const formatSelection = (value, fallback) => (value && value.trim().length ? value : fallback);
 
-        const updateSubtypePreview = () => {
+        const updateSubtypePreview = (root) => {
+            const subtypeSelect = root.querySelector('[data-publish-subtype]');
+            const subtypePreview = root.querySelector('[data-publish-subtype-preview]');
+
             if (!subtypePreview) {
                 return;
             }
+
             const currentOption = subtypeSelect ? subtypeSelect.options[subtypeSelect.selectedIndex] : null;
             const previewText = currentOption && currentOption.value ? currentOption.textContent : 'Pendiente de selección';
             subtypePreview.textContent = previewText;
         };
 
-        const populateSubtypeOptions = (typeKey) => {
+        const populateSubtypeOptions = (typeKey, root) => {
+            const subtypeSelect = root.querySelector('[data-publish-subtype]');
+            const subtypeHelper = root.querySelector('[data-publish-subtype-helper]');
+
             if (!subtypeSelect) {
                 return;
             }
@@ -113,7 +119,7 @@
                 if (subtypeHelper) {
                     subtypeHelper.textContent = 'Elige un tipo de propiedad para ver los subtipos disponibles.';
                 }
-                updateSubtypePreview();
+                updateSubtypePreview(root);
                 return;
             }
 
@@ -135,12 +141,17 @@
             if (subtypeHelper) {
                 subtypeHelper.textContent = 'Elige el subtipo que mejor describe tu inmueble.';
             }
-            updateSubtypePreview();
+            updateSubtypePreview(root);
         };
 
-        const applySelection = (detail = {}) => {
-            const purposeText = formatSelection(detail.purposeLabel, 'Propósito no definido');
-            const typeText = formatSelection(detail.typeLabel, 'Tipo de propiedad no definido');
+        const applySelection = (root = panel) => {
+            const purposeLabels = root.querySelectorAll('[data-publish-purpose-label]');
+            const typeLabels = root.querySelectorAll('[data-publish-type-label]');
+            const selectedTypeTag = root.querySelector('[data-publish-selected-type]');
+            const heading = root.querySelector('[data-publish-heading]');
+
+            const purposeText = formatSelection(selectionState.purposeLabel, 'Propósito no definido');
+            const typeText = formatSelection(selectionState.typeLabel, 'Tipo de propiedad no definido');
 
             purposeLabels.forEach((element) => {
                 element.textContent = purposeText;
@@ -151,30 +162,93 @@
             });
 
             if (selectedTypeTag) {
-                selectedTypeTag.textContent = detail.typeLabel ? `Tipo: ${detail.typeLabel}` : 'Define el tipo desde el modal';
+                selectedTypeTag.textContent = selectionState.typeLabel
+                    ? `Tipo: ${selectionState.typeLabel}`
+                    : 'Define el tipo desde el modal';
             }
 
             if (heading) {
-                heading.textContent = detail.typeLabel ? `Publicando ${detail.typeLabel.toLowerCase()}` : 'Configura tu anuncio';
+                heading.textContent = selectionState.typeLabel
+                    ? `Publicando ${selectionState.typeLabel.toLowerCase()}`
+                    : 'Configura tu anuncio';
             }
 
-            populateSubtypeOptions(detail.type);
+            populateSubtypeOptions(selectionState.type, root);
         };
 
-        if (subtypeSelect) {
-            subtypeSelect.addEventListener('change', updateSubtypePreview);
-        }
+        const loadStage = (source, onReady) => {
+            if (!source) {
+                return;
+            }
+
+            fetch(source)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`No se pudo cargar el contenido de ${source}`);
+                    }
+                    return response.text();
+                })
+                .then((html) => {
+                    panel.innerHTML = html;
+                    if (typeof onReady === 'function') {
+                        onReady();
+                    }
+                    applySelection(panel);
+                })
+                .catch((error) => console.error(error));
+        };
+
+        const setupLocationStage = () => {
+            const backButton = panel.querySelector('[data-location-back]');
+            const continueButton = panel.querySelector('[data-location-continue]');
+            const detailsSource = panel.dataset.src || 'assets/templates/profile/publicar.html';
+
+            if (backButton) {
+                backButton.addEventListener('click', () => loadStage(detailsSource, setupDetailStage));
+            }
+
+            if (continueButton) {
+                continueButton.addEventListener('click', () => {
+                    continueButton.textContent = 'Ubicación guardada';
+                    continueButton.disabled = true;
+                });
+            }
+        };
+
+        const setupDetailStage = () => {
+            const stage = panel.querySelector('[data-publish-stage="details"]') || panel;
+            const subtypeSelect = stage.querySelector('[data-publish-subtype]');
+            const continueButton = stage.querySelector('[data-publish-continue]');
+            const locationSource = stage.dataset.locationSrc || 'assets/templates/profile/publicar_location.html';
+
+            if (subtypeSelect) {
+                subtypeSelect.addEventListener('change', () => updateSubtypePreview(stage));
+            }
+
+            if (continueButton) {
+                continueButton.addEventListener('click', () => loadStage(locationSource, setupLocationStage));
+            }
+
+            applySelection(stage);
+        };
 
         panel.addEventListener('publish:open', (event) => {
-            applySelection(event.detail || {});
+            const detail = event.detail || {};
+            selectionState.purpose = detail.purpose || selectionState.purpose;
+            selectionState.purposeLabel = detail.purposeLabel || selectionState.purposeLabel;
+            selectionState.type = detail.type || selectionState.type;
+            selectionState.typeLabel = detail.typeLabel || selectionState.typeLabel;
+
+            applySelection(panel);
             panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        applySelection({
-            purposeLabel: panel.dataset.publishPurposeLabel,
-            typeLabel: panel.dataset.publishTypeLabel,
-            type: panel.dataset.publishType
-        });
+        selectionState.purpose = panel.dataset.publishPurpose || selectionState.purpose;
+        selectionState.purposeLabel = panel.dataset.publishPurposeLabel || selectionState.purposeLabel;
+        selectionState.type = panel.dataset.publishType || selectionState.type;
+        selectionState.typeLabel = panel.dataset.publishTypeLabel || selectionState.typeLabel;
+
+        setupDetailStage();
     };
 
     global.ProfilePublish = { init };

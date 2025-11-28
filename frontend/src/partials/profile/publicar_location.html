@@ -1,0 +1,66 @@
+<section class="publish-stage publish-location" aria-label="Ubicación de la propiedad" data-location-stage>
+    <header class="publish-stage__header publish-location__header">
+        <p class="publish-stage__eyebrow">Publicación de propiedad</p>
+        <div class="publish-stage__headline-group">
+            <h2 class="publish-stage__title" data-publish-heading>Define la ubicación</h2>
+            <p class="publish-stage__subtitle">Comparte la dirección para ayudar a los clientes a ubicar rápidamente tu inmueble.</p>
+        </div>
+        <div class="publish-stage__chips" aria-live="polite">
+            <span class="publish-stage__chip" data-publish-purpose-label>Propósito no definido</span>
+            <span class="publish-stage__chip publish-stage__chip--accent" data-publish-type-label>Tipo de propiedad no definido</span>
+        </div>
+    </header>
+
+    <div class="publish-card publish-location__card" role="form" aria-describedby="publish-location-description">
+        <p id="publish-location-description" class="publish-card__helper">Ingresa los datos de ubicación. Más adelante podrás ajustar la referencia exacta con Google Maps.</p>
+
+        <div class="publish-location__grid">
+            <div class="publish-location__section">
+                <div class="publish-location__field-group">
+                    <label class="publish-location__label" for="location-country">País</label>
+                    <input id="location-country" type="text" class="publish-location__input" name="country" placeholder="Ej. México" autocomplete="country" />
+                </div>
+
+                <div class="publish-location__field-group publish-location__field-group--split">
+                    <div class="publish-location__field">
+                        <label class="publish-location__label" for="location-street">Calle</label>
+                        <input id="location-street" type="text" class="publish-location__input" name="street" placeholder="Ej. Av. Insurgentes" autocomplete="address-line1" />
+                    </div>
+                    <div class="publish-location__field publish-location__field--compact">
+                        <label class="publish-location__label" for="location-number">Número</label>
+                        <input id="location-number" type="text" class="publish-location__input" name="street-number" placeholder="Ej. 123" autocomplete="address-line2" />
+                    </div>
+                </div>
+
+                <div class="publish-location__field-group publish-location__field-group--split">
+                    <div class="publish-location__field">
+                        <label class="publish-location__label" for="location-state">Estado</label>
+                        <input id="location-state" type="text" class="publish-location__input" name="state" placeholder="Ej. Nuevo León" autocomplete="address-level1" />
+                    </div>
+                    <div class="publish-location__field">
+                        <label class="publish-location__label" for="location-city">Ciudad / Municipio</label>
+                        <input id="location-city" type="text" class="publish-location__input" name="city" placeholder="Ej. San Pedro Garza García" autocomplete="address-level2" />
+                    </div>
+                </div>
+
+                <p class="publish-location__hint">Estos datos permiten validar la propiedad y mostrarla en resultados relevantes. Podrás perfeccionar la ubicación exacta más adelante.</p>
+            </div>
+
+            <aside class="publish-location__aside" aria-label="Consejos de ubicación">
+                <div class="publish-location__insight">
+                    <p class="publish-location__insight-title">Consejo</p>
+                    <p class="publish-location__insight-text">Incluye referencias claras y un domicilio consistente para mejorar la visibilidad de tu anuncio.</p>
+                </div>
+                <div class="publish-location__insight publish-location__insight--accent">
+                    <p class="publish-location__insight-title">Privacidad</p>
+                    <p class="publish-location__insight-text">Solo mostraremos datos generales al público. Podrás definir el punto exacto en el mapa usando la integración de Google Maps.</p>
+                </div>
+            </aside>
+        </div>
+
+        <footer class="publish-card__actions publish-location__actions">
+            <button type="button" class="publish-action-btn publish-action-btn--ghost" data-location-back>Volver</button>
+            <button type="button" class="publish-action-btn publish-action-btn--primary" data-location-continue>Guardar ubicación</button>
+        </footer>
+    </div>
+</section>
