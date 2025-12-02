@@ -835,7 +835,7 @@ button {
     border: 1px solid rgba(226, 232, 240, 0.8);
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
 }
 
 .publish-location__card-header {
@@ -857,6 +857,11 @@ button {
     margin: 4px 0 0;
     color: #475569;
     font-size: 13px;
+}
+
+.publish-location__content {
+    display: grid;
+    gap: 20px;
 }
 
 .publish-location__badge {
@@ -916,6 +921,8 @@ button {
     justify-content: flex-end;
     gap: 12px;
     flex-wrap: wrap;
+    border-top: 1px solid rgba(226, 232, 240, 0.8);
+    padding-top: 12px;
 }
 
 .publish-location__button {
@@ -999,7 +1006,7 @@ button {
 }
 
 @media (min-width: 992px) {
-    .publish-location__layout {
+    .publish-location__content {
         grid-template-columns: 2fr 1fr;
     }
 }
