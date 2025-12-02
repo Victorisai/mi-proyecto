@@ -22,61 +22,63 @@
                 <div class="publish-location__badge" data-location-title>Propiedad sin título</div>
             </div>
 
-            <div class="publish-location__grid">
-                <div class="publish-location__field">
-                    <label for="location-country" class="publish-location__label">País</label>
-                    <input id="location-country" type="text" class="publish-location__input" placeholder="México" data-location-country>
-                    <p class="publish-location__hint">Pronto podrás seleccionar el país desde Google Maps.</p>
+            <div class="publish-location__content">
+                <div class="publish-location__grid">
+                    <div class="publish-location__field">
+                        <label for="location-country" class="publish-location__label">País</label>
+                        <input id="location-country" type="text" class="publish-location__input" placeholder="México" data-location-country>
+                        <p class="publish-location__hint">Pronto podrás seleccionar el país desde Google Maps.</p>
+                    </div>
+
+                    <div class="publish-location__field">
+                        <label for="location-street" class="publish-location__label">Calle y número</label>
+                        <input id="location-street" type="text" class="publish-location__input" placeholder="Av. Paseo de la Reforma 350" data-location-street>
+                    </div>
+
+                    <div class="publish-location__field">
+                        <label for="location-state" class="publish-location__label">Estado</label>
+                        <input id="location-state" type="text" class="publish-location__input" placeholder="Ciudad de México" data-location-state>
+                    </div>
+
+                    <div class="publish-location__field">
+                        <label for="location-city" class="publish-location__label">Ciudad / Municipio</label>
+                        <input id="location-city" type="text" class="publish-location__input" placeholder="Cuauhtémoc" data-location-city>
+                    </div>
                 </div>
 
-                <div class="publish-location__field">
-                    <label for="location-street" class="publish-location__label">Calle y número</label>
-                    <input id="location-street" type="text" class="publish-location__input" placeholder="Av. Paseo de la Reforma 350" data-location-street>
-                </div>
-
-                <div class="publish-location__field">
-                    <label for="location-state" class="publish-location__label">Estado</label>
-                    <input id="location-state" type="text" class="publish-location__input" placeholder="Ciudad de México" data-location-state>
-                </div>
-
-                <div class="publish-location__field">
-                    <label for="location-city" class="publish-location__label">Ciudad / Municipio</label>
-                    <input id="location-city" type="text" class="publish-location__input" placeholder="Cuauhtémoc" data-location-city>
-                </div>
+                <aside class="publish-location__aside" aria-label="Resumen de publicación">
+                    <div class="publish-location__summary">
+                        <p class="publish-location__summary-title">Resumen de tu anuncio</p>
+                        <dl class="publish-location__summary-list">
+                            <div class="publish-location__summary-item">
+                                <dt>Propósito</dt>
+                                <dd data-location-purpose>Sin definir</dd>
+                            </div>
+                            <div class="publish-location__summary-item">
+                                <dt>Tipo</dt>
+                                <dd data-location-type>Sin definir</dd>
+                            </div>
+                            <div class="publish-location__summary-item">
+                                <dt>Subtipo</dt>
+                                <dd data-location-subtype>Por seleccionar</dd>
+                            </div>
+                            <div class="publish-location__summary-item">
+                                <dt>Título</dt>
+                                <dd data-location-title>Sin título</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="publish-location__tip">
+                        <p class="publish-location__tip-title">Tip de precisión</p>
+                        <p class="publish-location__tip-text">Una dirección exacta ayuda a posicionar tu anuncio en mapas, mejorar los tiempos de visita y generar mayor confianza con los clientes.</p>
+                    </div>
+                </aside>
             </div>
 
-            <div class="publish-location__actions">
+            <footer class="publish-location__actions">
                 <button type="button" class="publish-location__button publish-location__button--ghost" data-publish-location-back>Volver a detalles</button>
                 <button type="button" class="publish-location__button publish-location__button--primary" data-publish-location-save>Guardar y continuar</button>
-            </div>
+            </footer>
         </div>
-
-        <aside class="publish-location__aside" aria-label="Resumen de publicación">
-            <div class="publish-location__summary">
-                <p class="publish-location__summary-title">Resumen de tu anuncio</p>
-                <dl class="publish-location__summary-list">
-                    <div class="publish-location__summary-item">
-                        <dt>Propósito</dt>
-                        <dd data-location-purpose>Sin definir</dd>
-                    </div>
-                    <div class="publish-location__summary-item">
-                        <dt>Tipo</dt>
-                        <dd data-location-type>Sin definir</dd>
-                    </div>
-                    <div class="publish-location__summary-item">
-                        <dt>Subtipo</dt>
-                        <dd data-location-subtype>Por seleccionar</dd>
-                    </div>
-                    <div class="publish-location__summary-item">
-                        <dt>Título</dt>
-                        <dd data-location-title>Sin título</dd>
-                    </div>
-                </dl>
-            </div>
-            <div class="publish-location__tip">
-                <p class="publish-location__tip-title">Tip de precisión</p>
-                <p class="publish-location__tip-text">Una dirección exacta ayuda a posicionar tu anuncio en mapas, mejorar los tiempos de visita y generar mayor confianza con los clientes.</p>
-            </div>
-        </aside>
     </div>
 </section>
