@@ -739,6 +739,20 @@ button {
     outline-offset: 2px;
 }
 
+@media (max-width: 640px) {
+    .publish-card__actions,
+    .publish-location__actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .publish-card__actions .publish-action-btn,
+    .publish-location__actions .publish-action-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
 @media (min-width: 992px) {
     .publish-card__grid {
         grid-template-columns: 2fr 1fr;
@@ -923,37 +937,6 @@ button {
     flex-wrap: wrap;
     border-top: 1px solid rgba(226, 232, 240, 0.8);
     padding-top: 12px;
-}
-
-.publish-location__button {
-    border: 1px solid transparent;
-    border-radius: 12px;
-    padding: 12px 18px;
-    font-weight: 800;
-    cursor: pointer;
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, border-color 0.2s ease;
-}
-
-.publish-location__button--ghost {
-    background: #ffffff;
-    border-color: #e2e8f0;
-    color: #0f172a;
-}
-
-.publish-location__button--primary {
-    background: linear-gradient(135deg, #0ea5e9, #2563eb);
-    color: #ffffff;
-    box-shadow: 0 14px 30px rgba(14, 165, 233, 0.2);
-}
-
-.publish-location__button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 12px 26px rgba(15, 23, 42, 0.12);
-}
-
-.publish-location__button:focus-visible {
-    outline: 3px solid rgba(14, 165, 233, 0.24);
-    outline-offset: 2px;
 }
 
 .publish-location__aside {
