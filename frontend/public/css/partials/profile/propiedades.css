@@ -769,6 +769,23 @@ button {
     }
 }
 
+@media (max-width: 576px) {
+    .publish-card__actions {
+        gap: 50px;
+    }
+
+    .publish-card__actions--sticky {
+        padding: 12px 12px;
+    }
+
+    .publish-card__actions--sticky .publish-action-btn {
+        min-width: 0;
+        padding: 10px 14px;
+        font-size: 14px;
+    }
+}
+
+
 @media (min-width: 992px) {
     .publish-card__grid {
         grid-template-columns: 2fr 1fr;
