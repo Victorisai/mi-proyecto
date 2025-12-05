@@ -771,7 +771,7 @@ button {
 
 @media (max-width: 576px) {
     .publish-card__actions {
-        gap: 50px;
+        gap: 30px;
     }
 
     .publish-card__actions--sticky {
