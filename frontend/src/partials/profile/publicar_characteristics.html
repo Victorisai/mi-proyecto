@@ -1,0 +1,574 @@
+<section class="publish-characteristics" aria-label="Características de la propiedad">
+    <header class="publish-characteristics__header">
+        <div class="publish-characteristics__eyebrow">Paso 3 · Características</div>
+        <div class="publish-characteristics__headline-group">
+            <h2 class="publish-characteristics__title" data-characteristics-heading>Añade las características clave</h2>
+            <p class="publish-characteristics__subtitle">Define la información que ayudará a los clientes a entender el valor de tu propiedad.</p>
+        </div>
+        <div class="publish-characteristics__chips" aria-live="polite">
+            <span class="publish-characteristics__chip" data-characteristics-purpose>Propósito pendiente</span>
+            <span class="publish-characteristics__chip publish-characteristics__chip--accent" data-characteristics-type>Tipo de propiedad pendiente</span>
+            <span class="publish-characteristics__chip" data-characteristics-subtype>Subtipo pendiente</span>
+            <span class="publish-characteristics__chip" data-characteristics-location>Ubicación pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-characteristics__layout">
+        <div class="characteristics-card" role="form" aria-describedby="characteristics-helper">
+            <div class="characteristics-card__header">
+                <div>
+                    <p class="characteristics-card__eyebrow">Características generales</p>
+                    <h3 class="characteristics-card__title">Información base para cualquier propiedad</h3>
+                    <p id="characteristics-helper" class="characteristics-card__helper">Responde solo a los campos que aporten valor a tu anuncio. Puedes complementar más adelante.</p>
+                </div>
+                <div class="characteristics-card__badge" data-characteristics-title>Propiedad sin título</div>
+            </div>
+
+            <div class="characteristics-card__content">
+                <div class="characteristics-grid">
+                    <div class="publish-card__field">
+                        <label class="publish-card__label" for="surface-total">Superficie total (m²)</label>
+                        <input type="number" id="surface-total" class="publish-card__input" placeholder="Ej. 250" min="0" step="1">
+                    </div>
+                    <div class="publish-card__field">
+                        <label class="publish-card__label" for="surface-built">Superficie construida (m²)</label>
+                        <input type="number" id="surface-built" class="publish-card__input" placeholder="Ej. 180" min="0" step="1">
+                    </div>
+                    <div class="publish-card__field">
+                        <label class="publish-card__label" for="property-age">Antigüedad</label>
+                        <select id="property-age" class="publish-card__select">
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option>Nueva</option>
+                            <option>En construcción</option>
+                            <option>1 a 5 años</option>
+                            <option>6 a 10 años</option>
+                            <option>Más de 10 años</option>
+                        </select>
+                    </div>
+                    <div class="publish-card__field">
+                        <label class="publish-card__label" for="property-condition">Estado de conservación</label>
+                        <select id="property-condition" class="publish-card__select">
+                            <option value="" disabled selected>Selecciona una opción</option>
+                            <option>Excelente</option>
+                            <option>Bueno</option>
+                            <option>Regular</option>
+                            <option>Para remodelar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="feature-block">
+                    <div class="feature-block__header">
+                        <p class="feature-block__title">Servicios</p>
+                        <p class="feature-block__subtitle">Selecciona los servicios disponibles en la propiedad.</p>
+                    </div>
+                    <div class="feature-options feature-options--grid">
+                        <label class="feature-option">
+                            <input type="checkbox"> Agua
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Luz eléctrica
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Internet
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Drenaje
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Pavimento
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Gas natural
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Teléfono
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Energía solar
+                        </label>
+                    </div>
+                </div>
+
+                <div class="feature-block">
+                    <div class="feature-block__header">
+                        <p class="feature-block__title">Financiamiento</p>
+                        <p class="feature-block__subtitle">Indica si aceptas crédito o financiamiento.</p>
+                    </div>
+                    <label class="toggle-field" for="financing-allowed">
+                        <span class="toggle-field__label">Permite financiamiento / crédito</span>
+                        <input type="checkbox" id="financing-allowed" class="toggle-field__input">
+                        <span class="toggle-field__control" aria-hidden="true"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="characteristics-card characteristics-card--specific" aria-live="polite">
+            <div class="characteristics-card__header">
+                <div>
+                    <p class="characteristics-card__eyebrow">Características específicas</p>
+                    <h3 class="characteristics-card__title">Secciones personalizadas según el tipo seleccionado</h3>
+                    <p class="characteristics-card__helper" data-characteristics-filter>Selecciona un tipo de propiedad para filtrar las características específicas.</p>
+                </div>
+                <div class="characteristics-card__pill" data-characteristics-active-type>Tipo pendiente</div>
+            </div>
+
+            <div class="characteristics-accordion">
+                <article class="characteristics-section" data-characteristics-group="residencial">
+                    <header class="characteristics-section__header">
+                        <div>
+                            <p class="characteristics-section__eyebrow">Residencial</p>
+                            <h4 class="characteristics-section__title">Confort y distribución</h4>
+                            <p class="characteristics-section__subtitle">Describe los espacios y amenidades más relevantes del hogar.</p>
+                        </div>
+                        <span class="characteristics-section__status">Disponible para Residencial</span>
+                    </header>
+                    <div class="characteristics-grid">
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="res-bedrooms">Recámaras</label>
+                            <input type="number" id="res-bedrooms" class="publish-card__input" min="0" step="1" placeholder="Ej. 3">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="res-bathrooms">Baños completos / medios baños</label>
+                            <input type="number" id="res-bathrooms" class="publish-card__input" min="0" step="1" placeholder="Ej. 2.5">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="res-parking">Estacionamientos</label>
+                            <input type="number" id="res-parking" class="publish-card__input" min="0" step="1" placeholder="Ej. 2">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="res-furniture">Mobiliario</label>
+                            <select id="res-furniture" class="publish-card__select">
+                                <option value="" disabled selected>Selecciona el estatus</option>
+                                <option>Amueblado</option>
+                                <option>Semiamueblado</option>
+                                <option>Sin amueblar</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="feature-options feature-options--grid">
+                        <label class="feature-option">
+                            <input type="checkbox"> Cocina equipada / integral
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Sala
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Comedor
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Terraza / balcón
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Jardín / patio
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Seguridad privada
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Aire acondicionado
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Walk-in closet
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Cuarto de lavado / servicio
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Mascotas permitidas
+                        </label>
+                    </div>
+
+                    <div class="feature-block feature-block--inline">
+                        <div class="feature-block__header">
+                            <p class="feature-block__title">Alberca / jacuzzi</p>
+                            <p class="feature-block__subtitle">Elige las amenidades acuáticas disponibles.</p>
+                        </div>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Alberca privada
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Alberca común
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Jacuzzi
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="feature-block feature-block--inline">
+                        <div class="feature-block__header">
+                            <p class="feature-block__title">Seguridad y estacionamiento</p>
+                            <p class="feature-block__subtitle">Detalla accesos y resguardo.</p>
+                        </div>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Estacionamiento techado
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Seguridad privada
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Control de acceso
+                            </label>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="characteristics-section" data-characteristics-group="terrenos">
+                    <header class="characteristics-section__header">
+                        <div>
+                            <p class="characteristics-section__eyebrow">Terrenos</p>
+                            <h4 class="characteristics-section__title">Accesos y entorno</h4>
+                            <p class="characteristics-section__subtitle">Ubicación estratégica y cercanías que suman valor.</p>
+                        </div>
+                        <span class="characteristics-section__status">Disponible para Terrenos</span>
+                    </header>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Accesos</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Carretera pavimentada
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Camino de terracería
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Sendero
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Acceso por brecha
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="feature-block">
+                        <p class="feature-block__title">Cercanía a puntos de interés</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Carretera principal
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Playa
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Pueblo / comunidad
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Desarrollos habitacionales
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Zonas turísticas
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Zona industrial
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Áreas naturales
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Sitio arqueológico
+                            </label>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="characteristics-section" data-characteristics-group="comercial">
+                    <header class="characteristics-section__header">
+                        <div>
+                            <p class="characteristics-section__eyebrow">Comercial</p>
+                            <h4 class="characteristics-section__title">Operación y experiencia de clientes</h4>
+                            <p class="characteristics-section__subtitle">Enfócate en la funcionalidad para negocios y atención al público.</p>
+                        </div>
+                        <span class="characteristics-section__status">Disponible para Comercial</span>
+                    </header>
+                    <div class="characteristics-grid">
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="com-floors">Niveles o pisos</label>
+                            <input type="number" id="com-floors" class="publish-card__input" min="0" step="1">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="com-bathrooms">Baños para empleados / clientes</label>
+                            <input type="number" id="com-bathrooms" class="publish-card__input" min="0" step="1">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="com-front">Frente comercial (m lineales)</label>
+                            <input type="number" id="com-front" class="publish-card__input" min="0" step="1" placeholder="Ej. 12">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="com-parking">Estacionamiento de clientes</label>
+                            <select id="com-parking" class="publish-card__select">
+                                <option value="" disabled selected>Selecciona la opción</option>
+                                <option>Sí, propio</option>
+                                <option>Sí, compartido</option>
+                                <option>En la calle</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="feature-options feature-options--grid">
+                        <label class="feature-option">
+                            <input type="checkbox"> Aire acondicionado / ventilación
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Bodega o área de carga
+                        </label>
+                        <label class="feature-option">
+                            <input type="checkbox"> Estacionamiento de clientes
+                        </label>
+                    </div>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Seguridad</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Circuito cerrado
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Guardias
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Sistema de alarma
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Control de acceso
+                            </label>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="characteristics-section" data-characteristics-group="industrial">
+                    <header class="characteristics-section__header">
+                        <div>
+                            <p class="characteristics-section__eyebrow">Industrial</p>
+                            <h4 class="characteristics-section__title">Capacidades operativas</h4>
+                            <p class="characteristics-section__subtitle">Destaca las especificaciones técnicas de la nave o planta.</p>
+                        </div>
+                        <span class="characteristics-section__status">Disponible para Industrial</span>
+                    </header>
+                    <div class="characteristics-grid">
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="ind-height">Altura libre (m)</label>
+                            <input type="number" id="ind-height" class="publish-card__input" min="0" step="0.1">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="ind-floor">Capacidad de piso (ton/m²)</label>
+                            <input type="number" id="ind-floor" class="publish-card__input" min="0" step="0.1">
+                        </div>
+                    </div>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Andenes de carga / descarga</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Andén frontal
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Andén trasero
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Rampa niveladora
+                            </label>
+                        </div>
+                    </div>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Sistema contra incendios</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Rociadores
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Extintores
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Hidrantes
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Alarmas
+                            </label>
+                        </div>
+                    </div>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Equipo y energía</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Oficinas administrativas
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Energía trifásica
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Grúa viajera
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Montacargas
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Estacionamiento para trailers
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Vigilancia 24/7
+                            </label>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="characteristics-section" data-characteristics-group="especiales">
+                    <header class="characteristics-section__header">
+                        <div>
+                            <p class="characteristics-section__eyebrow">Especiales</p>
+                            <h4 class="characteristics-section__title">Atributos únicos</h4>
+                            <p class="characteristics-section__subtitle">Resalta caminos, producción o distancias relevantes.</p>
+                        </div>
+                        <span class="characteristics-section__status">Disponible para Especiales</span>
+                    </header>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Caminos internos</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Caminos de terracería
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Caminos pavimentados
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Senderos naturales
+                            </label>
+                        </div>
+                    </div>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Producción o cultivos existentes</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Frutales
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Hortalizas
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Ganado / animales
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Café / Cacao
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Palma / Coco
+                            </label>
+                        </div>
+                    </div>
+                    <div class="feature-block">
+                        <p class="feature-block__title">Distancia a carretera / poblado</p>
+                        <select class="publish-card__select">
+                            <option value="" disabled selected>Selecciona la distancia</option>
+                            <option>Menos de 1 km</option>
+                            <option>1 a 5 km</option>
+                            <option>5 a 10 km</option>
+                            <option>Más de 10 km</option>
+                        </select>
+                    </div>
+                </article>
+
+                <article class="characteristics-section" data-characteristics-group="desarrollos">
+                    <header class="characteristics-section__header">
+                        <div>
+                            <p class="characteristics-section__eyebrow">Desarrollos</p>
+                            <h4 class="characteristics-section__title">Detalle de proyecto</h4>
+                            <p class="characteristics-section__subtitle">Describe el estado, unidades y amenidades del desarrollo.</p>
+                        </div>
+                        <span class="characteristics-section__status">Disponible para Desarrollos</span>
+                    </header>
+                    <div class="characteristics-grid">
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="dev-units">Número de unidades</label>
+                            <input type="number" id="dev-units" class="publish-card__input" min="0" step="1">
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="dev-status">Estado del proyecto</label>
+                            <select id="dev-status" class="publish-card__select">
+                                <option value="" disabled selected>Selecciona el estado</option>
+                                <option>Preventa</option>
+                                <option>En obra</option>
+                                <option>Terminado</option>
+                            </select>
+                        </div>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="dev-progress">Avance de obra (%)</label>
+                            <input type="number" id="dev-progress" class="publish-card__input" min="0" max="100" step="1">
+                        </div>
+                    </div>
+
+                    <div class="feature-block">
+                        <p class="feature-block__title">Amenidades</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Piscina
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Gimnasio
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Áreas verdes
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Canchas deportivas
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Casa club
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Seguridad 24/7
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Zona de juegos infantiles
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Rooftop
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="feature-block">
+                        <p class="feature-block__title">Tipo de unidades</p>
+                        <div class="feature-options feature-options--columns">
+                            <label class="feature-option">
+                                <input type="checkbox"> Casas
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Departamentos
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Lotes
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Villas
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Estudios / Lofts
+                            </label>
+                            <label class="feature-option">
+                                <input type="checkbox"> Otros
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="feature-grid">
+                        <label class="toggle-field">
+                            <span class="toggle-field__label">Plan maestro disponible</span>
+                            <input type="checkbox" class="toggle-field__input">
+                            <span class="toggle-field__control" aria-hidden="true"></span>
+                        </label>
+                        <div class="publish-card__field">
+                            <label class="publish-card__label" for="dev-builder">Constructora o desarrolladora</label>
+                            <input type="text" id="dev-builder" class="publish-card__input" placeholder="Nombre de la empresa">
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <footer class="publish-card__actions publish-card__actions--sticky">
+        <button type="button" class="publish-action-btn publish-action-btn--ghost" data-characteristics-back>Volver a ubicación</button>
+        <button type="button" class="publish-action-btn publish-action-btn--primary" data-characteristics-save>Guardar características</button>
+    </footer>
+</section>
