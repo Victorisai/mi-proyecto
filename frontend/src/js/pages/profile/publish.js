@@ -213,12 +213,28 @@
         const titleTargets = panel.querySelectorAll('[data-location-title]');
         const heading = panel.querySelector('[data-location-heading]');
         const backButton = panel.querySelector('[data-publish-location-back]');
+        const saveButton = panel.querySelector('[data-publish-location-save]');
+        const countryInput = panel.querySelector('[data-location-country]');
+        const streetInput = panel.querySelector('[data-location-street]');
+        const stateInput = panel.querySelector('[data-location-state]');
+        const cityInput = panel.querySelector('[data-location-city]');
+
+        const formatLocationSummary = (location = {}) => {
+            const parts = [location.street, location.city, location.state, location.country].filter((part) => part && part.trim());
+            return parts.length ? parts.join(', ') : 'Ubicación sin definir';
+        };
 
         const applyLocationContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
             const type = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo no definido';
             const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo no definido';
             const title = detail.title || panel.dataset.publishTitle || 'Propiedad sin título';
+            const location = detail.location || {
+                country: panel.dataset.locationCountry,
+                street: panel.dataset.locationStreet,
+                state: panel.dataset.locationState,
+                city: panel.dataset.locationCity
+            };
 
             purposeTargets.forEach((element) => {
                 element.textContent = purpose;
@@ -235,6 +251,22 @@
             titleTargets.forEach((element) => {
                 element.textContent = title.trim().length ? title : 'Propiedad sin título';
             });
+
+            if (countryInput) {
+                countryInput.value = location.country || '';
+            }
+
+            if (streetInput) {
+                streetInput.value = location.street || '';
+            }
+
+            if (stateInput) {
+                stateInput.value = location.state || '';
+            }
+
+            if (cityInput) {
+                cityInput.value = location.city || '';
+            }
 
             if (heading) {
                 heading.textContent = title.trim().length ? `Ubicación para: ${title}` : 'Define la ubicación de tu propiedad';
@@ -268,10 +300,46 @@
             panel.dataset.publishSubtype = detail.subtype || panel.dataset.publishSubtype || '';
             panel.dataset.publishTitle = detail.title || panel.dataset.publishTitle || '';
             panel.dataset.publishDescription = detail.description || panel.dataset.publishDescription || '';
+            panel.dataset.locationCountry = detail.location?.country || panel.dataset.locationCountry || '';
+            panel.dataset.locationStreet = detail.location?.street || panel.dataset.locationStreet || '';
+            panel.dataset.locationState = detail.location?.state || panel.dataset.locationState || '';
+            panel.dataset.locationCity = detail.location?.city || panel.dataset.locationCity || '';
 
             applyLocationContext(detail);
             panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
+
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const location = {
+                    country: countryInput ? countryInput.value.trim() : '',
+                    street: streetInput ? streetInput.value.trim() : '',
+                    state: stateInput ? stateInput.value.trim() : '',
+                    city: cityInput ? cityInput.value.trim() : ''
+                };
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    location,
+                    locationSummary: formatLocationSummary(location)
+                };
+
+                panel.dataset.locationCountry = location.country;
+                panel.dataset.locationStreet = location.street;
+                panel.dataset.locationState = location.state;
+                panel.dataset.locationCity = location.city;
+
+                document.dispatchEvent(new CustomEvent('publish:characteristics:start', { detail }));
+            });
+        }
 
         applyLocationContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
@@ -279,6 +347,158 @@
             subtype: panel.dataset.publishSubtype,
             title: panel.dataset.publishTitle
         });
+    };
+
+    const initCharacteristicsPanel = (panel) => {
+        if (!panel || panel.dataset.publishCharacteristicsInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishCharacteristicsInitialized = 'true';
+
+        const purposeTargets = panel.querySelectorAll('[data-characteristics-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-characteristics-type-label]');
+        const subtypeTargets = panel.querySelectorAll('[data-characteristics-subtype]');
+        const titleTargets = panel.querySelectorAll('[data-characteristics-title]');
+        const locationTargets = panel.querySelectorAll('[data-characteristics-location]');
+        const heading = panel.querySelector('[data-characteristics-heading]');
+        const typeSections = panel.querySelectorAll('[data-characteristics-type]');
+        const switchInputs = panel.querySelectorAll('.switch input');
+        const backButton = panel.querySelector('[data-characteristics-back]');
+        const saveButton = panel.querySelector('[data-characteristics-save]');
+
+        const updateChips = (detail = {}) => {
+            const purposeText = detail.purposeLabel || 'Propósito no definido';
+            const typeText = detail.typeLabel || 'Tipo no definido';
+            const subtypeText = detail.subtype || 'Subtipo pendiente';
+            const titleText = detail.title || 'Propiedad sin título';
+            const locationText = detail.locationSummary || 'Por definir';
+
+            purposeTargets.forEach((node) => {
+                node.textContent = purposeText;
+            });
+
+            typeTargets.forEach((node) => {
+                node.textContent = typeText;
+            });
+
+            subtypeTargets.forEach((node) => {
+                node.textContent = subtypeText;
+            });
+
+            titleTargets.forEach((node) => {
+                node.textContent = titleText;
+            });
+
+            locationTargets.forEach((node) => {
+                node.textContent = locationText;
+            });
+
+            if (heading) {
+                heading.textContent = detail.typeLabel ? `Personaliza: ${detail.typeLabel}` : 'Define las características clave';
+            }
+        };
+
+        const toggleTypeSections = (type) => {
+            typeSections.forEach((section) => {
+                const matches = section.dataset.characteristicsType === type;
+                section.classList.toggle('is-active', matches);
+            });
+        };
+
+        const syncSwitchLabels = () => {
+            switchInputs.forEach((input) => {
+                const label = input.parentElement?.querySelector('[data-switch-label]');
+                if (!label) {
+                    return;
+                }
+                label.textContent = input.checked ? 'Sí' : 'No';
+            });
+        };
+
+        switchInputs.forEach((input) => {
+            input.addEventListener('change', syncSwitchLabels);
+        });
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    location: {
+                        country: panel.dataset.locationCountry || '',
+                        street: panel.dataset.locationStreet || '',
+                        state: panel.dataset.locationState || '',
+                        city: panel.dataset.locationCity || ''
+                    }
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:characteristics:back', { detail }));
+            });
+        }
+
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    locationSummary: panel.dataset.locationSummary || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:characteristics:complete', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-characteristics:open', (event) => {
+            const detail = event.detail || {};
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = detail.purposeLabel || panel.dataset.publishPurposeLabel || '';
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || '';
+            panel.dataset.publishSubtype = detail.subtype || panel.dataset.publishSubtype || '';
+            panel.dataset.publishTitle = detail.title || panel.dataset.publishTitle || '';
+            panel.dataset.publishDescription = detail.description || panel.dataset.publishDescription || '';
+            panel.dataset.locationCountry = detail.location?.country || panel.dataset.locationCountry || '';
+            panel.dataset.locationStreet = detail.location?.street || panel.dataset.locationStreet || '';
+            panel.dataset.locationState = detail.location?.state || panel.dataset.locationState || '';
+            panel.dataset.locationCity = detail.location?.city || panel.dataset.locationCity || '';
+            panel.dataset.locationSummary = detail.locationSummary || panel.dataset.locationSummary || 'Por definir';
+
+            toggleTypeSections(panel.dataset.publishType);
+            updateChips({
+                purposeLabel: panel.dataset.publishPurposeLabel,
+                typeLabel: panel.dataset.publishTypeLabel,
+                subtype: panel.dataset.publishSubtype,
+                title: panel.dataset.publishTitle,
+                locationSummary: panel.dataset.locationSummary
+            });
+            syncSwitchLabels();
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        toggleTypeSections(panel.dataset.publishType);
+        updateChips({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype,
+            title: panel.dataset.publishTitle,
+            locationSummary: panel.dataset.locationSummary
+        });
+        syncSwitchLabels();
     };
 
     const init = (panel) => {
@@ -293,6 +513,11 @@
 
         if (panel.dataset.section === 'publicar-ubicacion') {
             initLocationPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-caracteristicas') {
+            initCharacteristicsPanel(panel);
         }
     };
 
