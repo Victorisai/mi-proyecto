@@ -1,0 +1,382 @@
+<section class="publish-characteristics" aria-label="Características de la propiedad">
+    <header class="publish-characteristics__header">
+        <div class="publish-characteristics__eyebrow">Paso 3 · Características</div>
+        <div class="publish-characteristics__headline-group">
+            <h2 class="publish-characteristics__title" data-characteristics-heading>Define los atributos clave</h2>
+            <p class="publish-characteristics__subtitle">Comparte la información que ayudará a posicionar mejor tu propiedad.</p>
+        </div>
+        <div class="publish-characteristics__chips" aria-live="polite">
+            <span class="publish-characteristics__chip" data-characteristics-purpose>Propósito pendiente</span>
+            <span class="publish-characteristics__chip publish-characteristics__chip--accent" data-characteristics-type>Tipo de propiedad pendiente</span>
+            <span class="publish-characteristics__chip" data-characteristics-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-characteristics__layout">
+        <div class="publish-characteristics__column">
+            <div class="characteristics-card" role="form" aria-describedby="characteristics-general-helper">
+                <div class="characteristics-card__header">
+                    <div>
+                        <p class="characteristics-card__label">Características generales</p>
+                        <p id="characteristics-general-helper" class="characteristics-card__helper">Responde solo lo que aplique a tu propiedad. Mientras más detalles compartas, más relevante será tu anuncio.</p>
+                    </div>
+                    <div class="characteristics-card__badge" data-characteristics-title>Propiedad sin título</div>
+                </div>
+
+                <div class="characteristics-card__grid">
+                    <div class="characteristics-card__field">
+                        <label for="feature-total-area" class="characteristics-card__label">Superficie total (m²)</label>
+                        <input id="feature-total-area" type="number" inputmode="decimal" class="characteristics-card__input" placeholder="Ej. 350" min="0">
+                    </div>
+
+                    <div class="characteristics-card__field">
+                        <label for="feature-built-area" class="characteristics-card__label">Superficie construida (m²)</label>
+                        <input id="feature-built-area" type="number" inputmode="decimal" class="characteristics-card__input" placeholder="Ej. 220" min="0">
+                    </div>
+
+                    <div class="characteristics-card__field">
+                        <label for="feature-antiquity" class="characteristics-card__label">Antigüedad</label>
+                        <select id="feature-antiquity" class="characteristics-card__select">
+                            <option value="" selected disabled>Selecciona una opción</option>
+                            <option>Nueva</option>
+                            <option>En construcción</option>
+                            <option>1 a 5 años</option>
+                            <option>6 a 10 años</option>
+                            <option>Más de 10 años</option>
+                        </select>
+                    </div>
+
+                    <div class="characteristics-card__field">
+                        <label for="feature-condition" class="characteristics-card__label">Estado de conservación</label>
+                        <select id="feature-condition" class="characteristics-card__select">
+                            <option value="" selected disabled>Selecciona una opción</option>
+                            <option>Excelente</option>
+                            <option>Bueno</option>
+                            <option>Regular</option>
+                            <option>Para remodelar</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="characteristics-card__group">
+                    <p class="characteristics-card__group-title">Servicios disponibles</p>
+                    <div class="characteristics-card__chips">
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Agua">
+                            <span>Agua</span>
+                        </label>
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Luz eléctrica">
+                            <span>Luz eléctrica</span>
+                        </label>
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Internet">
+                            <span>Internet</span>
+                        </label>
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Drenaje">
+                            <span>Drenaje</span>
+                        </label>
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Pavimento">
+                            <span>Pavimento</span>
+                        </label>
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Gas natural">
+                            <span>Gas natural</span>
+                        </label>
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Teléfono">
+                            <span>Teléfono</span>
+                        </label>
+                        <label class="chip-input">
+                            <input type="checkbox" name="services" value="Energía solar">
+                            <span>Energía solar</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="characteristics-card__toggle">
+                    <div>
+                        <p class="characteristics-card__label">Permite financiamiento / crédito</p>
+                        <p class="characteristics-card__helper">Habilita esta opción si aceptas créditos hipotecarios o esquemas similares.</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" name="financing">
+                        <span class="switch__slider" aria-hidden="true"></span>
+                        <span class="sr-only">Permite financiamiento</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="publish-characteristics__column">
+            <div class="characteristics-card" aria-live="polite">
+                <div class="characteristics-card__header">
+                    <div>
+                        <p class="characteristics-card__label">Características específicas</p>
+                        <p class="characteristics-card__helper" data-characteristics-helper>Selecciona un tipo para ver sus campos sugeridos.</p>
+                    </div>
+                    <span class="characteristics-card__badge characteristics-card__badge--muted" data-characteristics-type-badge>Tipo no definido</span>
+                </div>
+
+                <div class="characteristics-card__groups">
+                    <div class="feature-group" data-feature-group="residencial">
+                        <p class="feature-group__title">Detalles para propiedades residenciales</p>
+                        <div class="characteristics-card__grid">
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="res-rooms">Recámaras</label>
+                                <input id="res-rooms" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 3">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="res-bathrooms">Baños completos / medios baños</label>
+                                <input id="res-bathrooms" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 2.5">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="res-parking">Estacionamientos</label>
+                                <input id="res-parking" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 2">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="res-furnishing">Mobiliario</label>
+                                <select id="res-furnishing" class="characteristics-card__select">
+                                    <option value="" selected disabled>Selecciona una opción</option>
+                                    <option>Amueblado</option>
+                                    <option>Semiamueblado</option>
+                                    <option>Sin amueblar</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                            <label class="chip-input"><input type="checkbox" value="Cocina equipada"><span>Cocina equipada / integral</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Sala"><span>Sala</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Comedor"><span>Comedor</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Terraza"><span>Terraza / balcón</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Jardín"><span>Jardín / patio</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Alberca privada"><span>Alberca privada</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Alberca común"><span>Alberca común</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Jacuzzi"><span>Jacuzzi</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Seguridad privada"><span>Seguridad privada</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Aire acondicionado"><span>Aire acondicionado</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Walk-in closet"><span>Walk-in closet</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Cuarto de lavado"><span>Cuarto de lavado / servicio</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Mascotas permitidas"><span>Mascotas permitidas</span></label>
+                        </div>
+                    </div>
+
+                    <div class="feature-group" data-feature-group="terrenos">
+                        <p class="feature-group__title">Detalles para terrenos</p>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Accesos</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Carretera pavimentada"><span>Carretera pavimentada</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Camino de terracería"><span>Camino de terracería</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Sendero"><span>Sendero</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Acceso por brecha"><span>Acceso por brecha</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Cercanía a puntos de interés</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Carretera principal"><span>Carretera principal</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Playa"><span>Playa</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Pueblo / comunidad"><span>Pueblo / comunidad</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Desarrollos habitacionales"><span>Desarrollos habitacionales</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Zonas turísticas"><span>Zonas turísticas</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Zona industrial"><span>Zona industrial</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Áreas naturales"><span>Áreas naturales</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Sitio arqueológico"><span>Sitio arqueológico</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-group" data-feature-group="comercial">
+                        <p class="feature-group__title">Detalles para espacios comerciales</p>
+                        <div class="characteristics-card__grid">
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="com-levels">Niveles o pisos</label>
+                                <input id="com-levels" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 2">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="com-bathrooms">Baños para empleados / clientes</label>
+                                <input id="com-bathrooms" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 3">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="com-frontage">Frente comercial (m)</label>
+                                <input id="com-frontage" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 12">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="com-parking">Estacionamiento de clientes</label>
+                                <select id="com-parking" class="characteristics-card__select">
+                                    <option value="" selected disabled>Selecciona una opción</option>
+                                    <option>Sí, propio</option>
+                                    <option>Sí, compartido</option>
+                                    <option>En la calle</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                            <label class="chip-input"><input type="checkbox" value="Aire acondicionado"><span>Aire acondicionado / ventilación</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Bodega"><span>Bodega o área de carga</span></label>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Seguridad</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Circuito cerrado"><span>Circuito cerrado</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Guardias"><span>Guardias</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Sistema de alarma"><span>Sistema de alarma</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Control de acceso"><span>Control de acceso</span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-group" data-feature-group="industrial">
+                        <p class="feature-group__title">Detalles para naves o espacios industriales</p>
+                        <div class="characteristics-card__grid">
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="ind-height">Altura libre (m)</label>
+                                <input id="ind-height" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 8">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="ind-floor">Capacidad de piso (ton/m²)</label>
+                                <input id="ind-floor" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 3">
+                            </div>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Andenes de carga / descarga</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Andén frontal"><span>Andén frontal</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Andén trasero"><span>Andén trasero</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Rampa niveladora"><span>Rampa niveladora</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                            <label class="chip-input"><input type="checkbox" value="Oficinas administrativas"><span>Oficinas administrativas</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Energía trifásica"><span>Energía trifásica</span></label>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Sistema contra incendios</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Rociadores"><span>Rociadores</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Extintores"><span>Extintores</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Hidrantes"><span>Hidrantes</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Alarmas"><span>Alarmas</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Equipamiento especializado</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Grúa viajera"><span>Grúa viajera</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Montacargas"><span>Montacargas</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                            <label class="chip-input"><input type="checkbox" value="Estacionamiento para trailers"><span>Estacionamiento para trailers</span></label>
+                            <label class="chip-input"><input type="checkbox" value="Vigilancia 24/7"><span>Vigilancia 24/7</span></label>
+                        </div>
+                    </div>
+
+                    <div class="feature-group" data-feature-group="especiales">
+                        <p class="feature-group__title">Detalles para propiedades especiales</p>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Caminos internos</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Caminos de terracería"><span>Caminos de terracería</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Caminos pavimentados"><span>Caminos pavimentados</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Senderos naturales"><span>Senderos naturales</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Producción o cultivos existentes</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Frutales"><span>Frutales</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Hortalizas"><span>Hortalizas</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Ganado"><span>Ganado / animales</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Café / Cacao"><span>Café / Cacao</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Palma / Coco"><span>Palma / Coco</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Distancia a carretera / poblado más cercano</p>
+                            <div class="characteristics-card__select-group">
+                                <select class="characteristics-card__select">
+                                    <option value="" selected disabled>Selecciona una opción</option>
+                                    <option>Menos de 1 km</option>
+                                    <option>1 a 5 km</option>
+                                    <option>5 a 10 km</option>
+                                    <option>Más de 10 km</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="feature-group" data-feature-group="desarrollos">
+                        <p class="feature-group__title">Detalles para desarrollos</p>
+                        <div class="characteristics-card__grid">
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="dev-units">Número de unidades</label>
+                                <input id="dev-units" type="number" min="0" class="characteristics-card__input" placeholder="Ej. 40">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="dev-progress">Avance de obra (%)</label>
+                                <input id="dev-progress" type="number" min="0" max="100" class="characteristics-card__input" placeholder="Ej. 55">
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="dev-state">Estado del proyecto</label>
+                                <select id="dev-state" class="characteristics-card__select">
+                                    <option value="" selected disabled>Selecciona una opción</option>
+                                    <option>Preventa</option>
+                                    <option>En obra</option>
+                                    <option>Terminado</option>
+                                </select>
+                            </div>
+                            <div class="characteristics-card__field">
+                                <label class="characteristics-card__label" for="dev-builder">Constructora o desarrolladora</label>
+                                <input id="dev-builder" type="text" class="characteristics-card__input" placeholder="Ej. Grupo Cedral">
+                            </div>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Amenidades</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Piscina"><span>Piscina</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Gimnasio"><span>Gimnasio</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Áreas verdes"><span>Áreas verdes</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Canchas deportivas"><span>Canchas deportivas</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Casa club"><span>Casa club</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Seguridad 24/7"><span>Seguridad 24/7</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Zona de juegos infantiles"><span>Zona de juegos infantiles</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Rooftop"><span>Rooftop</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__group">
+                            <p class="characteristics-card__group-title">Tipo de unidades</p>
+                            <div class="characteristics-card__chips characteristics-card__chips--wrap">
+                                <label class="chip-input"><input type="checkbox" value="Casas"><span>Casas</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Departamentos"><span>Departamentos</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Lotes"><span>Lotes</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Villas"><span>Villas</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Estudios / Lofts"><span>Estudios / Lofts</span></label>
+                                <label class="chip-input"><input type="checkbox" value="Otros"><span>Otros</span></label>
+                            </div>
+                        </div>
+                        <div class="characteristics-card__toggle characteristics-card__toggle--inline">
+                            <div>
+                                <p class="characteristics-card__label">Plan maestro disponible</p>
+                                <p class="characteristics-card__helper">Indica si cuentas con documentación lista para inversionistas.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" name="masterplan">
+                                <span class="switch__slider" aria-hidden="true"></span>
+                                <span class="sr-only">Plan maestro disponible</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <footer class="publish-card__actions publish-card__actions--sticky">
+                    <button type="button" class="publish-action-btn publish-action-btn--ghost" data-characteristics-back>Volver a ubicación</button>
+                    <button type="button" class="publish-action-btn publish-action-btn--primary" data-characteristics-finish>Guardar y finalizar después</button>
+                </footer>
+            </div>
+        </div>
+    </div>
+</section>
