@@ -1,0 +1,379 @@
+<section class="characteristics" aria-label="Características de la propiedad">
+    <header class="characteristics__header">
+        <p class="characteristics__eyebrow">Paso 3 · Características</p>
+        <div class="characteristics__headline-group">
+            <h2 class="characteristics__title" data-characteristics-heading>Define las características clave</h2>
+            <p class="characteristics__subtitle">Responde solo lo necesario; mientras más completo sea tu anuncio, más confianza generará.</p>
+        </div>
+        <div class="characteristics__chips" aria-live="polite">
+            <span class="characteristics__chip" data-characteristics-purpose>Propósito pendiente</span>
+            <span class="characteristics__chip characteristics__chip--accent" data-characteristics-type>Tipo de propiedad pendiente</span>
+            <span class="characteristics__chip" data-characteristics-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="characteristics__layout">
+        <div class="characteristics__card">
+            <div class="characteristics__card-header">
+                <div>
+                    <p class="characteristics__card-label">1. Características generales</p>
+                    <p class="characteristics__helper">Selecciona los campos que consideres relevantes para tu publicación.</p>
+                </div>
+                <span class="characteristics__badge" data-characteristics-type-badge>Tipo sin definir</span>
+            </div>
+
+            <div class="characteristics__grid">
+                <div class="characteristics__field">
+                    <label for="feature-total-area" class="characteristics__label">Superficie total (m²)</label>
+                    <input id="feature-total-area" type="number" class="characteristics__input" placeholder="Ejemplo: 350">
+                </div>
+                <div class="characteristics__field">
+                    <label for="feature-built-area" class="characteristics__label">Superficie construida (m²)</label>
+                    <input id="feature-built-area" type="number" class="characteristics__input" placeholder="Ejemplo: 280">
+                </div>
+                <div class="characteristics__field">
+                    <label for="feature-age" class="characteristics__label">Antigüedad</label>
+                    <select id="feature-age" class="characteristics__select">
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option>Nueva</option>
+                        <option>En construcción</option>
+                        <option>1 a 5 años</option>
+                        <option>6 a 10 años</option>
+                        <option>Más de 10 años</option>
+                    </select>
+                </div>
+                <div class="characteristics__field">
+                    <label for="feature-condition" class="characteristics__label">Estado de conservación</label>
+                    <select id="feature-condition" class="characteristics__select">
+                        <option value="" disabled selected>Selecciona una opción</option>
+                        <option>Excelente</option>
+                        <option>Bueno</option>
+                        <option>Regular</option>
+                        <option>Para remodelar</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="characteristics__services">
+                <p class="characteristics__label">Servicios</p>
+                <div class="characteristics__options-grid">
+                    <label class="characteristics__option"><input type="checkbox"> Agua</label>
+                    <label class="characteristics__option"><input type="checkbox"> Luz eléctrica</label>
+                    <label class="characteristics__option"><input type="checkbox"> Internet</label>
+                    <label class="characteristics__option"><input type="checkbox"> Drenaje</label>
+                    <label class="characteristics__option"><input type="checkbox"> Pavimento</label>
+                    <label class="characteristics__option"><input type="checkbox"> Gas natural</label>
+                    <label class="characteristics__option"><input type="checkbox"> Teléfono</label>
+                    <label class="characteristics__option"><input type="checkbox"> Energía solar</label>
+                </div>
+            </div>
+
+            <div class="characteristics__field characteristics__field--switch">
+                <div>
+                    <p class="characteristics__label">Permite financiamiento / crédito</p>
+                    <p class="characteristics__hint">Indica si aceptas créditos hipotecarios o esquemas de financiamiento.</p>
+                </div>
+                <label class="characteristics__switch">
+                    <input type="checkbox">
+                    <span class="characteristics__slider" aria-hidden="true"></span>
+                    <span class="sr-only">Permite financiamiento</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="characteristics__card characteristics__card--muted" aria-live="polite">
+            <div class="characteristics__card-header">
+                <div>
+                    <p class="characteristics__card-label">2. Detalles según el tipo</p>
+                    <p class="characteristics__helper">Los campos cambian dependiendo del tipo seleccionado para que tu anuncio sea más preciso.</p>
+                </div>
+                <span class="characteristics__badge characteristics__badge--soft" data-characteristics-location>Ubicación por definir</span>
+            </div>
+
+            <div class="characteristics__type-card" data-characteristics-block="residencial">
+                <div class="characteristics__type-heading">
+                    <h3>Residencial</h3>
+                    <p>Comparte los espacios clave del hogar.</p>
+                </div>
+                <div class="characteristics__grid">
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="res-bedrooms">Recámaras</label>
+                        <input id="res-bedrooms" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 3">
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="res-bathrooms">Baños completos / medios baños</label>
+                        <input id="res-bathrooms" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 2.5">
+                    </div>
+                    <div class="characteristics__field characteristics__field--option">
+                        <label class="characteristics__checkbox"><input type="checkbox"> Cocina equipada / integral</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Sala</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Comedor</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Terraza / balcón</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Jardín / patio</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Seguridad privada</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Aire acondicionado</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Walk-in closet</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Cuarto de lavado / servicio</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Mascotas permitidas</label>
+                    </div>
+                </div>
+                <div class="characteristics__grid characteristics__grid--compact">
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="res-pool">Alberca / jacuzzi</label>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input id="res-pool" type="checkbox"> Alberca privada</label>
+                            <label class="characteristics__option"><input type="checkbox"> Alberca común</label>
+                            <label class="characteristics__option"><input type="checkbox"> Jacuzzi</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="res-parking">Estacionamientos</label>
+                        <div class="characteristics__inline">
+                            <label class="characteristics__switch">
+                                <input type="checkbox">
+                                <span class="characteristics__slider" aria-hidden="true"></span>
+                                <span class="sr-only">Tiene estacionamiento</span>
+                            </label>
+                            <input id="res-parking" type="number" class="characteristics__input" min="0" placeholder="Cantidad">
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="res-furniture">Mobiliario</label>
+                        <select id="res-furniture" class="characteristics__select">
+                            <option value="" disabled selected>Selecciona</option>
+                            <option>Amueblado</option>
+                            <option>Semiamueblado</option>
+                            <option>Sin amueblar</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics__type-card" data-characteristics-block="terrenos" hidden>
+                <div class="characteristics__type-heading">
+                    <h3>Terrenos</h3>
+                    <p>Destaca accesos, cercanía y vocación del terreno.</p>
+                </div>
+                <div class="characteristics__grid characteristics__grid--compact">
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Accesos</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Carretera pavimentada</label>
+                            <label class="characteristics__option"><input type="checkbox"> Camino de terracería</label>
+                            <label class="characteristics__option"><input type="checkbox"> Sendero</label>
+                            <label class="characteristics__option"><input type="checkbox"> Acceso por brecha</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Cercanía a puntos de interés</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Carretera principal</label>
+                            <label class="characteristics__option"><input type="checkbox"> Playa</label>
+                            <label class="characteristics__option"><input type="checkbox"> Pueblo / comunidad</label>
+                            <label class="characteristics__option"><input type="checkbox"> Desarrollos habitacionales</label>
+                            <label class="characteristics__option"><input type="checkbox"> Zonas turísticas</label>
+                            <label class="characteristics__option"><input type="checkbox"> Zona industrial</label>
+                            <label class="characteristics__option"><input type="checkbox"> Áreas naturales</label>
+                            <label class="characteristics__option"><input type="checkbox"> Sitio arqueológico</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics__type-card" data-characteristics-block="comercial" hidden>
+                <div class="characteristics__type-heading">
+                    <h3>Comercial</h3>
+                    <p>Incluye servicios para clientes y operación diaria.</p>
+                </div>
+                <div class="characteristics__grid">
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="com-levels">Niveles o pisos</label>
+                        <input id="com-levels" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 2">
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="com-bathrooms">Baños para empleados / clientes</label>
+                        <input id="com-bathrooms" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 4">
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="com-parking">Estacionamiento de clientes</label>
+                        <select id="com-parking" class="characteristics__select">
+                            <option value="" disabled selected>Selecciona</option>
+                            <option>Sí, propio</option>
+                            <option>Sí, compartido</option>
+                            <option>En la calle</option>
+                        </select>
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__checkbox"><input type="checkbox"> Aire acondicionado / ventilación</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Bodega o área de carga</label>
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="com-front">Frente comercial (metros lineales)</label>
+                        <input id="com-front" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 12">
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Seguridad</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Circuito cerrado</label>
+                            <label class="characteristics__option"><input type="checkbox"> Guardias</label>
+                            <label class="characteristics__option"><input type="checkbox"> Sistema de alarma</label>
+                            <label class="characteristics__option"><input type="checkbox"> Control de acceso</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics__type-card" data-characteristics-block="industrial" hidden>
+                <div class="characteristics__type-heading">
+                    <h3>Industrial</h3>
+                    <p>Comparte capacidades técnicas y de seguridad.</p>
+                </div>
+                <div class="characteristics__grid characteristics__grid--compact">
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="ind-height">Altura libre (m)</label>
+                        <input id="ind-height" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 9">
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="ind-floor">Capacidad de piso (ton/m²)</label>
+                        <input id="ind-floor" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 3">
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Andenes de carga / descarga</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Andén frontal</label>
+                            <label class="characteristics__option"><input type="checkbox"> Andén trasero</label>
+                            <label class="characteristics__option"><input type="checkbox"> Rampa niveladora</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field characteristics__field--option">
+                        <label class="characteristics__checkbox"><input type="checkbox"> Oficinas administrativas</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Energía trifásica</label>
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Sistema contra incendios</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Rociadores</label>
+                            <label class="characteristics__option"><input type="checkbox"> Extintores</label>
+                            <label class="characteristics__option"><input type="checkbox"> Hidrantes</label>
+                            <label class="characteristics__option"><input type="checkbox"> Alarmas</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Grúa viajera o montacargas</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Grúa viajera</label>
+                            <label class="characteristics__option"><input type="checkbox"> Montacargas</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__checkbox"><input type="checkbox"> Estacionamiento para trailers</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Vigilancia 24/7</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics__type-card" data-characteristics-block="especiales" hidden>
+                <div class="characteristics__type-heading">
+                    <h3>Especiales</h3>
+                    <p>Describe caminos, producción y conectividad.</p>
+                </div>
+                <div class="characteristics__grid characteristics__grid--compact">
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Caminos internos</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Caminos de terracería</label>
+                            <label class="characteristics__option"><input type="checkbox"> Caminos pavimentados</label>
+                            <label class="characteristics__option"><input type="checkbox"> Senderos naturales</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Producción o cultivos existentes</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Frutales</label>
+                            <label class="characteristics__option"><input type="checkbox"> Hortalizas</label>
+                            <label class="characteristics__option"><input type="checkbox"> Ganado / animales</label>
+                            <label class="characteristics__option"><input type="checkbox"> Café / Cacao</label>
+                            <label class="characteristics__option"><input type="checkbox"> Palma / Coco</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="spec-distance">Distancia a carretera / poblado más cercano</label>
+                        <select id="spec-distance" class="characteristics__select">
+                            <option value="" disabled selected>Selecciona</option>
+                            <option>Menos de 1 km</option>
+                            <option>1 a 5 km</option>
+                            <option>5 a 10 km</option>
+                            <option>Más de 10 km</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics__type-card" data-characteristics-block="desarrollos" hidden>
+                <div class="characteristics__type-heading">
+                    <h3>Desarrollos</h3>
+                    <p>Comparte información del proyecto y su oferta de unidades.</p>
+                </div>
+                <div class="characteristics__grid">
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="dev-units">Número de unidades</label>
+                        <input id="dev-units" type="number" class="characteristics__input" min="0" placeholder="Ejemplo: 45">
+                    </div>
+                    <div class="characteristics__field">
+                        <label class="characteristics__label" for="dev-status">Estado del proyecto</label>
+                        <select id="dev-status" class="characteristics__select">
+                            <option value="" disabled selected>Selecciona</option>
+                            <option>Preventa</option>
+                            <option>En obra</option>
+                            <option>Terminado</option>
+                        </select>
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Amenidades</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Piscina</label>
+                            <label class="characteristics__option"><input type="checkbox"> Gimnasio</label>
+                            <label class="characteristics__option"><input type="checkbox"> Áreas verdes</label>
+                            <label class="characteristics__option"><input type="checkbox"> Canchas deportivas</label>
+                            <label class="characteristics__option"><input type="checkbox"> Casa club</label>
+                            <label class="characteristics__option"><input type="checkbox"> Seguridad 24/7</label>
+                            <label class="characteristics__option"><input type="checkbox"> Zona de juegos infantiles</label>
+                            <label class="characteristics__option"><input type="checkbox"> Rooftop</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field">
+                        <p class="characteristics__label">Tipo de unidades</p>
+                        <div class="characteristics__options-grid characteristics__options-grid--tight">
+                            <label class="characteristics__option"><input type="checkbox"> Casas</label>
+                            <label class="characteristics__option"><input type="checkbox"> Departamentos</label>
+                            <label class="characteristics__option"><input type="checkbox"> Lotes</label>
+                            <label class="characteristics__option"><input type="checkbox"> Villas</label>
+                            <label class="characteristics__option"><input type="checkbox"> Estudios / Lofts</label>
+                            <label class="characteristics__option"><input type="checkbox"> Otros</label>
+                        </div>
+                    </div>
+                    <div class="characteristics__field characteristics__field--option">
+                        <label class="characteristics__checkbox"><input type="checkbox"> Plan maestro disponible</label>
+                        <label class="characteristics__checkbox"><input type="checkbox"> Constructora o desarrolladora definida</label>
+                    </div>
+                    <div class="characteristics__field characteristics__field--inline">
+                        <label class="characteristics__label" for="dev-progress">Avance de obra (%)</label>
+                        <input id="dev-progress" type="number" class="characteristics__input" min="0" max="100" placeholder="Ejemplo: 65">
+                    </div>
+                </div>
+            </div>
+
+            <div class="characteristics__type-card" data-characteristics-block="fallback" hidden>
+                <div class="characteristics__type-heading">
+                    <h3>Selecciona un tipo</h3>
+                    <p>Define el tipo de propiedad para ver campos específicos.</p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="publish-card__actions publish-card__actions--sticky">
+            <button type="button" class="publish-action-btn publish-action-btn--ghost" data-publish-characteristics-back>Volver a ubicación</button>
+            <button type="button" class="publish-action-btn publish-action-btn--primary">Guardar características</button>
+        </footer>
+    </div>
+</section>
