@@ -100,6 +100,7 @@
         const menuToggle = document.querySelector('.profile__mobile-menu-toggle');
         const publishPanel = document.querySelector('.profile__panel[data-section="publicar"]');
         const publishLocationPanel = document.querySelector('.profile__panel[data-section="publicar-ubicacion"]');
+        const publishCharacteristicsPanel = document.querySelector('.profile__panel[data-section="publicar-caracteristicas"]');
 
         const setMobileMenuState = (isOpen) => {
             if (!mobileMenu || !menuToggle) {
@@ -188,6 +189,41 @@
             publishLocationPanel.addEventListener('profile:panel-ready', handleReady);
         };
 
+        const activatePublishCharacteristicsPanel = (detail = {}) => {
+            if (!publishCharacteristicsPanel) {
+                return;
+            }
+
+            panels.forEach((panel) => {
+                const isActive = panel === publishCharacteristicsPanel;
+                panel.classList.toggle('profile__panel--active', isActive);
+            });
+
+            menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
+
+            publishCharacteristicsPanel.dataset.publishPurposeLabel = detail.purposeLabel || '';
+            publishCharacteristicsPanel.dataset.publishTypeLabel = detail.typeLabel || '';
+            publishCharacteristicsPanel.dataset.publishType = detail.type || '';
+            publishCharacteristicsPanel.dataset.publishSubtype = detail.subtype || '';
+            publishCharacteristicsPanel.dataset.publishTitle = detail.title || '';
+            publishCharacteristicsPanel.dataset.publishDescription = detail.description || '';
+            publishCharacteristicsPanel.dataset.publishLocation = JSON.stringify(detail.location || {});
+
+            const emitOpen = () => publishCharacteristicsPanel.dispatchEvent(new CustomEvent('publish-characteristics:open', { detail }));
+
+            if (publishCharacteristicsPanel.dataset.loaded === 'true') {
+                emitOpen();
+                return;
+            }
+
+            const handleReady = () => {
+                publishCharacteristicsPanel.removeEventListener('profile:panel-ready', handleReady);
+                emitOpen();
+            };
+
+            publishCharacteristicsPanel.addEventListener('profile:panel-ready', handleReady);
+        };
+
         if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', (event) => {
                 event.stopPropagation();
@@ -228,6 +264,17 @@
         document.addEventListener('publish:location:back', (event) => {
             const detail = event.detail || {};
             activatePublishPanel(detail);
+            closeMobileMenu();
+        });
+
+        document.addEventListener('publish:characteristics:start', (event) => {
+            activatePublishCharacteristicsPanel(event.detail || {});
+            closeMobileMenu();
+        });
+
+        document.addEventListener('publish:characteristics:back', (event) => {
+            const detail = event.detail || {};
+            activatePublishLocationPanel(detail);
             closeMobileMenu();
         });
 
