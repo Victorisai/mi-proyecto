@@ -1103,6 +1103,17 @@ button {
     gap: 18px;
 }
 
+.publish-characteristics__content {
+    display: grid;
+    gap: 18px;
+}
+
+.characteristics-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
 .characteristics-card {
     gap: 24px;
 }
@@ -1407,6 +1418,11 @@ button {
 @media (min-width: 992px) {
     .publish-characteristics__layout {
         grid-template-columns: 2fr 1fr;
+    }
+
+    .publish-characteristics__content {
+        grid-template-columns: 2fr 1fr;
+        align-items: start;
     }
 }
 
