@@ -16,7 +16,9 @@
         <div class="publish-card characteristics-card" role="form" aria-describedby="characteristics-helper">
             <p id="characteristics-helper" class="publish-card__helper">Responde solo las opciones que necesites; entre más completo sea tu anuncio, mejor rendimiento tendrá.</p>
 
-            <div class="characteristics-card__section">
+            <div class="publish-card__grid">
+                <div class="characteristics-card__content">
+                    <div class="characteristics-card__section">
                 <div class="characteristics-card__section-header">
                     <div>
                         <p class="characteristics-card__eyebrow">1. Características generales</p>
@@ -391,42 +393,43 @@
                 </div>
             </div>
 
+                <aside class="characteristics-aside" aria-label="Resumen de contexto">
+                    <div class="characteristics-summary">
+                        <p class="characteristics-summary__title">Resumen de tu anuncio</p>
+                        <dl class="characteristics-summary__list">
+                            <div class="characteristics-summary__item">
+                                <dt>Propósito</dt>
+                                <dd data-characteristics-purpose>Sin definir</dd>
+                            </div>
+                            <div class="characteristics-summary__item">
+                                <dt>Tipo</dt>
+                                <dd data-characteristics-type>Sin definir</dd>
+                            </div>
+                            <div class="characteristics-summary__item">
+                                <dt>Subtipo</dt>
+                                <dd data-characteristics-subtype>Por seleccionar</dd>
+                            </div>
+                            <div class="characteristics-summary__item">
+                                <dt>Título</dt>
+                                <dd data-characteristics-title>Sin título</dd>
+                            </div>
+                            <div class="characteristics-summary__item">
+                                <dt>Ubicación</dt>
+                                <dd data-characteristics-location>Ubicación pendiente</dd>
+                            </div>
+                        </dl>
+                    </div>
+                    <div class="characteristics-tip">
+                        <p class="characteristics-tip__title">Tip de efectividad</p>
+                        <p class="characteristics-tip__text">Completar las amenidades y servicios aumenta la visibilidad y calidad de tus prospectos en un 30%.</p>
+                    </div>
+                </aside>
+            </div>
+
             <footer class="publish-card__actions publish-card__actions--sticky">
                 <button type="button" class="publish-action-btn publish-action-btn--ghost" data-characteristics-back>Volver a ubicación</button>
                 <button type="button" class="publish-action-btn publish-action-btn--primary">Guardar características</button>
             </footer>
         </div>
-
-        <aside class="characteristics-aside" aria-label="Resumen de contexto">
-            <div class="characteristics-summary">
-                <p class="characteristics-summary__title">Resumen de tu anuncio</p>
-                <dl class="characteristics-summary__list">
-                    <div class="characteristics-summary__item">
-                        <dt>Propósito</dt>
-                        <dd data-characteristics-purpose>Sin definir</dd>
-                    </div>
-                    <div class="characteristics-summary__item">
-                        <dt>Tipo</dt>
-                        <dd data-characteristics-type>Sin definir</dd>
-                    </div>
-                    <div class="characteristics-summary__item">
-                        <dt>Subtipo</dt>
-                        <dd data-characteristics-subtype>Por seleccionar</dd>
-                    </div>
-                    <div class="characteristics-summary__item">
-                        <dt>Título</dt>
-                        <dd data-characteristics-title>Sin título</dd>
-                    </div>
-                    <div class="characteristics-summary__item">
-                        <dt>Ubicación</dt>
-                        <dd data-characteristics-location>Ubicación pendiente</dd>
-                    </div>
-                </dl>
-            </div>
-            <div class="characteristics-tip">
-                <p class="characteristics-tip__title">Tip de efectividad</p>
-                <p class="characteristics-tip__text">Completar las amenidades y servicios aumenta la visibilidad y calidad de tus prospectos en un 30%.</p>
-            </div>
-        </aside>
     </div>
 </section>
