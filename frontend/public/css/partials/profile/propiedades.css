@@ -1034,6 +1034,10 @@ button {
     gap: 20px;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 .publish-characteristics__header {
     display: flex;
     flex-direction: column;
