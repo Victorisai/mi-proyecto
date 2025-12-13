@@ -1417,3 +1417,17 @@ button {
         align-items: flex-start;
     }
 }
+
+@media (max-width: 768px) {
+        .characteristics-options--multicolumn {
+            grid-template-columns: repeat(2,1fr);
+        }
+
+        .characteristics-card__tag {
+            display: none;
+        }
+
+        .publish-characteristics {
+            padding-bottom: 96px;
+        }
+}
