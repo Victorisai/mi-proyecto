@@ -1437,3 +1437,28 @@ button {
             padding-bottom: 96px;
         }
 }
+
+@media (max-width: 480px) {
+    .publish-card.characteristics-card {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .characteristics-card__section {
+        padding: 12px 8px;
+    }
+
+    .characteristics-grid {
+        grid-template-columns: 1fr; 
+    }
+
+    .characteristics-options--multicolumn {
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    }
+
+    .characteristics-input, 
+    .characteristics-select {
+        width: 100%;
+        max-width: 100%;
+    }
+}
