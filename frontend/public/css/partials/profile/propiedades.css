@@ -1404,11 +1404,6 @@ button {
     line-height: 1.5;
 }
 
-@media (min-width: 992px) {
-    .publish-characteristics__layout {
-        grid-template-columns: 2fr 1fr;
-    }
-}
 
 @media (max-width: 768px) {
     .publish-characteristics__header,
