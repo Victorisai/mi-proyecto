@@ -1462,3 +1462,31 @@ button {
         max-width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+    .publish-card.characteristics-card {
+        width: 100vw;
+        position: relative;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+        background: #ffffff;
+        padding: 24px 20px; 
+        border-radius: 16px;
+    }
+
+    body {
+        overflow-x: hidden;
+    }
+
+    .characteristics-card__section {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+}
