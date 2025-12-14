@@ -1024,6 +1024,18 @@ button {
     }
 }
 
+@media (max-width: 480px) {
+    .publish-location__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .publish-card,
+    .publish-location__card {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+}
+
 @media (max-width: 768px) {
     .publish-location__card,
     .publish-location__header {
@@ -1463,8 +1475,14 @@ button {
     }
 }
 
+/* ================================================= */
+/* === ESTILO DE BORDE A BORDE (FULL WIDTH) EN MÓVIL === */
+/* ================================================= */
+
 @media (max-width: 768px) {
-    .publish-card.characteristics-card {
+    .publish-card.characteristics-card,
+    .publish-card, 
+    .publish-location__card {
         width: 100vw;
         position: relative;
         left: 50%;
