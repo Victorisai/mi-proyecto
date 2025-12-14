@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const continueButton = panel.querySelector('[data-characteristics-continue]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,273 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const subtypeTargets = panel.querySelectorAll('[data-media-subtype]');
+        const titleTargets = panel.querySelectorAll('[data-media-title]');
+        const heading = panel.querySelector('[data-media-heading]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const fileInput = panel.querySelector('[data-media-input]');
+        const grid = panel.querySelector('[data-media-grid]');
+        const placeholder = panel.querySelector('[data-media-placeholder]');
+        const counter = panel.querySelector('[data-media-counter]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const backButton = panel.querySelector('[data-media-back]');
+
+        const mediaItems = [];
+
+        const updateCounter = () => {
+            if (!counter) {
+                return;
+            }
+
+            const current = mediaItems.length;
+            counter.textContent = `${current} de 5 imágenes mínimas`;
+
+            if (continueButton) {
+                continueButton.disabled = current < 5;
+            }
+        };
+
+        const renderMedia = () => {
+            if (!grid) {
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            if (!mediaItems.length && placeholder) {
+                grid.appendChild(placeholder);
+                placeholder.hidden = false;
+                updateCounter();
+                return;
+            }
+
+            if (placeholder) {
+                placeholder.hidden = true;
+            }
+
+            mediaItems.forEach((item, index) => {
+                const card = document.createElement('article');
+                card.className = 'publish-media__item';
+                card.draggable = true;
+                card.dataset.mediaId = item.id;
+                card.setAttribute('aria-label', `Imagen ${index + 1}: ${item.file.name}`);
+
+                const preview = document.createElement('div');
+                preview.className = 'publish-media__item-preview';
+                preview.style.backgroundImage = `url(${item.url})`;
+
+                const info = document.createElement('div');
+                info.className = 'publish-media__item-info';
+                info.innerHTML = `<p class="publish-media__item-name">${item.file.name}</p><p class="publish-media__item-meta">${Math.round(item.file.size / 1024)} KB</p>`;
+
+                const actions = document.createElement('div');
+                actions.className = 'publish-media__item-actions';
+                actions.innerHTML = '<span class="publish-media__drag-handle" aria-hidden="true">⠿</span><button type="button" class="publish-media__remove" aria-label="Eliminar imagen">✕</button>';
+
+                actions.querySelector('.publish-media__remove').addEventListener('click', () => {
+                    URL.revokeObjectURL(item.url);
+                    const itemIndex = mediaItems.findIndex((media) => media.id === item.id);
+                    if (itemIndex >= 0) {
+                        mediaItems.splice(itemIndex, 1);
+                        renderMedia();
+                    }
+                });
+
+                card.addEventListener('dragstart', (event) => {
+                    card.classList.add('is-dragging');
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', item.id);
+                });
+
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('is-dragging');
+                });
+
+                card.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                    card.classList.add('is-drop-target');
+                    event.dataTransfer.dropEffect = 'move';
+                });
+
+                card.addEventListener('dragleave', () => {
+                    card.classList.remove('is-drop-target');
+                });
+
+                card.addEventListener('drop', (event) => {
+                    event.preventDefault();
+                    card.classList.remove('is-drop-target');
+                    const draggedId = event.dataTransfer.getData('text/plain');
+                    if (!draggedId || draggedId === item.id) {
+                        return;
+                    }
+
+                    const fromIndex = mediaItems.findIndex((media) => media.id === draggedId);
+                    const toIndex = mediaItems.findIndex((media) => media.id === item.id);
+
+                    if (fromIndex === -1 || toIndex === -1) {
+                        return;
+                    }
+
+                    const [moved] = mediaItems.splice(fromIndex, 1);
+                    mediaItems.splice(toIndex, 0, moved);
+                    renderMedia();
+                });
+
+                card.appendChild(preview);
+                card.appendChild(info);
+                card.appendChild(actions);
+                grid.appendChild(card);
+            });
+
+            updateCounter();
+        };
+
+        const addMediaFiles = (files = []) => {
+            const incoming = Array.from(files).filter((file) => file.type && file.type.startsWith('image/'));
+            incoming.forEach((file) => {
+                const item = {
+                    id: `media-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                    file,
+                    url: URL.createObjectURL(file)
+                };
+                mediaItems.push(item);
+            });
+
+            renderMedia();
+        };
+
+        const applyMediaContext = (detail = {}) => {
+            const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
+            const typeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo no definido';
+            const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo no definido';
+            const title = detail.title || panel.dataset.publishTitle || 'Propiedad sin título';
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = purpose;
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = typeLabel;
+            panel.dataset.publishSubtype = detail.subtype || panel.dataset.publishSubtype || '';
+            panel.dataset.publishTitle = detail.title || panel.dataset.publishTitle || '';
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            subtypeTargets.forEach((element) => {
+                element.textContent = subtype.trim().length ? subtype : 'Subtipo pendiente';
+            });
+
+            titleTargets.forEach((element) => {
+                element.textContent = title.trim().length ? title : 'Propiedad sin título';
+            });
+
+            if (heading) {
+                heading.textContent = title.trim().length ? `Imágenes para: ${title}` : 'Agrega las imágenes de tu propiedad';
+            }
+        };
+
+        panel.addEventListener('publish-media:open', (event) => {
+            applyMediaContext(event.detail || {});
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        if (dropzone && fileInput) {
+            dropzone.addEventListener('click', () => fileInput.click());
+
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('is-drag-over');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('is-drag-over');
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('is-drag-over');
+                if (event.dataTransfer && event.dataTransfer.files) {
+                    addMediaFiles(event.dataTransfer.files);
+                }
+            });
+
+            fileInput.addEventListener('change', () => {
+                addMediaFiles(fileInput.files);
+                fileInput.value = '';
+            });
+        }
+
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (continueButton.disabled) {
+                    return;
+                }
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || '',
+                    mediaCount: mediaItems.length
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:complete', { detail }));
+            });
+        }
+
+        applyMediaContext({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype,
+            title: panel.dataset.publishTitle
+        });
+
+        renderMedia();
     };
 
     const init = (panel) => {
@@ -482,6 +772,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 

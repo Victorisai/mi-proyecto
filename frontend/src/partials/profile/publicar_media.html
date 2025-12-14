@@ -1,0 +1,55 @@
+<section class="publish-media" aria-label="Medios de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Medios</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title" data-media-heading>Agrega las imágenes de tu propiedad</h2>
+            <p class="publish-media__subtitle">Sube fotografías de alta calidad para que tu anuncio luzca profesional.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-media__card" role="form" aria-describedby="publish-media-helper">
+            <div class="publish-media__card-header">
+                <div>
+                    <p class="publish-media__card-label">Galería principal</p>
+                    <p id="publish-media-helper" class="publish-media__helper">Añade mínimo 5 imágenes. Podrás reorganizarlas para destacar las mejores.</p>
+                </div>
+                <div class="publish-media__badge" data-media-title>Propiedad sin título</div>
+            </div>
+
+            <div class="publish-media__upload">
+                <div class="publish-media__dropzone" data-media-dropzone>
+                    <div class="publish-media__dropzone-icon" aria-hidden="true">📷</div>
+                    <div class="publish-media__dropzone-content">
+                        <p class="publish-media__dropzone-title">Arrastra tus fotos o <span>selecciónalas</span></p>
+                        <p class="publish-media__dropzone-text">Formatos JPG o PNG, máximo 8 MB por imagen. Reordena para elegir la portada.</p>
+                    </div>
+                    <input type="file" accept="image/*" multiple class="publish-media__file-input" data-media-input aria-label="Seleccionar imágenes">
+                </div>
+
+                <div class="publish-media__grid" data-media-grid>
+                    <div class="publish-media__placeholder" data-media-placeholder>
+                        <div class="publish-media__placeholder-icon" aria-hidden="true">🖼️</div>
+                        <p class="publish-media__placeholder-title">Aún no hay imágenes</p>
+                        <p class="publish-media__placeholder-text">Sube al menos 5 fotos para activar la publicación.</p>
+                    </div>
+                </div>
+
+                <div class="publish-media__status" aria-live="polite">
+                    <div class="publish-media__counter" data-media-counter>0 de 5 imágenes mínimas</div>
+                    <div class="publish-media__hint">Consejo: usa tomas panorámicas, buena iluminación y muestra las mejores áreas primero.</div>
+                </div>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver a características</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Guardar y continuar</button>
+            </footer>
+        </div>
+    </div>
+</section>
