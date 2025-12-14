@@ -1,0 +1,85 @@
+<section class="publish-media" aria-label="Carga de medios de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Medios</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title" data-media-heading>Comparte lo mejor de tu propiedad</h2>
+            <p class="publish-media__subtitle">Sube al menos 5 fotografías en alta calidad y organízalas en el orden ideal.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo pendiente</span>
+            <span class="publish-media__chip" data-media-location>Ubicación pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card media-upload" role="form" aria-describedby="media-helper-text">
+            <div class="media-upload__header">
+                <div>
+                    <p class="media-upload__eyebrow">Galería principal</p>
+                    <h3 class="media-upload__title">Añade y organiza tus imágenes</h3>
+                    <p id="media-helper-text" class="media-upload__description">Las primeras fotografías son las más vistas. Usa iluminación natural y destaca las áreas clave.</p>
+                </div>
+                <div class="media-upload__status">
+                    <span class="media-upload__status-count" data-media-counter>0 / 5 mín.</span>
+                    <span class="media-upload__status-hint">Requeridas para continuar</span>
+                </div>
+            </div>
+
+            <div class="media-upload__dropzone" data-media-dropzone>
+                <input type="file" accept="image/*" multiple class="media-upload__input" data-media-input aria-label="Subir imágenes de la propiedad">
+                <div class="media-upload__dropzone-content">
+                    <div class="media-upload__icon" aria-hidden="true"></div>
+                    <div class="media-upload__copy">
+                        <p class="media-upload__headline">Arrastra y suelta aquí tus imágenes</p>
+                        <p class="media-upload__subheadline">O <button type="button" class="media-upload__link" data-media-open>selecciónalas desde tu dispositivo</button></p>
+                        <ul class="media-upload__guidelines">
+                            <li>Sube mínimo 5 fotos en formato JPG o PNG.</li>
+                            <li>Resolución recomendada: 1600 x 900px.</li>
+                            <li>Evita logotipos o marcas de agua.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="media-upload__toolbar">
+                <div class="media-upload__hint" data-media-hint>Debes subir al menos 5 imágenes para continuar.</div>
+                <div class="media-upload__actions">
+                    <span class="media-upload__tip">Tip: arrastra las tarjetas para cambiar el orden de aparición.</span>
+                </div>
+            </div>
+
+            <div class="media-upload__grid" data-media-list aria-live="polite"></div>
+
+            <footer class="publish-card__actions">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver a características</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Guardar y continuar</button>
+            </footer>
+        </div>
+
+        <aside class="media-summary" aria-label="Recomendaciones visuales">
+            <div class="media-summary__card">
+                <p class="media-summary__eyebrow">Buenas prácticas</p>
+                <h4 class="media-summary__title">Cómo lograr fotos irresistibles</h4>
+                <ul class="media-summary__list">
+                    <li>Captura espacios amplios y con luz natural.</li>
+                    <li>Muestra las áreas clave en los primeros lugares: fachada, sala, cocina y recámaras.</li>
+                    <li>Alinea las verticales y evita fotos movidas o pixeladas.</li>
+                    <li>Incluye detalles únicos: vistas, amenidades o acabados premium.</li>
+                </ul>
+            </div>
+
+            <div class="media-summary__card media-summary__card--accent">
+                <p class="media-summary__eyebrow">Orden sugerido</p>
+                <h4 class="media-summary__title">Secuencia recomendada</h4>
+                <ol class="media-summary__steps">
+                    <li>Fachada o acceso principal.</li>
+                    <li>Área social: sala, comedor y cocina.</li>
+                    <li>Recámaras principales.</li>
+                    <li>Baños y amenidades.</li>
+                    <li>Detalles destacados y plano si lo tienes.</li>
+                </ol>
+            </div>
+        </aside>
+    </div>
+</section>
