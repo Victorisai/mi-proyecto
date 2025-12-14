@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const continueButton = panel.querySelector('[data-characteristics-continue]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,271 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const subtypeTargets = panel.querySelectorAll('[data-media-subtype]');
+        const titleTargets = panel.querySelectorAll('[data-media-title]');
+        const locationTargets = panel.querySelectorAll('[data-media-location]');
+        const countTarget = panel.querySelector('[data-media-count]');
+        const heading = panel.querySelector('[data-media-heading]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const trigger = panel.querySelector('[data-media-trigger]');
+        const gallery = panel.querySelector('[data-media-gallery]');
+        const emptyState = panel.querySelector('[data-media-empty]');
+        const minimumBadge = panel.querySelector('[data-media-minimum]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const backButton = panel.querySelector('[data-media-back]');
+
+        const MIN_IMAGES = 5;
+        let mediaItems = [];
+        let dragSourceId = null;
+
+        const updateSummary = () => {
+            if (countTarget) {
+                countTarget.textContent = mediaItems.length;
+            }
+
+            if (continueButton) {
+                continueButton.disabled = mediaItems.length < MIN_IMAGES;
+            }
+
+            if (minimumBadge) {
+                minimumBadge.classList.toggle('publish-media__requirement--met', mediaItems.length >= MIN_IMAGES);
+            }
+
+            if (emptyState) {
+                emptyState.hidden = mediaItems.length > 0;
+            }
+        };
+
+        const reorderItems = (sourceId, targetId) => {
+            if (!sourceId || !targetId || sourceId === targetId) {
+                return;
+            }
+
+            const sourceIndex = mediaItems.findIndex((item) => item.id === sourceId);
+            const targetIndex = mediaItems.findIndex((item) => item.id === targetId);
+
+            if (sourceIndex === -1 || targetIndex === -1) {
+                return;
+            }
+
+            const [moved] = mediaItems.splice(sourceIndex, 1);
+            mediaItems.splice(targetIndex, 0, moved);
+            renderGallery();
+        };
+
+        const handleRemove = (id) => {
+            mediaItems = mediaItems.filter((item) => item.id !== id);
+            renderGallery();
+        };
+
+        const createCard = (item) => {
+            const card = document.createElement('article');
+            card.className = 'publish-media__item';
+            card.draggable = true;
+            card.dataset.mediaId = item.id;
+
+            card.innerHTML = `
+                <div class="publish-media__item-handle" aria-hidden="true"></div>
+                <div class="publish-media__item-preview" role="img" aria-label="${item.file.name}">
+                    <img src="${item.preview}" alt="${item.file.name}">
+                </div>
+                <div class="publish-media__item-footer">
+                    <div class="publish-media__item-name" title="${item.file.name}">${item.file.name}</div>
+                    <button type="button" class="publish-media__item-remove" aria-label="Eliminar imagen">Quitar</button>
+                </div>
+            `;
+
+            card.addEventListener('dragstart', (event) => {
+                dragSourceId = item.id;
+                card.classList.add('publish-media__item--dragging');
+                event.dataTransfer.effectAllowed = 'move';
+            });
+
+            card.addEventListener('dragend', () => {
+                dragSourceId = null;
+                card.classList.remove('publish-media__item--dragging');
+            });
+
+            card.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = 'move';
+                card.classList.add('publish-media__item--dragover');
+            });
+
+            card.addEventListener('dragleave', () => {
+                card.classList.remove('publish-media__item--dragover');
+            });
+
+            card.addEventListener('drop', (event) => {
+                event.preventDefault();
+                card.classList.remove('publish-media__item--dragover');
+                const targetId = card.dataset.mediaId;
+                reorderItems(dragSourceId, targetId);
+            });
+
+            const removeButton = card.querySelector('.publish-media__item-remove');
+            if (removeButton) {
+                removeButton.addEventListener('click', () => handleRemove(item.id));
+            }
+
+            return card;
+        };
+
+        const renderGallery = () => {
+            if (!gallery) {
+                return;
+            }
+
+            gallery.querySelectorAll('.publish-media__item').forEach((element) => element.remove());
+
+            const fragment = document.createDocumentFragment();
+            mediaItems.forEach((item) => {
+                fragment.appendChild(createCard(item));
+            });
+
+            gallery.appendChild(fragment);
+            updateSummary();
+        };
+
+        const addFiles = (files) => {
+            const fileList = Array.from(files || []);
+
+            fileList.forEach((file) => {
+                if (!file.type.startsWith('image/')) {
+                    return;
+                }
+
+                const id = `${file.name}-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+                const preview = URL.createObjectURL(file);
+                mediaItems.push({ id, file, preview });
+            });
+
+            renderGallery();
+        };
+
+        const applyMediaContext = (detail = {}) => {
+            const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
+            const typeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo no definido';
+            const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo no definido';
+            const title = detail.title || panel.dataset.publishTitle || 'Propiedad sin título';
+            const country = detail.country || panel.dataset.locationCountry || '';
+            const state = detail.state || panel.dataset.locationState || '';
+            const city = detail.city || panel.dataset.locationCity || '';
+            const street = detail.street || panel.dataset.locationStreet || '';
+            const locationText = [street, city, state, country].filter(Boolean).join(', ') || 'Ubicación pendiente';
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = purpose;
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = typeLabel;
+            panel.dataset.publishSubtype = subtype;
+            panel.dataset.publishTitle = title;
+            panel.dataset.locationCountry = country;
+            panel.dataset.locationState = state;
+            panel.dataset.locationCity = city;
+            panel.dataset.locationStreet = street;
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            subtypeTargets.forEach((element) => {
+                element.textContent = subtype.trim().length ? subtype : 'Subtipo pendiente';
+            });
+
+            titleTargets.forEach((element) => {
+                element.textContent = title.trim().length ? title : 'Propiedad sin título';
+            });
+
+            locationTargets.forEach((element) => {
+                element.textContent = locationText;
+            });
+
+            if (heading) {
+                heading.textContent = title.trim().length ? `Imágenes para: ${title}` : 'Comparte imágenes atractivas';
+            }
+        };
+
+        if (trigger && input) {
+            trigger.addEventListener('click', () => input.click());
+        }
+
+        if (input) {
+            input.addEventListener('change', (event) => addFiles(event.target.files));
+        }
+
+        if (dropzone) {
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('publish-media__uploader--active');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('publish-media__uploader--active');
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('publish-media__uploader--active');
+                addFiles(event.dataTransfer.files);
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-media:open', (event) => {
+            applyMediaContext(event.detail || {});
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        applyMediaContext({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype,
+            title: panel.dataset.publishTitle,
+            country: panel.dataset.locationCountry,
+            state: panel.dataset.locationState,
+            city: panel.dataset.locationCity,
+            street: panel.dataset.locationStreet
+        });
+
+        updateSummary();
     };
 
     const init = (panel) => {
@@ -482,6 +770,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 

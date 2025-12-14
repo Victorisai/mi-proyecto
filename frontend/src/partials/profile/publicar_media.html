@@ -1,0 +1,94 @@
+<section class="publish-media" aria-label="Multimedia de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Multimedia</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title" data-media-heading>Comparte imágenes atractivas</h2>
+            <p class="publish-media__subtitle">Sube al menos 5 fotografías de alta calidad, ordénalas y ayúdanos a destacar los mejores ángulos de tu inmueble.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-media__card" role="form" aria-describedby="publish-media-helper">
+            <div class="publish-media__card-header">
+                <div>
+                    <p class="publish-media__card-eyebrow">Galería principal</p>
+                    <h3 class="publish-media__card-title">Sube, organiza y prioriza tus fotos</h3>
+                    <p id="publish-media-helper" class="publish-media__card-helper">Las primeras imágenes serán las que verán los clientes en los listados. Arrástralas para reordenar.</p>
+                </div>
+                <div class="publish-media__badge" data-media-title>Propiedad sin título</div>
+            </div>
+
+            <div class="publish-media__uploader" data-media-dropzone>
+                <input type="file" accept="image/*" multiple class="publish-media__input" data-media-input aria-label="Seleccionar imágenes de la propiedad">
+                <div class="publish-media__uploader-cta">
+                    <div class="publish-media__uploader-icon" aria-hidden="true"></div>
+                    <div class="publish-media__uploader-copy">
+                        <p class="publish-media__uploader-title">Arrastra tus imágenes o <button type="button" class="publish-media__link" data-media-trigger>selecciónalas aquí</button></p>
+                        <p class="publish-media__uploader-subtitle">Formatos JPG o PNG. Peso recomendado: máximo 5 MB por imagen.</p>
+                    </div>
+                </div>
+                <div class="publish-media__requirements">
+                    <span class="publish-media__requirement publish-media__requirement--accent" data-media-minimum>Necesitas mínimo 5 imágenes.</span>
+                    <span class="publish-media__requirement">Puedes reordenarlas arrastrando.</span>
+                    <span class="publish-media__requirement">Las primeras serán la portada.</span>
+                </div>
+            </div>
+
+            <div class="publish-media__gallery" data-media-gallery>
+                <div class="publish-media__empty" data-media-empty>
+                    <div class="publish-media__empty-icon" aria-hidden="true"></div>
+                    <div>
+                        <p class="publish-media__empty-title">Aún no has agregado imágenes</p>
+                        <p class="publish-media__empty-text">Sube vistas generales, interiores, amenidades y detalles únicos para generar confianza.</p>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver a características</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar</button>
+            </footer>
+        </div>
+
+        <aside class="publish-media__aside" aria-label="Resumen y recomendaciones">
+            <div class="publish-media__summary">
+                <p class="publish-media__summary-title">Resumen de tu anuncio</p>
+                <dl class="publish-media__summary-list">
+                    <div class="publish-media__summary-item">
+                        <dt>Propósito</dt>
+                        <dd data-media-purpose>Sin definir</dd>
+                    </div>
+                    <div class="publish-media__summary-item">
+                        <dt>Tipo</dt>
+                        <dd data-media-type>Sin definir</dd>
+                    </div>
+                    <div class="publish-media__summary-item">
+                        <dt>Subtipo</dt>
+                        <dd data-media-subtype>Por seleccionar</dd>
+                    </div>
+                    <div class="publish-media__summary-item">
+                        <dt>Título</dt>
+                        <dd data-media-title>Sin título</dd>
+                    </div>
+                    <div class="publish-media__summary-item">
+                        <dt>Ubicación</dt>
+                        <dd data-media-location>Ubicación pendiente</dd>
+                    </div>
+                    <div class="publish-media__summary-item">
+                        <dt>Imágenes</dt>
+                        <dd><span data-media-count>0</span> / 5 mínimo</dd>
+                    </div>
+                </dl>
+            </div>
+            <div class="publish-media__tip">
+                <p class="publish-media__tip-title">Tip de impacto visual</p>
+                <p class="publish-media__tip-text">Las primeras 3 fotos deberían mostrar la fachada, la estancia principal y la mejor amenidad. Evita fotos oscuras o borrosas.</p>
+            </div>
+        </aside>
+    </div>
+</section>
