@@ -32,6 +32,10 @@
             window.ProfilePublish.init(panel);
         }
 
+        if (section === 'publicar-media' && window.ProfilePublish && typeof window.ProfilePublish.init === 'function') {
+            window.ProfilePublish.init(panel);
+        }
+
         if (section === 'leads' && window.ProfileLeads && typeof window.ProfileLeads.init === 'function') {
             window.ProfileLeads.init(panel);
         }

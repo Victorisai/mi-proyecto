@@ -1,0 +1,69 @@
+<section class="publish-media" aria-label="Carga multimedia de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Material visual</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title">Comparte imágenes profesionales</h2>
+            <p class="publish-media__subtitle">Sube al menos 5 fotografías de alta calidad y organiza el orden en que se mostrarán en tu anuncio.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-title>Título pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-media__card" role="form" aria-describedby="publish-media-helper">
+            <div class="publish-media__card-header">
+                <div>
+                    <p class="publish-media__card-label">Galería principal</p>
+                    <p id="publish-media-helper" class="publish-media__helper">Arrastra y suelta tus imágenes o selecciónalas desde tu dispositivo. Podrás reorganizarlas para elegir la portada.</p>
+                </div>
+                <div class="publish-media__badge" data-media-counter>0 / 5 mínimo</div>
+            </div>
+
+            <div class="publish-media__content">
+                <div class="media-upload" data-media-dropzone>
+                    <div class="media-upload__icon" aria-hidden="true">📁</div>
+                    <div class="media-upload__text">
+                        <p class="media-upload__title">Arrastra tus archivos aquí</p>
+                        <p class="media-upload__subtitle">Formatos JPG, PNG o WebP. Máximo 10 MB por imagen.</p>
+                    </div>
+                    <div class="media-upload__actions">
+                        <input id="media-input" type="file" accept="image/*" multiple hidden data-media-input>
+                        <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-browse>Seleccionar imágenes</button>
+                        <button type="button" class="publish-action-btn" data-media-paste>Usar portapapeles</button>
+                    </div>
+                    <p class="media-upload__hint">Necesitas al menos 5 imágenes para continuar. Puedes reorganizarlas arrastrando las tarjetas.</p>
+                </div>
+
+                <div class="media-gallery" data-media-gallery aria-live="polite" aria-label="Imágenes seleccionadas">
+                    <p class="media-gallery__empty" data-media-empty>No has agregado imágenes todavía.</p>
+                    <div class="media-gallery__grid" hidden data-media-grid></div>
+                </div>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <a href="publicar_characteristics.html" class="publish-action-btn publish-action-btn--ghost">Volver a características</a>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar con la publicación</button>
+            </footer>
+        </div>
+
+        <aside class="publish-media__aside" aria-label="Recomendaciones para imágenes">
+            <div class="publish-media__summary">
+                <p class="publish-media__summary-title">Tip de impacto visual</p>
+                <p class="publish-media__summary-text">Prioriza una foto de portada horizontal, bien iluminada y sin marcas de agua. Las siguientes imágenes deben mostrar recámaras, cocina, baños y áreas comunes.</p>
+            </div>
+
+            <div class="publish-media__rules">
+                <p class="publish-media__rules-title">Mejores prácticas</p>
+                <ul class="publish-media__rules-list">
+                    <li>Usa al menos 5 imágenes para destacar cada área clave.</li>
+                    <li>Respeta una resolución mínima de 1280px para mayor nitidez.</li>
+                    <li>Evita capturas borrosas o con baja iluminación.</li>
+                    <li>Organiza el orden para contar una historia de la propiedad.</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+</section>

@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const saveButton = panel.querySelector('[data-characteristics-save]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,14 @@
             });
         }
 
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                window.location.href = 'publicar_media.html';
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +472,209 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const browseButton = panel.querySelector('[data-media-browse]');
+        const pasteButton = panel.querySelector('[data-media-paste]');
+        const grid = panel.querySelector('[data-media-grid]');
+        const emptyState = panel.querySelector('[data-media-empty]');
+        const counter = panel.querySelector('[data-media-counter]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const purposeTarget = panel.querySelector('[data-media-purpose]');
+        const typeTarget = panel.querySelector('[data-media-type]');
+        const titleTarget = panel.querySelector('[data-media-title]');
+
+        const mediaItems = [];
+
+        const updateCounter = () => {
+            const total = mediaItems.length;
+            if (counter) {
+                counter.textContent = `${total} / 5 mínimo`;
+            }
+
+            if (continueButton) {
+                continueButton.disabled = total < 5;
+            }
+        };
+
+        const refreshGallery = () => {
+            if (!grid || !emptyState) {
+                return;
+            }
+
+            grid.innerHTML = '';
+            if (!mediaItems.length) {
+                grid.hidden = true;
+                emptyState.hidden = false;
+                updateCounter();
+                return;
+            }
+
+            grid.hidden = false;
+            emptyState.hidden = true;
+
+            mediaItems.forEach((item, index) => {
+                const card = document.createElement('article');
+                card.className = 'media-card';
+                card.draggable = true;
+                card.dataset.index = String(index);
+
+                const handle = document.createElement('div');
+                handle.className = 'media-card__handle';
+                handle.innerHTML = '<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 5h6M9 12h6M9 19h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg> Ordenar';
+
+                const img = document.createElement('img');
+                img.src = item.url;
+                img.alt = item.file.name;
+                img.className = 'media-card__preview';
+
+                const info = document.createElement('div');
+                info.className = 'media-card__info';
+
+                const name = document.createElement('p');
+                name.className = 'media-card__name';
+                name.textContent = item.file.name;
+
+                const actions = document.createElement('div');
+                actions.className = 'media-card__actions';
+
+                const badge = document.createElement('span');
+                badge.className = 'media-card__badge';
+                badge.textContent = index === 0 ? 'Portada' : `#${index + 1}`;
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'media-card__remove';
+                removeButton.textContent = 'Eliminar';
+                removeButton.addEventListener('click', () => {
+                    URL.revokeObjectURL(item.url);
+                    mediaItems.splice(index, 1);
+                    refreshGallery();
+                });
+
+                actions.appendChild(badge);
+                actions.appendChild(removeButton);
+                info.appendChild(name);
+                info.appendChild(actions);
+
+                card.appendChild(handle);
+                card.appendChild(img);
+                card.appendChild(info);
+
+                card.addEventListener('dragstart', (event) => {
+                    event.dataTransfer.setData('text/plain', card.dataset.index || '0');
+                    card.classList.add('is-dragging');
+                });
+
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('is-dragging');
+                });
+
+                card.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                });
+
+                card.addEventListener('drop', (event) => {
+                    event.preventDefault();
+                    const fromIndex = Number(event.dataTransfer.getData('text/plain'));
+                    const toIndex = Number(card.dataset.index || 0);
+                    if (Number.isNaN(fromIndex) || Number.isNaN(toIndex) || fromIndex === toIndex) {
+                        return;
+                    }
+
+                    const [moved] = mediaItems.splice(fromIndex, 1);
+                    mediaItems.splice(toIndex, 0, moved);
+                    refreshGallery();
+                });
+
+                grid.appendChild(card);
+            });
+
+            updateCounter();
+        };
+
+        const handleFiles = (fileList = []) => {
+            const files = Array.from(fileList).filter((file) => file.type.startsWith('image/'));
+            files.forEach((file) => {
+                mediaItems.push({ file, url: URL.createObjectURL(file) });
+            });
+            refreshGallery();
+        };
+
+        const setContext = () => {
+            if (purposeTarget) {
+                purposeTarget.textContent = panel.dataset.publishPurposeLabel || 'Propósito pendiente';
+            }
+
+            if (typeTarget) {
+                typeTarget.textContent = panel.dataset.publishTypeLabel || 'Tipo pendiente';
+            }
+
+            if (titleTarget) {
+                titleTarget.textContent = panel.dataset.publishTitle || 'Título pendiente';
+            }
+        };
+
+        if (browseButton && input) {
+            browseButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                input.click();
+            });
+        }
+
+        if (input) {
+            input.addEventListener('change', (event) => {
+                handleFiles(event.target.files || []);
+                input.value = '';
+            });
+        }
+
+        if (pasteButton) {
+            pasteButton.addEventListener('click', () => {
+                pasteButton.focus();
+            });
+        }
+
+        panel.addEventListener('paste', (event) => {
+            if (!event.clipboardData) {
+                return;
+            }
+
+            const images = Array.from(event.clipboardData.files || []).filter((file) => file.type.startsWith('image/'));
+            if (images.length) {
+                event.preventDefault();
+                handleFiles(images);
+            }
+        });
+
+        if (dropzone) {
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('is-dragover');
+            });
+
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('is-dragover');
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('is-dragover');
+                handleFiles(event.dataTransfer.files || []);
+            });
+        }
+
+        setContext();
+        refreshGallery();
     };
 
     const init = (panel) => {
@@ -482,6 +694,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
