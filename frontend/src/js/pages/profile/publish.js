@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const continueButton = panel.querySelector('[data-characteristics-continue]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,394 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const subtypeTargets = panel.querySelectorAll('[data-media-subtype]');
+        const titleTargets = panel.querySelectorAll('[data-media-title]');
+        const locationTargets = panel.querySelectorAll('[data-media-location]');
+        const heading = panel.querySelector('[data-media-heading]');
+        const countBadge = panel.querySelector('[data-media-count-badge]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const fileInput = panel.querySelector('[data-media-input]');
+        const triggerButton = panel.querySelector('[data-media-trigger]');
+        const mediaList = panel.querySelector('[data-media-list]');
+        const counter = panel.querySelector('[data-media-counter]');
+        const error = panel.querySelector('[data-media-error]');
+        const backButton = panel.querySelector('[data-media-back]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const minRequired = Number.parseInt(panel.dataset.mediaMin || '5', 10);
+        const maxFileSize = 10 * 1024 * 1024;
+        let mediaItems = [];
+        let draggedId = null;
+
+        const applyMediaContext = (detail = {}) => {
+            const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
+            const typeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo no definido';
+            const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo no definido';
+            const title = detail.title || panel.dataset.publishTitle || 'Propiedad sin título';
+            const country = detail.country || panel.dataset.locationCountry || '';
+            const state = detail.state || panel.dataset.locationState || '';
+            const city = detail.city || panel.dataset.locationCity || '';
+            const street = detail.street || panel.dataset.locationStreet || '';
+            const locationText = [street, city, state, country].filter(Boolean).join(', ') || 'Ubicación pendiente';
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = purpose;
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = typeLabel;
+            panel.dataset.publishSubtype = subtype;
+            panel.dataset.publishTitle = title;
+            panel.dataset.locationCountry = country;
+            panel.dataset.locationState = state;
+            panel.dataset.locationCity = city;
+            panel.dataset.locationStreet = street;
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            subtypeTargets.forEach((element) => {
+                element.textContent = subtype.trim().length ? subtype : 'Subtipo pendiente';
+            });
+
+            titleTargets.forEach((element) => {
+                element.textContent = title.trim().length ? title : 'Propiedad sin título';
+            });
+
+            locationTargets.forEach((element) => {
+                element.textContent = locationText;
+            });
+
+            if (heading) {
+                heading.textContent = title.trim().length ? `Galería de ${title}` : 'Agrega las fotos que enamorarán';
+            }
+        };
+
+        const updateStatus = (customError = '') => {
+            const count = mediaItems.length;
+
+            if (counter) {
+                counter.textContent = `${count}/${minRequired} imágenes seleccionadas`;
+            }
+
+            if (countBadge) {
+                countBadge.textContent = `${count}/${minRequired} mínimo`;
+            }
+
+            if (error) {
+                const minimumMessage = `Sube al menos ${minRequired} imágenes para continuar.`;
+                error.textContent = customError || (count < minRequired ? minimumMessage : '');
+            }
+
+            if (continueButton) {
+                continueButton.disabled = count < minRequired;
+            }
+        };
+
+        const renderEmptyState = () => {
+            if (!mediaList) {
+                return;
+            }
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'media-grid__empty';
+            placeholder.innerHTML = '<p class="media-grid__empty-title">Aún no has subido imágenes</p><p class="media-grid__empty-text">Arrastra tus archivos o pulsa en "Seleccionar imágenes" para comenzar.</p>';
+            mediaList.appendChild(placeholder);
+        };
+
+        const moveMediaItem = (sourceId, targetId) => {
+            if (!sourceId || !targetId || sourceId === targetId) {
+                return;
+            }
+
+            const sourceIndex = mediaItems.findIndex((item) => item.id === sourceId);
+            const targetIndex = mediaItems.findIndex((item) => item.id === targetId);
+
+            if (sourceIndex === -1 || targetIndex === -1) {
+                return;
+            }
+
+            const [movedItem] = mediaItems.splice(sourceIndex, 1);
+            mediaItems.splice(targetIndex, 0, movedItem);
+            renderMediaItems();
+        };
+
+        const removeMediaItem = (id) => {
+            mediaItems = mediaItems.filter((item) => item.id !== id);
+            renderMediaItems();
+        };
+
+        const setAsCover = (id) => {
+            const index = mediaItems.findIndex((item) => item.id === id);
+            if (index <= 0) {
+                return;
+            }
+
+            const [selected] = mediaItems.splice(index, 1);
+            mediaItems.unshift(selected);
+            renderMediaItems();
+        };
+
+        const handleDragStart = (event) => {
+            draggedId = event.currentTarget.dataset.mediaId;
+            event.dataTransfer.effectAllowed = 'move';
+            event.currentTarget.classList.add('is-dragging');
+        };
+
+        const handleDragOver = (event) => {
+            event.preventDefault();
+            event.dataTransfer.dropEffect = 'move';
+        };
+
+        const handleDrop = (event) => {
+            event.preventDefault();
+            const targetId = event.currentTarget.dataset.mediaId;
+            moveMediaItem(draggedId, targetId);
+        };
+
+        const handleDragEnd = (event) => {
+            event.currentTarget.classList.remove('is-dragging');
+            draggedId = null;
+        };
+
+        const renderMediaItems = () => {
+            if (!mediaList) {
+                return;
+            }
+
+            mediaList.innerHTML = '';
+
+            if (!mediaItems.length) {
+                renderEmptyState();
+                updateStatus();
+                return;
+            }
+
+            mediaItems.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'media-item';
+                card.draggable = true;
+                card.dataset.mediaId = item.id;
+
+                const preview = document.createElement('div');
+                preview.className = 'media-item__preview';
+                preview.style.backgroundImage = `url('${item.url}')`;
+
+                const meta = document.createElement('span');
+                meta.className = 'media-item__meta';
+                meta.textContent = index === 0 ? 'Portada' : `Foto ${index + 1}`;
+                preview.appendChild(meta);
+
+                const overlay = document.createElement('div');
+                overlay.className = 'media-item__overlay';
+
+                const label = document.createElement('span');
+                label.className = 'media-item__label';
+                label.textContent = 'Arrastra para cambiar el orden';
+
+                const actions = document.createElement('div');
+                actions.className = 'media-item__actions';
+
+                const coverButton = document.createElement('button');
+                coverButton.type = 'button';
+                coverButton.className = 'media-item__action media-item__action--primary';
+                coverButton.textContent = index === 0 ? 'Portada' : 'Hacer portada';
+                coverButton.disabled = index === 0;
+                coverButton.addEventListener('click', () => setAsCover(item.id));
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'media-item__action';
+                removeButton.textContent = 'Quitar';
+                removeButton.addEventListener('click', () => removeMediaItem(item.id));
+
+                actions.appendChild(coverButton);
+                actions.appendChild(removeButton);
+
+                overlay.appendChild(label);
+                overlay.appendChild(actions);
+
+                card.appendChild(preview);
+                card.appendChild(overlay);
+
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragover', handleDragOver);
+                card.addEventListener('drop', handleDrop);
+                card.addEventListener('dragend', handleDragEnd);
+
+                mediaList.appendChild(card);
+            });
+
+            updateStatus();
+        };
+
+        const addMediaFiles = (files) => {
+            if (!files || !files.length) {
+                return;
+            }
+
+            let rejectedDueToSize = 0;
+
+            Array.from(files).forEach((file) => {
+                if (!file.type.startsWith('image/')) {
+                    return;
+                }
+
+                if (file.size > maxFileSize) {
+                    rejectedDueToSize += 1;
+                    return;
+                }
+
+                const mediaId = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+                const url = URL.createObjectURL(file);
+                mediaItems.push({ id: mediaId, file, url });
+            });
+
+            renderMediaItems();
+
+            if (fileInput) {
+                fileInput.value = '';
+            }
+
+            if (rejectedDueToSize) {
+                updateStatus(`Se omitieron ${rejectedDueToSize} archivo(s) por superar los 10 MB.`);
+            }
+        };
+
+        const setDropzoneState = (isActive) => {
+            if (!dropzone) {
+                return;
+            }
+
+            dropzone.classList.toggle('is-dragover', isActive);
+        };
+
+        if (dropzone) {
+            dropzone.addEventListener('click', () => {
+                if (fileInput) {
+                    fileInput.click();
+                }
+            });
+
+            ['dragenter', 'dragover'].forEach((eventName) => {
+                dropzone.addEventListener(eventName, (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setDropzoneState(true);
+                });
+            });
+
+            ['dragleave', 'drop'].forEach((eventName) => {
+                dropzone.addEventListener(eventName, (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setDropzoneState(false);
+                });
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                addMediaFiles(event.dataTransfer.files);
+            });
+        }
+
+        if (triggerButton) {
+            triggerButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+
+                if (fileInput) {
+                    fileInput.click();
+                }
+            });
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', (event) => {
+                addMediaFiles(event.target.files);
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                if (continueButton.disabled) {
+                    updateStatus();
+                    return;
+                }
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || '',
+                    mediaOrder: mediaItems.map((item, index) => ({ id: item.id, name: item.file ? item.file.name : `Imagen ${index + 1}`, order: index }))
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:finish', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-media:open', (event) => {
+            applyMediaContext(event.detail || {});
+            renderMediaItems();
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        applyMediaContext({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype,
+            title: panel.dataset.publishTitle,
+            country: panel.dataset.locationCountry,
+            state: panel.dataset.locationState,
+            city: panel.dataset.locationCity,
+            street: panel.dataset.locationStreet
+        });
+
+        renderMediaItems();
     };
 
     const init = (panel) => {
@@ -482,6 +893,10 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 

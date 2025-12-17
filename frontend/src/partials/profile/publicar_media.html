@@ -1,0 +1,89 @@
+<section class="publish-media" aria-label="Galería de la propiedad" data-media-min="5">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Material visual</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title" data-media-heading>Agrega las fotos que enamorarán</h2>
+            <p class="publish-media__subtitle">Sube al menos cinco imágenes, ordénalas y destaca lo mejor de tu inmueble.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="media-card" role="form" aria-describedby="media-upload-helper">
+            <div class="media-card__header">
+                <div>
+                    <p class="media-card__eyebrow">Biblioteca del anuncio</p>
+                    <h3 class="media-card__title">Sube, ordena y prioriza tus imágenes</h3>
+                    <p id="media-upload-helper" class="media-card__description">Las primeras fotos serán las que verán tus clientes en los listados. Asegúrate de que reflejen el valor de la propiedad.</p>
+                </div>
+                <div class="media-card__badge" data-media-count-badge>0/5 mínimo</div>
+            </div>
+
+            <div class="media-upload" data-media-dropzone>
+                <input type="file" id="media-input" accept="image/*" multiple hidden data-media-input>
+                <div class="media-upload__content">
+                    <div class="media-upload__icon" aria-hidden="true">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 16V4M12 4L7 9M12 4L17 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 16V18C4 19.1046 4.89543 20 6 20H18C19.1046 20 20 19.1046 20 18V16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="media-upload__text">
+                        <p class="media-upload__headline">Arrastra y suelta tus archivos</p>
+                        <p class="media-upload__hint">JPG, PNG o WEBP · Máximo 10 MB por imagen</p>
+                    </div>
+                    <button type="button" class="media-upload__button" data-media-trigger>Seleccionar imágenes</button>
+                </div>
+                <p class="media-upload__helper">Reordena las miniaturas para elegir la portada y el orden de la galería.</p>
+            </div>
+
+            <div class="media-upload__status" aria-live="polite">
+                <p class="media-upload__counter" data-media-counter>0/5 imágenes seleccionadas</p>
+                <p class="media-upload__error" data-media-error>Sube al menos 5 imágenes para continuar.</p>
+            </div>
+
+            <div class="media-grid" data-media-list aria-live="polite" aria-label="Lista de imágenes seleccionadas"></div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver a características</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar con la publicación</button>
+            </footer>
+        </div>
+
+        <aside class="media-aside" aria-label="Resumen de la propiedad">
+            <div class="media-summary">
+                <p class="media-summary__title">Resumen del anuncio</p>
+                <dl class="media-summary__list">
+                    <div class="media-summary__item">
+                        <dt>Propósito</dt>
+                        <dd data-media-purpose>Sin definir</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Tipo</dt>
+                        <dd data-media-type>Sin definir</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Subtipo</dt>
+                        <dd data-media-subtype>Por seleccionar</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Título</dt>
+                        <dd data-media-title>Sin título</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Ubicación</dt>
+                        <dd data-media-location>Ubicación pendiente</dd>
+                    </div>
+                </dl>
+            </div>
+            <div class="media-tip">
+                <p class="media-tip__title">Tip de presentación</p>
+                <p class="media-tip__text">Incluye fotos bien iluminadas, horizontales y con espacios ordenados. Sube al menos una fachada, cocina, sala, recámara principal y baño.</p>
+            </div>
+        </aside>
+    </div>
+</section>
