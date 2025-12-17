@@ -1,0 +1,80 @@
+<section class="publish-media" aria-label="Galería de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Medios</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title" data-media-heading>Agrega las imágenes que contarán tu historia</h2>
+            <p class="publish-media__subtitle">Sube mínimo 5 fotos de alta calidad, ordénalas y muestra primero los puntos fuertes del inmueble.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-location>Ubicación pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-media__card" role="form" aria-describedby="publish-media-helper">
+            <div class="publish-media__card-header">
+                <div>
+                    <p class="publish-media__card-label">Galería principal</p>
+                    <p id="publish-media-helper" class="publish-media__helper">Arrastra tus imágenes o selecciona desde tu equipo. Podrás reordenarlas para decidir qué ven primero tus clientes.</p>
+                </div>
+                <div class="publish-media__badge" data-media-title>Propiedad sin título</div>
+            </div>
+
+            <div class="media-uploader" data-media-uploader>
+                <div class="media-uploader__dropzone" data-media-dropzone>
+                    <div class="media-uploader__icon" aria-hidden="true"></div>
+                    <div class="media-uploader__copy">
+                        <p class="media-uploader__title">Arrastra y suelta tus fotos aquí</p>
+                        <p class="media-uploader__subtitle">Formatos PNG o JPG · Hasta 15 imágenes · Máximo 12 MB c/u</p>
+                        <label class="media-uploader__button" for="media-upload-input">Seleccionar imágenes</label>
+                        <input id="media-upload-input" type="file" accept="image/*" multiple data-media-input aria-label="Subir imágenes de la propiedad">
+                    </div>
+                    <p class="media-uploader__hint" data-media-status>Necesitas al menos 5 imágenes para continuar.</p>
+                </div>
+
+                <div class="media-uploader__meta">
+                    <div class="media-uploader__meta-item">
+                        <p class="media-uploader__meta-label">Recomendación</p>
+                        <p class="media-uploader__meta-value">Incluye fachadas, áreas sociales, recámaras, cocina y amenidades.</p>
+                    </div>
+                    <div class="media-uploader__meta-divider" aria-hidden="true"></div>
+                    <div class="media-uploader__meta-item">
+                        <p class="media-uploader__meta-label">Orden inteligente</p>
+                        <p class="media-uploader__meta-value">Arrastra para reordenar: la primera imagen será la portada.</p>
+                    </div>
+                </div>
+
+                <div class="media-uploader__grid" data-media-list role="list" aria-live="polite"></div>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver a características</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Guardar y continuar</button>
+            </footer>
+        </div>
+
+        <aside class="publish-media__aside" aria-label="Recomendaciones visuales">
+            <div class="publish-media__summary">
+                <p class="publish-media__summary-title">Consejos para destacar</p>
+                <ul class="publish-media__summary-list">
+                    <li>Usa luz natural y mantén los espacios ordenados.</li>
+                    <li>Incluye fotos horizontales para mejor visualización.</li>
+                    <li>Destaca detalles únicos: vistas, acabados, amenidades.</li>
+                    <li>Evita marcas de agua o textos que distraigan.</li>
+                </ul>
+            </div>
+            <div class="publish-media__progress" aria-live="polite">
+                <div class="publish-media__progress-head">
+                    <p class="publish-media__progress-title">Progreso de galería</p>
+                    <span class="publish-media__counter" data-media-counter>0 / 15</span>
+                </div>
+                <div class="publish-media__progress-bar" role="presentation">
+                    <div class="publish-media__progress-fill" data-media-progress></div>
+                </div>
+                <p class="publish-media__progress-text">Carga mínimo 5 fotos para activar el guardado.</p>
+            </div>
+        </aside>
+    </div>
+</section>
