@@ -1,0 +1,98 @@
+<section class="publish-media" aria-label="Galería de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Medios</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title" data-media-heading>Agrega las fotografías principales</h2>
+            <p class="publish-media__subtitle">Sube al menos 5 imágenes de alta calidad, ordénalas y resalta los mejores ángulos de la propiedad.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card media-card" role="form" aria-describedby="media-helper">
+            <p id="media-helper" class="publish-card__helper">Mantén la proporción y calidad; las primeras imágenes aparecen en los resultados destacados.</p>
+
+            <div class="media-upload" data-media-dropzone>
+                <div class="media-upload__content">
+                    <div class="media-upload__icon" aria-hidden="true">📁</div>
+                    <div>
+                        <p class="media-upload__title">Arrastra y suelta tus fotos o <button type="button" class="media-upload__link" data-media-browse>examínalas</button></p>
+                        <p class="media-upload__hint">Formato JPG o PNG · Tamaño recomendado 1920x1080 · Máximo 20 imágenes</p>
+                    </div>
+                </div>
+                <input type="file" accept="image/*" multiple class="media-upload__input" data-media-input aria-label="Seleccionar imágenes">
+            </div>
+
+            <div class="media-gallery">
+                <div class="media-gallery__header">
+                    <div>
+                        <p class="media-gallery__eyebrow">Secuencia de la galería</p>
+                        <h3 class="media-gallery__title">Arrastra para reordenar</h3>
+                        <p class="media-gallery__description">El primer elemento será tu foto de portada. Puedes reemplazar o eliminar imágenes cuando lo necesites.</p>
+                    </div>
+                    <div class="media-gallery__status" data-media-counter>0 / 20 imágenes</div>
+                </div>
+                <div class="media-gallery__grid" data-media-gallery>
+                    <p class="media-gallery__placeholder">Sube tus primeras fotos para ver la vista previa y organizarlas.</p>
+                </div>
+                <p class="media-gallery__requirement" data-media-error>Debes agregar al menos 5 imágenes para continuar.</p>
+            </div>
+
+            <div class="media-guidelines">
+                <div class="media-guidelines__item">
+                    <h4>Calidad profesional</h4>
+                    <p>Usa luz natural, evita fotos borrosas y muestra los espacios completos. Combina planos generales con detalles destacados.</p>
+                </div>
+                <div class="media-guidelines__item">
+                    <h4>Orden lógico</h4>
+                    <p>Coloca primero la fachada o render principal, luego áreas sociales, recámaras y amenidades. Esto mejora la retención de los usuarios.</p>
+                </div>
+                <div class="media-guidelines__item">
+                    <h4>Edición ligera</h4>
+                    <p>Mantén colores reales y evita filtros extremos. Agrega títulos o notas en la descripción, no en las imágenes.</p>
+                </div>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver a características</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar</button>
+            </footer>
+        </div>
+
+        <aside class="media-summary" aria-label="Resumen de publicación">
+            <div class="media-summary__card">
+                <h3 class="media-summary__title">Resumen rápido</h3>
+                <dl class="media-summary__list">
+                    <div class="media-summary__item">
+                        <dt>Propósito</dt>
+                        <dd data-media-purpose>Sin definir</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Tipo</dt>
+                        <dd data-media-type>Sin definir</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Subtipo</dt>
+                        <dd data-media-subtype>Por seleccionar</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Título</dt>
+                        <dd data-media-title>Sin título</dd>
+                    </div>
+                    <div class="media-summary__item">
+                        <dt>Ubicación</dt>
+                        <dd data-media-location>Ubicación pendiente</dd>
+                    </div>
+                </dl>
+            </div>
+            <div class="media-tip">
+                <p class="media-tip__title">Tip de conversión</p>
+                <p class="media-tip__text">Las publicaciones con 10+ imágenes y portada impactante consiguen hasta 2.3x más clics.</p>
+            </div>
+        </aside>
+    </div>
+</section>

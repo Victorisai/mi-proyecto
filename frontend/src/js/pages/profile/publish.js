@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const continueButton = panel.querySelector('[data-characteristics-continue]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,310 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const heading = panel.querySelector('[data-media-heading]');
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const subtypeTargets = panel.querySelectorAll('[data-media-subtype]');
+        const titleTargets = panel.querySelectorAll('[data-media-title]');
+        const locationTargets = panel.querySelectorAll('[data-media-location]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const browseButton = panel.querySelector('[data-media-browse]');
+        const gallery = panel.querySelector('[data-media-gallery]');
+        const counter = panel.querySelector('[data-media-counter]');
+        const requirement = panel.querySelector('[data-media-error]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const backButton = panel.querySelector('[data-media-back]');
+
+        const mediaItems = [];
+        const MAX_ITEMS = 20;
+        const MIN_ITEMS = 5;
+        const hasRandomUUID = typeof window !== 'undefined' && window.crypto && typeof window.crypto.randomUUID === 'function';
+        let activeDragIndex = null;
+
+        const updateSummary = (detail = {}) => {
+            const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
+            const typeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo no definido';
+            const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo no definido';
+            const title = detail.title || panel.dataset.publishTitle || 'Propiedad sin título';
+            const country = detail.country || panel.dataset.locationCountry || '';
+            const state = detail.state || panel.dataset.locationState || '';
+            const city = detail.city || panel.dataset.locationCity || '';
+            const street = detail.street || panel.dataset.locationStreet || '';
+            const locationText = [street, city, state, country].filter(Boolean).join(', ') || 'Ubicación pendiente';
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = purpose;
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = typeLabel;
+            panel.dataset.publishSubtype = subtype;
+            panel.dataset.publishTitle = title;
+            panel.dataset.locationCountry = country;
+            panel.dataset.locationState = state;
+            panel.dataset.locationCity = city;
+            panel.dataset.locationStreet = street;
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            subtypeTargets.forEach((element) => {
+                element.textContent = subtype;
+            });
+
+            titleTargets.forEach((element) => {
+                element.textContent = title;
+            });
+
+            locationTargets.forEach((element) => {
+                element.textContent = locationText;
+            });
+
+            if (heading) {
+                heading.textContent = title !== 'Propiedad sin título' ? `Galería de "${title}"` : 'Agrega las fotografías principales';
+            }
+        };
+
+        const updateCounter = () => {
+            if (counter) {
+                counter.textContent = `${mediaItems.length} / ${MAX_ITEMS} imágenes`;
+            }
+
+            if (!continueButton || !requirement) {
+                return;
+            }
+
+            const ready = mediaItems.length >= MIN_ITEMS;
+            continueButton.disabled = !ready;
+            requirement.textContent = ready
+                ? 'Tus imágenes están listas. Puedes continuar cuando quieras.'
+                : 'Debes agregar al menos 5 imágenes para continuar.';
+            requirement.classList.toggle('media-gallery__requirement--ok', ready);
+        };
+
+        const renderGallery = () => {
+            if (!gallery) {
+                return;
+            }
+
+            gallery.innerHTML = '';
+
+            if (!mediaItems.length) {
+                const placeholder = document.createElement('p');
+                placeholder.className = 'media-gallery__placeholder';
+                placeholder.textContent = 'Sube tus primeras fotos para ver la vista previa y organizarlas.';
+                gallery.appendChild(placeholder);
+                updateCounter();
+                return;
+            }
+
+            mediaItems.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'media-gallery__item';
+                card.draggable = true;
+                card.dataset.index = String(index);
+
+                const image = document.createElement('img');
+                image.src = item.url;
+                image.alt = item.name || `Imagen ${index + 1}`;
+
+                const badge = document.createElement('div');
+                badge.className = 'media-gallery__badge';
+                badge.innerHTML = index === 0 ? '<span>Portada</span>' : `<span>Foto ${index + 1}</span>`;
+
+                const controls = document.createElement('div');
+                controls.className = 'media-gallery__controls';
+
+                const dragHint = document.createElement('span');
+                dragHint.className = 'media-gallery__button media-gallery__drag-hint';
+                dragHint.innerHTML = '↕️ Ordenar';
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'media-gallery__button';
+                removeButton.textContent = 'Eliminar';
+
+                removeButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    const [removed] = mediaItems.splice(index, 1);
+                    if (removed && removed.url) {
+                        URL.revokeObjectURL(removed.url);
+                    }
+                    renderGallery();
+                });
+
+                const handleDragStart = () => {
+                    activeDragIndex = index;
+                    card.classList.add('is-dragging');
+                };
+
+                const handleDragEnd = () => {
+                    activeDragIndex = null;
+                    card.classList.remove('is-dragging');
+                };
+
+                const handleDragOver = (event) => {
+                    event.preventDefault();
+                    const targetIndex = Number(card.dataset.index);
+                    if (activeDragIndex === null || activeDragIndex === targetIndex) {
+                        return;
+                    }
+
+                    const [movedItem] = mediaItems.splice(activeDragIndex, 1);
+                    mediaItems.splice(targetIndex, 0, movedItem);
+                    activeDragIndex = targetIndex;
+                    renderGallery();
+                };
+
+                card.addEventListener('dragstart', handleDragStart);
+                card.addEventListener('dragend', handleDragEnd);
+                card.addEventListener('dragover', handleDragOver);
+
+                controls.appendChild(dragHint);
+                controls.appendChild(removeButton);
+
+                card.appendChild(image);
+                card.appendChild(badge);
+                card.appendChild(controls);
+
+                gallery.appendChild(card);
+            });
+
+            updateCounter();
+        };
+
+        const normalizeFiles = (fileList) => Array.from(fileList || []).filter((file) => file.type.startsWith('image/'));
+
+        const addFiles = (fileList) => {
+            const files = normalizeFiles(fileList);
+            const availableSlots = MAX_ITEMS - mediaItems.length;
+            const filesToAdd = files.slice(0, availableSlots);
+
+            filesToAdd.forEach((file) => {
+                const itemId = hasRandomUUID ? window.crypto.randomUUID() : `${Date.now()}-${Math.random()}`;
+                mediaItems.push({
+                    id: itemId,
+                    name: file.name,
+                    url: URL.createObjectURL(file),
+                    file
+                });
+            });
+
+            renderGallery();
+        };
+
+        const handleDrop = (event) => {
+            event.preventDefault();
+            dropzone.classList.remove('media-upload--dragging');
+            if (event.dataTransfer && event.dataTransfer.files) {
+                addFiles(event.dataTransfer.files);
+            }
+        };
+
+        const handleDragOver = (event) => {
+            event.preventDefault();
+            dropzone.classList.add('media-upload--dragging');
+        };
+
+        const handleDragLeave = (event) => {
+            event.preventDefault();
+            dropzone.classList.remove('media-upload--dragging');
+        };
+
+        if (dropzone) {
+            dropzone.addEventListener('click', () => {
+                if (input) {
+                    input.click();
+                }
+            });
+
+            dropzone.addEventListener('dragover', handleDragOver);
+            dropzone.addEventListener('dragleave', handleDragLeave);
+            dropzone.addEventListener('drop', handleDrop);
+        }
+
+        if (browseButton && input) {
+            browseButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                input.click();
+            });
+        }
+
+        if (input) {
+            input.addEventListener('change', (event) => {
+                const target = event.target;
+                if (!target || !target.files) {
+                    return;
+                }
+                addFiles(target.files);
+                target.value = '';
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (continueButton.disabled) {
+                    return;
+                }
+                continueButton.textContent = 'Guardado';
+                setTimeout(() => {
+                    continueButton.textContent = 'Continuar';
+                }, 1800);
+            });
+        }
+
+        panel.addEventListener('publish-media:open', (event) => {
+            updateSummary(event.detail || {});
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        updateSummary({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype,
+            title: panel.dataset.publishTitle,
+            country: panel.dataset.locationCountry,
+            state: panel.dataset.locationState,
+            city: panel.dataset.locationCity,
+            street: panel.dataset.locationStreet
+        });
+
+        renderGallery();
     };
 
     const init = (panel) => {
@@ -482,6 +809,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
