@@ -1,0 +1,81 @@
+<section class="publish-media" aria-label="Multimedia de la propiedad" data-section="publicar-media">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Multimedia</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title">Sube y organiza las fotografías</h2>
+            <p class="publish-media__subtitle">Prioriza las mejores tomas. Las primeras cinco se mostrarán como portada y galería principal.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo sin definir</span>
+            <span class="publish-media__chip" data-media-title>Título sin definir</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card media-card" role="form" aria-describedby="media-helper">
+            <p id="media-helper" class="publish-card__helper">Sube al menos 5 imágenes en alta resolución para mejorar el rendimiento de tu anuncio.</p>
+
+            <div class="media-card__body">
+                <div class="media-uploader" data-media-dropzone>
+                    <div class="media-uploader__icon" aria-hidden="true"></div>
+                    <div class="media-uploader__text">
+                        <p class="media-uploader__title">Arrastra y suelta tus archivos o <label class="media-uploader__link" for="media-upload-input">explora tu dispositivo</label></p>
+                        <p class="media-uploader__hint">Formatos permitidos: JPG, PNG o WebP. Tamaño recomendado: 1200x800 px.</p>
+                    </div>
+                    <input id="media-upload-input" class="media-uploader__input" type="file" accept="image/*" multiple data-media-input>
+                </div>
+
+                <div class="media-guidelines">
+                    <div class="media-guidelines__item">
+                        <p class="media-guidelines__title">Mínimo 5 imágenes</p>
+                        <p class="media-guidelines__text">Incluye tomas de fachada, recámaras, áreas sociales, cocina y baños para mayor confianza.</p>
+                    </div>
+                    <div class="media-guidelines__item">
+                        <p class="media-guidelines__title">Orden de prioridad</p>
+                        <p class="media-guidelines__text">Arrastra las tarjetas para definir el orden. Las primeras posiciones son más visibles.</p>
+                    </div>
+                    <div class="media-guidelines__item">
+                        <p class="media-guidelines__title">Recomendaciones</p>
+                        <p class="media-guidelines__text">Usa buena iluminación, activa el modo horizontal y evita marcas de agua o textos en la foto.</p>
+                    </div>
+                </div>
+
+                <div class="media-collection" data-media-list>
+                    <div class="media-collection__empty" data-media-empty>
+                        <p class="media-collection__title">Aún no has agregado imágenes</p>
+                        <p class="media-collection__text">Selecciona al menos 5 archivos para continuar. Puedes reorganizarlos en cualquier momento.</p>
+                    </div>
+                </div>
+
+                <div class="media-status">
+                    <div>
+                        <p class="media-status__label">Progreso</p>
+                        <p class="media-status__text" data-media-counter>0 / 20 archivos</p>
+                    </div>
+                    <p class="media-status__note" data-media-error role="alert"></p>
+                </div>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <a class="publish-action-btn publish-action-btn--ghost" href="publicar_characteristics.html" data-media-back>Volver a características</a>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-save>Guardar y continuar</button>
+            </footer>
+        </div>
+
+        <aside class="media-aside" aria-label="Resumen de multimedia">
+            <div class="media-summary">
+                <p class="media-summary__title">Consejos de visualización</p>
+                <ul class="media-summary__list">
+                    <li>Prioriza portada, áreas sociales y vistas exteriores.</li>
+                    <li>Evita fotos borrosas; elimina duplicados o tomas repetidas.</li>
+                    <li>Combina planos generales con acercamientos a detalles premium.</li>
+                </ul>
+            </div>
+            <div class="media-tip">
+                <p class="media-tip__title">Tip de conversión</p>
+                <p class="media-tip__text">Los anuncios con 10+ imágenes de calidad generan hasta un 40% más de solicitudes.</p>
+            </div>
+        </aside>
+    </div>
+</section>

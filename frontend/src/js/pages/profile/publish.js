@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const continueButton = panel.querySelector('[data-characteristics-continue]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -463,6 +464,265 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.location.href = 'publicar_media.html';
+            });
+        }
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const dropZone = panel.querySelector('[data-media-dropzone]');
+        const fileInput = panel.querySelector('[data-media-input]');
+        const collection = panel.querySelector('[data-media-list]');
+        const emptyState = panel.querySelector('[data-media-empty]');
+        const counter = panel.querySelector('[data-media-counter]');
+        const errorNote = panel.querySelector('[data-media-error]');
+        const saveButton = panel.querySelector('[data-media-save]');
+        const backButton = panel.querySelector('[data-media-back]');
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const titleTargets = panel.querySelectorAll('[data-media-title]');
+
+        const minimumFiles = 5;
+        const maximumFiles = 20;
+        const mediaItems = [];
+
+        const applyMediaContext = () => {
+            const purpose = panel.dataset.publishPurposeLabel || 'Propósito pendiente';
+            const typeLabel = panel.dataset.publishTypeLabel || 'Tipo sin definir';
+            const title = panel.dataset.publishTitle || 'Propiedad sin título';
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            titleTargets.forEach((element) => {
+                element.textContent = title;
+            });
+        };
+
+        const setError = (message = '') => {
+            if (errorNote) {
+                errorNote.textContent = message;
+            }
+        };
+
+        const updateCounter = () => {
+            if (counter) {
+                counter.textContent = `${mediaItems.length} / ${maximumFiles} archivos`;
+            }
+        };
+
+        const moveItem = (fromIndex, toIndex) => {
+            if (fromIndex === toIndex || fromIndex < 0 || toIndex < 0 || fromIndex >= mediaItems.length || toIndex >= mediaItems.length) {
+                return;
+            }
+            const [moved] = mediaItems.splice(fromIndex, 1);
+            mediaItems.splice(toIndex, 0, moved);
+        };
+
+        const renderCollection = () => {
+            if (!collection) {
+                return;
+            }
+
+            collection.innerHTML = '';
+
+            if (!mediaItems.length) {
+                if (emptyState) {
+                    emptyState.hidden = false;
+                    collection.appendChild(emptyState);
+                }
+                updateCounter();
+                return;
+            }
+
+            if (emptyState) {
+                emptyState.hidden = true;
+            }
+
+            const grid = document.createElement('div');
+            grid.className = 'media-collection__grid';
+
+            mediaItems.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'media-card__item';
+                card.draggable = true;
+                card.dataset.index = index;
+
+                const thumb = document.createElement('div');
+                thumb.className = 'media-card__thumb';
+                thumb.style.backgroundImage = `url(${item.url})`;
+
+                const content = document.createElement('div');
+                content.className = 'media-card__content';
+
+                const meta = document.createElement('div');
+                meta.className = 'media-card__meta';
+
+                const title = document.createElement('p');
+                title.className = 'media-card__title';
+                title.textContent = item.name || `Imagen ${index + 1}`;
+
+                const label = document.createElement('p');
+                label.className = 'media-card__label';
+                label.textContent = `Posición ${index + 1}`;
+
+                meta.appendChild(title);
+                meta.appendChild(label);
+
+                const actions = document.createElement('div');
+                actions.className = 'media-card__actions';
+
+                const deleteButton = document.createElement('button');
+                deleteButton.type = 'button';
+                deleteButton.className = 'media-card__delete';
+                deleteButton.textContent = 'Eliminar';
+                deleteButton.addEventListener('click', () => {
+                    mediaItems.splice(index, 1);
+                    renderCollection();
+                });
+
+                const handle = document.createElement('span');
+                handle.className = 'media-card__handle';
+                handle.setAttribute('aria-label', 'Arrastra para reordenar');
+
+                actions.appendChild(deleteButton);
+                actions.appendChild(handle);
+
+                content.appendChild(meta);
+                content.appendChild(actions);
+
+                card.appendChild(thumb);
+                card.appendChild(content);
+
+                card.addEventListener('dragstart', (event) => {
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', index.toString());
+                    card.classList.add('is-dragging');
+                });
+
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('is-dragging');
+                });
+
+                grid.appendChild(card);
+            });
+
+            collection.appendChild(grid);
+            updateCounter();
+        };
+
+        const handleDropReorder = (event) => {
+            event.preventDefault();
+            if (event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files.length) {
+                handleFiles(event.dataTransfer.files);
+                return;
+            }
+
+            const fromIndex = Number(event.dataTransfer.getData('text/plain'));
+            const targetCard = event.target.closest('.media-card__item');
+
+            if (!targetCard) {
+                return;
+            }
+
+            const toIndex = Number(targetCard.dataset.index);
+            moveItem(fromIndex, toIndex);
+            renderCollection();
+        };
+
+        const handleFiles = (files = []) => {
+            const availableSlots = maximumFiles - mediaItems.length;
+            if (availableSlots <= 0) {
+                setError(`Has alcanzado el límite de ${maximumFiles} archivos.`);
+                return;
+            }
+
+            const accepted = Array.from(files).filter((file) => file.type.startsWith('image/')).slice(0, availableSlots);
+
+            if (!accepted.length) {
+                setError('Solo se permiten archivos de imagen.');
+                return;
+            }
+
+            setError('');
+
+            accepted.forEach((file) => {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    mediaItems.push({ name: file.name, url: reader.result });
+                    renderCollection();
+                };
+                reader.readAsDataURL(file);
+            });
+        };
+
+        const handleDrop = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (event.dataTransfer && event.dataTransfer.files) {
+                handleFiles(event.dataTransfer.files);
+            }
+        };
+
+        if (dropZone) {
+            dropZone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+            });
+            dropZone.addEventListener('drop', handleDrop);
+            dropZone.addEventListener('click', () => fileInput && fileInput.click());
+        }
+
+        if (collection) {
+            collection.addEventListener('dragover', (event) => {
+                event.preventDefault();
+            });
+            collection.addEventListener('drop', handleDropReorder);
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', (event) => {
+                handleFiles(event.target.files || []);
+                fileInput.value = '';
+            });
+        }
+
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                if (mediaItems.length < minimumFiles) {
+                    setError(`Agrega al menos ${minimumFiles} imágenes para continuar.`);
+                    return;
+                }
+
+                setError('');
+                saveButton.textContent = 'Imágenes listas';
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', () => {
+                setError('');
+            });
+        }
+
+        applyMediaContext();
+        renderCollection();
     };
 
     const init = (panel) => {
@@ -482,6 +742,10 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
