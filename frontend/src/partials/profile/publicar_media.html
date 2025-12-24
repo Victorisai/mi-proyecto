@@ -1,0 +1,65 @@
+<section class="publish-media" aria-label="Fotos de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Fotos</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title">Fotos</h2>
+            <p class="publish-media__subtitle">Carga entre 5 y 50 fotos. Una vez cargadas, arrastra y suelta para cambiar el orden.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-media__main">
+            <div class="publish-media__status" aria-live="polite">
+                <span class="publish-media__counter" data-media-counter>0/50</span>
+                <span class="publish-media__minimum" data-media-minimum>Faltan 5 fotos para el mínimo.</span>
+            </div>
+            <div class="publish-media__alert" data-media-alert role="alert" hidden></div>
+
+            <div class="publish-media__gallery">
+                <div class="publish-media__dropzone" data-media-dropzone role="button" tabindex="0" aria-label="Arrastra o agrega las fotos del inmueble">
+                    <input class="publish-media__file-input" type="file" id="media-upload" accept="image/*" multiple data-media-input>
+                    <div class="publish-media__dropzone-content">
+                        <span class="publish-media__dropzone-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                                <path d="M12 16V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                <path d="M8.5 11.5 12 8l3.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="3.5" y="3.5" width="17" height="17" rx="4" stroke="currentColor" stroke-width="1.5"/>
+                            </svg>
+                        </span>
+                        <p class="publish-media__dropzone-text">Arrastra o agrega las fotos del inmueble</p>
+                        <p class="publish-media__dropzone-subtext">JPG, PNG o JPEG · Máximo 50 fotos</p>
+                    </div>
+                </div>
+
+                <div class="publish-media__preview-grid" data-media-grid>
+                    <div class="publish-media__empty" data-media-empty>
+                        Aún no has cargado fotos. Usa la zona de carga para comenzar.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="publish-media__tips" aria-label="Recomendaciones">
+            <div class="publish-media__tips-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+                    <path d="M12 3a7 7 0 0 0-3.5 13.1v1.4c0 .8.7 1.5 1.5 1.5h4c.8 0 1.5-.7 1.5-1.5v-1.4A7 7 0 0 0 12 3Z" stroke="currentColor" stroke-width="1.6"/>
+                    <path d="M9.5 21h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="publish-media__tips-content">
+                <p class="publish-media__tips-title">Recomendación</p>
+                <p class="publish-media__tips-text">Para que tu inmueble tenga más visitas, te recomendamos cargar fotos nítidas y bien iluminadas. Evita incluir bordes, logos, marcas de agua o textos promocionales.</p>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="publish-card__actions publish-card__actions--sticky">
+        <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver</button>
+        <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar</button>
+    </footer>
+</section>
