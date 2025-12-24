@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const saveButton = panel.querySelector('[data-characteristics-save]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,401 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const fileInput = panel.querySelector('[data-media-input]');
+        const grid = panel.querySelector('[data-media-grid]');
+        const emptyState = panel.querySelector('[data-media-empty]');
+        const alertBox = panel.querySelector('[data-media-alert]');
+        const countEl = panel.querySelector('[data-media-count]');
+        const minHint = panel.querySelector('[data-media-min-hint]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const backButton = panel.querySelector('[data-media-back]');
+
+        const MIN_PHOTOS = 5;
+        const MAX_PHOTOS = 50;
+
+        const state = {
+            items: [],
+            draggingId: null,
+            pointerId: null
+        };
+
+        const updateCounter = () => {
+            if (countEl) {
+                countEl.textContent = `${state.items.length}/${MAX_PHOTOS}`;
+            }
+
+            if (minHint) {
+                if (state.items.length < MIN_PHOTOS) {
+                    minHint.textContent = `Te faltan ${MIN_PHOTOS - state.items.length} fotos para continuar.`;
+                } else {
+                    minHint.textContent = 'Ya puedes continuar al siguiente paso.';
+                }
+            }
+
+            if (continueButton) {
+                continueButton.disabled = state.items.length < MIN_PHOTOS;
+            }
+        };
+
+        const showAlert = (messages = []) => {
+            if (!alertBox) {
+                return;
+            }
+
+            if (!messages.length) {
+                alertBox.hidden = true;
+                alertBox.textContent = '';
+                return;
+            }
+
+            alertBox.hidden = false;
+            alertBox.innerHTML = messages.map((message) => `<div>${message}</div>`).join('');
+        };
+
+        const normalizePrimary = () => {
+            if (!state.items.length) {
+                return;
+            }
+
+            state.items.forEach((item, index) => {
+                item.isPrimary = index === 0;
+            });
+        };
+
+        const escapeAttribute = (value) =>
+            String(value)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+
+        const renderPreviews = () => {
+            if (!grid) {
+                return;
+            }
+
+            grid.innerHTML = state.items
+                .map((item) => {
+                    const primaryBadge = item.isPrimary
+                        ? '<span class="publish-media__badge">⭐ Foto principal</span>'
+                        : '';
+                    const draggingClass = item.id === state.draggingId ? ' is-dragging' : '';
+
+                    return `
+                        <div class="publish-media__item${draggingClass}" data-media-id="${item.id}">
+                            <div class="publish-media__thumb">
+                                <img src="${item.url}" alt="Foto del inmueble">
+                                ${primaryBadge}
+                                <div class="publish-media__actions">
+                                    <button type="button" class="publish-media__action-btn" data-media-action="primary" aria-label="Establecer como foto principal">★</button>
+                                    <button type="button" class="publish-media__action-btn" data-media-action="remove" aria-label="Eliminar foto">🗑</button>
+                                </div>
+                            </div>
+                            <input class="publish-media__caption" type="text" placeholder="Ingresa un pie de foto" aria-label="Ingresa un pie de foto" data-media-caption value="${escapeAttribute(item.caption)}">
+                        </div>
+                    `;
+                })
+                .join('');
+
+            if (emptyState) {
+                emptyState.style.display = state.items.length ? 'none' : 'block';
+            }
+
+            updateCounter();
+        };
+
+        const getImageDimensions = (file) =>
+            new Promise((resolve, reject) => {
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+
+                img.onload = () => {
+                    const { width, height } = img;
+                    URL.revokeObjectURL(url);
+                    resolve({ width, height });
+                };
+
+                img.onerror = () => {
+                    URL.revokeObjectURL(url);
+                    reject(new Error('invalid-image'));
+                };
+
+                img.src = url;
+            });
+
+        const isValidType = (file) => {
+            const allowed = ['image/jpeg', 'image/png'];
+            if (allowed.includes(file.type)) {
+                return true;
+            }
+            const ext = file.name.split('.').pop().toLowerCase();
+            return ['jpg', 'jpeg', 'png'].includes(ext);
+        };
+
+        const handleFiles = async (fileList) => {
+            const files = Array.from(fileList || []);
+            if (!files.length) {
+                return;
+            }
+
+            const errors = [];
+            const newItems = [];
+
+            for (const file of files) {
+                if (state.items.length + newItems.length >= MAX_PHOTOS) {
+                    errors.push('Solo puedes cargar hasta 50 fotos.');
+                    break;
+                }
+
+                if (!isValidType(file)) {
+                    errors.push(`La imagen ${file.name} debe estar en formato JPG o PNG.`);
+                    continue;
+                }
+
+                try {
+                    const { width, height } = await getImageDimensions(file);
+                    if (width < 500 || height < 500 || width > 6000 || height > 6000) {
+                        errors.push(`La imagen ${file.name} debe medir entre 500x500px y 6000x6000px.`);
+                        continue;
+                    }
+
+                    newItems.push({
+                        id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                        file,
+                        url: URL.createObjectURL(file),
+                        caption: '',
+                        isPrimary: false
+                    });
+                } catch (error) {
+                    errors.push(`No pudimos leer la imagen ${file.name}.`);
+                }
+            }
+
+            state.items = state.items.concat(newItems);
+            normalizePrimary();
+            renderPreviews();
+            showAlert(errors);
+        };
+
+        const setPrimary = (id) => {
+            const index = state.items.findIndex((item) => item.id === id);
+            if (index === -1) {
+                return;
+            }
+
+            const [item] = state.items.splice(index, 1);
+            state.items.unshift(item);
+            normalizePrimary();
+            renderPreviews();
+        };
+
+        const removeImage = (id) => {
+            const index = state.items.findIndex((item) => item.id === id);
+            if (index === -1) {
+                return;
+            }
+
+            const [removed] = state.items.splice(index, 1);
+            if (removed && removed.url) {
+                URL.revokeObjectURL(removed.url);
+            }
+
+            normalizePrimary();
+            renderPreviews();
+        };
+
+        const reorder = (fromId, toId) => {
+            if (fromId === toId) {
+                return;
+            }
+
+            const fromIndex = state.items.findIndex((item) => item.id === fromId);
+            const toIndex = state.items.findIndex((item) => item.id === toId);
+
+            if (fromIndex === -1 || toIndex === -1) {
+                return;
+            }
+
+            const [moved] = state.items.splice(fromIndex, 1);
+            state.items.splice(toIndex, 0, moved);
+            normalizePrimary();
+            renderPreviews();
+        };
+
+        if (dropzone) {
+            dropzone.addEventListener('click', () => {
+                if (fileInput) {
+                    fileInput.click();
+                }
+            });
+
+            dropzone.addEventListener('dragenter', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('is-dragover');
+            });
+
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('is-dragover');
+            });
+
+            dropzone.addEventListener('dragleave', (event) => {
+                const nextTarget = event.relatedTarget;
+                if (event.target === dropzone || (nextTarget && !dropzone.contains(nextTarget))) {
+                    dropzone.classList.remove('is-dragover');
+                }
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('is-dragover');
+                handleFiles(event.dataTransfer.files);
+            });
+
+            dropzone.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    if (fileInput) {
+                        fileInput.click();
+                    }
+                }
+            });
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', (event) => {
+                handleFiles(event.target.files);
+                event.target.value = '';
+            });
+        }
+
+        if (grid) {
+            grid.addEventListener('click', (event) => {
+                const button = event.target.closest('[data-media-action]');
+                if (!button) {
+                    return;
+                }
+
+                const item = button.closest('[data-media-id]');
+                if (!item) {
+                    return;
+                }
+
+                const action = button.dataset.mediaAction;
+                const id = item.dataset.mediaId;
+
+                if (action === 'primary') {
+                    setPrimary(id);
+                }
+
+                if (action === 'remove') {
+                    removeImage(id);
+                }
+            });
+
+            grid.addEventListener('input', (event) => {
+                const input = event.target.closest('[data-media-caption]');
+                if (!input) {
+                    return;
+                }
+
+                const item = input.closest('[data-media-id]');
+                if (!item) {
+                    return;
+                }
+
+                const current = state.items.find((entry) => entry.id === item.dataset.mediaId);
+                if (current) {
+                    current.caption = input.value;
+                }
+            });
+
+            grid.addEventListener('pointerdown', (event) => {
+                const item = event.target.closest('[data-media-id]');
+                if (!item || event.button === 2) {
+                    return;
+                }
+
+                if (event.target.closest('button') || event.target.closest('input')) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                state.draggingId = item.dataset.mediaId;
+                state.pointerId = event.pointerId;
+                grid.setPointerCapture(event.pointerId);
+                renderPreviews();
+            });
+
+            grid.addEventListener('pointermove', (event) => {
+                if (!state.draggingId || event.pointerId !== state.pointerId) {
+                    return;
+                }
+
+                const target = document.elementFromPoint(event.clientX, event.clientY);
+                const targetItem = target ? target.closest('[data-media-id]') : null;
+
+                if (targetItem && targetItem.dataset.mediaId !== state.draggingId) {
+                    reorder(state.draggingId, targetItem.dataset.mediaId);
+                }
+            });
+
+            const stopDragging = (event) => {
+                if (!state.draggingId || event.pointerId !== state.pointerId) {
+                    return;
+                }
+
+                if (grid.hasPointerCapture(event.pointerId)) {
+                    grid.releasePointerCapture(event.pointerId);
+                }
+
+                state.draggingId = null;
+                state.pointerId = null;
+                renderPreviews();
+            };
+
+            grid.addEventListener('pointerup', stopDragging);
+            grid.addEventListener('pointercancel', stopDragging);
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-media:open', () => {
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        renderPreviews();
     };
 
     const init = (panel) => {
@@ -482,6 +900,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 

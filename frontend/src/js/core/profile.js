@@ -105,6 +105,7 @@
         const publishPanel = document.querySelector('.profile__panel[data-section="publicar"]');
         const publishLocationPanel = document.querySelector('.profile__panel[data-section="publicar-ubicacion"]');
         const publishCharacteristicsPanel = document.querySelector('.profile__panel[data-section="publicar-caracteristicas"]');
+        const publishMediaPanel = document.querySelector('.profile__panel[data-section="publicar-media"]');
 
         const setMobileMenuState = (isOpen) => {
             if (!mobileMenu || !menuToggle) {
@@ -237,6 +238,45 @@
             publishCharacteristicsPanel.addEventListener('profile:panel-ready', handleReady);
         };
 
+        const activatePublishMediaPanel = (detail = {}) => {
+            if (!publishMediaPanel) {
+                return;
+            }
+
+            panels.forEach((panel) => {
+                const isActive = panel === publishMediaPanel;
+                panel.classList.toggle('profile__panel--active', isActive);
+            });
+
+            menuLinks.forEach((menuLink) => menuLink.classList.remove('sidebar__menu-link--active'));
+
+            publishMediaPanel.dataset.publishPurpose = detail.purpose || '';
+            publishMediaPanel.dataset.publishPurposeLabel = detail.purposeLabel || '';
+            publishMediaPanel.dataset.publishType = detail.type || '';
+            publishMediaPanel.dataset.publishTypeLabel = detail.typeLabel || '';
+            publishMediaPanel.dataset.publishSubtype = detail.subtype || '';
+            publishMediaPanel.dataset.publishTitle = detail.title || '';
+            publishMediaPanel.dataset.publishDescription = detail.description || '';
+            publishMediaPanel.dataset.locationCountry = detail.country || '';
+            publishMediaPanel.dataset.locationState = detail.state || '';
+            publishMediaPanel.dataset.locationCity = detail.city || '';
+            publishMediaPanel.dataset.locationStreet = detail.street || '';
+
+            const emitOpen = () => publishMediaPanel.dispatchEvent(new CustomEvent('publish-media:open', { detail }));
+
+            if (publishMediaPanel.dataset.loaded === 'true') {
+                emitOpen();
+                return;
+            }
+
+            const handleReady = () => {
+                publishMediaPanel.removeEventListener('profile:panel-ready', handleReady);
+                emitOpen();
+            };
+
+            publishMediaPanel.addEventListener('profile:panel-ready', handleReady);
+        };
+
         if (menuToggle && mobileMenu) {
             menuToggle.addEventListener('click', (event) => {
                 event.stopPropagation();
@@ -288,6 +328,17 @@
         document.addEventListener('publish:characteristics:back', (event) => {
             const detail = event.detail || {};
             activatePublishLocationPanel(detail);
+            closeMobileMenu();
+        });
+
+        document.addEventListener('publish:media:start', (event) => {
+            activatePublishMediaPanel(event.detail || {});
+            closeMobileMenu();
+        });
+
+        document.addEventListener('publish:media:back', (event) => {
+            const detail = event.detail || {};
+            activatePublishCharacteristicsPanel(detail);
             closeMobileMenu();
         });
 

@@ -1,0 +1,58 @@
+<section class="publish-media" aria-label="Fotos de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Fotos</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title">Fotos</h2>
+            <p class="publish-media__subtitle">Carga entre 5 y 50 fotos. Una vez cargadas, arrastra y suelta para cambiar el orden.</p>
+        </div>
+        <p class="publish-media__note">Se admiten formatos jpg, jpeg y png desde 500x500px hasta 6000x6000px.</p>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card publish-media__card" role="form">
+            <div class="publish-media__main">
+                <div class="publish-media__dropzone" data-media-dropzone tabindex="0" role="button" aria-label="Agregar fotos del inmueble">
+                    <div class="publish-media__dropzone-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 3v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                            <path d="M7 8l5-5 5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M4 15.5a3.5 3.5 0 0 0 3.5 3.5h9a3.5 3.5 0 0 0 0-7h-.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    <div class="publish-media__dropzone-content">
+                        <p class="publish-media__dropzone-title">Arrastra o agrega las fotos del inmueble</p>
+                        <p class="publish-media__dropzone-text">Puedes seleccionar varias imágenes a la vez.</p>
+                    </div>
+                    <input class="publish-media__input" type="file" accept="image/*" multiple data-media-input>
+                </div>
+
+                <div class="publish-media__alert" role="alert" data-media-alert hidden></div>
+
+                <div class="publish-media__status">
+                    <div>
+                        <h3 class="publish-media__section-title">Previsualización</h3>
+                        <p class="publish-media__section-subtitle">Ordena las fotos y agrega un pie de foto si lo deseas.</p>
+                    </div>
+                    <div class="publish-media__counter" data-media-count>0/50</div>
+                </div>
+                <p class="publish-media__min-hint" data-media-min-hint>Te faltan 5 fotos para continuar.</p>
+
+                <div class="publish-media__grid" data-media-grid></div>
+                <div class="publish-media__empty" data-media-empty>Agrega fotos para comenzar a crear la galería de tu propiedad.</div>
+            </div>
+
+            <aside class="publish-media__aside" aria-label="Recomendaciones">
+                <div class="publish-media__aside-icon" aria-hidden="true">💡</div>
+                <div>
+                    <p class="publish-media__aside-title">Recomendaciones</p>
+                    <p class="publish-media__aside-text">Para que tu inmueble tenga más visitas, te recomendamos cargar fotos nítidas y bien iluminadas. Evita incluir bordes, logos, marcas de agua o textos promocionales.</p>
+                </div>
+            </aside>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar</button>
+            </footer>
+        </div>
+    </div>
+</section>
