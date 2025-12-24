@@ -1,0 +1,96 @@
+<section class="publish-media" aria-label="Multimedia de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Multimedia</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title" data-media-heading>Sube las imágenes de la propiedad</h2>
+            <p class="publish-media__subtitle">Muestra cada espacio con fotografías claras y ordenadas para generar confianza inmediata.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card publish-media-card" role="form" aria-describedby="media-helper">
+            <div class="publish-media-card__header">
+                <div>
+                    <p class="publish-media-card__eyebrow">Biblioteca visual</p>
+                    <h3 class="publish-media-card__title">Carga imágenes de alta calidad</h3>
+                    <p id="media-helper" class="publish-media-card__description">Agrega mínimo 5 fotografías y arrástralas para ordenar la galería. La primera será la portada.</p>
+                </div>
+                <span class="publish-media-card__tag">Recomendado</span>
+            </div>
+
+            <div class="publish-media-upload" data-media-dropzone>
+                <div class="publish-media-upload__icon" aria-hidden="true">📸</div>
+                <div>
+                    <p class="publish-media-upload__title">Arrastra y suelta tus imágenes aquí</p>
+                    <p class="publish-media-upload__subtitle">O selecciona archivos desde tu computadora.</p>
+                </div>
+                <label class="publish-media-upload__cta" for="media-files">Seleccionar imágenes</label>
+                <input id="media-files" class="publish-media-upload__input" type="file" accept="image/*" multiple>
+            </div>
+
+            <div class="publish-media-metrics">
+                <div class="publish-media-metrics__item">
+                    <span class="publish-media-metrics__label">Imágenes cargadas</span>
+                    <span class="publish-media-metrics__value" data-media-count>0</span>
+                </div>
+                <div class="publish-media-metrics__item">
+                    <span class="publish-media-metrics__label">Estado</span>
+                    <span class="publish-media-metrics__value" data-media-status>Agrega al menos 5 imágenes.</span>
+                </div>
+            </div>
+
+            <div class="publish-media-grid" data-media-grid aria-live="polite"></div>
+
+            <div class="publish-media-guidance">
+                <p class="publish-media-guidance__title">Consejos de orden</p>
+                <ul class="publish-media-guidance__list">
+                    <li>Coloca primero la fachada principal o el espacio más atractivo.</li>
+                    <li>Combina vistas amplias y detalles para contar mejor la historia.</li>
+                    <li>Reordena las imágenes con arrastrar y soltar o usando los controles.</li>
+                </ul>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver a características</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-save disabled>Guardar multimedia</button>
+            </footer>
+        </div>
+
+        <aside class="publish-media__aside" aria-label="Resumen de la publicación">
+            <div class="publish-media-summary">
+                <p class="publish-media-summary__title">Resumen del anuncio</p>
+                <dl class="publish-media-summary__list">
+                    <div class="publish-media-summary__item">
+                        <dt>Propósito</dt>
+                        <dd data-media-purpose>Sin definir</dd>
+                    </div>
+                    <div class="publish-media-summary__item">
+                        <dt>Tipo</dt>
+                        <dd data-media-type>Sin definir</dd>
+                    </div>
+                    <div class="publish-media-summary__item">
+                        <dt>Subtipo</dt>
+                        <dd data-media-subtype>Por seleccionar</dd>
+                    </div>
+                    <div class="publish-media-summary__item">
+                        <dt>Título</dt>
+                        <dd data-media-title>Sin título</dd>
+                    </div>
+                    <div class="publish-media-summary__item">
+                        <dt>Ubicación</dt>
+                        <dd data-media-location>Ubicación pendiente</dd>
+                    </div>
+                </dl>
+            </div>
+            <div class="publish-media-tip">
+                <p class="publish-media-tip__title">Tip visual</p>
+                <p class="publish-media-tip__text">Una galería ordenada incrementa la permanencia en el anuncio y la intención de contacto.</p>
+            </div>
+        </aside>
+    </div>
+</section>

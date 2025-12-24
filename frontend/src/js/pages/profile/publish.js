@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const saveButton = panel.querySelector('[data-characteristics-save]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,298 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const subtypeTargets = panel.querySelectorAll('[data-media-subtype]');
+        const titleTargets = panel.querySelectorAll('[data-media-title]');
+        const locationTargets = panel.querySelectorAll('[data-media-location]');
+        const heading = panel.querySelector('[data-media-heading]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('#media-files');
+        const grid = panel.querySelector('[data-media-grid]');
+        const count = panel.querySelector('[data-media-count]');
+        const status = panel.querySelector('[data-media-status]');
+        const backButton = panel.querySelector('[data-media-back]');
+        const saveButton = panel.querySelector('[data-media-save]');
+
+        const MAX_FILES = 20;
+        const MIN_FILES = 5;
+
+        const state = {
+            items: []
+        };
+
+        const updateSummary = (detail = {}) => {
+            const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
+            const typeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo no definido';
+            const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo no definido';
+            const title = detail.title || panel.dataset.publishTitle || 'Propiedad sin título';
+            const country = detail.country || panel.dataset.locationCountry || '';
+            const stateName = detail.state || panel.dataset.locationState || '';
+            const city = detail.city || panel.dataset.locationCity || '';
+            const street = detail.street || panel.dataset.locationStreet || '';
+            const locationText = [street, city, stateName, country].filter(Boolean).join(', ') || 'Ubicación pendiente';
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = purpose;
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = typeLabel;
+            panel.dataset.publishSubtype = subtype;
+            panel.dataset.publishTitle = title;
+            panel.dataset.locationCountry = country;
+            panel.dataset.locationState = stateName;
+            panel.dataset.locationCity = city;
+            panel.dataset.locationStreet = street;
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            subtypeTargets.forEach((element) => {
+                element.textContent = subtype.trim().length ? subtype : 'Subtipo pendiente';
+            });
+
+            titleTargets.forEach((element) => {
+                element.textContent = title.trim().length ? title : 'Propiedad sin título';
+            });
+
+            locationTargets.forEach((element) => {
+                element.textContent = locationText;
+            });
+
+            if (heading) {
+                heading.textContent = title.trim().length ? `Galería de ${title}` : 'Sube las imágenes de la propiedad';
+            }
+        };
+
+        const updateMetrics = () => {
+            if (count) {
+                count.textContent = `${state.items.length}`;
+            }
+
+            if (status) {
+                if (state.items.length >= MIN_FILES) {
+                    status.textContent = 'Listo. Puedes continuar con la publicación.';
+                    status.classList.add('is-complete');
+                } else {
+                    const remaining = MIN_FILES - state.items.length;
+                    status.textContent = `Faltan ${remaining} imagen${remaining === 1 ? '' : 'es'} para completar el mínimo.`;
+                    status.classList.remove('is-complete');
+                }
+            }
+
+            if (saveButton) {
+                saveButton.disabled = state.items.length < MIN_FILES;
+            }
+        };
+
+        let dragIndex = null;
+
+        const moveItem = (fromIndex, toIndex) => {
+            if (fromIndex === toIndex) {
+                return;
+            }
+            const item = state.items.splice(fromIndex, 1)[0];
+            state.items.splice(toIndex, 0, item);
+        };
+
+        const renderGrid = () => {
+            if (!grid) {
+                return;
+            }
+
+            grid.innerHTML = '';
+
+            state.items.forEach((item, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'media-tile';
+                tile.draggable = true;
+                tile.dataset.index = String(index);
+
+                const preview = document.createElement('div');
+                preview.className = 'media-tile__preview';
+                preview.style.backgroundImage = `url('${item.url}')`;
+                preview.setAttribute('role', 'img');
+                preview.setAttribute('aria-label', `Imagen ${index + 1}`);
+
+                const badge = document.createElement('span');
+                badge.className = 'media-tile__badge';
+                badge.textContent = index === 0 ? 'Portada' : `#${index + 1}`;
+
+                const actions = document.createElement('div');
+                actions.className = 'media-tile__actions';
+
+                const moveUp = document.createElement('button');
+                moveUp.type = 'button';
+                moveUp.className = 'media-tile__action';
+                moveUp.textContent = 'Subir';
+                moveUp.addEventListener('click', () => {
+                    if (index === 0) {
+                        return;
+                    }
+                    moveItem(index, index - 1);
+                    renderGrid();
+                });
+
+                const moveDown = document.createElement('button');
+                moveDown.type = 'button';
+                moveDown.className = 'media-tile__action';
+                moveDown.textContent = 'Bajar';
+                moveDown.addEventListener('click', () => {
+                    if (index === state.items.length - 1) {
+                        return;
+                    }
+                    moveItem(index, index + 1);
+                    renderGrid();
+                });
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'media-tile__action media-tile__action--danger';
+                removeButton.textContent = 'Quitar';
+                removeButton.addEventListener('click', () => {
+                    const [removed] = state.items.splice(index, 1);
+                    if (removed && removed.url) {
+                        URL.revokeObjectURL(removed.url);
+                    }
+                    renderGrid();
+                });
+
+                actions.append(moveUp, moveDown, removeButton);
+
+                tile.append(preview, badge, actions);
+
+                tile.addEventListener('dragstart', (event) => {
+                    dragIndex = index;
+                    tile.classList.add('is-dragging');
+                    event.dataTransfer.effectAllowed = 'move';
+                    event.dataTransfer.setData('text/plain', String(index));
+                });
+
+                tile.addEventListener('dragend', () => {
+                    tile.classList.remove('is-dragging');
+                    dragIndex = null;
+                });
+
+                tile.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                    const targetIndex = Number(tile.dataset.index);
+                    if (Number.isNaN(targetIndex) || dragIndex === null || targetIndex === dragIndex) {
+                        return;
+                    }
+                    moveItem(dragIndex, targetIndex);
+                    dragIndex = targetIndex;
+                    renderGrid();
+                });
+
+                grid.appendChild(tile);
+            });
+
+            updateMetrics();
+        };
+
+        const addFiles = (fileList) => {
+            const files = Array.from(fileList || []).filter((file) => file.type.startsWith('image/'));
+            if (!files.length) {
+                return;
+            }
+
+            const availableSlots = Math.max(0, MAX_FILES - state.items.length);
+            files.slice(0, availableSlots).forEach((file) => {
+                state.items.push({
+                    file,
+                    url: URL.createObjectURL(file)
+                });
+            });
+
+            renderGrid();
+        };
+
+        if (input) {
+            input.addEventListener('change', (event) => {
+                addFiles(event.target.files);
+                event.target.value = '';
+            });
+        }
+
+        if (dropzone) {
+            ['dragenter', 'dragover'].forEach((eventName) => {
+                dropzone.addEventListener(eventName, (event) => {
+                    event.preventDefault();
+                    dropzone.classList.add('is-dragover');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach((eventName) => {
+                dropzone.addEventListener(eventName, (event) => {
+                    event.preventDefault();
+                    dropzone.classList.remove('is-dragover');
+                });
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                addFiles(event.dataTransfer.files);
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+            });
+        }
+
+        panel.addEventListener('publish-media:open', (event) => {
+            updateSummary(event.detail || {});
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        updateSummary({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype,
+            title: panel.dataset.publishTitle,
+            country: panel.dataset.locationCountry,
+            state: panel.dataset.locationState,
+            city: panel.dataset.locationCity,
+            street: panel.dataset.locationStreet
+        });
+
+        updateMetrics();
     };
 
     const init = (panel) => {
@@ -482,6 +797,10 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
