@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const continueButton = panel.querySelector('[data-characteristics-continue]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,441 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const grid = panel.querySelector('[data-media-grid]');
+        const countLabel = panel.querySelector('[data-media-count]');
+        const minimumLabel = panel.querySelector('[data-media-minimum]');
+        const alertBox = panel.querySelector('[data-media-alert]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const backButton = panel.querySelector('[data-media-back]');
+        const purposeTarget = panel.querySelector('[data-media-purpose]');
+        const typeTarget = panel.querySelector('[data-media-type]');
+        const subtypeTarget = panel.querySelector('[data-media-subtype]');
+
+        const MAX_FILES = 50;
+        const MIN_FILES = 5;
+        const images = [];
+        let draggingState = null;
+
+        const updateContext = (detail = {}) => {
+            if (purposeTarget) {
+                purposeTarget.textContent = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito pendiente';
+            }
+
+            if (typeTarget) {
+                typeTarget.textContent = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo de propiedad pendiente';
+            }
+
+            if (subtypeTarget) {
+                subtypeTarget.textContent = detail.subtype || panel.dataset.publishSubtype || 'Subtipo pendiente';
+            }
+        };
+
+        const showAlert = (message) => {
+            if (!alertBox) {
+                return;
+            }
+
+            if (message) {
+                alertBox.textContent = message;
+                alertBox.hidden = false;
+            } else {
+                alertBox.textContent = '';
+                alertBox.hidden = true;
+            }
+        };
+
+        const updateMeta = () => {
+            const total = images.length;
+            if (countLabel) {
+                countLabel.textContent = `${total}/${MAX_FILES}`;
+            }
+
+            if (minimumLabel) {
+                if (total < MIN_FILES) {
+                    minimumLabel.textContent = `Te faltan ${MIN_FILES - total} fotos para completar el mínimo.`;
+                } else {
+                    minimumLabel.textContent = '¡Listo! Puedes continuar con la publicación.';
+                }
+            }
+
+            if (continueButton) {
+                continueButton.disabled = total < MIN_FILES;
+            }
+        };
+
+        const ensurePrimary = () => {
+            if (!images.length) {
+                return;
+            }
+
+            const primaryIndex = images.findIndex((item) => item.isPrimary);
+            if (primaryIndex === -1) {
+                images[0].isPrimary = true;
+                return;
+            }
+
+            if (primaryIndex !== 0) {
+                const [primary] = images.splice(primaryIndex, 1);
+                images.unshift(primary);
+            }
+        };
+
+        const renderPreviews = () => {
+            if (!grid || !dropzone) {
+                return;
+            }
+
+            const existingCards = grid.querySelectorAll('.publish-media__preview-card');
+            existingCards.forEach((card) => card.remove());
+
+            ensurePrimary();
+
+            images.forEach((image) => {
+                const card = document.createElement('div');
+                card.className = 'publish-media__preview-card';
+                card.dataset.id = image.id;
+
+                const imageWrap = document.createElement('div');
+                imageWrap.className = 'publish-media__preview-image';
+
+                const img = document.createElement('img');
+                img.src = image.url;
+                img.alt = 'Vista previa de la foto';
+
+                const controls = document.createElement('div');
+                controls.className = 'publish-media__preview-controls';
+
+                const primaryButton = document.createElement('button');
+                primaryButton.type = 'button';
+                primaryButton.className = 'publish-media__preview-action';
+                primaryButton.setAttribute('aria-label', 'Establecer como foto principal');
+                primaryButton.innerHTML = '⭐';
+                primaryButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    setPrimary(image.id);
+                });
+
+                const removeButton = document.createElement('button');
+                removeButton.type = 'button';
+                removeButton.className = 'publish-media__preview-action publish-media__preview-action--danger';
+                removeButton.setAttribute('aria-label', 'Eliminar foto');
+                removeButton.innerHTML = '🗑️';
+                removeButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    removeImage(image.id);
+                });
+
+                controls.appendChild(primaryButton);
+                controls.appendChild(removeButton);
+
+                if (image.isPrimary) {
+                    const badge = document.createElement('span');
+                    badge.className = 'publish-media__preview-badge';
+                    badge.textContent = '⭐ Foto principal';
+                    imageWrap.appendChild(badge);
+                }
+
+                imageWrap.appendChild(img);
+                imageWrap.appendChild(controls);
+
+                const caption = document.createElement('input');
+                caption.type = 'text';
+                caption.className = 'publish-media__caption-input';
+                caption.placeholder = 'Ingresa un pie de foto';
+                caption.value = image.caption || '';
+                caption.addEventListener('input', (event) => {
+                    image.caption = event.target.value;
+                });
+
+                card.appendChild(imageWrap);
+                card.appendChild(caption);
+                grid.appendChild(card);
+            });
+
+            updateMeta();
+        };
+
+        const addFiles = (fileList) => {
+            const files = Array.from(fileList || []);
+            if (!files.length) {
+                return;
+            }
+
+            showAlert('');
+
+            const remaining = MAX_FILES - images.length;
+            if (remaining <= 0) {
+                showAlert('Has alcanzado el máximo de 50 fotos permitidas.');
+                return;
+            }
+
+            let added = 0;
+            let invalid = false;
+            let overflow = false;
+
+            files.forEach((file) => {
+                if (!file.type.startsWith('image/')) {
+                    invalid = true;
+                    return;
+                }
+
+                if (added >= remaining) {
+                    overflow = true;
+                    return;
+                }
+
+                images.push({
+                    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                    file,
+                    url: URL.createObjectURL(file),
+                    caption: '',
+                    isPrimary: false
+                });
+                added += 1;
+            });
+
+            if (!images.some((item) => item.isPrimary) && images.length) {
+                images[0].isPrimary = true;
+            }
+
+            if (invalid) {
+                showAlert('Algunas fotos no se cargaron porque el formato no es válido.');
+            }
+
+            if (overflow) {
+                showAlert('Solo puedes cargar hasta 50 fotos en total.');
+            }
+
+            renderPreviews();
+        };
+
+        const setPrimary = (id) => {
+            const index = images.findIndex((item) => item.id === id);
+            if (index === -1) {
+                return;
+            }
+
+            images.forEach((item) => {
+                item.isPrimary = false;
+            });
+            images[index].isPrimary = true;
+            ensurePrimary();
+            renderPreviews();
+        };
+
+        const removeImage = (id) => {
+            const index = images.findIndex((item) => item.id === id);
+            if (index === -1) {
+                return;
+            }
+
+            const [removed] = images.splice(index, 1);
+            if (removed && removed.url) {
+                URL.revokeObjectURL(removed.url);
+            }
+
+            if (!images.some((item) => item.isPrimary) && images.length) {
+                images[0].isPrimary = true;
+            }
+
+            renderPreviews();
+        };
+
+        const startDrag = (event, card) => {
+            if (!grid || !card) {
+                return;
+            }
+
+            if (draggingState || (typeof event.button === 'number' && event.button !== 0)) {
+                return;
+            }
+
+            const target = event.target;
+            if (target.closest('button') || target.closest('input')) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const rect = card.getBoundingClientRect();
+            const ghost = card.cloneNode(true);
+            ghost.classList.add('publish-media__drag-ghost');
+            ghost.style.width = `${rect.width}px`;
+            ghost.style.height = `${rect.height}px`;
+            ghost.style.left = `${rect.left}px`;
+            ghost.style.top = `${rect.top}px`;
+
+            const placeholder = document.createElement('div');
+            placeholder.className = 'publish-media__preview-placeholder';
+            placeholder.style.width = `${rect.width}px`;
+            placeholder.style.height = `${rect.height}px`;
+
+            grid.insertBefore(placeholder, card);
+            grid.removeChild(card);
+
+            document.body.appendChild(ghost);
+
+            draggingState = {
+                id: card.dataset.id,
+                ghost,
+                placeholder,
+                offsetX: event.clientX - rect.left,
+                offsetY: event.clientY - rect.top,
+                card
+            };
+
+            card.classList.add('is-dragging');
+        };
+
+        const updateDrag = (event) => {
+            if (!draggingState) {
+                return;
+            }
+
+            const { ghost, placeholder } = draggingState;
+            ghost.style.left = `${event.clientX - draggingState.offsetX}px`;
+            ghost.style.top = `${event.clientY - draggingState.offsetY}px`;
+
+            const element = document.elementFromPoint(event.clientX, event.clientY);
+            const targetCard = element ? element.closest('.publish-media__preview-card') : null;
+
+            if (targetCard && targetCard !== draggingState.card) {
+                const rect = targetCard.getBoundingClientRect();
+                const insertBefore = event.clientY < rect.top + rect.height / 2;
+                if (insertBefore) {
+                    grid.insertBefore(placeholder, targetCard);
+                } else {
+                    grid.insertBefore(placeholder, targetCard.nextSibling);
+                }
+            }
+        };
+
+        const finishDrag = () => {
+            if (!draggingState || !grid) {
+                return;
+            }
+
+            const { card, placeholder, ghost } = draggingState;
+            grid.insertBefore(card, placeholder);
+            placeholder.remove();
+            ghost.remove();
+            card.classList.remove('is-dragging');
+
+            const orderedIds = Array.from(grid.querySelectorAll('.publish-media__preview-card')).map((item) => item.dataset.id);
+            const ordered = orderedIds.map((id) => images.find((item) => item.id === id)).filter(Boolean);
+            images.length = 0;
+            images.push(...ordered);
+            ensurePrimary();
+            renderPreviews();
+
+            draggingState = null;
+        };
+
+        if (grid) {
+            grid.addEventListener('pointerdown', (event) => {
+                const card = event.target.closest('.publish-media__preview-card');
+                if (!card) {
+                    return;
+                }
+
+                startDrag(event, card);
+            });
+        }
+
+        window.addEventListener('pointermove', (event) => updateDrag(event));
+        window.addEventListener('pointerup', () => finishDrag());
+        window.addEventListener('pointercancel', () => finishDrag());
+
+        if (dropzone) {
+            dropzone.addEventListener('click', () => {
+                if (input) {
+                    input.click();
+                }
+            });
+
+            dropzone.addEventListener('keydown', (event) => {
+                if ((event.key === 'Enter' || event.key === ' ') && input) {
+                    event.preventDefault();
+                    input.click();
+                }
+            });
+
+            ['dragenter', 'dragover'].forEach((type) => {
+                dropzone.addEventListener(type, (event) => {
+                    event.preventDefault();
+                    dropzone.classList.add('is-dragover');
+                });
+            });
+
+            ['dragleave', 'drop'].forEach((type) => {
+                dropzone.addEventListener(type, (event) => {
+                    event.preventDefault();
+                    dropzone.classList.remove('is-dragover');
+                });
+            });
+
+            dropzone.addEventListener('drop', (event) => {
+                if (!event.dataTransfer) {
+                    return;
+                }
+                addFiles(event.dataTransfer.files);
+            });
+        }
+
+        if (input) {
+            input.addEventListener('change', (event) => {
+                const { files } = event.target;
+                addFiles(files);
+                event.target.value = '';
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-media:open', (event) => {
+            const detail = event.detail || {};
+            updateContext(detail);
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        updateContext({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype
+        });
+
+        updateMeta();
     };
 
     const init = (panel) => {
@@ -482,6 +940,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
