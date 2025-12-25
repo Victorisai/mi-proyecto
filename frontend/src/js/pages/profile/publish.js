@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const saveButton = panel.querySelector('[data-characteristics-save]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,424 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const grid = panel.querySelector('[data-media-grid]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const errorMessage = panel.querySelector('[data-media-error]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const backButton = panel.querySelector('[data-media-back]');
+
+        if (!grid || !dropzone || !input) {
+            return;
+        }
+
+        const MAX_FILES = 50;
+        const MIN_FILES = 5;
+        const ACCEPTED_TYPES = ['image/jpeg', 'image/png'];
+        let images = [];
+        let dragState = null;
+        let idCounter = 0;
+
+        const showError = (message = '') => {
+            if (!errorMessage) {
+                return;
+            }
+            errorMessage.textContent = message;
+            errorMessage.hidden = !message;
+        };
+
+        const updateContinueState = () => {
+            if (!continueButton) {
+                return;
+            }
+            continueButton.disabled = images.length < MIN_FILES;
+        };
+
+        const updateDropzoneState = () => {
+            const isDisabled = images.length >= MAX_FILES;
+            dropzone.classList.toggle('is-disabled', isDisabled);
+            dropzone.classList.toggle('is-hidden', isDisabled);
+            input.disabled = isDisabled;
+        };
+
+        const ensurePrimary = () => {
+            if (!images.length) {
+                return;
+            }
+
+            const hasPrimary = images.some((image) => image.isPrimary);
+            if (!hasPrimary) {
+                images[0].isPrimary = true;
+            }
+        };
+
+        const renderPreviews = () => {
+            grid.querySelectorAll('.media-preview, .media-grid__placeholder').forEach((item) => item.remove());
+
+            images.forEach((image, index) => {
+                const preview = document.createElement('article');
+                preview.className = 'media-preview';
+                preview.dataset.mediaId = image.id;
+
+                preview.innerHTML = `
+                    <div class="media-preview__frame">
+                        ${image.isPrimary ? `
+                            <span class="media-preview__badge">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+                                    <path d="m12 3 2.7 5.6 6.2.9-4.5 4.4 1.1 6.1L12 17.8 6.5 20l1.1-6.1L3 9.5l6.3-.9L12 3Z" fill="#facc15"/>
+                                </svg>
+                                Foto principal
+                            </span>
+                        ` : ''}
+                        <img class="media-preview__image" src="${image.url}" alt="Foto ${index + 1}" style="transform: rotate(${image.rotation}deg);">
+                        <div class="media-preview__actions">
+                            <button type="button" class="media-preview__action" data-media-action="primary" aria-label="Establecer como principal">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+                                    <path d="m12 3 2.7 5.6 6.2.9-4.5 4.4 1.1 6.1L12 17.8 6.5 20l1.1-6.1L3 9.5l6.3-.9L12 3Z" fill="currentColor"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="media-preview__action" data-media-action="rotate" aria-label="Rotar foto">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+                                    <path d="M12 4a8 8 0 1 1-7.7 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M4 4v6h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                            <button type="button" class="media-preview__action media-preview__action--danger" data-media-action="remove" aria-label="Eliminar foto">
+                                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+                                    <path d="M6 7h12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M9 7V5h6v2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                    <path d="M8 7l1 12h6l1-12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="media-preview__caption">
+                        <label class="sr-only" for="caption-${image.id}">Ingresa un pie de foto</label>
+                        <input id="caption-${image.id}" class="media-preview__input" type="text" placeholder="Ingresa un pie de foto">
+                    </div>
+                `;
+
+                const captionInput = preview.querySelector('.media-preview__input');
+                if (captionInput) {
+                    captionInput.value = image.caption;
+                    captionInput.dataset.mediaCaption = image.id;
+                }
+
+                grid.appendChild(preview);
+            });
+
+            updateDropzoneState();
+            updateContinueState();
+        };
+
+        const setPrimary = (id) => {
+            images = images.map((image) => ({
+                ...image,
+                isPrimary: image.id === id
+            }));
+
+            const primaryIndex = images.findIndex((image) => image.id === id);
+            if (primaryIndex > 0) {
+                const [primary] = images.splice(primaryIndex, 1);
+                images.unshift(primary);
+            }
+
+            renderPreviews();
+        };
+
+        const removeImage = (id) => {
+            const imageToRemove = images.find((image) => image.id === id);
+            if (imageToRemove && imageToRemove.url) {
+                URL.revokeObjectURL(imageToRemove.url);
+            }
+
+            images = images.filter((image) => image.id !== id);
+            ensurePrimary();
+            renderPreviews();
+        };
+
+        const rotateImage = (id) => {
+            images = images.map((image) => {
+                if (image.id !== id) {
+                    return image;
+                }
+                return {
+                    ...image,
+                    rotation: (image.rotation + 90) % 360
+                };
+            });
+            renderPreviews();
+        };
+
+        const updateCaption = (id, value) => {
+            images = images.map((image) => (image.id === id ? { ...image, caption: value } : image));
+        };
+
+        const handleFiles = (fileList) => {
+            showError('');
+
+            const files = Array.from(fileList || []);
+            if (!files.length) {
+                return;
+            }
+
+            const invalidFiles = files.filter((file) => !ACCEPTED_TYPES.includes(file.type));
+            if (invalidFiles.length) {
+                showError('Solo se permiten imágenes JPG o PNG.');
+            }
+
+            const validFiles = files.filter((file) => ACCEPTED_TYPES.includes(file.type));
+            const availableSlots = MAX_FILES - images.length;
+
+            if (validFiles.length > availableSlots) {
+                showError('Solo puedes cargar hasta 50 fotos.');
+            }
+
+            validFiles.slice(0, availableSlots).forEach((file) => {
+                images.push({
+                    id: `media-${Date.now()}-${idCounter++}`,
+                    file,
+                    url: URL.createObjectURL(file),
+                    caption: '',
+                    isPrimary: false,
+                    rotation: 0
+                });
+            });
+
+            ensurePrimary();
+            renderPreviews();
+        };
+
+        const createPlaceholder = (rect) => {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'media-grid__placeholder';
+            placeholder.style.width = `${rect.width}px`;
+            placeholder.style.height = `${rect.height}px`;
+            return placeholder;
+        };
+
+        const getReorderedImages = () => {
+            const items = Array.from(grid.querySelectorAll('.media-preview'));
+            const orderMap = new Map(images.map((image) => [image.id, image]));
+            return items.map((item) => orderMap.get(item.dataset.mediaId)).filter(Boolean);
+        };
+
+        const clearDragState = () => {
+            if (!dragState) {
+                return;
+            }
+
+            const { preview, placeholder, pointerId } = dragState;
+            preview.releasePointerCapture(pointerId);
+            preview.classList.remove('is-dragging');
+            preview.style.removeProperty('transform');
+            preview.style.removeProperty('left');
+            preview.style.removeProperty('top');
+            preview.style.removeProperty('width');
+            preview.style.removeProperty('height');
+            preview.style.removeProperty('position');
+            preview.style.removeProperty('z-index');
+
+            if (placeholder && placeholder.parentElement) {
+                placeholder.replaceWith(preview);
+            }
+
+            images = getReorderedImages();
+            ensurePrimary();
+            dragState = null;
+            renderPreviews();
+        };
+
+        const handlePointerDown = (event) => {
+            const preview = event.target.closest('.media-preview');
+            if (!preview || event.target.closest('button, input, textarea')) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const rect = preview.getBoundingClientRect();
+            const gridRect = grid.getBoundingClientRect();
+            const placeholder = createPlaceholder(rect);
+
+            preview.after(placeholder);
+            preview.classList.add('is-dragging');
+            preview.style.position = 'absolute';
+            preview.style.width = `${rect.width}px`;
+            preview.style.height = `${rect.height}px`;
+            preview.style.left = `${rect.left - gridRect.left}px`;
+            preview.style.top = `${rect.top - gridRect.top}px`;
+            preview.style.zIndex = '10';
+
+            preview.setPointerCapture(event.pointerId);
+
+            dragState = {
+                preview,
+                placeholder,
+                startX: event.clientX,
+                startY: event.clientY,
+                pointerId: event.pointerId
+            };
+        };
+
+        const handlePointerMove = (event) => {
+            if (!dragState) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const deltaX = event.clientX - dragState.startX;
+            const deltaY = event.clientY - dragState.startY;
+
+            dragState.preview.style.transform = `translate3d(${deltaX}px, ${deltaY}px, 0)`;
+
+            const elementAtPoint = document.elementFromPoint(event.clientX, event.clientY);
+            const targetPreview = elementAtPoint ? elementAtPoint.closest('.media-preview') : null;
+
+            if (!targetPreview || targetPreview === dragState.preview) {
+                return;
+            }
+
+            const targetRect = targetPreview.getBoundingClientRect();
+            const shouldInsertAfter = event.clientY > targetRect.top + targetRect.height / 2;
+            const referenceNode = shouldInsertAfter ? targetPreview.nextSibling : targetPreview;
+
+            if (referenceNode !== dragState.placeholder) {
+                grid.insertBefore(dragState.placeholder, referenceNode);
+            }
+        };
+
+        const handlePointerUp = () => {
+            if (!dragState) {
+                return;
+            }
+            clearDragState();
+        };
+
+        dropzone.addEventListener('click', (event) => {
+            if (dropzone.classList.contains('is-disabled')) {
+                return;
+            }
+
+            if (event.target === input) {
+                return;
+            }
+
+            input.click();
+        });
+
+        dropzone.addEventListener('keydown', (event) => {
+            if (dropzone.classList.contains('is-disabled')) {
+                return;
+            }
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                input.click();
+            }
+        });
+
+        dropzone.addEventListener('dragover', (event) => {
+            if (dropzone.classList.contains('is-disabled')) {
+                return;
+            }
+            event.preventDefault();
+            dropzone.classList.add('is-dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('is-dragover');
+        });
+
+        dropzone.addEventListener('drop', (event) => {
+            if (dropzone.classList.contains('is-disabled')) {
+                return;
+            }
+            event.preventDefault();
+            dropzone.classList.remove('is-dragover');
+            handleFiles(event.dataTransfer.files);
+        });
+
+        input.addEventListener('change', (event) => {
+            handleFiles(event.target.files);
+            input.value = '';
+        });
+
+        grid.addEventListener('click', (event) => {
+            const actionButton = event.target.closest('[data-media-action]');
+            if (!actionButton) {
+                return;
+            }
+
+            const preview = actionButton.closest('.media-preview');
+            if (!preview) {
+                return;
+            }
+
+            const id = preview.dataset.mediaId;
+            const action = actionButton.dataset.mediaAction;
+
+            if (action === 'primary') {
+                setPrimary(id);
+            }
+
+            if (action === 'remove') {
+                removeImage(id);
+            }
+
+            if (action === 'rotate') {
+                rotateImage(id);
+            }
+        });
+
+        grid.addEventListener('input', (event) => {
+            const inputElement = event.target.closest('[data-media-caption]');
+            if (!inputElement) {
+                return;
+            }
+            updateCaption(inputElement.dataset.mediaCaption, inputElement.value);
+        });
+
+        grid.addEventListener('pointerdown', handlePointerDown);
+        grid.addEventListener('pointermove', handlePointerMove);
+        grid.addEventListener('pointerup', handlePointerUp);
+        grid.addEventListener('pointercancel', handlePointerUp);
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-media:open', () => {
+            renderPreviews();
+        });
+
+        renderPreviews();
     };
 
     const init = (panel) => {
@@ -482,6 +923,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
