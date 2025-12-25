@@ -1,0 +1,47 @@
+<section class="publish-media" aria-label="Fotos de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Fotos</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title">Fotos</h2>
+            <p class="publish-media__subtitle">Carga entre 5 y 50 fotos. Una vez cargadas, arrastra y suelta para cambiar el orden.</p>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card publish-media__card">
+            <div class="publish-media__status">
+                <p class="publish-media__counter" data-media-count>0/50 fotos</p>
+                <p class="publish-media__alert" data-media-alert role="alert" hidden></p>
+            </div>
+
+            <div class="media-grid" data-media-grid>
+                <div class="media-dropzone" data-media-dropzone role="button" tabindex="0" aria-label="Agregar fotos">
+                    <div class="media-dropzone__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" aria-label="Subir">
+                            <path d="M12 3.5c.3 0 .6.1.8.3l4 4a1.1 1.1 0 0 1-1.6 1.5L13 7.2V15a1 1 0 1 1-2 0V7.2L8.8 9.3a1.1 1.1 0 0 1-1.6-1.5l4-4c.2-.2.5-.3.8-.3Z" fill="currentColor"/>
+                            <path d="M5 14.5c.6 0 1 .4 1 1v2.2c0 .4.3.8.8.8h10.4c.4 0 .8-.3.8-.8v-2.2a1 1 0 1 1 2 0v2.2c0 1.5-1.2 2.8-2.8 2.8H6.8A2.8 2.8 0 0 1 4 17.7v-2.2c0-.6.4-1 1-1Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <p class="media-dropzone__text">Arrastra o agrega las fotos del inmueble</p>
+                    <input class="media-dropzone__input" type="file" accept="image/png,image/jpeg" multiple data-media-input>
+                </div>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar</button>
+            </footer>
+        </div>
+
+        <aside class="publish-media__aside" aria-label="Recomendaciones de fotos">
+            <div class="publish-media__tip">
+                <div class="publish-media__tip-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img" aria-label="Consejo">
+                        <path d="M12 2.5c-4.1 0-7.5 3.4-7.5 7.5 0 3 1.7 5.6 4.3 6.8l.2 2.7c0 .5.4 1 1 1h4c.5 0 1-.4 1-1l.2-2.7c2.6-1.2 4.3-3.8 4.3-6.8 0-4.1-3.4-7.5-7.5-7.5Zm2.3 12.6c-.4.2-.6.6-.7 1l-.1 2.1h-3l-.1-2.1c0-.4-.3-.8-.7-1-1.9-.8-3.2-2.7-3.2-4.8 0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5c0 2.1-1.3 4-3.2 4.8Zm-4.3 5.5c0-.6.4-1 1-1h2c.6 0 1 .4 1 1s-.4 1-1 1h-2c-.6 0-1-.4-1-1Z" fill="currentColor"/>
+                    </svg>
+                </div>
+                <p class="publish-media__tip-text">Para que tu inmueble tenga más visitas, te recomendamos cargar fotos nítidas y bien iluminadas. Evita incluir bordes, logos, marcas de agua o textos promocionales.</p>
+            </div>
+        </aside>
+    </div>
+</section>
