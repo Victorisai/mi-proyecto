@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const saveButton = panel.querySelector('[data-characteristics-save]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,451 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const grid = panel.querySelector('[data-media-grid]');
+        const emptyState = panel.querySelector('[data-media-empty]');
+        const counter = panel.querySelector('[data-media-counter]');
+        const minimum = panel.querySelector('[data-media-minimum]');
+        const error = panel.querySelector('[data-media-error]');
+        const backButton = panel.querySelector('[data-media-back]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+
+        const maxPhotos = 50;
+        const minPhotos = 5;
+        let idCounter = 0;
+
+        const state = {
+            images: []
+        };
+
+        const setError = (message) => {
+            if (!error) {
+                return;
+            }
+            if (!message) {
+                error.textContent = '';
+                error.hidden = true;
+                return;
+            }
+            error.textContent = message;
+            error.hidden = false;
+        };
+
+        const updateStatus = () => {
+            const total = state.images.length;
+
+            if (counter) {
+                counter.textContent = `${total}/${maxPhotos}`;
+            }
+
+            if (minimum) {
+                if (total < minPhotos) {
+                    minimum.textContent = `Faltan ${minPhotos - total} fotos para llegar al mínimo.`;
+                    minimum.classList.remove('is-complete');
+                } else {
+                    minimum.textContent = 'Mínimo alcanzado.';
+                    minimum.classList.add('is-complete');
+                }
+            }
+
+            if (continueButton) {
+                continueButton.disabled = total < minPhotos;
+            }
+
+            if (emptyState) {
+                emptyState.hidden = total > 0;
+            }
+        };
+
+        const normalizePrimary = () => {
+            if (!state.images.length) {
+                return;
+            }
+            const currentPrimary = state.images.find((image) => image.isPrimary);
+            state.images.forEach((image) => {
+                image.isPrimary = false;
+            });
+            if (currentPrimary) {
+                const index = state.images.indexOf(currentPrimary);
+                if (index > 0) {
+                    state.images.splice(index, 1);
+                    state.images.unshift(currentPrimary);
+                }
+                currentPrimary.isPrimary = true;
+                return;
+            }
+            state.images[0].isPrimary = true;
+        };
+
+        const renderPreviews = () => {
+            if (!grid) {
+                return;
+            }
+
+            grid.innerHTML = '';
+            normalizePrimary();
+
+            state.images.forEach((image) => {
+                const item = document.createElement('div');
+                item.className = `publish-media__item${image.isPrimary ? ' is-primary' : ''}`;
+                item.dataset.id = image.id;
+
+                item.innerHTML = `
+                    <div class="publish-media__preview" tabindex="0">
+                        <img src="${image.url}" alt="Vista previa de la foto cargada" class="publish-media__image">
+                        <span class="publish-media__badge" aria-hidden="${!image.isPrimary}">
+                            <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                                <path d="M12 3.5l2.47 5a1 1 0 0 0 .75.55l5.52.8-3.99 3.9a1 1 0 0 0-.29.88l.94 5.5-4.95-2.6a1 1 0 0 0-.93 0l-4.95 2.6.94-5.5a1 1 0 0 0-.29-.88L3.26 9.85l5.52-.8a1 1 0 0 0 .75-.55L12 3.5z"></path>
+                            </svg>
+                            <span>Foto principal</span>
+                        </span>
+                        <div class="publish-media__actions">
+                            <button type="button" class="publish-media__action" data-action="primary" aria-label="Establecer como foto principal">
+                                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                                    <path d="M12 3.5l2.47 5a1 1 0 0 0 .75.55l5.52.8-3.99 3.9a1 1 0 0 0-.29.88l.94 5.5-4.95-2.6a1 1 0 0 0-.93 0l-4.95 2.6.94-5.5a1 1 0 0 0-.29-.88L3.26 9.85l5.52-.8a1 1 0 0 0 .75-.55L12 3.5z"></path>
+                                </svg>
+                            </button>
+                            <button type="button" class="publish-media__action publish-media__action--danger" data-action="remove" aria-label="Eliminar foto">
+                                <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                                    <path d="M9 3a1 1 0 0 0-1 1v1H5a1 1 0 1 0 0 2h1v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7h1a1 1 0 1 0 0-2h-3V4a1 1 0 0 0-1-1H9zm2 4a1 1 0 0 1 1 1v9a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1zm4 1v9a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0zM10 5h4V4h-4v1z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <input class="publish-media__caption" type="text" placeholder="Ingresa un pie de foto" data-caption>
+                `;
+
+                const captionInput = item.querySelector('[data-caption]');
+                if (captionInput) {
+                    captionInput.value = image.caption || '';
+                }
+
+                grid.appendChild(item);
+            });
+
+            updateStatus();
+        };
+
+        const addImages = (files = []) => {
+            const incoming = Array.from(files);
+            if (!incoming.length) {
+                return;
+            }
+
+            setError('');
+
+            const validFiles = incoming.filter((file) => file.type.startsWith('image/'));
+            const invalidFiles = incoming.filter((file) => !file.type.startsWith('image/'));
+
+            if (invalidFiles.length) {
+                setError('Algunas imágenes no son válidas. Por favor selecciona archivos de imagen.');
+            }
+
+            const remainingSlots = maxPhotos - state.images.length;
+            if (remainingSlots <= 0) {
+                setError('Ya alcanzaste el máximo de 50 fotos permitidas.');
+                return;
+            }
+
+            const filesToAdd = validFiles.slice(0, remainingSlots);
+            if (validFiles.length > remainingSlots) {
+                setError('Solo se pueden cargar hasta 50 fotos. Se omitieron las adicionales.');
+            }
+
+            filesToAdd.forEach((file) => {
+                const url = URL.createObjectURL(file);
+                state.images.push({
+                    id: `media-${Date.now()}-${idCounter++}`,
+                    file,
+                    url,
+                    caption: '',
+                    isPrimary: false
+                });
+            });
+
+            normalizePrimary();
+            renderPreviews();
+        };
+
+        const setPrimary = (id) => {
+            const targetIndex = state.images.findIndex((image) => image.id === id);
+            if (targetIndex === -1) {
+                return;
+            }
+
+            state.images.forEach((image) => {
+                image.isPrimary = false;
+            });
+
+            const [primary] = state.images.splice(targetIndex, 1);
+            primary.isPrimary = true;
+            state.images.unshift(primary);
+            renderPreviews();
+        };
+
+        const removeImage = (id) => {
+            const index = state.images.findIndex((image) => image.id === id);
+            if (index === -1) {
+                return;
+            }
+
+            const [removed] = state.images.splice(index, 1);
+            if (removed && removed.url) {
+                URL.revokeObjectURL(removed.url);
+            }
+
+            normalizePrimary();
+            renderPreviews();
+        };
+
+        const updateCaption = (id, value) => {
+            const image = state.images.find((item) => item.id === id);
+            if (image) {
+                image.caption = value;
+            }
+        };
+
+        const reorderFromDom = () => {
+            if (!grid) {
+                return;
+            }
+
+            const orderedIds = Array.from(grid.querySelectorAll('.publish-media__item')).map((item) => item.dataset.id);
+            const reordered = orderedIds.map((id) => state.images.find((image) => image.id === id)).filter(Boolean);
+            state.images = reordered;
+            normalizePrimary();
+            renderPreviews();
+        };
+
+        const handleDropzoneKeydown = (event) => {
+            if (!input) {
+                return;
+            }
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                input.click();
+            }
+        };
+
+        const handleFiles = (fileList) => {
+            addImages(fileList);
+            if (input) {
+                input.value = '';
+            }
+        };
+
+        const handleDragOver = (event) => {
+            event.preventDefault();
+            if (dropzone) {
+                dropzone.classList.add('is-dragover');
+            }
+        };
+
+        const handleDragLeave = (event) => {
+            if (event.target === dropzone) {
+                dropzone.classList.remove('is-dragover');
+            }
+        };
+
+        const handleDrop = (event) => {
+            event.preventDefault();
+            if (dropzone) {
+                dropzone.classList.remove('is-dragover');
+            }
+            if (event.dataTransfer) {
+                handleFiles(event.dataTransfer.files);
+            }
+        };
+
+        let dragState = null;
+
+        const handlePointerDown = (event) => {
+            const item = event.target.closest('.publish-media__item');
+            if (!item || event.button !== 0) {
+                return;
+            }
+
+            if (event.target.closest('button') || event.target.closest('input')) {
+                return;
+            }
+
+            event.preventDefault();
+
+            const rect = item.getBoundingClientRect();
+            const placeholder = document.createElement('div');
+            placeholder.className = 'publish-media__placeholder';
+            placeholder.style.width = `${rect.width}px`;
+            placeholder.style.height = `${rect.height}px`;
+
+            item.parentNode.insertBefore(placeholder, item.nextSibling);
+
+            item.classList.add('is-dragging');
+            item.style.width = `${rect.width}px`;
+            item.style.height = `${rect.height}px`;
+            item.style.left = `${rect.left}px`;
+            item.style.top = `${rect.top}px`;
+            item.style.position = 'fixed';
+            item.style.zIndex = '1000';
+            item.style.pointerEvents = 'none';
+
+            item.setPointerCapture(event.pointerId);
+
+            dragState = {
+                item,
+                placeholder,
+                offsetX: event.clientX - rect.left,
+                offsetY: event.clientY - rect.top,
+                pointerId: event.pointerId
+            };
+        };
+
+        const handlePointerMove = (event) => {
+            if (!dragState) {
+                return;
+            }
+
+            const { item, placeholder, offsetX, offsetY } = dragState;
+            item.style.left = `${event.clientX - offsetX}px`;
+            item.style.top = `${event.clientY - offsetY}px`;
+
+            const element = document.elementFromPoint(event.clientX, event.clientY);
+            if (!element || !grid) {
+                return;
+            }
+
+            const overItem = element.closest('.publish-media__item');
+            if (!overItem || overItem === item) {
+                return;
+            }
+
+            const overRect = overItem.getBoundingClientRect();
+            const isAfter = event.clientY > overRect.top + overRect.height / 2;
+            grid.insertBefore(placeholder, isAfter ? overItem.nextSibling : overItem);
+        };
+
+        const handlePointerUp = (event) => {
+            if (!dragState || !grid) {
+                return;
+            }
+
+            const { item, placeholder, pointerId } = dragState;
+
+            if (item.hasPointerCapture(pointerId)) {
+                item.releasePointerCapture(pointerId);
+            }
+
+            item.classList.remove('is-dragging');
+            item.style.position = '';
+            item.style.left = '';
+            item.style.top = '';
+            item.style.width = '';
+            item.style.height = '';
+            item.style.zIndex = '';
+            item.style.pointerEvents = '';
+
+            grid.insertBefore(item, placeholder);
+            placeholder.remove();
+
+            dragState = null;
+            reorderFromDom();
+        };
+
+        if (dropzone) {
+            dropzone.addEventListener('dragenter', handleDragOver);
+            dropzone.addEventListener('dragover', handleDragOver);
+            dropzone.addEventListener('dragleave', handleDragLeave);
+            dropzone.addEventListener('drop', handleDrop);
+            dropzone.addEventListener('keydown', handleDropzoneKeydown);
+        }
+
+        if (input) {
+            input.addEventListener('change', (event) => handleFiles(event.target.files));
+        }
+
+        if (grid) {
+            grid.addEventListener('click', (event) => {
+                const actionButton = event.target.closest('[data-action]');
+                if (!actionButton) {
+                    return;
+                }
+                const item = event.target.closest('.publish-media__item');
+                if (!item) {
+                    return;
+                }
+                const action = actionButton.dataset.action;
+                const id = item.dataset.id;
+                if (action === 'primary') {
+                    setPrimary(id);
+                }
+                if (action === 'remove') {
+                    removeImage(id);
+                }
+            });
+
+            grid.addEventListener('input', (event) => {
+                if (!event.target.matches('[data-caption]')) {
+                    return;
+                }
+                const item = event.target.closest('.publish-media__item');
+                if (!item) {
+                    return;
+                }
+                updateCaption(item.dataset.id, event.target.value);
+            });
+
+            grid.addEventListener('pointerdown', handlePointerDown);
+            grid.addEventListener('pointermove', handlePointerMove);
+            grid.addEventListener('pointerup', handlePointerUp);
+            grid.addEventListener('pointercancel', handlePointerUp);
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                if (continueButton.disabled) {
+                    setError('Agrega al menos 5 fotos para continuar.');
+                }
+            });
+        }
+
+        panel.addEventListener('publish-media:open', () => {
+            renderPreviews();
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        updateStatus();
     };
 
     const init = (panel) => {
@@ -482,6 +950,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
