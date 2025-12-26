@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const saveButton = panel.querySelector('[data-characteristics-save]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (saveButton) {
+            saveButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -462,6 +485,470 @@
             state: panel.dataset.locationState,
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
+        });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const MIN_PHOTOS = 5;
+        const MAX_PHOTOS = 50;
+        const VALID_TYPES = ['image/jpeg', 'image/png'];
+
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const subtypeTargets = panel.querySelectorAll('[data-media-subtype]');
+        const grid = panel.querySelector('[data-media-grid]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const errorMessage = panel.querySelector('[data-media-error]');
+        const backButton = panel.querySelector('[data-media-back]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+
+        if (!grid || !dropzone || !input) {
+            return;
+        }
+
+        const state = {
+            photos: [],
+            expanded: false,
+            dragging: null
+        };
+
+        const clearError = () => {
+            if (errorMessage) {
+                errorMessage.textContent = '';
+                errorMessage.classList.remove('publish-media__error--visible');
+            }
+        };
+
+        const showError = (message) => {
+            if (errorMessage) {
+                errorMessage.textContent = message;
+                errorMessage.classList.add('publish-media__error--visible');
+            }
+        };
+
+        const updateContinueState = () => {
+            if (continueButton) {
+                continueButton.disabled = state.photos.length < MIN_PHOTOS;
+            }
+        };
+
+        const updateDropzoneState = () => {
+            const isMaxed = state.photos.length >= MAX_PHOTOS;
+            dropzone.classList.toggle('media-dropzone--disabled', isMaxed);
+            input.disabled = isMaxed;
+            dropzone.setAttribute('aria-disabled', String(isMaxed));
+            dropzone.tabIndex = isMaxed ? -1 : 0;
+        };
+
+        const ensurePrimary = () => {
+            if (!state.photos.length) {
+                return;
+            }
+
+            state.photos.forEach((photo, index) => {
+                photo.isPrimary = index === 0;
+            });
+        };
+
+        const createCardButton = (label, svg, className) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `media-card__control ${className}`;
+            button.setAttribute('aria-label', label);
+            button.innerHTML = svg;
+            return button;
+        };
+
+        const removeImage = (id) => {
+            const index = state.photos.findIndex((photo) => photo.id === id);
+            if (index === -1) {
+                return;
+            }
+
+            const [removed] = state.photos.splice(index, 1);
+            if (removed && removed.url) {
+                URL.revokeObjectURL(removed.url);
+            }
+
+            ensurePrimary();
+            if (state.photos.length <= 5) {
+                state.expanded = false;
+            }
+            renderPreviews();
+        };
+
+        const renderPreviews = () => {
+            const existing = grid.querySelectorAll('[data-media-item], [data-media-more]');
+            existing.forEach((element) => element.remove());
+
+            const shouldShowMore = !state.expanded && state.photos.length > 5;
+            const visiblePhotos = shouldShowMore ? state.photos.slice(0, 5) : state.photos;
+            grid.classList.toggle('media-grid--expanded', state.expanded);
+
+            visiblePhotos.forEach((photo) => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.dataset.mediaItem = 'true';
+                card.dataset.mediaId = photo.id;
+                card.setAttribute('tabindex', '0');
+
+                const preview = document.createElement('div');
+                preview.className = 'media-card__preview';
+
+                const image = document.createElement('img');
+                image.src = photo.url;
+                image.alt = 'Vista previa del inmueble';
+                image.style.transform = `rotate(${photo.rotation}deg)`;
+                preview.appendChild(image);
+
+                if (photo.isPrimary) {
+                    const badge = document.createElement('span');
+                    badge.className = 'media-card__badge';
+                    badge.innerHTML = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3.5 14.6 9l6.2.5-4.7 4 1.4 6.1L12 16.7 6.5 19.6 8 13.5 3.3 9.5 9.5 9z" fill="#f59e0b"/></svg>Foto principal';
+                    preview.appendChild(badge);
+                }
+
+                const controls = document.createElement('div');
+                controls.className = 'media-card__controls';
+
+                const rotateButton = createCardButton(
+                    'Rotar foto',
+                    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 5a7 7 0 1 1-6.65 4.82" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><path d="M5 5v4h4" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+                    'media-card__control--rotate'
+                );
+
+                const primaryButton = createCardButton(
+                    'Marcar como foto principal',
+                    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 3.5 14.6 9l6.2.5-4.7 4 1.4 6.1L12 16.7 6.5 19.6 8 13.5 3.3 9.5 9.5 9z" fill="#ffffff"/></svg>',
+                    'media-card__control--primary'
+                );
+
+                const removeButton = createCardButton(
+                    'Eliminar foto',
+                    '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M5 7h14M9 7V5h6v2M9 11v6M15 11v6" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/><path d="M7 7l1 12h8l1-12" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/></svg>',
+                    'media-card__control--remove'
+                );
+
+                rotateButton.addEventListener('click', () => {
+                    photo.rotation = (photo.rotation + 90) % 360;
+                    renderPreviews();
+                });
+
+                primaryButton.addEventListener('click', () => {
+                    const currentIndex = state.photos.findIndex((item) => item.id === photo.id);
+                    if (currentIndex > -1) {
+                        const [selected] = state.photos.splice(currentIndex, 1);
+                        state.photos.unshift(selected);
+                        ensurePrimary();
+                        renderPreviews();
+                    }
+                });
+
+                removeButton.addEventListener('click', () => {
+                    removeImage(photo.id);
+                });
+
+                controls.appendChild(rotateButton);
+                if (!photo.isPrimary) {
+                    controls.appendChild(primaryButton);
+                }
+                controls.appendChild(removeButton);
+                preview.appendChild(controls);
+
+                const caption = document.createElement('input');
+                caption.type = 'text';
+                caption.className = 'media-card__caption';
+                caption.placeholder = 'Ingresa un pie de foto';
+                caption.value = photo.caption;
+                caption.addEventListener('input', (event) => {
+                    photo.caption = event.target.value;
+                });
+
+                card.appendChild(preview);
+                card.appendChild(caption);
+                grid.appendChild(card);
+            });
+
+            if (shouldShowMore) {
+                const remainingCount = state.photos.length - visiblePhotos.length;
+                const moreCard = document.createElement('button');
+                moreCard.type = 'button';
+                moreCard.className = 'media-card media-card--more';
+                moreCard.dataset.mediaMore = 'true';
+                moreCard.innerHTML = `<span class=\"media-card__more-count\">+${remainingCount}</span><span class=\"media-card__more-text\">Ver más fotos</span>`;
+                moreCard.addEventListener('click', () => {
+                    state.expanded = true;
+                    renderPreviews();
+                });
+                grid.appendChild(moreCard);
+            }
+
+            updateContinueState();
+            updateDropzoneState();
+        };
+
+        const addPhotos = (files) => {
+            clearError();
+
+            const validFiles = [];
+            const rejectedFiles = [];
+
+            Array.from(files).forEach((file) => {
+                if (!VALID_TYPES.includes(file.type)) {
+                    rejectedFiles.push(file);
+                } else {
+                    validFiles.push(file);
+                }
+            });
+
+            if (rejectedFiles.length) {
+                showError('Solo se permiten fotos en formato JPG o PNG.');
+            }
+
+            if (!validFiles.length) {
+                return;
+            }
+
+            const availableSlots = MAX_PHOTOS - state.photos.length;
+
+            if (availableSlots <= 0) {
+                showError('Ya alcanzaste el máximo de 50 fotos.');
+                updateDropzoneState();
+                return;
+            }
+
+            const filesToAdd = validFiles.slice(0, availableSlots);
+            if (validFiles.length > availableSlots) {
+                showError('Se alcanzó el máximo de 50 fotos. Se cargaron solo las primeras disponibles.');
+            }
+
+            filesToAdd.forEach((file) => {
+                const photo = {
+                    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                    file,
+                    url: URL.createObjectURL(file),
+                    caption: '',
+                    rotation: 0,
+                    isPrimary: false
+                };
+                state.photos.push(photo);
+            });
+
+            ensurePrimary();
+            renderPreviews();
+        };
+
+        const updateOrderFromDom = () => {
+            const items = Array.from(grid.querySelectorAll('[data-media-item]'));
+            const visibleIds = items.map((item) => item.dataset.mediaId);
+
+            if (!state.expanded && state.photos.length > 5) {
+                const visiblePhotos = visibleIds
+                    .map((id) => state.photos.find((photo) => photo.id === id))
+                    .filter(Boolean);
+                const remaining = state.photos.filter((photo) => !visibleIds.includes(photo.id));
+                state.photos = [...visiblePhotos, ...remaining];
+            } else {
+                state.photos = visibleIds
+                    .map((id) => state.photos.find((photo) => photo.id === id))
+                    .filter(Boolean);
+            }
+
+            ensurePrimary();
+        };
+
+        const startDrag = (event, card) => {
+            event.preventDefault();
+
+            const rect = card.getBoundingClientRect();
+            const placeholder = document.createElement('div');
+            placeholder.className = 'media-card media-card--placeholder';
+            placeholder.style.height = `${rect.height}px`;
+
+            card.after(placeholder);
+
+            card.classList.add('is-dragging');
+            card.style.width = `${rect.width}px`;
+            card.style.height = `${rect.height}px`;
+            card.style.left = `${rect.left}px`;
+            card.style.top = `${rect.top}px`;
+
+            const offsetX = event.clientX - rect.left;
+            const offsetY = event.clientY - rect.top;
+
+            card.setPointerCapture(event.pointerId);
+
+            state.dragging = {
+                card,
+                placeholder,
+                offsetX,
+                offsetY,
+                pointerId: event.pointerId
+            };
+
+            document.body.classList.add('media-dragging');
+        };
+
+        const handlePointerMove = (event) => {
+            if (!state.dragging) {
+                return;
+            }
+
+            const { card, placeholder, offsetX, offsetY } = state.dragging;
+            card.style.left = `${event.clientX - offsetX}px`;
+            card.style.top = `${event.clientY - offsetY}px`;
+
+            const target = document.elementFromPoint(event.clientX, event.clientY);
+            const targetCard = target ? target.closest('[data-media-item]') : null;
+
+            if (!targetCard || targetCard === card) {
+                return;
+            }
+
+            const targetRect = targetCard.getBoundingClientRect();
+            const shouldInsertAfter = event.clientY > targetRect.top + targetRect.height / 2;
+
+            if (shouldInsertAfter) {
+                targetCard.after(placeholder);
+            } else {
+                targetCard.before(placeholder);
+            }
+        };
+
+        const endDrag = () => {
+            if (!state.dragging) {
+                return;
+            }
+
+            const { card, placeholder, pointerId } = state.dragging;
+            card.releasePointerCapture(pointerId);
+            card.classList.remove('is-dragging');
+            card.removeAttribute('style');
+
+            placeholder.replaceWith(card);
+
+            state.dragging = null;
+            document.body.classList.remove('media-dragging');
+
+            updateOrderFromDom();
+            renderPreviews();
+        };
+
+        const handlePointerDown = (event) => {
+            if (event.button !== 0) {
+                return;
+            }
+
+            const card = event.target.closest('[data-media-item]');
+            if (!card) {
+                return;
+            }
+
+            if (event.target.closest('button') || event.target.closest('input')) {
+                return;
+            }
+
+            startDrag(event, card);
+        };
+
+        const applyMediaContext = (detail = {}) => {
+            const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito pendiente';
+            const typeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo de propiedad pendiente';
+            const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo pendiente';
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = purpose;
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = typeLabel;
+            panel.dataset.publishSubtype = subtype;
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            subtypeTargets.forEach((element) => {
+                element.textContent = subtype.trim().length ? subtype : 'Subtipo pendiente';
+            });
+        };
+
+        renderPreviews();
+
+        input.addEventListener('change', (event) => {
+            addPhotos(event.target.files);
+            event.target.value = '';
+        });
+
+        dropzone.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                input.click();
+            }
+        });
+
+        dropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropzone.classList.add('media-dropzone--dragover');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('media-dropzone--dragover');
+        });
+
+        dropzone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropzone.classList.remove('media-dropzone--dragover');
+            if (event.dataTransfer && event.dataTransfer.files) {
+                addPhotos(event.dataTransfer.files);
+            }
+        });
+
+        grid.addEventListener('pointerdown', handlePointerDown);
+        grid.addEventListener('pointermove', handlePointerMove);
+        grid.addEventListener('pointerup', endDrag);
+        grid.addEventListener('pointercancel', endDrag);
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-media:open', (event) => {
+            applyMediaContext(event.detail || {});
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        applyMediaContext({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype
         });
     };
 
@@ -482,6 +969,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
