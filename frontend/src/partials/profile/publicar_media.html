@@ -1,0 +1,56 @@
+<section class="publish-media" aria-label="Fotos de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Fotos</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title">Fotos</h2>
+            <p class="publish-media__subtitle">Carga entre 5 y 50 fotos. Una vez cargadas, arrastra y suelta para cambiar el orden.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card publish-media__card">
+            <div class="publish-media__content">
+                <div class="publish-media__main">
+                    <div class="publish-media__alert" role="alert" data-media-error hidden></div>
+                    <div class="media-grid" data-media-grid>
+                        <label class="media-dropzone" data-media-dropzone role="button" tabindex="0">
+                            <input class="media-dropzone__input" type="file" accept="image/jpeg,image/png" multiple data-media-input>
+                            <span class="media-dropzone__icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 16V8"></path>
+                                    <path d="M8 12h8"></path>
+                                    <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+                                </svg>
+                            </span>
+                            <span class="media-dropzone__text">Arrastra o agrega las fotos del inmueble</span>
+                        </label>
+                    </div>
+                </div>
+
+                <aside class="publish-media__recommendations" aria-label="Recomendaciones para fotos">
+                    <div class="publish-media__recommendations-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 18h6"></path>
+                            <path d="M10 22h4"></path>
+                            <path d="M12 2a7 7 0 0 0-4 12c1 1 1.5 2.5 1.5 4h5c0-1.5.5-3 1.5-4a7 7 0 0 0-4-12z"></path>
+                        </svg>
+                    </div>
+                    <div class="publish-media__recommendations-text">
+                        <p class="publish-media__recommendations-title">Recomendaciones</p>
+                        <p class="publish-media__recommendations-description">Para que tu inmueble tenga más visitas, te recomendamos cargar fotos nítidas y bien iluminadas. Evita incluir bordes, logos, marcas de agua o textos promocionales.</p>
+                    </div>
+                </aside>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar</button>
+            </footer>
+        </div>
+    </div>
+</section>

@@ -356,6 +356,7 @@
         const emptyGroup = panel.querySelector('[data-characteristics-empty]');
         const typeGroups = panel.querySelectorAll('[data-characteristics-group]');
         const backButton = panel.querySelector('[data-characteristics-back]');
+        const continueButton = panel.querySelector('[data-characteristics-continue]');
 
         const applyCharacteristicsContext = (detail = {}) => {
             const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
@@ -453,6 +454,28 @@
             });
         }
 
+        if (continueButton) {
+            continueButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:start', { detail }));
+            });
+        }
+
         applyCharacteristicsContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
             typeLabel: panel.dataset.publishTypeLabel,
@@ -463,6 +486,462 @@
             city: panel.dataset.locationCity,
             street: panel.dataset.locationStreet
         });
+    };
+
+    const initMediaPanel = (panel) => {
+        if (!panel || panel.dataset.publishMediaInitialized === 'true') {
+            return;
+        }
+
+        panel.dataset.publishMediaInitialized = 'true';
+
+        const purposeTargets = panel.querySelectorAll('[data-media-purpose]');
+        const typeTargets = panel.querySelectorAll('[data-media-type]');
+        const subtypeTargets = panel.querySelectorAll('[data-media-subtype]');
+        const grid = panel.querySelector('[data-media-grid]');
+        const dropzone = panel.querySelector('[data-media-dropzone]');
+        const input = panel.querySelector('[data-media-input]');
+        const error = panel.querySelector('[data-media-error]');
+        const continueButton = panel.querySelector('[data-media-continue]');
+        const backButton = panel.querySelector('[data-media-back]');
+
+        const state = {
+            images: [],
+            expanded: false,
+            max: 50,
+            min: 5
+        };
+
+        const setError = (message) => {
+            if (!error) {
+                return;
+            }
+            error.textContent = message || '';
+            error.hidden = !message;
+        };
+
+        const updateContinueState = () => {
+            if (!continueButton) {
+                return;
+            }
+            continueButton.disabled = state.images.length < state.min;
+        };
+
+        const syncPrimary = () => {
+            if (!state.images.length) {
+                return;
+            }
+
+            const primaryIndex = state.images.findIndex((image) => image.isPrimary);
+
+            if (primaryIndex === -1) {
+                state.images[0].isPrimary = true;
+                return;
+            }
+
+            if (primaryIndex > 0) {
+                const [primary] = state.images.splice(primaryIndex, 1);
+                state.images.unshift(primary);
+            }
+
+            state.images.forEach((image, index) => {
+                image.isPrimary = index === 0;
+            });
+        };
+
+        const updateContext = (detail = {}) => {
+            const purpose = detail.purposeLabel || panel.dataset.publishPurposeLabel || 'Propósito no definido';
+            const typeLabel = detail.typeLabel || panel.dataset.publishTypeLabel || 'Tipo no definido';
+            const subtype = detail.subtype || panel.dataset.publishSubtype || 'Subtipo no definido';
+
+            panel.dataset.publishPurpose = detail.purpose || panel.dataset.publishPurpose || '';
+            panel.dataset.publishPurposeLabel = purpose;
+            panel.dataset.publishType = detail.type || panel.dataset.publishType || '';
+            panel.dataset.publishTypeLabel = typeLabel;
+            panel.dataset.publishSubtype = subtype;
+
+            purposeTargets.forEach((element) => {
+                element.textContent = purpose;
+            });
+
+            typeTargets.forEach((element) => {
+                element.textContent = typeLabel;
+            });
+
+            subtypeTargets.forEach((element) => {
+                element.textContent = subtype.trim().length ? subtype : 'Subtipo pendiente';
+            });
+        };
+
+        const createActionButton = (label, iconMarkup, className) => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = `media-card__action ${className}`;
+            button.setAttribute('aria-label', label);
+            button.innerHTML = iconMarkup;
+            return button;
+        };
+
+        const renderPreviews = () => {
+            if (!grid) {
+                return;
+            }
+
+            const existing = grid.querySelectorAll('[data-media-preview], [data-media-more]');
+            existing.forEach((node) => node.remove());
+
+            const imagesToShow = state.expanded ? state.images : state.images.slice(0, 5);
+
+            imagesToShow.forEach((image) => {
+                const card = document.createElement('div');
+                card.className = 'media-card media-card--preview';
+                card.dataset.mediaPreview = 'true';
+                card.dataset.mediaId = image.id;
+
+                const media = document.createElement('div');
+                media.className = 'media-card__media';
+
+                const img = document.createElement('img');
+                img.className = 'media-card__image';
+                img.alt = 'Vista previa de foto';
+                img.src = image.url;
+                img.style.transform = `rotate(${image.rotation}deg)`;
+
+                const actions = document.createElement('div');
+                actions.className = 'media-card__actions';
+
+                const primaryIcon = `
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 3.5l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.8l-5.4 2.6 1-6.1-4.4-4.3 6.1-.9L12 3.5z"></path>
+                    </svg>
+                `;
+
+                const rotateIcon = `
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 12a9 9 0 0 0 9 9"></path>
+                        <path d="M21 12a9 9 0 0 0-9-9"></path>
+                        <path d="M12 3v4"></path>
+                        <path d="M12 17v4"></path>
+                    </svg>
+                `;
+
+                const removeIcon = `
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 6h18"></path>
+                        <path d="M8 6V4h8v2"></path>
+                        <path d="M6 6l1 14h10l1-14"></path>
+                    </svg>
+                `;
+
+                const primaryButton = createActionButton('Marcar como foto principal', primaryIcon, 'media-card__action--primary');
+                const rotateButton = createActionButton('Rotar foto', rotateIcon, 'media-card__action--rotate');
+                const removeButton = createActionButton('Eliminar foto', removeIcon, 'media-card__action--remove');
+
+                if (image.isPrimary) {
+                    primaryButton.classList.add('is-active');
+                }
+
+                rotateButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    image.rotation = (image.rotation + 90) % 360;
+                    img.style.transform = `rotate(${image.rotation}deg)`;
+                });
+
+                removeButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    removeImage(image.id);
+                });
+
+                primaryButton.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    setPrimary(image.id);
+                });
+
+                actions.append(primaryButton, rotateButton, removeButton);
+
+                if (image.isPrimary) {
+                    const badge = document.createElement('span');
+                    badge.className = 'media-card__badge';
+                    badge.innerHTML = `
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 3.5l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.8l-5.4 2.6 1-6.1-4.4-4.3 6.1-.9L12 3.5z"></path>
+                        </svg>
+                        Foto principal
+                    `;
+                    media.appendChild(badge);
+                }
+
+                media.appendChild(img);
+                media.appendChild(actions);
+
+                const caption = document.createElement('input');
+                caption.type = 'text';
+                caption.className = 'media-card__caption';
+                caption.placeholder = 'Ingresa un pie de foto';
+                caption.value = image.caption || '';
+                caption.addEventListener('input', () => {
+                    image.caption = caption.value;
+                });
+
+                card.append(media, caption);
+                grid.appendChild(card);
+                attachDragHandlers(card);
+            });
+
+            if (!state.expanded && state.images.length > 5) {
+                const remaining = state.images.length - 5;
+                const moreCard = document.createElement('button');
+                moreCard.type = 'button';
+                moreCard.className = 'media-card media-card--more';
+                moreCard.dataset.mediaMore = 'true';
+                moreCard.innerHTML = `
+                    <span class="media-more__count">+${remaining}</span>
+                    <span class="media-more__text">Ver más fotos</span>
+                `;
+                moreCard.addEventListener('click', () => {
+                    state.expanded = true;
+                    renderPreviews();
+                });
+                grid.appendChild(moreCard);
+            }
+
+            if (dropzone) {
+                dropzone.classList.toggle('media-dropzone--disabled', state.images.length >= state.max);
+                dropzone.hidden = state.images.length >= state.max;
+            }
+
+            updateContinueState();
+        };
+
+        const removeImage = (id) => {
+            const index = state.images.findIndex((image) => image.id === id);
+            if (index === -1) {
+                return;
+            }
+            const [removed] = state.images.splice(index, 1);
+            if (removed && removed.url) {
+                URL.revokeObjectURL(removed.url);
+            }
+            if (state.images.length <= 5) {
+                state.expanded = false;
+            }
+            syncPrimary();
+            renderPreviews();
+        };
+
+        const setPrimary = (id) => {
+            const index = state.images.findIndex((image) => image.id === id);
+            if (index === -1) {
+                return;
+            }
+            state.images.forEach((image) => {
+                image.isPrimary = false;
+            });
+            state.images[index].isPrimary = true;
+            syncPrimary();
+            renderPreviews();
+        };
+
+        const handleFiles = (fileList) => {
+            if (!fileList || !fileList.length) {
+                return;
+            }
+
+            setError('');
+            const files = Array.from(fileList);
+            const allowedTypes = ['image/jpeg', 'image/png'];
+            let invalidFound = false;
+            let maxReached = false;
+
+            files.forEach((file) => {
+                if (state.images.length >= state.max) {
+                    maxReached = true;
+                    return;
+                }
+
+                if (!allowedTypes.includes(file.type)) {
+                    invalidFound = true;
+                    return;
+                }
+
+                const image = {
+                    id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                    file,
+                    url: URL.createObjectURL(file),
+                    rotation: 0,
+                    caption: '',
+                    isPrimary: false
+                };
+
+                state.images.push(image);
+            });
+
+            if (invalidFound) {
+                setError('Solo puedes subir archivos JPG o PNG.');
+            } else if (maxReached) {
+                setError('Alcanzaste el máximo de 50 fotos permitidas.');
+            }
+
+            syncPrimary();
+            renderPreviews();
+        };
+
+        const handleDropzoneKey = (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+                return;
+            }
+            event.preventDefault();
+            if (input) {
+                input.click();
+            }
+        };
+
+        const attachDragHandlers = (card) => {
+            if (!card) {
+                return;
+            }
+
+            card.addEventListener('pointerdown', (event) => {
+                if (event.button !== 0) {
+                    return;
+                }
+
+                if (event.target.closest('button, input, textarea')) {
+                    return;
+                }
+
+                const rect = card.getBoundingClientRect();
+                const placeholder = document.createElement('div');
+                placeholder.className = 'media-card media-card--placeholder';
+                placeholder.style.height = `${rect.height}px`;
+                placeholder.style.width = `${rect.width}px`;
+
+                card.classList.add('is-dragging');
+                card.style.width = `${rect.width}px`;
+                card.style.height = `${rect.height}px`;
+                card.style.left = `${rect.left}px`;
+                card.style.top = `${rect.top}px`;
+                card.style.position = 'fixed';
+                card.style.zIndex = '999';
+                card.style.pointerEvents = 'none';
+
+                card.parentElement.insertBefore(placeholder, card.nextSibling);
+
+                const offsetX = event.clientX - rect.left;
+                const offsetY = event.clientY - rect.top;
+
+                const handlePointerMove = (moveEvent) => {
+                    card.style.left = `${moveEvent.clientX - offsetX}px`;
+                    card.style.top = `${moveEvent.clientY - offsetY}px`;
+
+                    const target = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY);
+                    const targetCard = target ? target.closest('.media-card--preview') : null;
+                    if (!targetCard || targetCard === card || targetCard.classList.contains('media-card--placeholder')) {
+                        return;
+                    }
+
+                    const targetRect = targetCard.getBoundingClientRect();
+                    const insertBefore = moveEvent.clientY < targetRect.top + targetRect.height / 2;
+                    if (insertBefore) {
+                        grid.insertBefore(placeholder, targetCard);
+                    } else {
+                        grid.insertBefore(placeholder, targetCard.nextSibling);
+                    }
+                };
+
+                const handlePointerUp = () => {
+                    card.classList.remove('is-dragging');
+                    card.style.position = '';
+                    card.style.zIndex = '';
+                    card.style.left = '';
+                    card.style.top = '';
+                    card.style.width = '';
+                    card.style.height = '';
+                    card.style.pointerEvents = '';
+
+                    grid.insertBefore(card, placeholder);
+                    placeholder.remove();
+
+                    document.removeEventListener('pointermove', handlePointerMove);
+                    document.removeEventListener('pointerup', handlePointerUp);
+                    document.removeEventListener('pointercancel', handlePointerUp);
+
+                    updateOrderFromDom();
+                };
+
+                document.addEventListener('pointermove', handlePointerMove);
+                document.addEventListener('pointerup', handlePointerUp);
+                document.addEventListener('pointercancel', handlePointerUp);
+            });
+        };
+
+        const updateOrderFromDom = () => {
+            if (!grid) {
+                return;
+            }
+            const orderedIds = Array.from(grid.querySelectorAll('.media-card--preview')).map((element) => element.dataset.mediaId);
+            state.images = orderedIds.map((id) => state.images.find((image) => image.id === id)).filter(Boolean);
+            syncPrimary();
+            renderPreviews();
+        };
+
+        if (input) {
+            input.addEventListener('change', (event) => {
+                handleFiles(event.target.files);
+                input.value = '';
+            });
+        }
+
+        if (dropzone) {
+            dropzone.addEventListener('keydown', handleDropzoneKey);
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('is-dragover');
+            });
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('is-dragover');
+            });
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropzone.classList.remove('is-dragover');
+                handleFiles(event.dataTransfer.files);
+            });
+        }
+
+        if (backButton) {
+            backButton.addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const detail = {
+                    purpose: panel.dataset.publishPurpose || '',
+                    purposeLabel: panel.dataset.publishPurposeLabel || '',
+                    type: panel.dataset.publishType || '',
+                    typeLabel: panel.dataset.publishTypeLabel || '',
+                    subtype: panel.dataset.publishSubtype || '',
+                    title: panel.dataset.publishTitle || '',
+                    description: panel.dataset.publishDescription || '',
+                    country: panel.dataset.locationCountry || '',
+                    state: panel.dataset.locationState || '',
+                    city: panel.dataset.locationCity || '',
+                    street: panel.dataset.locationStreet || ''
+                };
+
+                document.dispatchEvent(new CustomEvent('publish:media:back', { detail }));
+            });
+        }
+
+        panel.addEventListener('publish-media:open', (event) => {
+            updateContext(event.detail || {});
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        updateContext({
+            purposeLabel: panel.dataset.publishPurposeLabel,
+            typeLabel: panel.dataset.publishTypeLabel,
+            subtype: panel.dataset.publishSubtype
+        });
+
+        renderPreviews();
     };
 
     const init = (panel) => {
@@ -482,6 +961,11 @@
 
         if (panel.dataset.section === 'publicar-caracteristicas') {
             initCharacteristicsPanel(panel);
+            return;
+        }
+
+        if (panel.dataset.section === 'publicar-media') {
+            initMediaPanel(panel);
         }
     };
 
