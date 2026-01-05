@@ -1,0 +1,63 @@
+<section class="publish-media" aria-label="Fotos de la propiedad">
+    <header class="publish-media__header">
+        <div class="publish-media__eyebrow">Paso 4 · Fotos</div>
+        <div class="publish-media__headline-group">
+            <h2 class="publish-media__title">Fotos</h2>
+            <p class="publish-media__subtitle">Carga entre 5 y 50 fotos. Una vez cargadas, arrastra y suelta para cambiar el orden.</p>
+        </div>
+        <div class="publish-media__chips" aria-live="polite">
+            <span class="publish-media__chip" data-media-purpose>Propósito pendiente</span>
+            <span class="publish-media__chip publish-media__chip--accent" data-media-type>Tipo de propiedad pendiente</span>
+            <span class="publish-media__chip" data-media-subtype>Subtipo pendiente</span>
+        </div>
+    </header>
+
+    <div class="publish-media__layout">
+        <div class="publish-card publish-media__card" role="form" aria-describedby="publish-media-helper">
+            <p id="publish-media-helper" class="publish-card__helper">Sube fotografías nítidas y selecciona la principal para destacar tu inmueble.</p>
+
+            <div class="publish-media__content">
+                <div class="publish-media__upload">
+                    <div class="publish-media__alert" data-media-error role="status" aria-live="polite" hidden></div>
+                    <div class="publish-media__grid" data-media-grid>
+                        <div class="publish-media__item publish-media__dropzone" data-media-dropzone-item>
+                            <div class="publish-media__thumb">
+                                <button type="button" class="publish-media__dropzone-btn" data-media-dropzone aria-label="Agregar fotos del inmueble">
+                                    <span class="publish-media__dropzone-icon" aria-hidden="true">
+                                        <svg viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 3v12m0-12 4 4m-4-4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5 15v3a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </span>
+                                    <span class="publish-media__dropzone-title">Arrastra o agrega las fotos del inmueble</span>
+                                </button>
+                                <input class="publish-media__input" type="file" accept="image/png, image/jpeg" multiple data-media-input aria-hidden="true">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <aside class="publish-media__aside" aria-label="Recomendaciones de fotos">
+                    <div class="publish-media__tip">
+                        <span class="publish-media__tip-icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" fill="none">
+                                <path d="M9 18h6m-5 3h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                                <path d="M8 14c0-1.9 1.5-3.4 2.7-4.4 1-.8 1.3-1.3 1.3-2.1a2.7 2.7 0 1 0-5.4 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12 2a8 8 0 0 0-4.5 14.6c.3.2.5.6.5 1v.7c0 .4.3.7.7.7h7.6c.4 0 .7-.3.7-.7v-.7c0-.4.2-.8.5-1A8 8 0 0 0 12 2Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <div>
+                            <p class="publish-media__tip-title">Recomendación</p>
+                            <p class="publish-media__tip-text">Para que tu inmueble tenga más visitas, te recomendamos cargar fotos nítidas y bien iluminadas. Evita incluir bordes, logos, marcas de agua o textos promocionales.</p>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+
+            <footer class="publish-card__actions publish-card__actions--sticky">
+                <button type="button" class="publish-action-btn publish-action-btn--ghost" data-media-back>Volver</button>
+                <button type="button" class="publish-action-btn publish-action-btn--primary" data-media-continue disabled>Continuar</button>
+            </footer>
+        </div>
+    </div>
+</section>
