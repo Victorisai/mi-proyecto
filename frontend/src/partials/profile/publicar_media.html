@@ -19,6 +19,13 @@
             <div class="publish-media__content">
                 <div class="publish-media__upload">
                     <div class="publish-media__alert" data-media-error role="status" aria-live="polite" hidden></div>
+                    <div class="publish-media__upload-head">
+                        <div>
+                            <p class="publish-media__upload-title">Sube las fotos de tu inmueble</p>
+                            <p class="publish-media__upload-subtitle">JPG o PNG · hasta 50 imágenes</p>
+                        </div>
+                        <div class="publish-media__upload-count" data-media-count>0/50</div>
+                    </div>
                     <div class="publish-media__grid" data-media-grid>
                         <div class="publish-media__item publish-media__dropzone" data-media-dropzone-item>
                             <div class="publish-media__thumb">
@@ -32,6 +39,9 @@
                                     <span class="publish-media__dropzone-title">Arrastra o agrega las fotos del inmueble</span>
                                 </button>
                                 <input class="publish-media__input" type="file" accept="image/png, image/jpeg" multiple data-media-input aria-hidden="true">
+                            </div>
+                            <div class="publish-media__footer publish-media__footer--dropzone">
+                                <span class="publish-media__dropzone-helper">Puedes arrastrar varias fotos a la vez.</span>
                             </div>
                         </div>
                     </div>

@@ -1579,6 +1579,46 @@ button {
     gap: 24px;
 }
 
+.publish-media__upload {
+    display: grid;
+    gap: 16px;
+}
+
+.publish-media__upload-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.9);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.publish-media__upload-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 0 0 4px;
+}
+
+.publish-media__upload-subtitle {
+    font-size: 13px;
+    color: #64748b;
+    margin: 0;
+}
+
+.publish-media__upload-count {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2563eb;
+    background: rgba(37, 99, 235, 0.1);
+    padding: 6px 12px;
+    border-radius: 999px;
+}
+
 .publish-media__alert {
     background: #fef2f2;
     border: 1px solid #fecaca;
@@ -1590,9 +1630,10 @@ button {
 
 .publish-media__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 220px));
     gap: 16px;
     align-items: start;
+    justify-content: start;
 }
 
 .publish-media__item {
@@ -1617,7 +1658,7 @@ button {
     border-radius: 12px;
     overflow: hidden;
     background: #f1f5f9;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1683,6 +1724,25 @@ button {
 
 .publish-media__input {
     display: none;
+}
+
+.publish-media__footer {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+}
+
+.publish-media__footer--dropzone {
+    justify-content: center;
+    text-align: center;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 0 6px;
+}
+
+.publish-media__dropzone-helper {
+    display: inline-block;
 }
 
 .publish-media__controls {
@@ -1752,6 +1812,7 @@ button {
     color: #0f172a;
     background: #f8fafc;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
 }
 
 .publish-media__caption-input:focus {
@@ -1762,7 +1823,7 @@ button {
 }
 
 .publish-media__more {
-    padding: 0;
+    padding: 12px;
     background: #f8fafc;
     border: 1px dashed rgba(148, 163, 184, 0.8);
 }
@@ -1782,7 +1843,6 @@ button {
     font-weight: 700;
     cursor: pointer;
     padding: 16px;
-    aspect-ratio: 4 / 5;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 

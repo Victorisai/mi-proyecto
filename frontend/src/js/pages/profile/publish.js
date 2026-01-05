@@ -505,6 +505,7 @@
         const errorMessage = panel.querySelector('[data-media-error]');
         const backButton = panel.querySelector('[data-media-back]');
         const continueButton = panel.querySelector('[data-media-continue]');
+        const countLabel = panel.querySelector('[data-media-count]');
 
         const MAX_FILES = 50;
         const MIN_FILES = 5;
@@ -533,6 +534,12 @@
         const updateContinueState = () => {
             if (continueButton) {
                 continueButton.disabled = images.length < MIN_FILES;
+            }
+        };
+
+        const updateCountLabel = () => {
+            if (countLabel) {
+                countLabel.textContent = `${images.length}/${MAX_FILES}`;
             }
         };
 
@@ -702,6 +709,9 @@
             thumb.appendChild(img);
             thumb.appendChild(controls);
 
+            const footer = document.createElement('div');
+            footer.className = 'publish-media__footer';
+
             const caption = document.createElement('input');
             caption.type = 'text';
             caption.className = 'publish-media__caption-input';
@@ -709,8 +719,10 @@
             caption.value = image.caption;
             caption.addEventListener('input', (event) => updateCaption(image.id, event.target.value));
 
+            footer.appendChild(caption);
+
             item.appendChild(thumb);
-            item.appendChild(caption);
+            item.appendChild(footer);
 
             item.addEventListener('pointerdown', (event) => {
                 if (event.button !== undefined && event.button !== 0) {
@@ -745,6 +757,9 @@
         const createMoreCard = (count) => {
             const item = document.createElement('div');
             item.className = 'publish-media__item publish-media__more';
+            const thumb = document.createElement('div');
+            thumb.className = 'publish-media__thumb';
+
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'publish-media__more-btn';
@@ -755,7 +770,14 @@
                 showAll = true;
                 renderPreviews();
             });
-            item.appendChild(button);
+            thumb.appendChild(button);
+
+            const footer = document.createElement('div');
+            footer.className = 'publish-media__footer publish-media__footer--dropzone';
+            footer.textContent = 'Mostrar todas las fotos cargadas.';
+
+            item.appendChild(thumb);
+            item.appendChild(footer);
             return item;
         };
 
@@ -795,6 +817,7 @@
             }
 
             updateContinueState();
+            updateCountLabel();
         };
 
         const startDrag = (event, item) => {
@@ -853,9 +876,12 @@
                 }
             };
 
-            const handleEnd = () => {
+            const handleEnd = (endEvent) => {
                 if (!dragState) {
                     return;
+                }
+                if (endEvent && item.hasPointerCapture(endEvent.pointerId)) {
+                    item.releasePointerCapture(endEvent.pointerId);
                 }
                 item.classList.remove('is-dragging');
                 item.style.width = '';
@@ -875,15 +901,15 @@
                 }, []);
 
                 dragState.placeholder.replaceWith(item);
-                item.removeEventListener('pointermove', handleMove);
+                document.removeEventListener('pointermove', handleMove);
                 dragState = null;
                 applyOrder(orderedIds);
                 renderPreviews();
             };
 
-            item.addEventListener('pointermove', handleMove);
-            item.addEventListener('pointerup', handleEnd, { once: true });
-            item.addEventListener('pointercancel', handleEnd, { once: true });
+            document.addEventListener('pointermove', handleMove);
+            document.addEventListener('pointerup', handleEnd, { once: true });
+            document.addEventListener('pointercancel', handleEnd, { once: true });
         };
 
         const applyMediaContext = (detail = {}) => {
