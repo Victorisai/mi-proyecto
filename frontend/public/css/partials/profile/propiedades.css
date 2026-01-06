@@ -1621,7 +1621,7 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 240px;
+    min-height: clamp(180px, 28vw, 240px);
 }
 
 .publish-media__media img {

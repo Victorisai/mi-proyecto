@@ -779,18 +779,12 @@
             if (!grid) {
                 return 1;
             }
-            const firstItem = grid.querySelector('.publish-media__item');
-            if (!firstItem) {
+            const template = window.getComputedStyle(grid).gridTemplateColumns;
+            if (!template || template === 'none') {
                 return 1;
             }
-            const gridStyles = window.getComputedStyle(grid);
-            const gapValue = parseFloat(gridStyles.columnGap || gridStyles.gap || '0');
-            const gridWidth = grid.getBoundingClientRect().width;
-            const itemWidth = firstItem.getBoundingClientRect().width;
-            if (!itemWidth) {
-                return 1;
-            }
-            return Math.max(1, Math.round((gridWidth + gapValue) / (itemWidth + gapValue)));
+            const columns = template.split(' ').filter(Boolean).length;
+            return columns || 1;
         };
 
         const debounce = (callback, delay = 150) => {
@@ -818,19 +812,19 @@
                 showAll = false;
             }
 
-            let visibleCount = images.length;
-            if (!showAll) {
-                visibleCount = hasOverflow ? Math.max(0, maxCells - 2) : images.length;
+            let visibleImages = images;
+            if (!showAll && hasOverflow) {
+                const visibleImagesCount = Math.max(0, maxCells - 2);
+                visibleImages = images.slice(0, visibleImagesCount);
             }
-
-            const visibleImages = images.slice(0, visibleCount);
 
             visibleImages.forEach((image) => {
                 grid.appendChild(createImageCard(image));
             });
 
             if (!showAll && hasOverflow) {
-                grid.appendChild(createMoreCard(images.length - visibleImages.length));
+                const hiddenCount = images.length - visibleImages.length;
+                grid.appendChild(createMoreCard(hiddenCount));
             }
 
             const isAtMax = images.length >= MAX_FILES;
