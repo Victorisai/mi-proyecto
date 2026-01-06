@@ -513,6 +513,7 @@
         let images = [];
         let showAll = false;
         let dragState = null;
+        const rowsCollapsed = 2;
 
         const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
@@ -650,8 +651,8 @@
             item.className = 'publish-media__item publish-media__preview';
             item.dataset.imageId = image.id;
 
-            const thumb = document.createElement('div');
-            thumb.className = 'publish-media__thumb';
+            const media = document.createElement('div');
+            media.className = 'publish-media__media';
 
             const img = document.createElement('img');
             img.src = image.url;
@@ -696,11 +697,14 @@
                         <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17l-5.5 3.2 1-6.2L3 9.6l6.2-.9L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
                     </svg>
                     Foto principal`;
-                thumb.appendChild(badge);
+                media.appendChild(badge);
             }
 
-            thumb.appendChild(img);
-            thumb.appendChild(controls);
+            media.appendChild(img);
+            media.appendChild(controls);
+
+            const footer = document.createElement('div');
+            footer.className = 'publish-media__footer';
 
             const caption = document.createElement('input');
             caption.type = 'text';
@@ -709,8 +713,10 @@
             caption.value = image.caption;
             caption.addEventListener('input', (event) => updateCaption(image.id, event.target.value));
 
-            item.appendChild(thumb);
-            item.appendChild(caption);
+            footer.appendChild(caption);
+
+            item.appendChild(media);
+            item.appendChild(footer);
 
             item.addEventListener('pointerdown', (event) => {
                 if (event.button !== undefined && event.button !== 0) {
@@ -745,6 +751,9 @@
         const createMoreCard = (count) => {
             const item = document.createElement('div');
             item.className = 'publish-media__item publish-media__more';
+
+            const media = document.createElement('div');
+            media.className = 'publish-media__media';
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'publish-media__more-btn';
@@ -755,8 +764,41 @@
                 showAll = true;
                 renderPreviews();
             });
-            item.appendChild(button);
+            media.appendChild(button);
+
+            const footer = document.createElement('div');
+            footer.className = 'publish-media__footer';
+            footer.textContent = 'Fotos ocultas';
+
+            item.appendChild(media);
+            item.appendChild(footer);
             return item;
+        };
+
+        const getGridColumns = () => {
+            if (!grid) {
+                return 1;
+            }
+            const firstItem = grid.querySelector('.publish-media__item');
+            if (!firstItem) {
+                return 1;
+            }
+            const gridStyles = window.getComputedStyle(grid);
+            const gapValue = parseFloat(gridStyles.columnGap || gridStyles.gap || '0');
+            const gridWidth = grid.getBoundingClientRect().width;
+            const itemWidth = firstItem.getBoundingClientRect().width;
+            if (!itemWidth) {
+                return 1;
+            }
+            return Math.max(1, Math.round((gridWidth + gapValue) / (itemWidth + gapValue)));
+        };
+
+        const debounce = (callback, delay = 150) => {
+            let timerId;
+            return (...args) => {
+                window.clearTimeout(timerId);
+                timerId = window.setTimeout(() => callback(...args), delay);
+            };
         };
 
         const renderPreviews = () => {
@@ -764,17 +806,30 @@
                 return;
             }
 
-            const shouldShowMore = !showAll && images.length > 5;
-            const visibleImages = showAll ? images : images.slice(0, 5);
-
             grid.innerHTML = '';
             grid.appendChild(dropzoneItem);
+
+            const columns = getGridColumns();
+            const maxCells = Math.max(1, columns * rowsCollapsed);
+            const previewCapacity = Math.max(0, maxCells - 1);
+            const hasOverflow = images.length > previewCapacity;
+
+            if (!hasOverflow) {
+                showAll = false;
+            }
+
+            let visibleCount = images.length;
+            if (!showAll) {
+                visibleCount = hasOverflow ? Math.max(0, maxCells - 2) : images.length;
+            }
+
+            const visibleImages = images.slice(0, visibleCount);
 
             visibleImages.forEach((image) => {
                 grid.appendChild(createImageCard(image));
             });
 
-            if (shouldShowMore) {
+            if (!showAll && hasOverflow) {
                 grid.appendChild(createMoreCard(images.length - visibleImages.length));
             }
 
@@ -788,10 +843,6 @@
             }
             if (fileInput) {
                 fileInput.disabled = isAtMax;
-            }
-
-            if (images.length <= 5) {
-                showAll = false;
             }
 
             updateContinueState();
@@ -959,6 +1010,12 @@
             applyMediaContext(detail);
             panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
+
+        const handleResize = debounce(() => {
+            renderPreviews();
+        }, 160);
+
+        window.addEventListener('resize', handleResize);
 
         applyMediaContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
