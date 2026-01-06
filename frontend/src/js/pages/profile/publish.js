@@ -513,6 +513,7 @@
         let images = [];
         let showAll = false;
         let dragState = null;
+        const rowsCollapsed = 2;
 
         const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
@@ -595,6 +596,51 @@
             ensurePrimary();
         };
 
+        const getColumnCount = () => {
+            if (!grid) {
+                return 1;
+            }
+
+            const template = window.getComputedStyle(grid).getPropertyValue('grid-template-columns');
+            if (!template) {
+                return 1;
+            }
+
+            const trimmed = template.trim();
+            if (!trimmed) {
+                return 1;
+            }
+
+            let count = 0;
+            let depth = 0;
+            let token = '';
+
+            for (const char of trimmed) {
+                if (char === '(') {
+                    depth += 1;
+                } else if (char === ')') {
+                    depth = Math.max(0, depth - 1);
+                }
+
+                if (char === ' ' && depth === 0) {
+                    if (token.trim().length) {
+                        count += 1;
+                        token = '';
+                    }
+                } else {
+                    token += char;
+                }
+            }
+
+            if (token.trim().length) {
+                count += 1;
+            }
+
+            return Math.max(count, 1);
+        };
+
+        const getMaxCells = () => getColumnCount() * rowsCollapsed;
+
         const handleFiles = (fileList) => {
             clearError();
 
@@ -650,8 +696,8 @@
             item.className = 'publish-media__item publish-media__preview';
             item.dataset.imageId = image.id;
 
-            const thumb = document.createElement('div');
-            thumb.className = 'publish-media__thumb';
+            const media = document.createElement('div');
+            media.className = 'publish-media__media';
 
             const img = document.createElement('img');
             img.src = image.url;
@@ -696,11 +742,11 @@
                         <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17l-5.5 3.2 1-6.2L3 9.6l6.2-.9L12 3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
                     </svg>
                     Foto principal`;
-                thumb.appendChild(badge);
+                media.appendChild(badge);
             }
 
-            thumb.appendChild(img);
-            thumb.appendChild(controls);
+            media.appendChild(img);
+            media.appendChild(controls);
 
             const caption = document.createElement('input');
             caption.type = 'text';
@@ -709,8 +755,12 @@
             caption.value = image.caption;
             caption.addEventListener('input', (event) => updateCaption(image.id, event.target.value));
 
-            item.appendChild(thumb);
-            item.appendChild(caption);
+            const footer = document.createElement('div');
+            footer.className = 'publish-media__footer';
+            footer.appendChild(caption);
+
+            item.appendChild(media);
+            item.appendChild(footer);
 
             item.addEventListener('pointerdown', (event) => {
                 if (event.button !== undefined && event.button !== 0) {
@@ -745,6 +795,8 @@
         const createMoreCard = (count) => {
             const item = document.createElement('div');
             item.className = 'publish-media__item publish-media__more';
+            const media = document.createElement('div');
+            media.className = 'publish-media__media';
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'publish-media__more-btn';
@@ -755,7 +807,13 @@
                 showAll = true;
                 renderPreviews();
             });
-            item.appendChild(button);
+            media.appendChild(button);
+            const footer = document.createElement('div');
+            footer.className = 'publish-media__footer publish-media__footer--placeholder';
+            footer.setAttribute('aria-hidden', 'true');
+            footer.innerHTML = '<span class="publish-media__caption-placeholder">Agrega un pie de foto</span>';
+            item.appendChild(media);
+            item.appendChild(footer);
             return item;
         };
 
@@ -764,8 +822,12 @@
                 return;
             }
 
-            const shouldShowMore = !showAll && images.length > 5;
-            const visibleImages = showAll ? images : images.slice(0, 5);
+            const maxCells = getMaxCells();
+            const hasOverflow = images.length + 1 > maxCells;
+            const shouldShowMore = !showAll && hasOverflow;
+            const slotsForPreviews = shouldShowMore ? Math.max(maxCells - 2, 0) : images.length;
+            const visibleImages = showAll || !shouldShowMore ? images : images.slice(0, slotsForPreviews);
+            const overflowCount = shouldShowMore ? Math.max(images.length - visibleImages.length, 0) : 0;
 
             grid.innerHTML = '';
             grid.appendChild(dropzoneItem);
@@ -775,7 +837,7 @@
             });
 
             if (shouldShowMore) {
-                grid.appendChild(createMoreCard(images.length - visibleImages.length));
+                grid.appendChild(createMoreCard(overflowCount));
             }
 
             const isAtMax = images.length >= MAX_FILES;
@@ -790,9 +852,11 @@
                 fileInput.disabled = isAtMax;
             }
 
-            if (images.length <= 5) {
+            if (!hasOverflow) {
                 showAll = false;
             }
+
+            grid.classList.toggle('is-empty', images.length === 0);
 
             updateContinueState();
         };
@@ -967,6 +1031,18 @@
         });
 
         renderPreviews();
+
+        const handleResize = (() => {
+            let timeoutId;
+            return () => {
+                window.clearTimeout(timeoutId);
+                timeoutId = window.setTimeout(() => {
+                    renderPreviews();
+                }, 150);
+            };
+        })();
+
+        window.addEventListener('resize', handleResize);
     };
 
     const init = (panel) => {

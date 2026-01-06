@@ -1595,6 +1595,11 @@ button {
     align-items: start;
 }
 
+.publish-media__grid.is-empty {
+    grid-template-columns: minmax(220px, 320px);
+    justify-content: start;
+}
+
 .publish-media__item {
     background: #ffffff;
     border-radius: 16px;
@@ -1602,7 +1607,7 @@ button {
     padding: 12px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     position: relative;
 }
@@ -1612,29 +1617,29 @@ button {
     transform: translateY(-2px);
 }
 
-.publish-media__thumb {
+.publish-media__media {
     position: relative;
     border-radius: 12px;
     overflow: hidden;
     background: #f1f5f9;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.publish-media__thumb img {
+.publish-media__media img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.publish-media__dropzone .publish-media__thumb {
+.publish-media__dropzone .publish-media__media {
     border: 2px dashed #93c5fd;
     background: #f8fafc;
 }
 
-.publish-media__dropzone--active .publish-media__thumb {
+.publish-media__dropzone--active .publish-media__media {
     border-color: #2563eb;
     background: #eff6ff;
 }
@@ -1683,6 +1688,18 @@ button {
 
 .publish-media__input {
     display: none;
+}
+
+.publish-media__footer {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.publish-media__footer--placeholder {
+    color: transparent;
+    font-size: 13px;
+    user-select: none;
 }
 
 .publish-media__controls {
@@ -1752,6 +1769,7 @@ button {
     color: #0f172a;
     background: #f8fafc;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
 }
 
 .publish-media__caption-input:focus {
@@ -1762,7 +1780,7 @@ button {
 }
 
 .publish-media__more {
-    padding: 0;
+    padding: 12px;
     background: #f8fafc;
     border: 1px dashed rgba(148, 163, 184, 0.8);
 }
@@ -1772,7 +1790,7 @@ button {
     background: transparent;
     width: 100%;
     height: 100%;
-    border-radius: 16px;
+    border-radius: 12px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1782,7 +1800,6 @@ button {
     font-weight: 700;
     cursor: pointer;
     padding: 16px;
-    aspect-ratio: 4 / 5;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
