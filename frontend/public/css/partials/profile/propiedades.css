@@ -1590,7 +1590,7 @@ button {
 
 .publish-media__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 16px;
     align-items: start;
 }
@@ -1617,7 +1617,7 @@ button {
     border-radius: 12px;
     overflow: hidden;
     background: #f1f5f9;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1679,6 +1679,12 @@ button {
 .publish-media__dropzone-title {
     font-size: 14px;
     line-height: 1.4;
+}
+
+.publish-media__dropzone-subtitle {
+    font-size: 12px;
+    font-weight: 500;
+    color: #64748b;
 }
 
 .publish-media__input {
@@ -1782,7 +1788,7 @@ button {
     font-weight: 700;
     cursor: pointer;
     padding: 16px;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 4 / 3;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -1803,7 +1809,8 @@ button {
 
 .publish-media__item--placeholder {
     border: 2px dashed rgba(148, 163, 184, 0.8);
-    background: rgba(226, 232, 240, 0.5);
+    background: linear-gradient(135deg, rgba(226, 232, 240, 0.75), rgba(248, 250, 252, 0.95));
+    box-shadow: inset 0 0 0 2px rgba(226, 232, 240, 0.6);
 }
 
 .publish-media__item.is-dragging {
@@ -1862,6 +1869,12 @@ button {
     .publish-media__content {
         grid-template-columns: 2fr 1fr;
         align-items: start;
+    }
+}
+
+@media (max-width: 1024px) {
+    .publish-media__grid {
+        grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
     }
 }
 

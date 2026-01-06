@@ -513,26 +513,51 @@
         let images = [];
         let showAll = false;
         let dragState = null;
+        let errorType = null;
 
         const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
-        const clearError = () => {
-            if (errorMessage) {
+        const clearError = (type) => {
+            if (!errorMessage) {
+                return;
+            }
+            if (!type || errorType === type) {
                 errorMessage.textContent = '';
                 errorMessage.hidden = true;
+                errorType = null;
             }
         };
 
-        const showError = (message) => {
-            if (errorMessage) {
-                errorMessage.textContent = message;
-                errorMessage.hidden = false;
+        const showError = (message, type = 'general') => {
+            if (!errorMessage) {
+                return;
             }
+            errorMessage.textContent = message;
+            errorMessage.hidden = false;
+            errorType = type;
         };
 
         const updateContinueState = () => {
             if (continueButton) {
                 continueButton.disabled = images.length < MIN_FILES;
+            }
+        };
+
+        const updateCountError = () => {
+            if (images.length === 0) {
+                if (errorType === 'count') {
+                    clearError('count');
+                }
+                return;
+            }
+            if (images.length < MIN_FILES) {
+                if (!errorType || errorType === 'count') {
+                    showError(`Agrega al menos ${MIN_FILES} fotos para continuar.`, 'count');
+                }
+                return;
+            }
+            if (errorType === 'count') {
+                clearError('count');
             }
         };
 
@@ -596,7 +621,8 @@
         };
 
         const handleFiles = (fileList) => {
-            clearError();
+            clearError('file');
+            clearError('max');
 
             if (!fileList || !fileList.length) {
                 return;
@@ -605,20 +631,20 @@
             const files = Array.from(fileList);
             const invalidFiles = files.filter((file) => !ACCEPTED_TYPES.includes(file.type));
             if (invalidFiles.length) {
-                showError('Solo se aceptan archivos JPG o PNG.');
+                showError('Solo se aceptan archivos JPG o PNG.', 'file');
             }
 
             const validFiles = files.filter((file) => ACCEPTED_TYPES.includes(file.type));
             const availableSlots = MAX_FILES - images.length;
 
             if (availableSlots <= 0) {
-                showError('Alcanzaste el máximo de 50 fotos permitidas.');
+                showError('Alcanzaste el máximo de 50 fotos permitidas.', 'max');
                 return;
             }
 
             const filesToAdd = validFiles.slice(0, availableSlots);
             if (filesToAdd.length < validFiles.length) {
-                showError('Solo puedes cargar hasta 50 fotos.');
+                showError('Solo puedes cargar hasta 50 fotos.', 'max');
             }
 
             const newItems = filesToAdd.map((file) => ({
@@ -764,6 +790,10 @@
                 return;
             }
 
+            if (images.length <= 5) {
+                showAll = false;
+            }
+
             const shouldShowMore = !showAll && images.length > 5;
             const visibleImages = showAll ? images : images.slice(0, 5);
 
@@ -790,11 +820,8 @@
                 fileInput.disabled = isAtMax;
             }
 
-            if (images.length <= 5) {
-                showAll = false;
-            }
-
             updateContinueState();
+            updateCountError();
         };
 
         const startDrag = (event, item) => {
@@ -827,35 +854,66 @@
                 id,
                 offsetX: event.clientX - rect.left,
                 offsetY: event.clientY - rect.top,
-                placeholder
+                placeholder,
+                lastX: event.clientX,
+                lastY: event.clientY,
+                raf: null
             };
 
-            item.setPointerCapture(event.pointerId);
+            if (item.setPointerCapture) {
+                item.setPointerCapture(event.pointerId);
+            }
+
+            const findTargetCard = (x, y) => {
+                const cards = Array.from(grid.querySelectorAll('.publish-media__item[data-image-id]'));
+                return cards.find((card) => {
+                    if (card === item) {
+                        return false;
+                    }
+                    const cardRect = card.getBoundingClientRect();
+                    return x >= cardRect.left && x <= cardRect.right && y >= cardRect.top && y <= cardRect.bottom;
+                });
+            };
 
             const handleMove = (moveEvent) => {
                 if (!dragState) {
                     return;
                 }
-                item.style.left = `${moveEvent.clientX - dragState.offsetX}px`;
-                item.style.top = `${moveEvent.clientY - dragState.offsetY}px`;
+                dragState.lastX = moveEvent.clientX;
+                dragState.lastY = moveEvent.clientY;
 
-                const target = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY);
-                const targetCard = target ? target.closest('.publish-media__item[data-image-id]') : null;
-
-                if (targetCard && targetCard !== item && targetCard.parentElement === grid) {
-                    const targetRect = targetCard.getBoundingClientRect();
-                    const isAfter = moveEvent.clientY > targetRect.top + targetRect.height / 2;
-                    if (isAfter) {
-                        targetCard.after(dragState.placeholder);
-                    } else {
-                        targetCard.before(dragState.placeholder);
-                    }
+                if (dragState.raf) {
+                    return;
                 }
+
+                dragState.raf = window.requestAnimationFrame(() => {
+                    if (!dragState) {
+                        return;
+                    }
+                    const { lastX, lastY } = dragState;
+                    item.style.left = `${lastX - dragState.offsetX}px`;
+                    item.style.top = `${lastY - dragState.offsetY}px`;
+
+                    const targetCard = findTargetCard(lastX, lastY);
+                    if (targetCard && targetCard.parentElement === grid) {
+                        const targetRect = targetCard.getBoundingClientRect();
+                        const isAfter = lastY > targetRect.top + targetRect.height / 2;
+                        if (isAfter) {
+                            targetCard.after(dragState.placeholder);
+                        } else {
+                            targetCard.before(dragState.placeholder);
+                        }
+                    }
+                    dragState.raf = null;
+                });
             };
 
             const handleEnd = () => {
                 if (!dragState) {
                     return;
+                }
+                if (dragState.raf) {
+                    window.cancelAnimationFrame(dragState.raf);
                 }
                 item.classList.remove('is-dragging');
                 item.style.width = '';
@@ -875,15 +933,17 @@
                 }, []);
 
                 dragState.placeholder.replaceWith(item);
-                item.removeEventListener('pointermove', handleMove);
+                document.removeEventListener('pointermove', handleMove);
+                document.removeEventListener('pointerup', handleEnd);
+                document.removeEventListener('pointercancel', handleEnd);
                 dragState = null;
                 applyOrder(orderedIds);
                 renderPreviews();
             };
 
-            item.addEventListener('pointermove', handleMove);
-            item.addEventListener('pointerup', handleEnd, { once: true });
-            item.addEventListener('pointercancel', handleEnd, { once: true });
+            document.addEventListener('pointermove', handleMove);
+            document.addEventListener('pointerup', handleEnd, { once: true });
+            document.addEventListener('pointercancel', handleEnd, { once: true });
         };
 
         const applyMediaContext = (detail = {}) => {
