@@ -742,9 +742,12 @@
             return item;
         };
 
-        const createMoreCard = (count) => {
+        const createMoreCard = (count, previewImage) => {
             const item = document.createElement('div');
             item.className = 'publish-media__item publish-media__more';
+            if (previewImage && previewImage.url) {
+                item.style.setProperty('--media-more-image', `url("${previewImage.url}")`);
+            }
             const button = document.createElement('button');
             button.type = 'button';
             button.className = 'publish-media__more-btn';
@@ -759,6 +762,13 @@
             return item;
         };
 
+        const updateGridHeight = () => {
+            if (!grid) {
+                return;
+            }
+            grid.style.maxHeight = `${grid.scrollHeight}px`;
+        };
+
         const renderPreviews = () => {
             if (!grid || !dropzoneItem) {
                 return;
@@ -766,6 +776,7 @@
 
             const shouldShowMore = !showAll && images.length > 5;
             const visibleImages = showAll ? images : images.slice(0, 5);
+            const nextImage = shouldShowMore ? images[visibleImages.length] : null;
 
             grid.innerHTML = '';
             grid.appendChild(dropzoneItem);
@@ -775,13 +786,15 @@
             });
 
             if (shouldShowMore) {
-                grid.appendChild(createMoreCard(images.length - visibleImages.length));
+                grid.appendChild(createMoreCard(images.length - visibleImages.length, nextImage));
             }
 
             const isAtMax = images.length >= MAX_FILES;
             if (dropzoneItem) {
                 dropzoneItem.classList.toggle('publish-media__dropzone--disabled', isAtMax);
+                dropzoneItem.classList.toggle('publish-media__dropzone--hidden', isAtMax);
                 dropzoneItem.setAttribute('aria-disabled', String(isAtMax));
+                dropzoneItem.toggleAttribute('hidden', isAtMax);
             }
             if (dropzoneButton) {
                 dropzoneButton.disabled = isAtMax;
@@ -795,6 +808,7 @@
             }
 
             updateContinueState();
+            requestAnimationFrame(updateGridHeight);
         };
 
         const startDrag = (event, item) => {
