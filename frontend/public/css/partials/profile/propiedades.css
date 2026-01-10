@@ -1572,6 +1572,8 @@ button {
 .publish-media__layout {
     display: grid;
     gap: 18px;
+    width: 100%;
+    margin: 0 auto;
 }
 
 .publish-media__content {
@@ -1590,7 +1592,7 @@ button {
 
 .publish-media__grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
     align-items: start;
 }
@@ -1899,16 +1901,10 @@ button {
 
 @media (max-width: 768px) {
     .publish-media__grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 14px;
     }
 }
 
-@media (max-width: 360px) {
-    .publish-media__grid {
-        grid-template-columns: 1fr;
-    }
-}
 
 /* ================================================= */
 /* === ESTILO DE BORDE A BORDE (FULL WIDTH) EN MÓVIL === */
