@@ -593,7 +593,7 @@
                 images = [...reordered, ...remaining];
             }
 
-            ensurePrimary();
+            images = images.map((image, index) => ({ ...image, isPrimary: index === 0 }));
         };
 
         const handleFiles = (fileList) => {
@@ -870,9 +870,11 @@
 
             dragState = {
                 id,
+                pointerId: event.pointerId,
                 offsetX: event.clientX - rect.left,
                 offsetY: event.clientY - rect.top,
-                placeholder
+                placeholder,
+                item
             };
 
             item.setPointerCapture(event.pointerId);
@@ -902,33 +904,71 @@
                 if (!dragState) {
                     return;
                 }
-                item.classList.remove('is-dragging');
-                item.style.width = '';
-                item.style.height = '';
-                item.style.left = '';
-                item.style.top = '';
+                const activeDrag = dragState;
+                let orderedIds = [];
+                try {
+                    // Finalize drag visuals before reordering.
+                    item.classList.remove('is-dragging');
+                    item.style.width = '';
+                    item.style.height = '';
+                    item.style.left = '';
+                    item.style.top = '';
 
-                const orderedIds = Array.from(grid.children).reduce((acc, element) => {
-                    if (element === dragState.placeholder) {
-                        acc.push(dragState.id);
+                    orderedIds = Array.from(grid.children).reduce((acc, element) => {
+                        if (element === activeDrag.placeholder) {
+                            acc.push(activeDrag.id);
+                            return acc;
+                        }
+                        if (element.dataset && element.dataset.imageId) {
+                            acc.push(element.dataset.imageId);
+                        }
                         return acc;
-                    }
-                    if (element.dataset && element.dataset.imageId) {
-                        acc.push(element.dataset.imageId);
-                    }
-                    return acc;
-                }, []);
+                    }, []);
 
-                dragState.placeholder.replaceWith(item);
-                item.removeEventListener('pointermove', handleMove);
-                dragState = null;
-                applyOrder(orderedIds);
-                renderPreviews();
+                    if (activeDrag.placeholder && activeDrag.placeholder.parentElement) {
+                        activeDrag.placeholder.replaceWith(item);
+                    } else if (grid && item.parentElement !== grid) {
+                        grid.appendChild(item);
+                    }
+
+                    if (activeDrag.placeholder && activeDrag.placeholder.parentElement) {
+                        activeDrag.placeholder.remove();
+                    }
+                } finally {
+                    // Ensure global listeners and drag state are always cleaned up.
+                    window.removeEventListener('pointermove', handleMove);
+                    window.removeEventListener('pointerup', handleEnd);
+                    window.removeEventListener('pointercancel', handleEnd);
+                    window.removeEventListener('blur', handleEnd);
+                    window.removeEventListener('scroll', handleEnd, { capture: true });
+                    window.removeEventListener('resize', handleEnd);
+                    document.removeEventListener('visibilitychange', handleVisibilityChange);
+                    if (item.hasPointerCapture && item.hasPointerCapture(activeDrag.pointerId)) {
+                        item.releasePointerCapture(activeDrag.pointerId);
+                    }
+                    dragState = null;
+                }
+
+                if (orderedIds.length) {
+                    applyOrder(orderedIds);
+                    renderPreviews();
+                }
             };
 
-            item.addEventListener('pointermove', handleMove);
-            item.addEventListener('pointerup', handleEnd, { once: true });
-            item.addEventListener('pointercancel', handleEnd, { once: true });
+            const handleVisibilityChange = () => {
+                if (document.hidden) {
+                    handleEnd();
+                }
+            };
+
+            // Track movement and end events globally to avoid stuck drag states.
+            window.addEventListener('pointermove', handleMove);
+            window.addEventListener('pointerup', handleEnd, { once: true });
+            window.addEventListener('pointercancel', handleEnd, { once: true });
+            window.addEventListener('blur', handleEnd, { once: true });
+            window.addEventListener('scroll', handleEnd, { once: true, capture: true });
+            window.addEventListener('resize', handleEnd, { once: true });
+            document.addEventListener('visibilitychange', handleVisibilityChange);
         };
 
         const applyMediaContext = (detail = {}) => {
