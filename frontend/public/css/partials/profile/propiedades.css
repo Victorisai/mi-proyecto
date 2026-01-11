@@ -1846,6 +1846,7 @@ button {
     pointer-events: none;
     box-shadow: 0 24px 45px rgba(15, 23, 42, 0.2);
     cursor: grabbing;
+    will-change: transform, left, top;
 }
 
 .publish-media__aside {
