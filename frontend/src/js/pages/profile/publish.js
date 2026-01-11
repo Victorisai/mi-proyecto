@@ -509,6 +509,8 @@
         const MAX_FILES = 50;
         const MIN_FILES = 5;
         const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
+        const isDesktopDragEnabled = () => window.matchMedia('(min-width: 993px)').matches;
+        const dragMediaQuery = window.matchMedia('(min-width: 993px)');
 
         let images = [];
         let showAll = false;
@@ -516,6 +518,11 @@
         const rowsCollapsed = 2;
 
         const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        const syncDragState = () => {
+            if (grid) {
+                grid.classList.toggle('publish-media__grid--no-drag', !isDesktopDragEnabled());
+            }
+        };
 
         const clearError = () => {
             if (errorMessage) {
@@ -657,6 +664,7 @@
             const img = document.createElement('img');
             img.src = image.url;
             img.alt = 'Vista previa de la foto del inmueble';
+            img.className = 'publish-media__img';
             img.loading = 'lazy';
             img.decoding = 'async';
             img.style.transform = `rotate(${image.rotation}deg)`;
@@ -703,7 +711,6 @@
             }
 
             media.appendChild(img);
-            media.appendChild(controls);
 
             const footer = document.createElement('div');
             footer.className = 'publish-media__footer';
@@ -718,9 +725,13 @@
             footer.appendChild(caption);
 
             item.appendChild(media);
+            item.appendChild(controls);
             item.appendChild(footer);
 
             item.addEventListener('pointerdown', (event) => {
+                if (!isDesktopDragEnabled() || event.pointerType === 'touch') {
+                    return;
+                }
                 if (event.button !== undefined && event.button !== 0) {
                     return;
                 }
@@ -854,6 +865,9 @@
         };
 
         const startDrag = (event, item) => {
+            if (!isDesktopDragEnabled() || event.pointerType === 'touch') {
+                return;
+            }
             if (dragState || !grid) {
                 return;
             }
@@ -1095,10 +1109,16 @@
         });
 
         const handleResize = debounce(() => {
+            syncDragState();
             renderPreviews();
         }, 160);
 
         window.addEventListener('resize', handleResize);
+        if (dragMediaQuery.addEventListener) {
+            dragMediaQuery.addEventListener('change', syncDragState);
+        } else if (dragMediaQuery.addListener) {
+            dragMediaQuery.addListener(syncDragState);
+        }
 
         applyMediaContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
@@ -1106,6 +1126,7 @@
             subtype: panel.dataset.publishSubtype
         });
 
+        syncDragState();
         renderPreviews();
     };
 
