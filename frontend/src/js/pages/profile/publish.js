@@ -537,14 +537,11 @@
             }
         };
 
-        const ensurePrimary = () => {
+        const normalizePrimaryFromOrder = () => {
             if (!images.length) {
                 return;
             }
-            const hasPrimary = images.some((image) => image.isPrimary);
-            if (!hasPrimary) {
-                images[0].isPrimary = true;
-            }
+            images = images.map((image, index) => ({ ...image, isPrimary: index === 0 }));
         };
 
         const setPrimary = (id) => {
@@ -552,9 +549,9 @@
             if (index === -1) {
                 return;
             }
-            images = images.map((image) => ({ ...image, isPrimary: image.id === id }));
             const [primary] = images.splice(index, 1);
             images.unshift(primary);
+            normalizePrimaryFromOrder();
             renderPreviews();
         };
 
@@ -574,7 +571,7 @@
                 URL.revokeObjectURL(target.url);
             }
             images = images.filter((image) => image.id !== id);
-            ensurePrimary();
+            normalizePrimaryFromOrder();
             renderPreviews();
         };
 
@@ -592,8 +589,7 @@
                 const remaining = images.filter((image) => !orderedIds.includes(image.id));
                 images = [...reordered, ...remaining];
             }
-
-            ensurePrimary();
+            normalizePrimaryFromOrder();
         };
 
         const handleFiles = (fileList) => {
@@ -632,7 +628,7 @@
             }));
 
             images = [...images, ...newItems];
-            ensurePrimary();
+            normalizePrimaryFromOrder();
             renderPreviews();
         };
 
@@ -657,6 +653,8 @@
             const img = document.createElement('img');
             img.src = image.url;
             img.alt = 'Vista previa de la foto del inmueble';
+            img.loading = 'lazy';
+            img.decoding = 'async';
             img.style.transform = `rotate(${image.rotation}deg)`;
 
             const controls = document.createElement('div');
@@ -718,33 +716,6 @@
             item.appendChild(media);
             item.appendChild(footer);
 
-            item.addEventListener('pointerdown', (event) => {
-                if (event.button !== undefined && event.button !== 0) {
-                    return;
-                }
-                if (event.target.closest('button') || event.target.closest('input')) {
-                    return;
-                }
-                startDrag(event, item);
-            });
-
-            controls.addEventListener('click', (event) => {
-                const actionTarget = event.target.closest('button');
-                if (!actionTarget) {
-                    return;
-                }
-                const action = actionTarget.dataset.action;
-                if (action === 'primary') {
-                    setPrimary(image.id);
-                }
-                if (action === 'rotate') {
-                    rotateImage(image.id);
-                }
-                if (action === 'remove') {
-                    removeImage(image.id);
-                }
-            });
-
             return item;
         };
 
@@ -760,10 +731,6 @@
             button.innerHTML = `
                 <span class="publish-media__more-count">+${count}</span>
                 <span class="publish-media__more-label">Ver más fotos</span>`;
-            button.addEventListener('click', () => {
-                showAll = true;
-                renderPreviews();
-            });
             media.appendChild(button);
 
             const footer = document.createElement('div');
@@ -800,8 +767,14 @@
                 return;
             }
 
-            grid.innerHTML = '';
-            grid.appendChild(dropzoneItem);
+            Array.from(grid.children).forEach((child) => {
+                if (child !== dropzoneItem) {
+                    child.remove();
+                }
+            });
+            if (!grid.contains(dropzoneItem)) {
+                grid.appendChild(dropzoneItem);
+            }
 
             const columns = getGridColumns();
             const maxCells = Math.max(1, columns * rowsCollapsed);
@@ -818,14 +791,17 @@
                 visibleImages = images.slice(0, visibleImagesCount);
             }
 
+            const fragment = document.createDocumentFragment();
             visibleImages.forEach((image) => {
-                grid.appendChild(createImageCard(image));
+                fragment.appendChild(createImageCard(image));
             });
 
             if (!showAll && hasOverflow) {
                 const hiddenCount = images.length - visibleImages.length;
-                grid.appendChild(createMoreCard(hiddenCount));
+                fragment.appendChild(createMoreCard(hiddenCount));
             }
+
+            grid.appendChild(fragment);
 
             const isAtMax = images.length >= MAX_FILES;
             if (dropzoneItem) {
@@ -840,6 +816,95 @@
             }
 
             updateContinueState();
+        };
+
+        const getGridCards = () => Array.from(grid.querySelectorAll('.publish-media__item[data-image-id]'));
+
+        const placePlaceholder = (reference, placement) => {
+            if (!dragState || !reference || reference === dragState.placeholder) {
+                return;
+            }
+            if (placement === 'after') {
+                reference.after(dragState.placeholder);
+            } else {
+                reference.before(dragState.placeholder);
+            }
+        };
+
+        const updatePlaceholderPosition = (clientX, clientY) => {
+            if (!dragState || !grid) {
+                return;
+            }
+
+            const target = document.elementFromPoint(clientX, clientY);
+            const targetCard = target ? target.closest('.publish-media__item[data-image-id]') : null;
+
+            if (targetCard && targetCard !== dragState.item && targetCard.parentElement === grid) {
+                const targetRect = targetCard.getBoundingClientRect();
+                const isAfter = clientY > targetRect.top + targetRect.height / 2;
+                const placement = isAfter ? 'after' : 'before';
+                const targetId = targetCard.dataset.imageId;
+                if (dragState.lastTargetId === targetId && dragState.lastPlacement === placement) {
+                    return;
+                }
+                dragState.lastTargetId = targetId;
+                dragState.lastPlacement = placement;
+                placePlaceholder(targetCard, placement);
+                return;
+            }
+
+            const cards = getGridCards();
+            if (!cards.length) {
+                return;
+            }
+
+            const overDropzone = target ? target.closest('[data-media-dropzone-item]') : null;
+            const overMore = target ? target.closest('.publish-media__more') : null;
+
+            const firstCard = cards[0];
+            const lastCard = cards[cards.length - 1];
+
+            if (overDropzone) {
+                if (dragState.lastTargetId !== 'start' || dragState.lastPlacement !== 'before') {
+                    dragState.lastTargetId = 'start';
+                    dragState.lastPlacement = 'before';
+                    placePlaceholder(firstCard, 'before');
+                }
+                return;
+            }
+
+            if (overMore) {
+                if (dragState.lastTargetId !== 'end' || dragState.lastPlacement !== 'after') {
+                    dragState.lastTargetId = 'end';
+                    dragState.lastPlacement = 'after';
+                    placePlaceholder(lastCard, 'after');
+                }
+                return;
+            }
+
+            for (const card of cards) {
+                if (card === dragState.item) {
+                    continue;
+                }
+                const rect = card.getBoundingClientRect();
+                if (clientY <= rect.top + rect.height / 2) {
+                    const targetId = card.dataset.imageId;
+                    if (dragState.lastTargetId === targetId && dragState.lastPlacement === 'before') {
+                        return;
+                    }
+                    dragState.lastTargetId = targetId;
+                    dragState.lastPlacement = 'before';
+                    placePlaceholder(card, 'before');
+                    return;
+                }
+            }
+
+            const targetId = lastCard.dataset.imageId;
+            if (dragState.lastTargetId !== targetId || dragState.lastPlacement !== 'after') {
+                dragState.lastTargetId = targetId;
+                dragState.lastPlacement = 'after';
+                placePlaceholder(lastCard, 'after');
+            }
         };
 
         const startDrag = (event, item) => {
@@ -872,7 +937,12 @@
                 id,
                 offsetX: event.clientX - rect.left,
                 offsetY: event.clientY - rect.top,
-                placeholder
+                placeholder,
+                item,
+                lastTargetId: null,
+                lastPlacement: null,
+                rafId: null,
+                pendingEvent: null
             };
 
             item.setPointerCapture(event.pointerId);
@@ -881,27 +951,34 @@
                 if (!dragState) {
                     return;
                 }
-                item.style.left = `${moveEvent.clientX - dragState.offsetX}px`;
-                item.style.top = `${moveEvent.clientY - dragState.offsetY}px`;
-
-                const target = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY);
-                const targetCard = target ? target.closest('.publish-media__item[data-image-id]') : null;
-
-                if (targetCard && targetCard !== item && targetCard.parentElement === grid) {
-                    const targetRect = targetCard.getBoundingClientRect();
-                    const isAfter = moveEvent.clientY > targetRect.top + targetRect.height / 2;
-                    if (isAfter) {
-                        targetCard.after(dragState.placeholder);
-                    } else {
-                        targetCard.before(dragState.placeholder);
-                    }
+                dragState.pendingEvent = moveEvent;
+                if (dragState.rafId) {
+                    return;
                 }
+                dragState.rafId = window.requestAnimationFrame(() => {
+                    if (!dragState || !dragState.pendingEvent) {
+                        return;
+                    }
+                    const lastEvent = dragState.pendingEvent;
+                    dragState.pendingEvent = null;
+                    dragState.rafId = null;
+                    item.style.left = `${lastEvent.clientX - dragState.offsetX}px`;
+                    item.style.top = `${lastEvent.clientY - dragState.offsetY}px`;
+                    updatePlaceholderPosition(lastEvent.clientX, lastEvent.clientY);
+                });
             };
 
             const handleEnd = () => {
                 if (!dragState) {
                     return;
                 }
+                document.removeEventListener('pointermove', handleMove);
+                document.removeEventListener('pointerup', handleEnd);
+                document.removeEventListener('pointercancel', handleEnd);
+                if (dragState.rafId) {
+                    window.cancelAnimationFrame(dragState.rafId);
+                }
+
                 item.classList.remove('is-dragging');
                 item.style.width = '';
                 item.style.height = '';
@@ -920,15 +997,16 @@
                 }, []);
 
                 dragState.placeholder.replaceWith(item);
-                item.removeEventListener('pointermove', handleMove);
-                dragState = null;
                 applyOrder(orderedIds);
+                normalizePrimaryFromOrder();
+                dragState = null;
                 renderPreviews();
             };
 
-            item.addEventListener('pointermove', handleMove);
-            item.addEventListener('pointerup', handleEnd, { once: true });
-            item.addEventListener('pointercancel', handleEnd, { once: true });
+            item.addEventListener('lostpointercapture', handleEnd, { once: true });
+            document.addEventListener('pointermove', handleMove);
+            document.addEventListener('pointerup', handleEnd);
+            document.addEventListener('pointercancel', handleEnd);
         };
 
         const applyMediaContext = (detail = {}) => {
@@ -974,6 +1052,52 @@
                 event.preventDefault();
                 dropzoneItem.classList.remove('publish-media__dropzone--active');
                 handleFiles(event.dataTransfer.files);
+            });
+        }
+
+        if (grid) {
+            grid.addEventListener('click', (event) => {
+                const actionButton = event.target.closest('button');
+                if (!actionButton) {
+                    return;
+                }
+                if (actionButton.classList.contains('publish-media__more-btn')) {
+                    showAll = true;
+                    renderPreviews();
+                    return;
+                }
+                const action = actionButton.dataset.action;
+                if (!action) {
+                    return;
+                }
+                const card = actionButton.closest('.publish-media__item[data-image-id]');
+                if (!card) {
+                    return;
+                }
+                const imageId = card.dataset.imageId;
+                if (action === 'primary') {
+                    setPrimary(imageId);
+                }
+                if (action === 'rotate') {
+                    rotateImage(imageId);
+                }
+                if (action === 'remove') {
+                    removeImage(imageId);
+                }
+            });
+
+            grid.addEventListener('pointerdown', (event) => {
+                if (event.button !== undefined && event.button !== 0) {
+                    return;
+                }
+                if (event.target.closest('button') || event.target.closest('input')) {
+                    return;
+                }
+                const card = event.target.closest('.publish-media__item[data-image-id]');
+                if (!card) {
+                    return;
+                }
+                startDrag(event, card);
             });
         }
 
