@@ -579,10 +579,6 @@
             renderPreviews();
         };
 
-        const updateCaption = (id, value) => {
-            images = images.map((image) => (image.id === id ? { ...image, caption: value } : image));
-        };
-
         const applyOrder = (orderedIds) => {
             const orderMap = new Map(images.map((image) => [image.id, image]));
             const reordered = orderedIds.map((id) => orderMap.get(id)).filter(Boolean);
@@ -706,21 +702,8 @@
 
             media.appendChild(img);
 
-            const footer = document.createElement('div');
-            footer.className = 'publish-media__footer';
-
-            const caption = document.createElement('input');
-            caption.type = 'text';
-            caption.className = 'publish-media__caption-input';
-            caption.placeholder = 'Ingresa un pie de foto';
-            caption.value = image.caption;
-            caption.addEventListener('input', (event) => updateCaption(image.id, event.target.value));
-
-            footer.appendChild(caption);
-
             item.appendChild(media);
             item.appendChild(controls);
-            item.appendChild(footer);
 
             item.addEventListener('pointerdown', (event) => {
                 if (event.button !== undefined && event.button !== 0) {
@@ -773,12 +756,7 @@
             });
             media.appendChild(button);
 
-            const footer = document.createElement('div');
-            footer.className = 'publish-media__footer';
-            footer.textContent = 'Fotos ocultas';
-
             item.appendChild(media);
-            item.appendChild(footer);
             return item;
         };
 
