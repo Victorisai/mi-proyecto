@@ -1719,6 +1719,14 @@ button {
     align-items: center;
 }
 
+.publish-media__preview .publish-media__footer {
+    display: none !important;
+}
+
+.publish-media__more .publish-media__footer {
+    display: none !important;
+}
+
 .publish-media__footer--placeholder {
     color: #64748b;
     font-size: 12px;
@@ -1730,14 +1738,18 @@ button {
     gap: 6px;
 }
 
-.publish-media__controls {
-    position: absolute;
-    top: 10px;
-    right: 10px;
+.publish-media__dropzone .publish-media__footer--placeholder {
     display: flex;
-    flex-direction: column;
-    gap: 6px;
+}
+
+.publish-media__controls {
+    position: static;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
     z-index: 2;
+    margin-top: 10px;
 }
 
 .publish-media__control-btn {
