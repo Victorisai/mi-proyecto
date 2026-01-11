@@ -537,14 +537,14 @@
             }
         };
 
-        const ensurePrimary = () => {
+        const normalizePrimaryFromOrder = () => {
             if (!images.length) {
                 return;
             }
-            const hasPrimary = images.some((image) => image.isPrimary);
-            if (!hasPrimary) {
-                images[0].isPrimary = true;
-            }
+            images = images.map((image, index) => ({
+                ...image,
+                isPrimary: index === 0
+            }));
         };
 
         const setPrimary = (id) => {
@@ -552,9 +552,9 @@
             if (index === -1) {
                 return;
             }
-            images = images.map((image) => ({ ...image, isPrimary: image.id === id }));
             const [primary] = images.splice(index, 1);
             images.unshift(primary);
+            normalizePrimaryFromOrder();
             renderPreviews();
         };
 
@@ -574,7 +574,7 @@
                 URL.revokeObjectURL(target.url);
             }
             images = images.filter((image) => image.id !== id);
-            ensurePrimary();
+            normalizePrimaryFromOrder();
             renderPreviews();
         };
 
@@ -593,7 +593,7 @@
                 images = [...reordered, ...remaining];
             }
 
-            ensurePrimary();
+            normalizePrimaryFromOrder();
         };
 
         const handleFiles = (fileList) => {
@@ -632,7 +632,7 @@
             }));
 
             images = [...images, ...newItems];
-            ensurePrimary();
+            normalizePrimaryFromOrder();
             renderPreviews();
         };
 
@@ -657,6 +657,8 @@
             const img = document.createElement('img');
             img.src = image.url;
             img.alt = 'Vista previa de la foto del inmueble';
+            img.loading = 'lazy';
+            img.decoding = 'async';
             img.style.transform = `rotate(${image.rotation}deg)`;
 
             const controls = document.createElement('div');
@@ -795,6 +797,15 @@
             };
         };
 
+        const getDraggableCards = (draggedItem, placeholder) => {
+            if (!grid) {
+                return [];
+            }
+            return Array.from(grid.querySelectorAll('.publish-media__item[data-image-id]')).filter(
+                (card) => card !== draggedItem && card !== placeholder && card.dataset.imageId
+            );
+        };
+
         const renderPreviews = () => {
             if (!grid || !dropzoneItem) {
                 return;
@@ -872,36 +883,110 @@
                 id,
                 offsetX: event.clientX - rect.left,
                 offsetY: event.clientY - rect.top,
-                placeholder
+                placeholder,
+                lastPlacementKey: null
             };
 
             item.setPointerCapture(event.pointerId);
+
+            let moveRafId = null;
+            let pendingMoveEvent = null;
 
             const handleMove = (moveEvent) => {
                 if (!dragState) {
                     return;
                 }
-                item.style.left = `${moveEvent.clientX - dragState.offsetX}px`;
-                item.style.top = `${moveEvent.clientY - dragState.offsetY}px`;
-
-                const target = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY);
-                const targetCard = target ? target.closest('.publish-media__item[data-image-id]') : null;
-
-                if (targetCard && targetCard !== item && targetCard.parentElement === grid) {
-                    const targetRect = targetCard.getBoundingClientRect();
-                    const isAfter = moveEvent.clientY > targetRect.top + targetRect.height / 2;
-                    if (isAfter) {
-                        targetCard.after(dragState.placeholder);
-                    } else {
-                        targetCard.before(dragState.placeholder);
-                    }
+                pendingMoveEvent = moveEvent;
+                if (moveRafId) {
+                    return;
                 }
+                moveRafId = window.requestAnimationFrame(() => {
+                    moveRafId = null;
+                    if (!dragState || !pendingMoveEvent) {
+                        return;
+                    }
+                    const { clientX, clientY } = pendingMoveEvent;
+                    pendingMoveEvent = null;
+
+                    item.style.left = `${clientX - dragState.offsetX}px`;
+                    item.style.top = `${clientY - dragState.offsetY}px`;
+
+                    const cards = getDraggableCards(item, dragState.placeholder);
+                    if (!cards.length) {
+                        return;
+                    }
+
+                    const firstCard = cards[0];
+                    const lastCard = cards[cards.length - 1];
+                    const firstRect = firstCard.getBoundingClientRect();
+                    const lastRect = lastCard.getBoundingClientRect();
+
+                    if (clientY < firstRect.top + firstRect.height * 0.25) {
+                        if (dragState.lastPlacementKey !== 'start') {
+                            firstCard.before(dragState.placeholder);
+                            dragState.lastPlacementKey = 'start';
+                        }
+                        return;
+                    }
+
+                    if (clientY > lastRect.bottom - lastRect.height * 0.25) {
+                        if (dragState.lastPlacementKey !== 'end') {
+                            lastCard.after(dragState.placeholder);
+                            dragState.lastPlacementKey = 'end';
+                        }
+                        return;
+                    }
+
+                    let closest = null;
+                    let closestRect = null;
+                    let closestDistance = Number.POSITIVE_INFINITY;
+
+                    cards.forEach((card) => {
+                        const rect = card.getBoundingClientRect();
+                        const cx = rect.left + rect.width / 2;
+                        const cy = rect.top + rect.height / 2;
+                        const distance =
+                            (cx - clientX) * (cx - clientX) + (cy - clientY) * (cy - clientY);
+                        if (distance < closestDistance) {
+                            closestDistance = distance;
+                            closest = card;
+                            closestRect = rect;
+                        }
+                    });
+
+                    if (!closest || !closestRect) {
+                        return;
+                    }
+
+                    const centerX = closestRect.left + closestRect.width / 2;
+                    const centerY = closestRect.top + closestRect.height / 2;
+                    const isSameRow = Math.abs(clientY - centerY) < closestRect.height * 0.35;
+                    const shouldInsertAfter = isSameRow ? clientX > centerX : clientY > centerY;
+                    const placementKey = `${closest.dataset.imageId}:${shouldInsertAfter ? 'after' : 'before'}`;
+
+                    if (dragState.lastPlacementKey === placementKey) {
+                        return;
+                    }
+
+                    if (shouldInsertAfter) {
+                        closest.after(dragState.placeholder);
+                    } else {
+                        closest.before(dragState.placeholder);
+                    }
+                    dragState.lastPlacementKey = placementKey;
+                });
             };
 
             const handleEnd = () => {
                 if (!dragState) {
                     return;
                 }
+                if (moveRafId) {
+                    window.cancelAnimationFrame(moveRafId);
+                    moveRafId = null;
+                }
+                pendingMoveEvent = null;
+
                 item.classList.remove('is-dragging');
                 item.style.width = '';
                 item.style.height = '';
@@ -921,6 +1006,9 @@
 
                 dragState.placeholder.replaceWith(item);
                 item.removeEventListener('pointermove', handleMove);
+                item.removeEventListener('pointerup', handleEnd);
+                item.removeEventListener('pointercancel', handleEnd);
+                item.removeEventListener('lostpointercapture', handleEnd);
                 dragState = null;
                 applyOrder(orderedIds);
                 renderPreviews();
@@ -929,6 +1017,7 @@
             item.addEventListener('pointermove', handleMove);
             item.addEventListener('pointerup', handleEnd, { once: true });
             item.addEventListener('pointercancel', handleEnd, { once: true });
+            item.addEventListener('lostpointercapture', handleEnd, { once: true });
         };
 
         const applyMediaContext = (detail = {}) => {
