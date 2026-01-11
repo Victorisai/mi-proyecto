@@ -514,6 +514,7 @@
         let showAll = false;
         let dragState = null;
         const rowsCollapsed = 2;
+        const isDragEnabled = () => window.matchMedia('(min-width: 993px)').matches;
 
         const createId = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
 
@@ -703,7 +704,6 @@
             }
 
             media.appendChild(img);
-            media.appendChild(controls);
 
             const footer = document.createElement('div');
             footer.className = 'publish-media__footer';
@@ -718,6 +718,7 @@
             footer.appendChild(caption);
 
             item.appendChild(media);
+            item.appendChild(controls);
             item.appendChild(footer);
 
             item.addEventListener('pointerdown', (event) => {
@@ -725,6 +726,9 @@
                     return;
                 }
                 if (event.target.closest('button') || event.target.closest('input')) {
+                    return;
+                }
+                if (!isDragEnabled() || event.pointerType === 'touch') {
                     return;
                 }
                 startDrag(event, item);
@@ -854,6 +858,9 @@
         };
 
         const startDrag = (event, item) => {
+            if (!isDragEnabled() || event.pointerType === 'touch') {
+                return;
+            }
             if (dragState || !grid) {
                 return;
             }
@@ -1088,6 +1095,13 @@
             });
         }
 
+        const updateDragAvailability = () => {
+            if (!grid) {
+                return;
+            }
+            grid.classList.toggle('publish-media__grid--no-drag', !isDragEnabled());
+        };
+
         panel.addEventListener('publish-media:open', (event) => {
             const detail = event.detail || {};
             applyMediaContext(detail);
@@ -1098,7 +1112,10 @@
             renderPreviews();
         }, 160);
 
+        const dragQuery = window.matchMedia('(min-width: 993px)');
+
         window.addEventListener('resize', handleResize);
+        dragQuery.addEventListener('change', updateDragAvailability);
 
         applyMediaContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
@@ -1106,6 +1123,7 @@
             subtype: panel.dataset.publishSubtype
         });
 
+        updateDragAvailability();
         renderPreviews();
     };
 
