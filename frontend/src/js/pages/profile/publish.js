@@ -509,6 +509,7 @@
         const MAX_FILES = 50;
         const MIN_FILES = 5;
         const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
+        const isDesktop = () => window.matchMedia('(min-width: 993px)').matches;
 
         let images = [];
         let showAll = false;
@@ -659,6 +660,7 @@
             img.alt = 'Vista previa de la foto del inmueble';
             img.loading = 'lazy';
             img.decoding = 'async';
+            img.className = 'publish-media__img';
             img.style.transform = `rotate(${image.rotation}deg)`;
 
             const controls = document.createElement('div');
@@ -703,7 +705,6 @@
             }
 
             media.appendChild(img);
-            media.appendChild(controls);
 
             const footer = document.createElement('div');
             footer.className = 'publish-media__footer';
@@ -718,6 +719,7 @@
             footer.appendChild(caption);
 
             item.appendChild(media);
+            item.appendChild(controls);
             item.appendChild(footer);
 
             item.addEventListener('pointerdown', (event) => {
@@ -725,6 +727,9 @@
                     return;
                 }
                 if (event.target.closest('button') || event.target.closest('input')) {
+                    return;
+                }
+                if (!isDesktop() || event.pointerType === 'touch') {
                     return;
                 }
                 startDrag(event, item);
@@ -811,6 +816,14 @@
                 return;
             }
 
+            const isMobile = window.matchMedia('(max-width: 992px)').matches;
+            if (isMobile) {
+                dropzoneItem.classList.toggle('publish-media__dropzone--full', images.length === 0);
+                dropzoneItem.classList.toggle('publish-media__dropzone--cell', images.length > 0);
+            } else {
+                dropzoneItem.classList.remove('publish-media__dropzone--full', 'publish-media__dropzone--cell');
+            }
+
             grid.innerHTML = '';
             grid.appendChild(dropzoneItem);
 
@@ -855,6 +868,9 @@
 
         const startDrag = (event, item) => {
             if (dragState || !grid) {
+                return;
+            }
+            if (!isDesktop() || event.pointerType === 'touch') {
                 return;
             }
 
