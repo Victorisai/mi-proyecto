@@ -1731,19 +1731,18 @@ button {
 }
 
 .publish-media__controls {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    z-index: 2;
+    position: static;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 10px;
 }
 
 .publish-media__control-btn {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
     border: none;
     background: rgba(15, 23, 42, 0.7);
     color: #ffffff;
@@ -1805,6 +1804,18 @@ button {
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.16);
     background: #ffffff;
+}
+
+.publish-media__preview .publish-media__footer {
+    display: none !important;
+}
+
+.publish-media__more .publish-media__footer {
+    display: none !important;
+}
+
+.publish-media__dropzone .publish-media__footer--placeholder {
+    display: flex;
 }
 
 .publish-media__more {
@@ -1981,29 +1992,6 @@ button {
         font-size: 11px;
         line-height: 1.2;
         text-align: center;
-    }
-
-    .publish-media__preview .publish-media__footer {
-        display: none !important;
-    }
-
-    .publish-media__dropzone .publish-media__footer--placeholder {
-        display: flex !important;
-    }
-
-    .publish-media__controls {
-        position: static;
-        width: 100%;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .publish-media__control-btn {
-        width: 100%;
-        height: 44px;
-        border-radius: 12px;
     }
 
     .publish-media__media {
