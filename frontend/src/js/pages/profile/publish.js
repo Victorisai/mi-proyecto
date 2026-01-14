@@ -510,6 +510,39 @@
         const MIN_FILES = 5;
         const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/jpg'];
         const isDesktop = () => window.matchMedia('(min-width: 993px)').matches;
+        const isMobileViewport = () => window.matchMedia('(max-width: 992px)').matches;
+        const runWithScrollAnchor = (anchorId, actionFn) => {
+            const isTouchPointer = window.matchMedia('(pointer: coarse)').matches;
+            if (!isMobileViewport() && !isTouchPointer) {
+                actionFn();
+                return;
+            }
+
+            const beforeEl = grid?.querySelector(`.publish-media__preview[data-image-id="${anchorId}"]`);
+            const beforeTop = beforeEl ? beforeEl.getBoundingClientRect().top : null;
+            const beforeScrollY = window.scrollY;
+
+            actionFn();
+
+            window.requestAnimationFrame(() => {
+                window.requestAnimationFrame(() => {
+                    const afterEl = grid?.querySelector(
+                        `.publish-media__preview[data-image-id="${anchorId}"]`
+                    );
+
+                    if (afterEl && beforeTop !== null) {
+                        const afterTop = afterEl.getBoundingClientRect().top;
+                        const delta = afterTop - beforeTop;
+                        if (Math.abs(delta) > 1) {
+                            window.scrollBy(0, delta);
+                        }
+                        return;
+                    }
+
+                    window.scrollTo(0, beforeScrollY);
+                });
+            });
+        };
 
         let images = [];
         let showAll = false;
@@ -729,13 +762,13 @@
                 }, 300);
                 const action = actionTarget.dataset.action;
                 if (action === 'primary') {
-                    setPrimary(image.id);
+                    runWithScrollAnchor(image.id, () => setPrimary(image.id));
                 }
                 if (action === 'rotate') {
-                    rotateImage(image.id);
+                    runWithScrollAnchor(image.id, () => rotateImage(image.id));
                 }
                 if (action === 'remove') {
-                    removeImage(image.id);
+                    runWithScrollAnchor(image.id, () => removeImage(image.id));
                 }
             });
 
