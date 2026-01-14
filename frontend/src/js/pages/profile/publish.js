@@ -723,6 +723,10 @@
                 if (!actionTarget) {
                     return;
                 }
+                isInteracting = true;
+                window.setTimeout(() => {
+                    isInteracting = false;
+                }, 300);
                 const action = actionTarget.dataset.action;
                 if (action === 'primary') {
                     setPrimary(image.id);
@@ -778,6 +782,30 @@
                 window.clearTimeout(timerId);
                 timerId = window.setTimeout(() => callback(...args), delay);
             };
+        };
+
+        let isInteracting = false;
+        let lastViewportWidth = window.innerWidth;
+        let lastBreakpointIsDesktop = window.matchMedia('(min-width: 993px)').matches;
+
+        const shouldRerenderOnResize = () => {
+            const currentWidth = window.innerWidth;
+            const isDesktopNow = window.matchMedia('(min-width: 993px)').matches;
+
+            const widthChanged = Math.abs(currentWidth - lastViewportWidth) > 2;
+            const breakpointChanged = isDesktopNow !== lastBreakpointIsDesktop;
+
+            if (isInteracting && !breakpointChanged) {
+                return false;
+            }
+
+            if (!widthChanged && !breakpointChanged) {
+                return false;
+            }
+
+            lastViewportWidth = currentWidth;
+            lastBreakpointIsDesktop = isDesktopNow;
+            return true;
         };
 
         const getDraggableCards = (draggedItem, placeholder) => {
@@ -1089,10 +1117,16 @@
         });
 
         const handleResize = debounce(() => {
+            if (!shouldRerenderOnResize()) {
+                return;
+            }
             renderPreviews();
-        }, 160);
+        }, 200);
 
-        window.addEventListener('resize', handleResize);
+        window.addEventListener('resize', handleResize, { passive: true });
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleResize, { passive: true });
+        }
 
         applyMediaContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
