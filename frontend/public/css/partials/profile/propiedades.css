@@ -1630,6 +1630,17 @@ button {
     transform: translateY(-2px);
 }
 
+@media (hover: none) and (pointer: coarse) {
+    .publish-media__item:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .publish-media__item {
+        transition: none;
+    }
+}
+
 .publish-media__media {
     position: relative;
     border-radius: 12px;

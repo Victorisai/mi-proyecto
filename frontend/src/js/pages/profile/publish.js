@@ -1088,11 +1088,29 @@
             panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
-        const handleResize = debounce(() => {
-            renderPreviews();
-        }, 160);
+        let lastViewportWidth = window.innerWidth;
+        let lastBreakpointDesktop = window.matchMedia('(min-width: 993px)').matches;
 
-        window.addEventListener('resize', handleResize);
+        const handleResize = debounce(() => {
+            const currentWidth = window.innerWidth;
+            const isDesktopNow = window.matchMedia('(min-width: 993px)').matches;
+            const widthChanged = Math.abs(currentWidth - lastViewportWidth) > 2;
+
+            if (!widthChanged && isDesktopNow === lastBreakpointDesktop) {
+                return;
+            }
+
+            lastViewportWidth = currentWidth;
+            lastBreakpointDesktop = isDesktopNow;
+
+            renderPreviews();
+        }, 200);
+
+        window.addEventListener('resize', handleResize, { passive: true });
+
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', handleResize, { passive: true });
+        }
 
         applyMediaContext({
             purposeLabel: panel.dataset.publishPurposeLabel,
