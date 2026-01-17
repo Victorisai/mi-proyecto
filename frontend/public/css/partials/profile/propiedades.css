@@ -1884,6 +1884,33 @@ button {
     font-weight: 600;
 }
 
+.publish-media__less {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    padding: 6px 0 2px;
+}
+
+.publish-media__less-btn {
+    border: none;
+    background: transparent;
+    color: #2563eb;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 10px;
+}
+
+.publish-media__less-btn:hover {
+    text-decoration: underline;
+}
+
+@media (hover: none) and (pointer: coarse) {
+    .publish-media__less-btn {
+        padding: 10px 14px;
+    }
+}
+
 .publish-media__item--placeholder {
     border: 2px dashed rgba(148, 163, 184, 0.8);
     background: rgba(226, 232, 240, 0.5);

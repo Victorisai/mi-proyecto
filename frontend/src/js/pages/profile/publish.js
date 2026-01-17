@@ -768,6 +768,26 @@
             return item;
         };
 
+        const createLessLink = () => {
+            const wrap = document.createElement('div');
+            wrap.className = 'publish-media__less';
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'publish-media__less-btn';
+            btn.textContent = 'Ver menos';
+
+            btn.addEventListener('click', () => {
+                showAll = false;
+
+                const preserveScroll = window.matchMedia('(max-width: 992px)').matches;
+                renderPreviews({ preserveScroll });
+            });
+
+            wrap.appendChild(btn);
+            return wrap;
+        };
+
         const getGridColumns = () => {
             if (!grid) {
                 return 1;
@@ -860,6 +880,10 @@
             if (!showAll && hasOverflow) {
                 const hiddenCount = images.length - visibleImages.length;
                 grid.appendChild(createMoreCard(hiddenCount));
+            }
+
+            if (showAll && hasOverflow) {
+                grid.appendChild(createLessLink());
             }
 
             const isAtMax = images.length >= MAX_FILES;
