@@ -548,6 +548,10 @@
             }));
         };
 
+        const renderAfterAction = () => {
+            renderPreviews({ preserveScroll: window.matchMedia('(max-width: 992px)').matches });
+        };
+
         const setPrimary = (id) => {
             const index = images.findIndex((image) => image.id === id);
             if (index === -1) {
@@ -556,7 +560,7 @@
             const [primary] = images.splice(index, 1);
             images.unshift(primary);
             normalizePrimaryFromOrder();
-            renderPreviews();
+            renderAfterAction();
         };
 
         const rotateImage = (id) => {
@@ -566,7 +570,7 @@
                 }
                 return { ...image, rotation: (image.rotation + 90) % 360 };
             });
-            renderPreviews();
+            renderAfterAction();
         };
 
         const removeImage = (id) => {
@@ -576,7 +580,7 @@
             }
             images = images.filter((image) => image.id !== id);
             normalizePrimaryFromOrder();
-            renderPreviews();
+            renderAfterAction();
         };
 
         const applyOrder = (orderedIds) => {
@@ -817,11 +821,12 @@
             );
         };
 
-        const renderPreviews = () => {
+        const renderPreviews = ({ preserveScroll = false } = {}) => {
             if (!grid || !dropzoneItem) {
                 return;
             }
 
+            const scrollPosition = preserveScroll ? { x: window.scrollX, y: window.scrollY } : null;
             const isMobile = window.matchMedia('(max-width: 992px)').matches;
             if (isMobile) {
                 dropzoneItem.classList.toggle('publish-media__dropzone--full', images.length === 0);
@@ -870,6 +875,11 @@
             }
 
             updateContinueState();
+            if (scrollPosition) {
+                window.requestAnimationFrame(() => {
+                    window.scrollTo(scrollPosition.x, scrollPosition.y);
+                });
+            }
         };
 
         const startDrag = (event, item) => {
